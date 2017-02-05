@@ -1,0 +1,51 @@
+
+--------------------------------------------
+Busca Q que no tengan descripción en catalán
+--------------------------------------------
+Wikidata Query Service:
+
+SELECT DISTINCT ?item
+WHERE
+{
+	?item wdt:P31 wd:Q2074737 .
+    ?item wdt:P131 wd:Q81802 .
+	OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ca").  }
+	FILTER (!BOUND(?itemDescription))
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "es"}
+}
+
+Quickstatements:
+
+Q668962	Dca	"municipi de la província d'Almeria (Espanya)"
+Q1161455	Dca	"municipi de la província d'Almeria (Espanya)"
+Q1444119	Dca	"municipi de la província d'Almeria (Espanya)"
+Q1628481	Dca	"municipi de la província d'Almeria (Espanya)"
+Q284894	Dca	"municipi de la província d'Almeria (Espanya)"
+Q322064	Dca	"municipi de la província d'Almeria (Espanya)"
+
+Hechos:
+
+* Provincia de Almería
+* Provincia de Málaga
+
+--------------------------------------------
+Busca Q de escritores que no tengan descripción en español
+--------------------------------------------
+SELECT DISTINCT ?item
+WHERE
+{
+	?item wdt:P31 wd:Q5 . #instance of
+    #?item wdt:P21 wd:Q6581097 . #gender male
+    ?item wdt:P21 wd:Q6581072 . #gender female
+    ?item wdt:P106 wd:Q36180 . #occupation
+    ?item wdt:P27 wd:Q183 . #country of citizenship
+    ?item schema:description "German writer"@en.
+	OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es").  }
+	FILTER (!BOUND(?itemDescription))
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "es"}
+}
+
+Q66207	Des	"escritor alemán"
+
+Q23059644	Des	"escritora alemana"
+
