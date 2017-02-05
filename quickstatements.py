@@ -43,37 +43,29 @@ def getURL(url=''):
 def main():
     gender = { 'Q6581097': 'male', 'Q6581072': 'female', 'male': 'Q6581097', 'female': 'Q6581072' }
     statements = [
-        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q183', 'p106': 'Q36180', 'desc@en': 'German writer' }, #male German writers
-        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q183', 'p106': 'Q36180', 'desc@en': 'German writer' }, #female German writers
-        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q29', 'p106': 'Q36180', 'desc@en': 'Spanish writer' }, #male Spanish writers
-        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q29', 'p106': 'Q36180', 'desc@en': 'Spanish writer' }, #female Spanish writers
+        #German
+        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q183', 'p106': 'Q36180', 'desc@en': 'German writer' }, #male writers
+        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q183', 'p106': 'Q36180', 'desc@en': 'German writer' }, #female writers
+        
+        #Spanish
+        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q29', 'p106': 'Q1028181', 'desc@en': 'Spanish painter' }, #male painters
+        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q29', 'p106': 'Q1028181', 'desc@en': 'Spanish painter' }, #female painters
+        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q29', 'p106': 'Q82955', 'desc@en': 'Spanish politician' }, #male politicians
+        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q29', 'p106': 'Q82955', 'desc@en': 'Spanish politician' }, #female politicians
+        { 'p31': 'Q5', 'p21': 'Q6581097', 'p27': 'Q29', 'p106': 'Q36180', 'desc@en': 'Spanish writer' }, #male writers
+        { 'p31': 'Q5', 'p21': 'Q6581072', 'p27': 'Q29', 'p106': 'Q36180', 'desc@en': 'Spanish writer' }, #female writers
     ]
     translations = {
-        'Spanish writer': {
-            'male': {
-                'an': 'escritor espanyol', 
-                'ast': 'escritor español', 
-                'ca': 'escriptor espanyol', 
-                'es': 'escritor español', 
-                'gl': 'escritor español', 
-                'oc': 'escrivan espanhòl', 
-            }, 
-            'female': {
-                'an': 'escritora espanyola', 
-                'ast': 'escritora española', 
-                'ca': 'escriptora espanyola', 
-                'es': 'escritora española', 
-                'gl': 'escritora española', 
-                'oc': 'escrivana espanhòla', 
-            }, 
-        }, 
+        
         'German writer': {
             'male': {
                 'an': 'escritor alemán', 
                 'ast': 'escritor alemán', 
                 'ca': 'escriptor alemany', 
                 'es': 'escritor alemán', 
+                'fr': 'écrivain allemand', 
                 'gl': 'escritor alemán', 
+                'it': 'scrittore tedesco', 
                 'oc': 'escrivan alemand', 
             }, 
             'female': {
@@ -81,8 +73,51 @@ def main():
                 'ast': 'escritora alemana', 
                 'ca': 'escriptora alemanya', 
                 'es': 'escritora alemana', 
+                'fr': 'écrivaine allemande', 
                 'gl': 'escritora alemá', 
+                'it': 'scrittrice tedesca', 
                 'oc': 'escrivana alemanda', 
+            }, 
+        }, 
+        
+        'Spanish painter': {
+            'male': {
+                'es': 'pintor español', 
+            }, 
+            'female': {
+                'es': 'pintora española', 
+            }, 
+        }, 
+        
+        'Spanish politician': {
+            'male': {
+                'es': 'político español', 
+            }, 
+            'female': {
+                'es': 'política española', 
+            }, 
+        }, 
+        
+        'Spanish writer': {
+            'male': {
+                'an': 'escritor espanyol', 
+                'ast': 'escritor español', 
+                'ca': 'escriptor espanyol', 
+                'es': 'escritor español', 
+                'fr': 'écrivain espagnol', 
+                'gl': 'escritor español', 
+                'it': 'scrittore spagnolo', 
+                'oc': 'escrivan espanhòl', 
+            }, 
+            'female': {
+                'an': 'escritora espanyola', 
+                'ast': 'escritora española', 
+                'ca': 'escriptora espanyola', 
+                'es': 'escritora española', 
+                'fr': 'écrivaine espagnole', 
+                'gl': 'escritora española', 
+                'it': 'scrittrice spagnola', 
+                'oc': 'escrivana espanhòla', 
             }, 
         }, 
     }
