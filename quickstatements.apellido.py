@@ -79,35 +79,51 @@ def main():
     }
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    for targetlang in translations.keys():
-        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ101352%20.%0A%20%20%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
-        url = '%s&format=json' % (url)
-        sparql = getURL(url=url)
-        json1 = loadSPARQL(sparql=sparql)
+    
+    """
+    #filter by language
+    SELECT ?item
+    WHERE {
+        ?item wdt:P31 wd:Q101352 .
+        FILTER NOT EXISTS { ?item wdt:P31 wd:Q4167410 } . 
+        OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ca").  }
+        FILTER (!BOUND(?itemDescription))
+    }
+    #all surnames
+    SELECT ?item
+    WHERE {
+        ?item wdt:P31 wd:Q101352 .
+        FILTER NOT EXISTS { ?item wdt:P31 wd:Q4167410 } . 
+    }
+    """
+    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ101352%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D'
+    url = '%s&format=json' % (url)
+    sparql = getURL(url=url)
+    json1 = loadSPARQL(sparql=sparql)
+    
+    for result in json1['results']['bindings']:
+        q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+        print('\n== %s ==' % (q))
         
-        for result in json1['results']['bindings']:
-            q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-            #print('%s\tD%s\t"%s"' % (q, lang, translations[lang]))
-            print('\n== %s ==' % (q))
-            
-            item = pywikibot.ItemPage(repo, q)
-            item.get()
-            descriptions = item.descriptions
-            addedlangs = []
-            for desclang in translations.keys():
-                if desclang not in descriptions.keys():
-                    descriptions[desclang] = translations[desclang]
-                    addedlangs.append(desclang)
-            data = { 'descriptions': descriptions }
-            addedlangs.sort()
-            if addedlangs:
-                summary = 'BOT - Adding descriptions: %s' % (', '.join(addedlangs))
-                print(summary)
-                try:
-                    item.editEntity(data, summary=summary)
-                except:
-                    print('Error while saving')
-                    continue
+        item = pywikibot.ItemPage(repo, q)
+        item.get()
+        descriptions = item.descriptions
+        addedlangs = []
+        for lang in translations.keys():
+            if lang not in descriptions.keys():
+                descriptions[lang] = translations[lang]
+                addedlangs.append(lang)
+                #print('%s\tD%s\t"%s"' % (q, lang, translations[lang])) #quickstatements mode
+        data = { 'descriptions': descriptions }
+        addedlangs.sort()
+        if addedlangs:
+            summary = 'BOT - Adding descriptions: %s' % (', '.join(addedlangs))
+            print(summary)
+            try:
+                item.editEntity(data, summary=summary)
+            except:
+                print('Error while saving')
+                continue
 
 if __name__ == "__main__":
     main()
