@@ -40,7 +40,7 @@ from quickstatements import *
 
 def main():
     translations = {
-        'Q11879590': { #female given name
+        'female given name': {
             'af': 'vroulike voornaam',
             'ar': 'أسم مؤنث معطى',
             'ast': 'nome femenín',
@@ -111,7 +111,16 @@ def main():
             'zh-sg': '女性人名',
             'zh-tw': '女性人名'
         }, 
-        'Q12308941': { #male given name
+        'Hebrew calendar year': {
+            'ca': 'any de calendari hebreu', 
+            'en': 'Hebrew calendar year', 
+            'es': 'año del calendario hebreo', 
+        }, 
+        'Islamic calendar year': {
+            'en': 'Islamic calendar year', 
+            'es': 'año del calendario musulmán', 
+        }, 
+        'male given name': {
             'af': 'manlike voornaam',
             'ar': 'أسم مذكر معطى',
             'ast': 'nome masculín',
@@ -187,7 +196,7 @@ def main():
             'zh-sg': '男性人名',
             'zh-tw': '男性人名'
         },         
-        'Q101352': { #surname
+        'surname': {
             #'an': '', #no esta claro si es apellido o apelliu?
             'ar': 'اسم العائلة', 
             'ast': 'apellíu', 
@@ -264,24 +273,32 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    for p31 in ['Q11879590', 'Q12308941', 'Q101352']:
-        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3A'+p31+'%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D'
+    queries = {
+        'female given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
+        #'Hebrew calendar year': '', # buscar como hacer la query con qualifiers https://www.wikidata.org/wiki/Q2817509
+        #'Islamic calendar year': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20.%0A%20%20%20%20%3Fitem%20wdt%3AP361%20wd%3AQ28892%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
+        'male given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
+        #'natural number': '', 
+        'surname': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ101352%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
+    }
+    for topic in queries.keys():
+        url = queries[topic]
         url = '%s&format=json' % (url)
         sparql = getURL(url=url)
         json1 = loadSPARQL(sparql=sparql)
         
         for result in json1['results']['bindings']:
             q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-            print('\n== %s [%s] ==' % (q, p31))
+            print('\n== %s [%s] ==' % (q, topic))
             item = pywikibot.ItemPage(repo, q)
             item.get()
             descriptions = item.descriptions
             addedlangs = []
-            for lang in translations[p31].keys():
+            for lang in translations[topic].keys():
                 if lang not in descriptions.keys():
-                    descriptions[lang] = translations[p31][lang]
+                    descriptions[lang] = translations[topic][lang]
                     addedlangs.append(lang)
-                    #print('%s\tD%s\t"%s"' % (q, lang, translations[p31][lang])) #quickstatements mode
+                    #print('%s\tD%s\t"%s"' % (q, lang, translations[topic][lang])) #quickstatements mode
             data = { 'descriptions': descriptions }
             addedlangs.sort()
             if addedlangs:
