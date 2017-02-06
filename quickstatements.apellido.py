@@ -26,7 +26,9 @@ def main():
         #'an': '', #no esta claro si es apellido o apelliu?
         'ar': 'اسم العائلة', 
         'ast': 'apellíu', 
+        'az': 'Soyad', 
         'bar': 'Familiennåmen', 
+        'be': 'прозвішча', 
         'bg': 'презиме', 
         'bs': 'prezime', 
         'ca': 'cognom', 
@@ -49,6 +51,7 @@ def main():
         'he': 'שם משפחה', 
         'hr': 'prezime', 
         'hu': 'vezetéknév', 
+        'hy': 'ազգանուն', 
         'id': 'nama asli', 
         'it': 'cognome', 
         'ja': '姓', 
@@ -71,11 +74,14 @@ def main():
         'sh': 'prezime', 
         'sk': 'priezvisko', 
         'sl': 'priimek', 
+        'sq': 'mbiemri', 
         'sr': 'презиме', 
         'sv': 'efternamn', 
+        'tl': 'apelyido', 
         'tr': 'soyadı', 
         'uk': 'прізвище', 
         'zh': '姓氏', 
+        'zu': 'isibongo', 
     }
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
