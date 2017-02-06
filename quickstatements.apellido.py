@@ -27,9 +27,10 @@ def main():
         'ar': 'اسم العائلة', 
         'ast': 'apellíu', 
         'az': 'Soyad', 
-        'bar': 'Familiennåmen', 
+        'bar': 'Schreibnam', 
         'be': 'прозвішча', 
         'bg': 'презиме', 
+        'bn': 'পারিবারিক নাম', 
         'bs': 'prezime', 
         'ca': 'cognom', 
         'cs': 'příjmení', 
@@ -45,14 +46,17 @@ def main():
         'eu': 'abizen', 
         'fa': 'نام خانوادگی', 
         'fi': 'sukunimi', 
+        'fo': 'ættarnavn',
         'fr': 'nom de famille', 
         'gl': 'apelido', 
         'gsw': 'Familiename', 
+        'gu': 'અટક', 
         'he': 'שם משפחה', 
         'hr': 'prezime', 
         'hu': 'vezetéknév', 
         'hy': 'ազգանուն', 
         'id': 'nama asli', 
+        'is': 'eftirnafn',
         'it': 'cognome', 
         'ja': '姓', 
         'ka': 'გვარი', 
@@ -81,6 +85,14 @@ def main():
         'tr': 'soyadı', 
         'uk': 'прізвище', 
         'zh': '姓氏', 
+        'zh-cn': '姓氏', 
+        'zh-hans': '姓氏', 
+        'zh-hant': '姓氏', 
+        'zh-hk': '姓氏', 
+        'zh-mo': '姓氏', 
+        'zh-my': '姓氏', 
+        'zh-sg': '姓氏', 
+        'zh-tw': '姓氏',  
         'zu': 'isibongo', 
     }
     site = pywikibot.Site('wikidata', 'wikidata')
@@ -123,7 +135,7 @@ def main():
         data = { 'descriptions': descriptions }
         addedlangs.sort()
         if addedlangs:
-            summary = 'BOT - Adding descriptions: %s' % (', '.join(addedlangs))
+            summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
             print(summary)
             try:
                 item.editEntity(data, summary=summary)
