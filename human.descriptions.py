@@ -45,6 +45,12 @@ def main():
             'es': { 'male': 'chileno', 'female': 'chilena'}, 
             'gl': { 'male': 'chileno', 'female': 'chilena'}, 
         },
+        'Czech': {
+            'ca': { 'male': 'txec', 'female': 'txeca' },
+            'en': { 'male': 'Czech', 'female': 'Czech' }, 
+            'es': { 'male': 'checo', 'female': 'checa'}, 
+            'gl': { 'male': 'checo', 'female': 'checa'}, 
+        },
         'Ecuadorian': {
             'ca': { 'male': 'equatorià', 'female': 'equatoriana' },
             'en': { 'male': 'Ecuadorian', 'female': 'Ecuadorian' }, 
@@ -56,6 +62,12 @@ def main():
             'en': { 'male': 'French', 'female': 'French' }, 
             'es': { 'male': 'francés', 'female': 'francesa'}, 
             'gl': { 'male': 'francés', 'female': 'francesa'}, 
+        },
+        'German': {
+            'ca': { 'male': 'alemany', 'female': 'alemanya' },
+            'en': { 'male': 'German', 'female': 'German' }, 
+            'es': { 'male': 'alemán', 'female': 'alemana'}, 
+            'gl': { 'male': 'alemán', 'female': 'alemá'}, 
         },
         'Italian': {
             'ca': { 'male': 'italià', 'female': 'italiana'}, 
@@ -74,6 +86,12 @@ def main():
             'en': { 'male': 'Russian', 'female': 'Russian' }, 
             'es': { 'male': 'ruso', 'female': 'rusa' }, 
             'gl': { 'male': 'ruso', 'female': 'rusa' }, 
+        }, 
+        'Spanish': {
+            'ca': { 'male': 'espanyol', 'female': 'espanyola' }, 
+            'en': { 'male': 'Spanish', 'female': 'Spanish' }, 
+            'es': { 'male': 'español', 'female': 'española' }, 
+            'gl': { 'male': 'español', 'female': 'española' }, 
         }, 
     }
     translationsOccupations = {
@@ -94,6 +112,12 @@ def main():
             'en': { 'male': '~ politician', 'female': '~ politician'}, 
             'es': { 'male': 'político ~', 'female': 'política ~'}, 
             'gl': { 'male': 'político ~', 'female': 'política ~'}, 
+        }, 
+        '~ tennis player': {
+            'ca': { 'male': 'tennista professional ~', 'female': 'tennista professional ~'}, 
+            'en': { 'male': '~ tennis player', 'female': '~ tennis player'}, 
+            'es': { 'male': 'tenista profesional ~', 'female': 'tenista profesional ~'}, 
+            'gl': { 'male': 'tenista profesional ~', 'female': 'tenista profesional ~'}, 
         }, 
         '~ writer': {
             'ca': { 'male': 'escriptor ~', 'female': 'escriptora ~'}, 
