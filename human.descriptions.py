@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import sys
 
 import pwb
 import pywikibot
@@ -31,21 +32,86 @@ def main():
         'Q6581072': 'female', 
     }
     
-    translations = {
-        #Francia
-        'French writer': {
-            'ca': { 'male': 'escriptor francés', 'female': 'escriptora francesa'}, 
-            'es': { 'male': 'escritor francés', 'female': 'escritora francesa'}, 
-            'gl': { 'male': 'escritor francés', 'female': 'escritora francesa'}, 
+    translationsNationalities = {
+        'Argentinian': {
+            'ca': { 'male': 'argentí', 'female': 'argentina' },
+            'en': { 'male': 'Argentinian', 'female': 'Argentinian' }, 
+            'es': { 'male': 'argentino', 'female': 'argentina'}, 
+            'gl': { 'male': 'arxentino', 'female': 'arxentina'}, 
+        },
+        'Chilean': {
+            'ca': { 'male': 'xilè', 'female': 'xilena' },
+            'en': { 'male': 'Chilean', 'female': 'Chilean' }, 
+            'es': { 'male': 'chileno', 'female': 'chilena'}, 
+            'gl': { 'male': 'chileno', 'female': 'chilena'}, 
+        },
+        'Ecuadorian': {
+            'ca': { 'male': 'equatorià', 'female': 'equatoriana' },
+            'en': { 'male': 'Ecuadorian', 'female': 'Ecuadorian' }, 
+            'es': { 'male': 'ecuatoriano', 'female': 'ecuatoriana'}, 
+            'gl': { 'male': 'ecuatoriano', 'female': 'ecuatoriana'}, 
+        },
+        'French': {
+            'ca': { 'male': 'francés', 'female': 'francesa' },
+            'en': { 'male': 'French', 'female': 'French' }, 
+            'es': { 'male': 'francés', 'female': 'francesa'}, 
+            'gl': { 'male': 'francés', 'female': 'francesa'}, 
+        },
+        'Italian': {
+            'ca': { 'male': 'italià', 'female': 'italiana'}, 
+            'en': { 'male': 'Italian ', 'female': 'Italian'}, 
+            'es': { 'male': 'italiano', 'female': 'italiana'}, 
+            'gl': { 'male': 'italiano', 'female': 'italiana'}, 
         }, 
-        
-        #Rusia
-        'Russian writer': {
-            'ca': { 'male': 'escriptor rus', 'female': 'escriptora russa' }, 
-            'es': { 'male': 'escritor ruso', 'female': 'escritora rusa' }, 
-            'gl': { 'male': 'escritor ruso', 'female': 'escritora rusa' }, 
+        'Portuguese': {
+            'ca': { 'male': 'portuguès', 'female': 'portuguesa'}, 
+            'en': { 'male': 'Portuguese', 'female': 'Portuguese'}, 
+            'es': { 'male': 'portugués', 'female': 'portuguesa'}, 
+            'gl': { 'male': 'portugués', 'female': 'portuguesa'}, 
+        }, 
+        'Russian': {
+            'ca': { 'male': 'rus', 'female': 'russa' }, 
+            'en': { 'male': 'Russian', 'female': 'Russian' }, 
+            'es': { 'male': 'ruso', 'female': 'rusa' }, 
+            'gl': { 'male': 'ruso', 'female': 'rusa' }, 
         }, 
     }
+    translationsOccupations = {
+        '~ association football player': {
+            'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+            'en': { 'male': '~ association football player', 'female': '~ association football player'}, 
+            'es': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+            'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+        }, 
+        '~ footballer': {
+            'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+            'en': { 'male': '~ footballer', 'female': '~ footballer'}, 
+            'es': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+            'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~'}, 
+        }, 
+        '~ politician': {
+            'ca': { 'male': 'polític ~', 'female': 'política ~'}, 
+            'en': { 'male': '~ politician', 'female': '~ politician'}, 
+            'es': { 'male': 'político ~', 'female': 'política ~'}, 
+            'gl': { 'male': 'político ~', 'female': 'política ~'}, 
+        }, 
+        '~ writer': {
+            'ca': { 'male': 'escriptor ~', 'female': 'escriptora ~'}, 
+            'en': { 'male': '~ writer', 'female': '~ writer'}, 
+            'es': { 'male': 'escritor ~', 'female': 'escritora ~'}, 
+            'gl': { 'male': 'escritor ~', 'female': 'escritora ~'}, 
+        }, 
+    }
+    translations = {}
+    for occupkey, occupdic in translationsOccupations.items():
+        for natkey, natdic in translationsNationalities.items():
+            translations[re.sub('~', natkey, occupkey)] = {}
+            for translang in occupdic.keys():
+                translations[re.sub('~', natkey, occupkey)][translang] = {
+                    'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
+                    'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
+                }
+
     for targetlang in targetlangs:
         for genderq, genderlabel in genders.items():
             for translation in translations.keys():
