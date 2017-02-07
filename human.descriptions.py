@@ -255,11 +255,29 @@ def main():
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
         }, 
+        '~ composer': {
+            'ca': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
+            'en': { 'male': '~ composer', 'female': '~ composer' }, 
+            'es': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
+            'gl': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
+        }, 
         '~ footballer': {
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'en': { 'male': '~ footballer', 'female': '~ footballer' }, 
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
+        }, 
+        '~ historian': {
+            'ca': { 'male': 'historiador ~', 'female': 'historiadora ~' }, 
+            'en': { 'male': '~ historian', 'female': '~ historian' }, 
+            'es': { 'male': 'historiador ~', 'female': 'historiadora ~' }, 
+            'gl': { 'male': 'historiador ~', 'female': 'historiadora ~' }, 
+        }, 
+        '~ journalist': {
+            'ca': { 'male': 'periodista ~', 'female': 'periodista ~' }, 
+            'en': { 'male': '~ journalist', 'female': '~ journalist' }, 
+            'es': { 'male': 'periodista ~', 'female': 'periodista ~' }, 
+            'gl': { 'male': 'xornalista ~', 'female': 'xornalista ~' }, 
         }, 
         '~ painter': {
             'ca': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
@@ -267,11 +285,23 @@ def main():
             'es': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
             'gl': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
         }, 
+        '~ poet': {
+            'ca': { 'male': 'poeta ~', 'female': 'poetessa ~' }, 
+            'en': { 'male': '~ poet', 'female': '~ poet' }, 
+            'es': { 'male': 'poeta ~', 'female': 'poetisa ~' }, 
+            'gl': { 'male': 'poeta ~', 'female': 'poetisa ~' }, 
+        }, 
         '~ politician': {
             'ca': { 'male': 'polític ~', 'female': 'política ~' }, 
             'en': { 'male': '~ politician', 'female': '~ politician' }, 
             'es': { 'male': 'político ~', 'female': 'política ~' }, 
             'gl': { 'male': 'político ~', 'female': 'política ~' }, 
+        }, 
+        '~ soldier': {
+            'ca': { 'male': 'militar ~', 'female': 'militar ~' }, 
+            'en': { 'male': '~ soldier', 'female': '~ soldier' }, 
+            'es': { 'male': 'militar ~', 'female': 'militar ~' }, 
+            'gl': { 'male': 'militar ~', 'female': 'militar ~' }, 
         }, 
         '~ tennis player': {
             'ca': { 'male': 'tennista professional ~', 'female': 'tennista professional ~' }, 
