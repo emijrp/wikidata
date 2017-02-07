@@ -69,10 +69,16 @@ def main():
         
         'Spanish politician': {
             'male': {
+                'ca': 'polític espanyol', 
                 'es': 'político español', 
+                'fr': 'politicien espagnol', 
+                'it': 'politico spagnolo', 
             }, 
             'female': {
+                'ca': 'política espanyola', 
                 'es': 'política española', 
+                'fr': 'femme politique espagnole', 
+                'it': 'politica spagnola', 
             }, 
         }, 
         
