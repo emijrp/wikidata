@@ -333,7 +333,8 @@ def main():
                     'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
                     'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
                 }
-
+    c2 = 1
+    total2 = 0
     for targetlang in targetlangs:
         for genderq, genderlabel in genders.items():
             for translation in translations.keys():
@@ -342,11 +343,13 @@ def main():
                 sparql = getURL(url=url)
                 json1 = loadSPARQL(sparql=sparql)
                 total = len(json1['results']['bindings'])
+                total2 += total
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s (%d/%d; %s; %s) ==' % (q, c, total, translation, genderlabel))
+                    print('\n== %s (%d/%d; %s; %s; %d/%d) ==' % (q, c, total, translation, genderlabel, c2, total2))
                     c += 1
+                    c2 += 1
                     item = pywikibot.ItemPage(repo, q)
                     item.get()
                     descriptions = item.descriptions
