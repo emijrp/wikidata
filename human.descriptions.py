@@ -32,6 +32,10 @@ def main():
         'Q6581072': 'female', 
     }
     
+    #ca: https://ca.wikipedia.org/wiki/Llista_de_gentilicis#Llista_de_gentilicis_per_estat
+    #en: https://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations
+    #es: https://es.wikipedia.org/wiki/Anexo:Gentilicios
+    #gl: https://web.archive.org/web/20060512203621/http://www.galegoenlinna.uvigo.es/fichasVer.asp?idFicha=132
     translationsNationalities = {
         'Afghan': {
             'ca': { 'male': 'afganès', 'female': 'afganesa' },
@@ -239,6 +243,12 @@ def main():
         }, 
     }
     translationsOccupations = {
+        '~ actor': {
+            'ca': { 'male': 'actor ~', 'female': 'actriu ~' }, 
+            'en': { 'male': '~ actor', 'female': '~ actress' }, 
+            'es': { 'male': 'actor ~', 'female': 'actriz ~' }, 
+            'gl': { 'male': 'actor ~', 'female': 'actriz ~' }, 
+        }, 
         '~ association football player': {
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'en': { 'male': '~ association football player', 'female': '~ association football player' }, 
@@ -250,6 +260,12 @@ def main():
             'en': { 'male': '~ footballer', 'female': '~ footballer' }, 
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
+        }, 
+        '~ painter': {
+            'ca': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
+            'en': { 'male': '~ painter', 'female': '~ painter' }, 
+            'es': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
+            'gl': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
         }, 
         '~ politician': {
             'ca': { 'male': 'polític ~', 'female': 'política ~' }, 
@@ -287,10 +303,12 @@ def main():
                 url = '%s&format=json' % (url)
                 sparql = getURL(url=url)
                 json1 = loadSPARQL(sparql=sparql)
-                
+                total = len(json1['results']['bindings'])
+                c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s ==' % (q))
+                    print('\n== %s (%d/%d; %s; %s) ==' % (q, c, total, translation, genderlabel))
+                    c += 1
                     item = pywikibot.ItemPage(repo, q)
                     item.get()
                     descriptions = item.descriptions
