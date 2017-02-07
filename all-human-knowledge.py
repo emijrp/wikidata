@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import time
 
 import pwb
 import pywikibot
@@ -35,20 +36,45 @@ def main():
     ahk = pywikibot.Page(site, 'User:Emijrp/All human knowledge')
     ahktext = ahk.text
     ahknewtext = ahk.text
-    sections = ahktext.split('== ')[1:]
-    for section in sections:
+    
+    #update rows
+    m = re.findall(r'({{User:Emijrp/AHKrow\|P31=(Q\d+)\|wikidata=(\d*)\|estimate=(\d*)}})', ahknewtext)
+    for i in m:
+        row = i[0]
+        p31 = i[1]
+        wikidata = i[2]
+        estimate = i[3]
+        count = getp31count(p31=p31)
+        time.sleep(1)
+        newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (count))
+        ahknewtext = ahknewtext.replace(row, newrow)
+        print(row)
+        print('Old value:', wikidata, 'New value:', count)
+    
+    #update totals
+    sections = ahknewtext.split('== ')
+    newsections = [sections[0]]
+    for section in sections[1:]:
         title = section.split(' ==')[0]
-        m = re.findall(r'({{User:Emijrp/AHKrow\|P31=(Q\d+)\|wikidata=(\d*)\|estimate=(\d*)}})', section)
+        newsection = section
+        m = re.findall(r'({{User:Emijrp/AHKrow\|[^\|]+?\|wikidata=(\d*)\|estimate=(\d*)}})', newsection)
+        newwikidata = 0
+        newestimate = 0
         for i in m:
-            row = i[0]
-            p31 = i[1]
-            wikidata = i[2]
-            estimate = i[3]
-            count = getp31count(p31=p31)
-            newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (count))
-            ahknewtext = ahknewtext.replace(row, newrow)
-            print(row)
-            print('Old value:', wikidata, 'New value:', count)
+            newwikidata += i[1] and int(i[1]) or 0
+            newestimate += i[2] and int(i[2]) or 0
+        try:
+            rowtotal, wikidata, estimate = re.findall(r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*)}})', newsection)[0]
+        except:
+            newsections.append(newsection)
+            continue
+        newrowtotal = rowtotal
+        newrowtotal = newrowtotal.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
+        newrowtotal = newrowtotal.replace('estimate=%s}}' % (estimate), 'estimate=%s}}' % (newestimate))
+        newsection = newsection.replace(rowtotal, newrowtotal)
+        newsections.append(newsection)
+    ahknewtext = '== '.join(newsections)
+        
     if ahknewtext and ahktext != ahknewtext:
         pywikibot.showDiff(ahktext, ahknewtext)
         ahk.text = ahknewtext
