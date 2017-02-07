@@ -33,11 +33,101 @@ def main():
     }
     
     translationsNationalities = {
+        'Afghan': {
+            'ca': { 'male': 'afganès', 'female': 'afganesa' },
+            'en': { 'male': 'Afghan', 'female': 'Afghan' }, 
+            'es': { 'male': 'afgano', 'female': 'afgana'}, 
+            'gl': { 'male': 'afgán', 'female': 'afgá'}, 
+        },
+        'Albanian': {
+            'ca': { 'male': 'albanès', 'female': 'albanesa' },
+            'en': { 'male': 'Albanian', 'female': 'Albanian' }, 
+            'es': { 'male': 'albanés', 'female': 'albanesa'}, 
+            'gl': { 'male': 'albanés', 'female': 'albanesa'}, 
+        },
+        'Algerian': {
+            'ca': { 'male': 'algerià', 'female': 'algeriana' },
+            'en': { 'male': 'Algerian', 'female': 'Algerian' }, 
+            'es': { 'male': 'argelino', 'female': 'argelina'}, 
+            'gl': { 'male': 'alxeriano', 'female': 'alxeriana'}, 
+        },
+        'Andorran': {
+            'ca': { 'male': 'andorrà', 'female': 'andorrana' },
+            'en': { 'male': 'Andorran', 'female': 'Andorran' }, 
+            'es': { 'male': 'andorrano', 'female': 'andorrana'}, 
+            'gl': { 'male': 'andorrano', 'female': 'andorrana'}, 
+        },
+        'Angolan': {
+            'ca': { 'male': 'angolès', 'female': 'angolesa' },
+            'en': { 'male': 'Angolan', 'female': 'Angolan' }, 
+            'es': { 'male': 'angoleño', 'female': 'angoleña'}, 
+            'gl': { 'male': 'angolano', 'female': 'angolana'}, 
+        },
+        'Argentine': {
+            'ca': { 'male': 'argentí', 'female': 'argentina' },
+            'en': { 'male': 'Argentine', 'female': 'Argentine' }, 
+            'es': { 'male': 'argentino', 'female': 'argentina'}, 
+            'gl': { 'male': 'arxentino', 'female': 'arxentina'}, 
+        },
+        'Argentinean': {
+            'ca': { 'male': 'argentí', 'female': 'argentina' },
+            'en': { 'male': 'Argentinean', 'female': 'Argentinean' }, 
+            'es': { 'male': 'argentino', 'female': 'argentina'}, 
+            'gl': { 'male': 'arxentino', 'female': 'arxentina'}, 
+        },
+        'Armenian': {
+            'ca': { 'male': 'armeni', 'female': 'armènia' },
+            'en': { 'male': 'Armenian', 'female': 'Armenian' }, 
+            'es': { 'male': 'armenio', 'female': 'armenia'}, 
+            'gl': { 'male': 'armenio', 'female': 'armenia'}, 
+        },
         'Argentinian': {
             'ca': { 'male': 'argentí', 'female': 'argentina' },
             'en': { 'male': 'Argentinian', 'female': 'Argentinian' }, 
             'es': { 'male': 'argentino', 'female': 'argentina'}, 
             'gl': { 'male': 'arxentino', 'female': 'arxentina'}, 
+        },
+        'Australian': {
+            'ca': { 'male': 'australià', 'female': 'australiana' },
+            'en': { 'male': 'Australian', 'female': 'Australian' }, 
+            'es': { 'male': 'australiano', 'female': 'australiana'}, 
+            'gl': { 'male': 'australiano', 'female': 'australiana'}, 
+        },
+        'Austrian': {
+            'ca': { 'male': 'austríac', 'female': 'austríaca' },
+            'en': { 'male': 'Austrian', 'female': 'Austrian' }, 
+            'es': { 'male': 'austríaco', 'female': 'austríaca'}, 
+            'gl': { 'male': 'austríaco', 'female': 'austríaca'}, 
+        },
+        'Azerbaijani': {
+            'ca': { 'male': 'azerbaidjanès', 'female': 'azerbaidjanesa' },
+            'en': { 'male': 'Azerbaijani', 'female': 'Azerbaijani' }, 
+            'es': { 'male': 'azerbaiyano', 'female': 'azerbaiyana'}, 
+            'gl': { 'male': 'acerbaixano', 'female': 'acerbaixana'}, 
+        },
+        'Bahamian': {
+            'ca': { 'male': 'bahamià', 'female': 'bahamiana' },
+            'en': { 'male': 'Bahamian', 'female': 'Bahamian' }, 
+            'es': { 'male': 'bahameño', 'female': 'bahameña'}, 
+            'gl': { 'male': 'bahameño', 'female': 'bahameña'}, 
+        },
+        'Bahraini': {
+            'ca': { 'male': 'bahrenià', 'female': 'bahreniana' },
+            'en': { 'male': 'Bahraini', 'female': 'Bahraini' }, 
+            'es': { 'male': 'bareiní', 'female': 'bareiní'}, 
+            'gl': { 'male': 'bahrainí', 'female': 'bahrainí'}, 
+        },
+        'Bangladeshi': {
+            'ca': { 'male': 'bangladeshià', 'female': 'bangladeshiana' },
+            'en': { 'male': 'Bangladeshi', 'female': 'Bangladeshi' }, 
+            'es': { 'male': 'bangladesí', 'female': 'bangladesí'}, 
+            'gl': { 'male': 'bangladesí', 'female': 'bangladesí'}, 
+        },
+        'Barbadian': {
+            'ca': { 'male': 'barbadià', 'female': 'barbadiana' },
+            'en': { 'male': 'Barbadian', 'female': 'Barbadian' }, 
+            'es': { 'male': 'barbadense', 'female': 'barbadense'}, 
+            'gl': { 'male': 'barbadense', 'female': 'barbadense'}, 
         },
         'Chilean': {
             'ca': { 'male': 'xilè', 'female': 'xilena' },
