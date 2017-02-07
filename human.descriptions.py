@@ -242,6 +242,8 @@ def main():
             'gl': { 'male': 'español', 'female': 'española' }, 
         }, 
     }
+    #more occupations https://query.wikidata.org/#SELECT%20%3Foccupation%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20%3Foccupation.%0A%20%20%20%20%23SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20.%20%7D%0A%7D%0AGROUP%20by%20%3Foccupation%0AORDER%20BY%20DESC%28%3Fcount%29
+    #translations https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20wd%3AQ28389.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22gl%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
     translationsOccupations = {
         '~ actor': {
             'ca': { 'male': 'actor ~', 'female': 'actriu ~' }, 
@@ -296,6 +298,12 @@ def main():
             'en': { 'male': '~ politician', 'female': '~ politician' }, 
             'es': { 'male': 'político ~', 'female': 'política ~' }, 
             'gl': { 'male': 'político ~', 'female': 'política ~' }, 
+        }, 
+        '~ screenwriter': {
+            'ca': { 'male': 'guionista ~', 'female': 'guionista ~' }, 
+            'en': { 'male': '~ screenwriter', 'female': '~ screenwriter' }, 
+            'es': { 'male': 'guionista ~', 'female': 'guionista ~' }, 
+            'gl': { 'male': 'guionista ~', 'female': 'guionista ~' }, 
         }, 
         '~ soldier': {
             'ca': { 'male': 'militar ~', 'female': 'militar ~' }, 
