@@ -307,17 +307,59 @@ def main():
             'es': { 'male': 'congoleño', 'female': 'congoleña' }, 
             'gl': { 'male': 'congolés', 'female': 'congolesa' }, 
         },
+        'Costa Rican': {
+            'ca': { 'male': 'costa-riqueny', 'female': 'costa-riquenya' },
+            'en': { 'male': 'Costa Rican', 'female': 'Costa Rican' }, 
+            'es': { 'male': 'costarricense', 'female': 'costarricense' }, 
+            'gl': { 'male': 'costarriqueño', 'female': 'costarriqueña' }, 
+        },
+        'Croatian': {
+            'ca': { 'male': 'croat', 'female': 'croata' },
+            'en': { 'male': 'Croatian', 'female': 'Croatian' }, 
+            'es': { 'male': 'croata', 'female': 'croata' }, 
+            'gl': { 'male': 'croata', 'female': 'croata' }, 
+        },
+        'Cuban': {
+            'ca': { 'male': 'cubà', 'female': 'cubana' },
+            'en': { 'male': 'Cuban', 'female': 'Cuban' }, 
+            'es': { 'male': 'cubano', 'female': 'cubana' }, 
+            'gl': { 'male': 'cubano', 'female': 'cubana' }, 
+        },
+        'Cypriot': {
+            'ca': { 'male': 'xipriota', 'female': 'xipriota' },
+            'en': { 'male': 'Cypriot', 'female': 'Cypriot' }, 
+            'es': { 'male': 'chipriota', 'female': 'chipriota' }, 
+            'gl': { 'male': 'chipriota', 'female': 'chipriota' }, 
+        },
         'Czech': {
             'ca': { 'male': 'txec', 'female': 'txeca' },
             'en': { 'male': 'Czech', 'female': 'Czech' }, 
             'es': { 'male': 'checo', 'female': 'checa' }, 
             'gl': { 'male': 'checo', 'female': 'checa' }, 
         },
+        'Danish': {
+            'ca': { 'male': 'danès', 'female': 'danesa' },
+            'en': { 'male': 'Danish', 'female': 'Danish' }, 
+            'es': { 'male': 'danés', 'female': 'danesa' }, 
+            'gl': { 'male': 'danés', 'female': 'danesa' }, 
+        },
+        'Djiboutian': {
+            'ca': { 'male': 'djiboutià', 'female': 'djiboutiana' },
+            'en': { 'male': 'Djiboutian', 'female': 'Djiboutian' }, 
+            'es': { 'male': 'yibutiano', 'female': 'yibutiana' }, 
+            'gl': { 'male': 'xibutiano', 'female': 'xibutiana' }, 
+        },
         'Ecuadorian': {
             'ca': { 'male': 'equatorià', 'female': 'equatoriana' },
             'en': { 'male': 'Ecuadorian', 'female': 'Ecuadorian' }, 
             'es': { 'male': 'ecuatoriano', 'female': 'ecuatoriana' }, 
             'gl': { 'male': 'ecuatoriano', 'female': 'ecuatoriana' }, 
+        },
+        'Egyptian': {
+            'ca': { 'male': 'egipci', 'female': 'egípcia' },
+            'en': { 'male': 'Egyptian', 'female': 'Egyptian' }, 
+            'es': { 'male': 'egipcio', 'female': 'egipcia' }, 
+            'gl': { 'male': 'exipcio', 'female': 'exipcia' }, 
         },
         'French': {
             'ca': { 'male': 'francés', 'female': 'francesa' },
@@ -342,6 +384,12 @@ def main():
             'en': { 'male': 'Italian ', 'female': 'Italian' }, 
             'es': { 'male': 'italiano', 'female': 'italiana' }, 
             'gl': { 'male': 'italiano', 'female': 'italiana' }, 
+        }, 
+        'Ivorian': {
+            'ca': { 'male': 'ivorià', 'female': 'ivoriana' }, 
+            'en': { 'male': 'Ivorian ', 'female': 'Ivorian' }, 
+            'es': { 'male': 'marfileño', 'female': 'marfileña' }, 
+            'gl': { 'male': 'marfilés', 'female': 'marfilesa' }, 
         }, 
         'Portuguese': {
             'ca': { 'male': 'portuguès', 'female': 'portuguesa' }, 
