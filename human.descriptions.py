@@ -481,11 +481,29 @@ def main():
             'es': { 'male': 'guyanés', 'female': 'guyanesa' }, 
             'gl': { 'male': 'güianés', 'female': 'güianesa' }, 
         },
+        'Haitian': {
+            'ca': { 'male': 'haitià', 'female': 'haitiana' },
+            'en': { 'male': 'Haitian', 'female': 'Haitian' }, 
+            'es': { 'male': 'haitiano', 'female': 'haitiana' }, 
+            'gl': { 'male': 'haitiano', 'female': 'haitiana' }, 
+        },
         'Herzegovinian': {
             'ca': { 'male': 'hercegoví', 'female': 'hercegovina' },
             'en': { 'male': 'Herzegovinian', 'female': 'Herzegovinian' }, 
             'es': { 'male': 'herzegovino', 'female': 'herzegovina' }, 
             'gl': { 'male': 'hercegovino', 'female': 'hercegovina' }, 
+        },
+        'Honduran': {
+            'ca': { 'male': 'hondureny', 'female': 'hondurenya' },
+            'en': { 'male': 'Honduran', 'female': 'Honduran' }, 
+            'es': { 'male': 'hondureño', 'female': 'hondureña' }, 
+            'gl': { 'male': 'hondureño', 'female': 'hondureña' }, 
+        },
+        'Hungarian': {
+            'ca': { 'male': 'hongarès', 'female': 'hongaresa' },
+            'en': { 'male': 'Hungarian', 'female': 'Hungarian' }, 
+            'es': { 'male': 'húngaro', 'female': 'húngara' }, 
+            'gl': { 'male': 'húngaro', 'female': 'húngara' }, 
         },
         'Italian': {
             'ca': { 'male': 'italià', 'female': 'italiana' }, 
