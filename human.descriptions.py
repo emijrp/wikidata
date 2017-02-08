@@ -559,6 +559,24 @@ def main():
             'es': { 'male': 'marfileño', 'female': 'marfileña' }, 
             'gl': { 'male': 'marfilés', 'female': 'marfilesa' }, 
         }, 
+        'Jamaican': {
+            'ca': { 'male': 'jamaicà', 'female': 'jamaicana' }, 
+            'en': { 'male': 'Jamaican ', 'female': 'Jamaican' }, 
+            'es': { 'male': 'jamaicano', 'female': 'jamaicana' }, 
+            'gl': { 'male': 'xamaicano', 'female': 'xamaicana' }, 
+        }, 
+        'Japanese': {
+            'ca': { 'male': 'japonès', 'female': 'japonesa' }, 
+            'en': { 'male': 'Japanese ', 'female': 'Japanese' }, 
+            'es': { 'male': 'japonés', 'female': 'japonesa' }, 
+            'gl': { 'male': 'xaponés', 'female': 'xaponesa' }, 
+        }, 
+        'Jordanian': {
+            'ca': { 'male': 'jordà', 'female': 'jordana' }, 
+            'en': { 'male': 'Jordanian ', 'female': 'Jordanian' }, 
+            'es': { 'male': 'jordano', 'female': 'jordana' }, 
+            'gl': { 'male': 'xordano', 'female': 'xordana' }, 
+        }, 
         'Portuguese': {
             'ca': { 'male': 'portuguès', 'female': 'portuguesa' }, 
             'en': { 'male': 'Portuguese', 'female': 'Portuguese' }, 
