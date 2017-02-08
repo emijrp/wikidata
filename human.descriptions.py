@@ -505,6 +505,48 @@ def main():
             'es': { 'male': 'húngaro', 'female': 'húngara' }, 
             'gl': { 'male': 'húngaro', 'female': 'húngara' }, 
         },
+        'Icelandic': {
+            'ca': { 'male': 'islandès', 'female': 'islandesa' },
+            'en': { 'male': 'Icelandic', 'female': 'Icelandic' }, 
+            'es': { 'male': 'islandés', 'female': 'islandesa' }, 
+            'gl': { 'male': 'islandés', 'female': 'islandesa' }, 
+        },
+        'Indian': {
+            'ca': { 'male': 'indi', 'female': 'índia' },
+            'en': { 'male': 'Indian', 'female': 'Indian' }, 
+            'es': { 'male': 'indio', 'female': 'india' }, 
+            'gl': { 'male': 'indio', 'female': 'india' }, 
+        },
+        'Indonesian': {
+            'ca': { 'male': 'indonesi', 'female': 'indonèsia' },
+            'en': { 'male': 'Indonesian', 'female': 'Indonesian' }, 
+            'es': { 'male': 'indonesio', 'female': 'indonesia' }, 
+            'gl': { 'male': 'indonesio', 'female': 'indonesia' }, 
+        },
+        'Iranian': {
+            'ca': { 'male': 'iranià', 'female': 'iraniana' },
+            'en': { 'male': 'Iranian', 'female': 'Iranian' }, 
+            'es': { 'male': 'iraní', 'female': 'iraní' }, 
+            'gl': { 'male': 'iraniano', 'female': 'iraniana' }, 
+        },
+        'Iraqi': {
+            'ca': { 'male': 'iraquià', 'female': 'iraquiana' },
+            'en': { 'male': 'Iraqi', 'female': 'Iraqi' }, 
+            'es': { 'male': 'iraquí', 'female': 'iraquí' }, 
+            'gl': { 'male': 'iraquí', 'female': 'iraquí' }, 
+        },
+        'Irish': {
+            'ca': { 'male': 'irlandès', 'female': 'irlandesa' },
+            'en': { 'male': 'Irish', 'female': 'Irish' }, 
+            'es': { 'male': 'irlandés', 'female': 'irlandesa' }, 
+            'gl': { 'male': 'irlandés', 'female': 'irlandesa' }, 
+        },
+        'Israeli': {
+            'ca': { 'male': 'israelià', 'female': 'israeliana' },
+            'en': { 'male': 'Israeli', 'female': 'Israeli' }, 
+            'es': { 'male': 'israelí', 'female': 'israelí' }, 
+            'gl': { 'male': 'israelí', 'female': 'israelí' }, 
+        },
         'Italian': {
             'ca': { 'male': 'italià', 'female': 'italiana' }, 
             'en': { 'male': 'Italian ', 'female': 'Italian' }, 
