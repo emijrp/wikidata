@@ -361,6 +361,36 @@ def main():
             'es': { 'male': 'egipcio', 'female': 'egipcia' }, 
             'gl': { 'male': 'exipcio', 'female': 'exipcia' }, 
         },
+        'Equatoguinean': {
+            'ca': { 'male': 'equatoguineà', 'female': 'equatoguineana' },
+            'en': { 'male': 'Equatoguinean', 'female': 'Equatoguinean' }, 
+            'es': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
+            'gl': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
+        },
+        'Equatorial Guinean': {
+            'ca': { 'male': 'equatoguineà', 'female': 'equatoguineana' },
+            'en': { 'male': 'Equatorial Guinean', 'female': 'Equatorial Guinean' }, 
+            'es': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
+            'gl': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
+        },
+        'Eritrean': {
+            'ca': { 'male': 'eritreu', 'female': 'eritrea' },
+            'en': { 'male': 'Eritrean', 'female': 'Eritrean' }, 
+            'es': { 'male': 'eritreo', 'female': 'eritrea' }, 
+            'gl': { 'male': 'eritreo', 'female': 'eritrea' }, 
+        },
+        'Estonian': {
+            'ca': { 'male': 'estonià', 'female': 'estoniana' },
+            'en': { 'male': 'Estonian', 'female': 'Estonian' }, 
+            'es': { 'male': 'estonio', 'female': 'estonia' }, 
+            'gl': { 'male': 'estoniano', 'female': 'estoniana' }, 
+        },
+        'Ethiopian': {
+            'ca': { 'male': 'etiòpic', 'female': 'etiòpica' },
+            'en': { 'male': 'Ethiopian', 'female': 'Ethiopian' }, 
+            'es': { 'male': 'etíope', 'female': 'etíope' }, 
+            'gl': { 'male': 'etíope', 'female': 'etíope' }, 
+        },
         'French': {
             'ca': { 'male': 'francés', 'female': 'francesa' },
             'en': { 'male': 'French', 'female': 'French' }, 
@@ -402,6 +432,12 @@ def main():
             'en': { 'male': 'Russian', 'female': 'Russian' }, 
             'es': { 'male': 'ruso', 'female': 'rusa' }, 
             'gl': { 'male': 'ruso', 'female': 'rusa' }, 
+        }, 
+        'Salvadoran': {
+            'ca': { 'male': 'salvadorenc', 'female': 'salvadorenca' }, 
+            'en': { 'male': 'Salvadoran', 'female': 'Salvadoran' }, 
+            'es': { 'male': 'salvadoreño', 'female': 'salvadoreña' }, 
+            'gl': { 'male': 'salvadoreño', 'female': 'salvadoreña' }, 
         }, 
         'Spanish': {
             'ca': { 'male': 'espanyol', 'female': 'espanyola' }, 
