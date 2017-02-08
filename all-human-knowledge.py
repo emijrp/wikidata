@@ -49,7 +49,10 @@ def main():
         newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (count))
         ahknewtext = ahknewtext.replace(row, newrow)
         print(row)
-        print('Old value:', wikidata, 'New value:', count)
+        if wikidata != count:
+            print('Old value:', wikidata, 'New value:', count)
+        else:
+            print('No changes needed')
     
     #update totals
     sections = ahknewtext.split('== ')
@@ -62,7 +65,7 @@ def main():
         newestimate = 0
         for i in m:
             newwikidata += i[1] and int(i[1]) or 0
-            newestimate += i[2] and int(i[2]) or 0
+            newestimate += i[2] and int(i[2]) or (i[1] and int(i[1]) or 0)
         try:
             rowtotal, wikidata, estimate = re.findall(r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*)}})', newsection)[0]
         except:
