@@ -391,8 +391,20 @@ def main():
             'es': { 'male': 'etíope', 'female': 'etíope' }, 
             'gl': { 'male': 'etíope', 'female': 'etíope' }, 
         },
+        'Fijian': {
+            'ca': { 'male': 'fijià', 'female': 'fijiana' },
+            'en': { 'male': 'Fijian', 'female': 'Fijian' }, 
+            'es': { 'male': 'fiyiano', 'female': 'fiyiana' }, 
+            'gl': { 'male': 'fidxiano', 'female': 'fidxiana' }, 
+        },
+        'Finnish': {
+            'ca': { 'male': 'finlandès', 'female': 'finlandesa' },
+            'en': { 'male': 'Finnish', 'female': 'Finnish' }, 
+            'es': { 'male': 'finlandés', 'female': 'finlandesa' }, 
+            'gl': { 'male': 'finlandés', 'female': 'finlandesa' }, 
+        },
         'French': {
-            'ca': { 'male': 'francés', 'female': 'francesa' },
+            'ca': { 'male': 'francès', 'female': 'francesa' },
             'en': { 'male': 'French', 'female': 'French' }, 
             'es': { 'male': 'francés', 'female': 'francesa' }, 
             'gl': { 'male': 'francés', 'female': 'francesa' }, 
