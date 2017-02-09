@@ -1386,11 +1386,23 @@ def main():
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
         }, 
+        '~ astronomer': {
+            'ca': { 'male': 'astrònom ~', 'female': 'astrònoma ~' }, 
+            'en': { 'male': '~ astronomer', 'female': '~ astronomer' }, 
+            'es': { 'male': 'astrónomo ~', 'female': 'astrónoma ~' }, 
+            'gl': { 'male': 'astrónomo ~', 'female': 'astrónoma ~' }, 
+        }, 
         '~ botanist': {
             'ca': { 'male': 'botànic ~', 'female': 'botànica ~' }, 
             'en': { 'male': '~ botanist', 'female': '~ botanist' }, 
             'es': { 'male': 'botánico ~', 'female': 'botánica ~' }, 
             'gl': { 'male': 'botánico ~', 'female': 'botánica ~' }, 
+        }, 
+        '~ chemist': {
+            'ca': { 'male': 'químic ~', 'female': 'química ~' }, 
+            'en': { 'male': '~ chemist', 'female': '~ chemist' }, 
+            'es': { 'male': 'químico ~', 'female': 'química ~' }, 
+            'gl': { 'male': 'químico ~', 'female': 'química ~' }, 
         }, 
         '~ composer': {
             'ca': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
@@ -1476,6 +1488,12 @@ def main():
             'es': { 'male': 'médico ~', 'female': 'médica ~' }, 
             'gl': { 'male': 'médico ~', 'female': 'médica ~' }, 
         }, 
+        '~ physicist': {
+            'ca': { 'male': 'físic ~', 'female': 'física ~' }, 
+            'en': { 'male': '~ physicist', 'female': '~ physicist' }, 
+            'es': { 'male': 'físico ~', 'female': 'física ~' }, 
+            'gl': { 'male': 'físico ~', 'female': 'física ~' }, 
+        }, 
         '~ poet': {
             'ca': { 'male': 'poeta ~', 'female': 'poetessa ~' }, 
             'en': { 'male': '~ poet', 'female': '~ poet' }, 
@@ -1505,6 +1523,12 @@ def main():
             'en': { 'male': '~ singer', 'female': '~ singer' }, 
             'es': { 'male': 'cantante ~', 'female': 'cantante ~' }, 
             'gl': { 'male': 'cantante ~', 'female': 'cantante ~' }, 
+        }, 
+        '~ sociologist': {
+            'ca': { 'male': 'sociòleg ~', 'female': 'sociòloga ~' }, 
+            'en': { 'male': '~ sociologist', 'female': '~ sociologist' }, 
+            'es': { 'male': 'sociólogo ~', 'female': 'socióloga ~' }, 
+            'gl': { 'male': 'sociólogo ~', 'female': 'socióloga ~' }, 
         }, 
         '~ soldier': {
             'ca': { 'male': 'militar ~', 'female': 'militar ~' }, 
