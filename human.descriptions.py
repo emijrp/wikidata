@@ -1386,6 +1386,12 @@ def main():
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
         }, 
+        '~ botanist': {
+            'ca': { 'male': 'botànic ~', 'female': 'botànica ~' }, 
+            'en': { 'male': '~ botanist', 'female': '~ botanist' }, 
+            'es': { 'male': 'botánico ~', 'female': 'botánica ~' }, 
+            'gl': { 'male': 'botánico ~', 'female': 'botánica ~' }, 
+        }, 
         '~ composer': {
             'ca': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
             'en': { 'male': '~ composer', 'female': '~ composer' }, 
@@ -1397,6 +1403,18 @@ def main():
             'en': { 'male': '~ economist', 'female': '~ economist' }, 
             'es': { 'male': 'economista ~', 'female': 'economista ~' }, 
             'gl': { 'male': 'economista ~', 'female': 'economista ~' }, 
+        }, 
+        '~ engineer': {
+            'ca': { 'male': 'enginyer ~', 'female': 'enginyera ~' }, 
+            'en': { 'male': '~ engineer', 'female': '~ engineer' }, 
+            'es': { 'male': 'ingeniero ~', 'female': 'ingeniera ~' }, 
+            'gl': { 'male': 'enxeñeiro ~', 'female': 'enxeñeira ~' }, 
+        }, 
+        '~ film director': {
+            'ca': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
+            'en': { 'male': '~ film director', 'female': '~ film director' }, 
+            'es': { 'male': 'director de cine ~', 'female': 'directora de cine ~' }, 
+            'gl': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
         }, 
         '~ footballer': {
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
@@ -1416,6 +1434,18 @@ def main():
             'es': { 'male': 'periodista ~', 'female': 'periodista ~' }, 
             'gl': { 'male': 'xornalista ~', 'female': 'xornalista ~' }, 
         }, 
+        '~ jurist': {
+            'ca': { 'male': 'jurista ~', 'female': 'jurista ~' }, 
+            'en': { 'male': '~ jurist', 'female': '~ jurist' }, 
+            'es': { 'male': 'jurista ~', 'female': 'jurista ~' }, 
+            'gl': { 'male': 'xurista ~', 'female': 'xurista ~' }, 
+        }, 
+        '~ mathematician': {
+            'ca': { 'male': 'matemàtic ~', 'female': 'matemàtica ~' }, 
+            'en': { 'male': '~ mathematician', 'female': '~ mathematician' }, 
+            'es': { 'male': 'matemático ~', 'female': 'matemática ~' }, 
+            'gl': { 'male': 'matemático ~', 'female': 'matemática ~' }, 
+        }, 
         '~ musician': {
             'ca': { 'male': 'músic ~', 'female': 'músic ~' }, 
             'en': { 'male': '~ musician', 'female': '~ musician' }, 
@@ -1427,6 +1457,12 @@ def main():
             'en': { 'male': '~ painter', 'female': '~ painter' }, 
             'es': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
             'gl': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
+        }, 
+        '~ philosopher': {
+            'ca': { 'male': 'filòsof ~', 'female': 'filòsofa ~' }, 
+            'en': { 'male': '~ philosopher', 'female': '~ philosopher' }, 
+            'es': { 'male': 'filósofo ~', 'female': 'filósofa ~' }, 
+            'gl': { 'male': 'filósofo ~', 'female': 'filósofa ~' }, 
         }, 
         '~ photographer': {
             'ca': { 'male': 'fotògraf ~', 'female': 'fotògrafa ~' }, 
