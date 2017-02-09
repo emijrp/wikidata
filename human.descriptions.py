@@ -1494,6 +1494,12 @@ def main():
             'es': { 'male': 'físico ~', 'female': 'física ~' }, 
             'gl': { 'male': 'físico ~', 'female': 'física ~' }, 
         }, 
+        '~ pianist': {
+            'ca': { 'male': 'pianista ~', 'female': 'pianista ~' }, 
+            'en': { 'male': '~ pianist', 'female': '~ pianist' }, 
+            'es': { 'male': 'pianista ~', 'female': 'pianista ~' }, 
+            'gl': { 'male': 'pianista ~', 'female': 'pianista ~' }, 
+        }, 
         '~ poet': {
             'ca': { 'male': 'poeta ~', 'female': 'poetessa ~' }, 
             'en': { 'male': '~ poet', 'female': '~ poet' }, 
