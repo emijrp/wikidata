@@ -1147,6 +1147,78 @@ def main():
             'es': { 'male': 'sirio', 'female': 'siria' }, 
             'gl': { 'male': 'sirio', 'female': 'siria' }, 
         }, 
+        'Tajikistani': {
+            'ca': { 'male': 'tadjik', 'female': 'tadjik' }, 
+            'en': { 'male': 'Tajikistani', 'female': 'Tajikistani' }, 
+            'es': { 'male': 'tayiko', 'female': 'tayika' }, 
+            'gl': { 'male': 'taxiquistano', 'female': 'taxiquistana' }, 
+        }, 
+        'Tanzanian': {
+            'ca': { 'male': 'tanzà', 'female': 'tanzana' }, 
+            'en': { 'male': 'Tanzanian', 'female': 'Tanzanian' }, 
+            'es': { 'male': 'tanzano', 'female': 'tanzana' }, 
+            'gl': { 'male': 'tanzano', 'female': 'tanzana' }, 
+        }, 
+        'Thai': {
+            'ca': { 'male': 'tailandès', 'female': 'tailandesa' }, 
+            'en': { 'male': 'Thai', 'female': 'Thai' }, 
+            'es': { 'male': 'tailandés', 'female': 'tailandesa' }, 
+            'gl': { 'male': 'tailandés', 'female': 'tailandesa' }, 
+        }, 
+        'Timorese': {
+            'ca': { 'male': 'timorès', 'female': 'timoresa' }, 
+            'en': { 'male': 'Timorese', 'female': 'Timorese' }, 
+            'es': { 'male': 'timorense', 'female': 'timorense' }, 
+            'gl': { 'male': 'timorense', 'female': 'timorense' }, 
+        }, 
+        'Togolese': {
+            'ca': { 'male': 'togolès', 'female': 'togolesa' }, 
+            'en': { 'male': 'Togolese', 'female': 'Togolese' }, 
+            'es': { 'male': 'togolés', 'female': 'togolesa' }, 
+            'gl': { 'male': 'togolés', 'female': 'togolesa' }, 
+        }, 
+        'Tongan': {
+            'ca': { 'male': 'tongalès', 'female': 'tongalesa' }, 
+            'en': { 'male': 'Tongan', 'female': 'Tongan' }, 
+            'es': { 'male': 'tongano', 'female': 'tongana' }, 
+            'gl': { 'male': 'tongano', 'female': 'tongana' }, 
+        }, 
+        'Trinidadian': {
+            'ca': { 'male': 'de Trinitat i Tobago', 'female': 'de Trinitat i Tobago' }, 
+            'en': { 'male': 'Trinidadian', 'female': 'Trinidadian' }, 
+            'es': { 'male': 'trinitense', 'female': 'trinitense' }, 
+            'gl': { 'male': 'trinitense', 'female': 'trinitense' }, 
+        }, 
+        'Tobagonian': {
+            'ca': { 'male': 'de Trinitat i Tobago', 'female': 'de Trinitat i Tobago' }, 
+            'en': { 'male': 'Tobagonian', 'female': 'Tobagonian' }, 
+            'es': { 'male': 'trinitense', 'female': 'trinitense' }, 
+            'gl': { 'male': 'trinitense', 'female': 'trinitense' }, 
+        }, 
+        'Tunisian': {
+            'ca': { 'male': 'tunisià', 'female': 'tunisiana' }, 
+            'en': { 'male': 'Tunisian', 'female': 'Tunisian' }, 
+            'es': { 'male': 'tunecino', 'female': 'tunecina' }, 
+            'gl': { 'male': 'tunesino', 'female': 'tunesina' }, 
+        }, 
+        'Turkish': {
+            'ca': { 'male': 'turc', 'female': 'turca' }, 
+            'en': { 'male': 'Turkish', 'female': 'Turkish' }, 
+            'es': { 'male': 'turco', 'female': 'turca' }, 
+            'gl': { 'male': 'turco', 'female': 'turca' }, 
+        }, 
+        'Turkmen': {
+            'ca': { 'male': 'turcman', 'female': 'turcmana' }, 
+            'en': { 'male': 'Turkmen', 'female': 'Turkmen' }, 
+            'es': { 'male': 'turcomano', 'female': 'turcomana' }, 
+            'gl': { 'male': 'turcomán', 'female': 'turcomá' }, 
+        }, 
+        'Tuvaluan': {
+            'ca': { 'male': 'tuvalià', 'female': 'tuvaliana' }, 
+            'en': { 'male': 'Tuvaluan', 'female': 'Tuvaluan' }, 
+            'es': { 'male': 'tuvaluano', 'female': 'tuvaluana' }, 
+            'gl': { 'male': 'tuvaluano', 'female': 'tuvaluana' }, 
+        }, 
     }
     #more occupations https://query.wikidata.org/#SELECT%20%3Foccupation%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20%3Foccupation.%0A%20%20%20%20%23SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20.%20%7D%0A%7D%0AGROUP%20by%20%3Foccupation%0AORDER%20BY%20DESC%28%3Fcount%29
     #translations https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20wd%3AQ28389.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22gl%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
