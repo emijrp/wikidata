@@ -355,6 +355,12 @@ def main():
             'es': { 'male': 'yibutiano', 'female': 'yibutiana' }, 
             'gl': { 'male': 'xibutiano', 'female': 'xibutiana' }, 
         },
+        'Dutch': {
+            'ca': { 'male': 'neerlandès', 'female': 'neerlandesa' },
+            'en': { 'male': 'Dutch', 'female': 'Dutch' }, 
+            'es': { 'male': 'neerlandés', 'female': 'neerlandesa' }, 
+            'gl': { 'male': 'neerlandés', 'female': 'neerlandesa' }, 
+        },
         'Ecuadorian': {
             'ca': { 'male': 'equatorià', 'female': 'equatoriana' },
             'en': { 'male': 'Ecuadorian', 'female': 'Ecuadorian' }, 
@@ -823,11 +829,65 @@ def main():
             'es': { 'male': 'mozambiqueño', 'female': 'mozambiqueña' }, 
             'gl': { 'male': 'mozambicano', 'female': 'mozambicana' }, 
         }, 
+        'Namibian': {
+            'ca': { 'male': 'namibià', 'female': 'namibiana' }, 
+            'en': { 'male': 'Namibian', 'female': 'Namibian' }, 
+            'es': { 'male': 'namibio', 'female': 'namibia' }, 
+            'gl': { 'male': 'namibio', 'female': 'namibia' }, 
+        }, 
+        'Nauruan': {
+            'ca': { 'male': 'nauruà', 'female': 'nauruana' }, 
+            'en': { 'male': 'Nauruan', 'female': 'Nauruan' }, 
+            'es': { 'male': 'nauruano', 'female': 'nauruana' }, 
+            'gl': { 'male': 'nauruano', 'female': 'nauruana' }, 
+        }, 
+        'Nepalese': {
+            'ca': { 'male': 'nepalès', 'female': 'nepalesa' }, 
+            'en': { 'male': 'Nepalese', 'female': 'Nepalese' }, 
+            'es': { 'male': 'nepalés', 'female': 'nepalesa' }, 
+            'gl': { 'male': 'nepalés', 'female': 'nepalesa' }, 
+        }, 
+        'Nepali': {
+            'ca': { 'male': 'nepalès', 'female': 'nepalesa' }, 
+            'en': { 'male': 'Nepali', 'female': 'Nepali' }, 
+            'es': { 'male': 'nepalés', 'female': 'nepalesa' }, 
+            'gl': { 'male': 'nepalés', 'female': 'nepalesa' }, 
+        }, 
+        'New Zealand': {
+            'ca': { 'male': 'neozelandès', 'female': 'neozelandesa' }, 
+            'en': { 'male': 'New Zealand', 'female': 'New Zealand' }, 
+            'es': { 'male': 'neozelandés', 'female': 'neozelandesa' }, 
+            'gl': { 'male': 'neozelandés', 'female': 'neozelandesa' }, 
+        }, 
+        'Nicaraguan': {
+            'ca': { 'male': 'nicaragüenc', 'female': 'nicaragüenca' }, 
+            'en': { 'male': 'Nicaraguan', 'female': 'Nicaraguan' }, 
+            'es': { 'male': 'nicaragüense', 'female': 'nicaragüense' }, 
+            'gl': { 'male': 'nicaraguano', 'female': 'nicaraguana' }, 
+        }, 
+        'Nigerian': {
+            'ca': { 'male': 'nigerià', 'female': 'nigeriana' }, 
+            'en': { 'male': 'Nigerian', 'female': 'Nigerian' }, 
+            'es': { 'male': 'nigeriano', 'female': 'nigeriana' }, 
+            'gl': { 'male': 'nixeriano', 'female': 'nixeriana' }, 
+        }, 
+        'Nigerien': {
+            'ca': { 'male': 'nigerí', 'female': 'nigerina' }, 
+            'en': { 'male': 'Nigerien', 'female': 'Nigerien' }, 
+            'es': { 'male': 'nigerino', 'female': 'nigerina' }, 
+            'gl': { 'male': 'nixerino', 'female': 'nixerina' }, 
+        }, 
         'North Korean': {
             'ca': { 'male': 'nord-coreà', 'female': 'nord-coreana' }, 
             'en': { 'male': 'North Korean', 'female': 'North Korean' }, 
             'es': { 'male': 'norcoreano', 'female': 'norcoreana' }, 
             'gl': { 'male': 'norcoreano', 'female': 'norcoreana' }, 
+        }, 
+        'Norwegian': {
+            'ca': { 'male': 'noruec', 'female': 'noruega' }, 
+            'en': { 'male': 'Norwegian', 'female': 'Norwegian' }, 
+            'es': { 'male': 'noruego', 'female': 'noruega' }, 
+            'gl': { 'male': 'noruegués', 'female': 'norueguesa' }, 
         }, 
         'Portuguese': {
             'ca': { 'male': 'portuguès', 'female': 'portuguesa' }, 
