@@ -16,7 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import os
 import re
+import sys
+import _thread
+import time
 import urllib
 import urllib.request
 import urllib.parse
@@ -39,7 +43,26 @@ def getURL(url=''):
                 pass
             sleep = sleep * 2
     return raw
-    
+
+def isScriptAliveCore(pidfilename=''):
+    while 1:
+        with open(pidfilename, 'w') as f:
+            f.write('alive')
+        time.sleep(10)
+
+def isScriptAlive(filename=''):
+    alivefilename = '%s.alive' % (filename)
+    if os.path.exists(alivefilename):
+        print('Script is working, we wont launch another copy. Exiting...')
+        os.remove(alivefilename)
+        sys.exit()
+    else:
+        print('Alive file not found. We continue this instance')
+        try:
+           _thread.start_new_thread(isScriptAliveCore, (alivefilename,) )
+        except:
+           print("Error: unable to start thread")
+
 def loadSPARQL(sparql=''):
     json1 = ''
     if sparql:
