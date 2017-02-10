@@ -40,6 +40,27 @@ from wikidatafun import *
 
 def main():
     translations = {
+        'chemical compound': {
+            'ast': 'compuestu químicu',
+            'ca': 'compost químic',
+            'de': 'chemische Verbindung',
+            'en': 'chemical compound',
+            'eo': 'kemia kombinaĵo',
+            'es': 'compuesto químico',
+            'eu': 'konposatu kimiko',
+            'fr': 'composé chimique',
+            'gl': 'composto químico',
+            'hy': 'քիմիական միացություն',
+            'it': 'composto chimico',
+            'nb': 'kjemisk forbindelse',
+            'nl': 'chemische stof',
+            'nn': 'kjemisk sambinding',
+            'oc': 'component quimic',
+            'pl': 'związek chemiczny',
+            'pt': 'composto químico',
+            'pt-br': 'composto químico',
+            'ro': 'compus chimic',
+        }, 
         'female given name': {
             'af': 'vroulike voornaam',
             'ar': 'أسم مؤنث معطى',
@@ -274,6 +295,7 @@ def main():
     repo = site.data_repository()
     
     queries = {
+        #'chemical compound': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11173%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22chemical%20compound%22%40en.%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D', 
         'female given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
         #'Hebrew calendar year': '', # buscar como hacer la query con qualifiers https://www.wikidata.org/wiki/Q2817509
         #'Islamic calendar year': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20.%0A%20%20%20%20%3Fitem%20wdt%3AP361%20wd%3AQ28892%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%7D%20.%20%0A%7D', 
