@@ -25,7 +25,10 @@ import pywikibot
 from wikidatafun import *
 
 def main():
-    isScriptAlive(__file__)
+    #isScriptAlive(__file__) #using jstart continuous grid job
+    #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
+    #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
+    
     targetlangs = ['es', 'ca', 'gl']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
