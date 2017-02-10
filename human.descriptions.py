@@ -24,6 +24,8 @@ import pwb
 import pywikibot
 from wikidatafun import *
 
+#ideas: fix politico/musico, etc for females
+
 def main():
     #isScriptAlive(__file__) #using jstart continuous grid job
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
@@ -1467,8 +1469,8 @@ def main():
         '~ musician': {
             'ca': { 'male': 'músic ~', 'female': 'músic ~' }, 
             'en': { 'male': '~ musician', 'female': '~ musician' }, 
-            'es': { 'male': 'músico ~', 'female': 'músico ~' }, 
-            'gl': { 'male': 'músico ~', 'female': 'músico ~' }, 
+            'es': { 'male': 'músico ~', 'female': 'música ~' }, 
+            'gl': { 'male': 'músico ~', 'female': 'música ~' }, 
         }, 
         '~ painter': {
             'ca': { 'male': 'pintor ~', 'female': 'pintora ~' }, 
