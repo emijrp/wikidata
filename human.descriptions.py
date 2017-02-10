@@ -22,7 +22,7 @@ import urllib.parse
 
 import pwb
 import pywikibot
-from quickstatements import *
+from wikidatafun import *
 
 def main():
     isScriptAlive(__file__)

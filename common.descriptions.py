@@ -19,7 +19,7 @@ import re
 
 import pwb
 import pywikibot
-from quickstatements import *
+from wikidatafun import *
 
 """
     #filter by language
