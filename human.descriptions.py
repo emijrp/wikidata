@@ -1382,6 +1382,12 @@ def main():
             'es': { 'male': 'arquitecto ~', 'female': 'arquitecta ~' }, 
             'gl': { 'male': 'arquitecto ~', 'female': 'arquitecta ~' }, 
         }, 
+        '~ art historian': {
+            'ca': { 'male': "historiador de l'art ~", 'female': "historiadora de l'art ~" }, 
+            'en': { 'male': '~ art historian', 'female': '~ art historian' }, 
+            'es': { 'male': 'historiador del arte ~', 'female': 'historiadora del arte ~' }, 
+            'gl': { 'male': 'historiador da arte ~', 'female': 'historiadora da arte ~' }, 
+        }, 
         '~ artist': {
             'ca': { 'male': 'artista ~', 'female': 'artista ~' }, 
             'en': { 'male': '~ artist', 'female': '~ artist' }, 
@@ -1424,6 +1430,12 @@ def main():
             'es': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
             'gl': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
         }, 
+        '~ choreographer': {
+            'ca': { 'male': 'coreògraf ~', 'female': 'coreògrafa ~' }, 
+            'en': { 'male': '~ choreographer', 'female': '~ choreographer' }, 
+            'es': { 'male': 'coreógrafo ~', 'female': 'coreógrafa ~' }, 
+            'gl': { 'male': 'coreógrafo ~', 'female': 'coreógrafa ~' }, 
+        }, 
         '~ economist': {
             'ca': { 'male': 'economista ~', 'female': 'economista ~' }, 
             'en': { 'male': '~ economist', 'female': '~ economist' }, 
@@ -1453,6 +1465,12 @@ def main():
             'en': { 'male': '~ film director', 'female': '~ film director' }, 
             'es': { 'male': 'director de cine ~', 'female': 'directora de cine ~' }, 
             'gl': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
+        }, 
+        '~ film producer': {
+            'ca': { 'male': 'productor de cinema ~', 'female': 'productora de cinema ~' },
+            'en': { 'male': '~ film producer', 'female': '~ film producer' }, 
+            'es': { 'male': 'productor de cine ~', 'female': 'productora de cine ~' }, 
+            'gl': { 'male': 'produtor de cinema ~', 'female': 'produtora de cinema ~' }, 
         }, 
         '~ footballer': {
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
