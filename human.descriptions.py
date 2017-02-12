@@ -1394,6 +1394,12 @@ def main():
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
         }, 
+        '~ athlete': {
+            'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
+            'en': { 'male': '~ athlete', 'female': '~ athlete' }, 
+            'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
+            'gl': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
+        }, 
         '~ astronomer': {
             'ca': { 'male': 'astrònom ~', 'female': 'astrònoma ~' }, 
             'en': { 'male': '~ astronomer', 'female': '~ astronomer' }, 
@@ -1430,6 +1436,18 @@ def main():
             'es': { 'male': 'ingeniero ~', 'female': 'ingeniera ~' }, 
             'gl': { 'male': 'enxeñeiro ~', 'female': 'enxeñeira ~' }, 
         }, 
+        '~ entomologist': {
+            'ca': { 'male': 'entomòleg ~', 'female': 'entomòloga ~' }, 
+            'en': { 'male': '~ entomologist', 'female': '~ entomologist' }, 
+            'es': { 'male': 'entomólogo ~', 'female': 'entomóloga ~' }, 
+            'gl': { 'male': 'entomólogo ~', 'female': 'entomóloga ~' }, 
+        }, 
+        '~ explorer': {
+            'ca': { 'male': 'explorador ~', 'female': 'exploradora ~' }, 
+            'en': { 'male': '~ explorer', 'female': '~ explorer' }, 
+            'es': { 'male': 'explorador ~', 'female': 'exploradora ~' }, 
+            'gl': { 'male': 'explorador ~', 'female': 'exploradora ~' }, 
+        }, 
         '~ film director': {
             'ca': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
             'en': { 'male': '~ film director', 'female': '~ film director' }, 
@@ -1458,6 +1476,12 @@ def main():
             'ca': { 'male': 'jurista ~', 'female': 'jurista ~' }, 
             'en': { 'male': '~ jurist', 'female': '~ jurist' }, 
             'es': { 'male': 'jurista ~', 'female': 'jurista ~' }, 
+            'gl': { 'male': 'xurista ~', 'female': 'xurista ~' }, 
+        }, 
+        '~ lawyer': {
+            'ca': { 'male': 'advocat ~', 'female': 'advocada ~' }, 
+            'en': { 'male': '~ lawyer', 'female': '~ lawyer' }, 
+            'es': { 'male': 'abogado ~', 'female': 'abogada ~' }, 
             'gl': { 'male': 'xurista ~', 'female': 'xurista ~' }, 
         }, 
         '~ mathematician': {
