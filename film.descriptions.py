@@ -28,7 +28,8 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', 'he']
+    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', ]
+    #he: excluded by now because we don't get the Hebrew director's name. Dont mix Latin and Hebrew characters
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
         'ast': 'película de ~YEAR~ dirixida por ~AUTHOR~', 
@@ -38,12 +39,12 @@ def main():
         'ext': 'pinicla de ~YEAR~ dirigía por ~AUTHOR~', 
         'fr': 'film de ~AUTHOR~, sorti en ~YEAR~', 
         'gl': 'filme de ~YEAR~ dirixido por ~AUTHOR~', 
+        'he': 'סרט של ~AUTHOR~ משנת ~YEAR~', 
         'it': 'film del ~YEAR~ diretto da ~AUTHOR~', 
         'nl': 'film uit ~YEAR~ van ~AUTHOR~', 
         'oc': 'filme de ~YEAR~ dirigit per ~AUTHOR~', 
         'pt': 'filme de ~YEAR~ dirigido por ~AUTHOR~', 
-        'sv': 'film från ~YEAR~ regisserad av ~AUTHOR~',
-        'he': 'סרט של ~AUTHOR~ משנת ~YEAR~',  
+        'sv': 'film från ~YEAR~ regisserad av ~AUTHOR~', 
     }
     translationsand = {
         'an': ' y ', 
@@ -62,7 +63,7 @@ def main():
         'sv': ' och ', 
     }
     for targetlang in targetlangs:
-        for year in range(1880, 2020):
+        for year in range(1980, 2020):
             print(targetlang, year)
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+str(year)+'%20film%20by%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
             url = '%s&format=json' % (url)
