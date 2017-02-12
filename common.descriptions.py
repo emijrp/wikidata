@@ -58,6 +58,7 @@ def main():
             'oc': 'component quimic',
             'pl': 'związek chemiczny',
             'pt': 'composto químico',
+            'he': 'תרכובת',
             'pt-br': 'composto químico',
             'ro': 'compus chimic',
         }, 
@@ -136,10 +137,12 @@ def main():
             'ca': 'any de calendari hebreu', 
             'en': 'Hebrew calendar year', 
             'es': 'año del calendario hebreo', 
+            'he': 'שנה בלוח השנה העברי',
         }, 
         'Islamic calendar year': {
             'en': 'Islamic calendar year', 
-            'es': 'año del calendario musulmán', 
+            'es': 'año del calendario musulmán',
+            'he': 'שנה בלוח השנה המוסלמי', 
         }, 
         'male given name': {
             'af': 'manlike voornaam',
