@@ -1640,8 +1640,10 @@ def main():
                 }
     c2 = 1
     total2 = 0
+    cqueries = 0
     translations_list = translations.keys()
     translations_list.sort()
+    totalqueries = len(translations_list)
     for targetlang in targetlangs:
         for genderq, genderlabel in genders.items():
             for translation in translations_list:
@@ -1651,10 +1653,11 @@ def main():
                 json1 = loadSPARQL(sparql=sparql)
                 total = len(json1['results']['bindings'])
                 total2 += total
+                cqueries += 1
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s (%d/%d; %s; %s; %s; %d/%d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2))
+                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2, cqueries, totalqueries))
                     c += 1
                     c2 += 1
                     item = pywikibot.ItemPage(repo, q)
