@@ -49,3 +49,22 @@ Q66207	Des	"escritor alemán"
 
 Q23059644	Des	"escritora alemana"
 
+--------------------------------------------
+Busca Q de escritores que no tengan descripción en español
+y la inglesa sea "NATIONALITY writer and..."
+--------------------------------------------
+SELECT DISTINCT ?item ?itemDescriptionEN
+WHERE
+{
+	?item wdt:P31 wd:Q5 . #instance of
+    #?item wdt:P21 wd:Q6581097 . #gender male
+    #?item wdt:P21 wd:Q6581072 . #gender female
+    ?item wdt:P106 wd:Q36180 . #occupation
+    ?item wdt:P27 wd:Q183 . #country of citizenship
+    ?item schema:description ?description.
+    {?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").  }  
+    FILTER STRSTARTS(?itemDescriptionEN, "German writer and").
+	OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es").  }
+	FILTER (!BOUND(?itemDescription))
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "es"}
+}

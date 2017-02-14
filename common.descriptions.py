@@ -50,6 +50,7 @@ def main():
             'eu': 'konposatu kimiko',
             'fr': 'composé chimique',
             'gl': 'composto químico',
+            'he': 'תרכובת',
             'hy': 'քիմիական միացություն',
             'it': 'composto chimico',
             'nb': 'kjemisk forbindelse',
@@ -58,9 +59,64 @@ def main():
             'oc': 'component quimic',
             'pl': 'związek chemiczny',
             'pt': 'composto químico',
-            'he': 'תרכובת',
             'pt-br': 'composto químico',
             'ro': 'compus chimic',
+        }, 
+        'genus of algae': {
+            'en': 'genus of algae',
+            'es': 'género de algas',
+            'gl': 'xénero de algas',
+        }, 
+        'genus of amphibians': {
+            'en': 'genus of amphibians',
+            'es': 'género de anfibios',
+        }, 
+        'genus of arachnids': {
+            'ca': "gènere d'aràcnids",
+            'en': 'genus of arachnids',
+            'es': 'género de arañas',
+        }, 
+        'genus of birds': {
+            'ca': "gènere d'ocells",
+            'en': 'genus of birds',
+            'es': 'género de aves',
+            'gl': 'xénero de aves',
+        }, 
+        'genus of fishes': {
+            'en': 'genus of fishes',
+            'es': 'género de peces',
+        }, 
+        'genus of fungi': {
+            'en': 'genus of fungi',
+            'es': 'género de hongos',
+            'gl': 'xénero de fungos',
+        }, 
+        'genus of insects': {
+            'ca': "gènere d'insectes",
+            'en': 'genus of insects',
+            'es': 'género de insectos',
+        }, 
+        'genus of mammals': {
+            'ca': 'gènere de mamífers',
+            'en': 'genus of mammals',
+            'es': 'género de mamíferos',
+            'gl': 'xénero de mamíferos',
+        }, 
+        'genus of molluscs': {
+            'en': 'genus of molluscs',
+            'es': 'género de moluscos',
+            'gl': 'xénero de moluscos',
+        }, 
+        'genus of plants': {
+            'ca': 'gènere de plantes',
+            'en': 'genus of plants',
+            'es': 'género de plantas',
+            'gl': 'xénero de plantas',
+        }, 
+        'genus of reptiles': {
+            'ca': 'gènere de rèptils',
+            'en': 'genus of reptiles',
+            'es': 'género de reptiles',
         }, 
         'female given name': {
             'af': 'vroulike voornaam',
