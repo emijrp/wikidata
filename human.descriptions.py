@@ -1641,7 +1641,7 @@ def main():
     c2 = 1
     total2 = 0
     cqueries = 0
-    translations_list = translations.keys()
+    translations_list = list(translations.keys())
     translations_list.sort()
     totalqueries = len(translations_list)
     for targetlang in targetlangs:
