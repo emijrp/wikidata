@@ -28,8 +28,8 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', ]
-    #he: excluded by now because we don't get the Hebrew director's name. Dont mix Latin and Hebrew characters
+    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', 'he', ]
+    #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
         'ast': 'película de ~YEAR~ dirixida por ~AUTHOR~', 
@@ -39,7 +39,8 @@ def main():
         'ext': 'pinicla de ~YEAR~ dirigía por ~AUTHOR~', 
         'fr': 'film de ~AUTHOR~, sorti en ~YEAR~', 
         'gl': 'filme de ~YEAR~ dirixido por ~AUTHOR~', 
-        'he': 'סרט של ~AUTHOR~ משנת ~YEAR~', 
+        #'he': 'סרט של ~AUTHOR~ משנת ~YEAR~', #warning, avoid mix Latin and Hebrew chars for directors name
+        'he': 'סרט משנת ~YEAR~', 
         'it': 'film del ~YEAR~ diretto da ~AUTHOR~', 
         'nl': 'film uit ~YEAR~ van ~AUTHOR~', 
         'oc': 'filme de ~YEAR~ dirigit per ~AUTHOR~', 
