@@ -467,7 +467,7 @@ def main():
             'en': { 'male': 'Emirian', 'female': 'Emirian' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
             'gl': { 'male': 'emiratí', 'female': 'emiratí' }, 
-            'gl': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
+            'he': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
         },
         'Equatoguinean': {
             'ca': { 'male': 'equatoguineà', 'female': 'equatoguineana' },
@@ -1281,14 +1281,14 @@ def main():
             'ca': { 'male': 'singapurès', 'female': 'singapuresa' }, 
             'en': { 'male': 'Singaporean', 'female': 'Singaporean' }, 
             'es': { 'male': 'singapurense', 'female': 'singapurense' }, 
-            'gl': { 'male': 'singapurense', 'female': 'singapurense' }, , 
+            'gl': { 'male': 'singapurense', 'female': 'singapurense' }, 
             'he': { 'male': 'סינגפורי', 'female': 'סינגפורית' },
         }, 
         'Slovak': {
             'ca': { 'male': 'eslovac', 'female': 'eslovaca' }, 
             'en': { 'male': 'Slovak', 'female': 'Slovak' }, 
             'es': { 'male': 'eslovaco', 'female': 'eslovaca' }, 
-            'gl': { 'male': 'eslovaco', 'female': 'eslovaca' }, , 
+            'gl': { 'male': 'eslovaco', 'female': 'eslovaca' }, 
             'he': { 'male': 'סלובקי', 'female': 'סלובקית' },
         }, 
         'Slovene': {
@@ -1890,6 +1890,7 @@ def main():
         for natkey, natdic in translationsNationalities.items():
             translations[re.sub('~', natkey, occupkey)] = {}
             for translang in occupdic.keys():
+                #print(occupkey, natkey, translang)
                 translations[re.sub('~', natkey, occupkey)][translang] = {
                     'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
                     'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
