@@ -31,7 +31,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl']
+    targetlangs = ['es', 'ca', 'gl', 'he']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
@@ -452,14 +452,15 @@ def main():
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
             'en': { 'male': 'Emirati', 'female': 'Emirati' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
-            'gl': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
+            'gl': { 'male': 'emiratí', 'female': 'emiratí' }, 
+            'he': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
         },
         'Emiri': {
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
             'en': { 'male': 'Emiri', 'female': 'Emiri' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
             'gl': { 'male': 'emiratí', 'female': 'emiratí' }, 
-            'gl': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
+            'he': { 'male': 'מאיחוד האמירויות הערביות', 'female': 'מאיחוד האמירויות הערביות' }, 
         },
         'Emirian': {
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
@@ -1596,6 +1597,13 @@ def main():
             'gl': { 'male': 'arquitecto ~', 'female': 'arquitecta ~' }, 
             'he': { 'male': 'אדריכל ~', 'female': 'אדריכלית ~' }, 
         }, 
+        '~ art historian': {
+            'ca': { 'male': "historiador de l'art ~", 'female': "historiadora de l'art ~" }, 
+            'en': { 'male': '~ art historian', 'female': '~ art historian' }, 
+            'es': { 'male': 'historiador del arte ~', 'female': 'historiadora del arte ~' }, 
+            'gl': { 'male': 'historiador da arte ~', 'female': 'historiadora da arte ~' },  
+            'he': { 'male': 'היסטוריון אמנות ~', 'female': 'היסטוריונית אמנות ~' }, 
+        }, 
         '~ artist': {
             'ca': { 'male': 'artista ~', 'female': 'artista ~' }, 
             'en': { 'male': '~ artist', 'female': '~ artist' }, 
@@ -1609,6 +1617,13 @@ def main():
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' },  
             'he': { 'male': 'שחקן כדורגל ~', 'female': 'שחקנית כדורגל ~' }, 
+        }, 
+        '~ athlete': {
+            'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
+            'en': { 'male': '~ athlete', 'female': '~ athlete' }, 
+            'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
+            'gl': { 'male': 'atleta ~', 'female': 'atleta ~' },  
+            'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' }, 
         }, 
         '~ astronomer': {
             'ca': { 'male': 'astrònom ~', 'female': 'astrònoma ~' }, 
@@ -1638,6 +1653,13 @@ def main():
             'gl': { 'male': 'compositor ~', 'female': 'compositora ~' },  
             'he': { 'male': 'מלחין ~', 'female': 'מלחינה ~' }, 
         }, 
+        '~ choreographer': {
+            'ca': { 'male': 'coreògraf ~', 'female': 'coreògrafa ~' }, 
+            'en': { 'male': '~ choreographer', 'female': '~ choreographer' }, 
+            'es': { 'male': 'coreógrafo ~', 'female': 'coreógrafa ~' }, 
+            'gl': { 'male': 'coreógrafo ~', 'female': 'coreógrafa ~' },
+            'he': { 'male': 'כוריאוגרף ~', 'female': 'כוריאוגרפית ~' },  
+        }, 
         '~ economist': {
             'ca': { 'male': 'economista ~', 'female': 'economista ~' }, 
             'en': { 'male': '~ economist', 'female': '~ economist' }, 
@@ -1652,12 +1674,40 @@ def main():
             'gl': { 'male': 'enxeñeiro ~', 'female': 'enxeñeira ~' },  
             'he': { 'male': 'מהנדס ~', 'female': 'מהנדסת ~' }, 
         }, 
+        '~ entomologist': {
+            'ca': { 'male': 'entomòleg ~', 'female': 'entomòloga ~' }, 
+            'en': { 'male': '~ entomologist', 'female': '~ entomologist' }, 
+            'es': { 'male': 'entomólogo ~', 'female': 'entomóloga ~' }, 
+            'gl': { 'male': 'entomólogo ~', 'female': 'entomóloga ~' }, 
+            'he': { 'male': 'אנטומולוג ~', 'female': 'אנטומולוגית ~' },  
+        }, 
+        '~ explorer': {
+            'ca': { 'male': 'explorador ~', 'female': 'exploradora ~' }, 
+            'en': { 'male': '~ explorer', 'female': '~ explorer' }, 
+            'es': { 'male': 'explorador ~', 'female': 'exploradora ~' }, 
+            'gl': { 'male': 'explorador ~', 'female': 'exploradora ~' },  
+            'he': { 'male': 'חוקר ארצות ~', 'female': 'חוקרת ארצות ~' }, 
+        }, 
+        '~ fencer': {
+            'ca': { 'male': "tirador d'esgrima ~", 'female': "tiradora d'esgrima ~" }, 
+            'en': { 'male': '~ fencer', 'female': '~ fencer' }, 
+            'es': { 'male': 'esgrimista ~', 'female': 'esgrimista ~' }, 
+            'gl': { 'male': 'esgrimista ~', 'female': 'esgrimista ~' },  
+            'he': { 'male': 'סייף ~', 'female': 'סייפת ~' }, 
+        }, 
         '~ film director': {
             'ca': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
             'en': { 'male': '~ film director', 'female': '~ film director' }, 
             'es': { 'male': 'director de cine ~', 'female': 'directora de cine ~' }, 
             'gl': { 'male': 'director de cinema ~', 'female': 'directora de cinema ~' }, 
             'he': { 'male': 'במאי קולנוע ~', 'female': 'במאית קולנוע ~' },  
+        }, 
+        '~ film producer': {
+            'ca': { 'male': 'productor de cinema ~', 'female': 'productora de cinema ~' },
+            'en': { 'male': '~ film producer', 'female': '~ film producer' }, 
+            'es': { 'male': 'productor de cine ~', 'female': 'productora de cine ~' }, 
+            'gl': { 'male': 'produtor de cinema ~', 'female': 'produtora de cinema ~' }, 
+            'he': { 'male': 'מפיק קולנוע ~', 'female': 'מפיקת קולנוע ~' },  
         }, 
         '~ footballer': {
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
@@ -1673,6 +1723,13 @@ def main():
             'gl': { 'male': 'historiador ~', 'female': 'historiadora ~' },  
             'he': { 'male': 'היסטוריון ~', 'female': 'היסטוריונית ~' }, 
         }, 
+        '~ illustrator': {
+            'ca': { 'male': 'il·lustrador ~', 'female': 'il·lustradora ~' }, 
+            'en': { 'male': '~ illustrator', 'female': '~ illustrator' }, 
+            'es': { 'male': 'ilustrador ~', 'female': 'ilustradora ~' }, 
+            'gl': { 'male': 'ilustrador ~', 'female': 'ilustradora ~' }, 
+            'he': { 'male': 'מאייר ~', 'female': 'מאיירת ~' }, 
+        }, 
         '~ journalist': {
             'ca': { 'male': 'periodista ~', 'female': 'periodista ~' }, 
             'en': { 'male': '~ journalist', 'female': '~ journalist' }, 
@@ -1686,6 +1743,13 @@ def main():
             'es': { 'male': 'jurista ~', 'female': 'jurista ~' }, 
             'gl': { 'male': 'xurista ~', 'female': 'xurista ~' },  
             'he': { 'male': 'משפטן ~', 'female': 'משפטנית ~' }, 
+        }, 
+        '~ lawyer': {
+            'ca': { 'male': 'advocat ~', 'female': 'advocada ~' }, 
+            'en': { 'male': '~ lawyer', 'female': '~ lawyer' }, 
+            'es': { 'male': 'abogado ~', 'female': 'abogada ~' }, 
+            'gl': { 'male': 'xurista ~', 'female': 'xurista ~' }, 
+            'he': { 'male': 'עורך דין ~', 'female': 'עורכת דין ~' }, 
         }, 
         '~ mathematician': {
             'ca': { 'male': 'matemàtic ~', 'female': 'matemàtica ~' }, 
@@ -1743,6 +1807,13 @@ def main():
             'gl': { 'male': 'pianista ~', 'female': 'pianista ~' }, 
             'he': { 'male': 'פסנתרן ~', 'female': 'פסנתרנית ~' },  
         }, 
+        '~ playwright': {
+            'ca': { 'male': 'dramaturg ~', 'female': 'dramaturga ~' }, 
+            'en': { 'male': '~ playwright', 'female': '~ playwright' }, 
+            'es': { 'male': 'dramaturgo ~', 'female': 'dramaturga ~' }, 
+            'gl': { 'male': 'dramaturgo ~', 'female': 'dramaturga ~' }, 
+            'he': { 'male': 'מחזאי ~', 'female': 'מחזאית ~' }, 
+        },
         '~ poet': {
             'ca': { 'male': 'poeta ~', 'female': 'poetessa ~' }, 
             'en': { 'male': '~ poet', 'female': '~ poet' }, 
@@ -1792,6 +1863,13 @@ def main():
             'gl': { 'male': 'militar ~', 'female': 'militar ~' },  
             'he': { 'male': 'חייל ~', 'female': 'חיילת ~' }, 
         }, 
+        '~ swimmer': {
+            'ca': { 'male': 'nedador ~', 'female': 'nedadora ~' }, 
+            'en': { 'male': '~ swimmer', 'female': '~ swimmer' }, 
+            'es': { 'male': 'nadador ~', 'female': 'nadadora ~' }, 
+            'gl': { 'male': 'nadador ~', 'female': 'nadadora ~' }, 
+            'he': { 'male': 'שחיין ~', 'female': 'שחיינית ~' }, 
+        }, 
         '~ tennis player': {
             'ca': { 'male': 'tennista professional ~', 'female': 'tennista professional ~' }, 
             'en': { 'male': '~ tennis player', 'female': '~ tennis player' }, 
@@ -1818,23 +1896,32 @@ def main():
                 }
     c2 = 1
     total2 = 0
+    cqueries = 0
+    translations_list = list(translations.keys())
+    translations_list.sort()
+    totalqueries = len(translations_list)
     for targetlang in targetlangs:
         for genderq, genderlabel in genders.items():
-            for translation in translations.keys():
+            for translation in translations_list:
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%20%23instanceof%0A%20%20%20%20%3Fitem%20wdt%3AP21%20wd%3A'+genderq+'%20.%20%23gender%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22'+urllib.parse.quote(translation)+'%22%40en.%20%23description%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%20%20%20%20FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
                 url = '%s&format=json' % (url)
                 sparql = getURL(url=url)
                 json1 = loadSPARQL(sparql=sparql)
                 total = len(json1['results']['bindings'])
                 total2 += total
+                cqueries += 1
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s (%d/%d; %s; %s; %d/%d) ==' % (q, c, total, translation, genderlabel, c2, total2))
+                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2, cqueries, totalqueries))
                     c += 1
                     c2 += 1
                     item = pywikibot.ItemPage(repo, q)
-                    item.get()
+                    try:
+                        item.get()
+                    except:
+                        print("Error while retrieving item")
+                        continue
                     descriptions = item.descriptions
                     addedlangs = []
                     for lang in translations[translation].keys():
