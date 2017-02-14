@@ -190,12 +190,14 @@ def main():
             'en': { 'male': 'Beninese', 'female': 'Beninese' }, 
             'es': { 'male': 'beninés', 'female': 'beninesa' }, 
             'gl': { 'male': 'beninés', 'female': 'beninesa' }, 
+            'he': { 'male': 'מבנין', 'female': 'מבנין' },
         },
         'Beninois': {
             'ca': { 'male': 'beninès', 'female': 'beninesa' },
             'en': { 'male': 'Beninois', 'female': 'Beninois' }, 
             'es': { 'male': 'beninés', 'female': 'beninesa' }, 
             'gl': { 'male': 'beninés', 'female': 'beninesa' }, 
+            'he': { 'male': 'מבנין', 'female': 'מבנין' },
         },
         'Bermudan': {
             'ca': { 'male': 'de Bermudes', 'female': 'de Bermudes' },
@@ -264,7 +266,8 @@ def main():
             'ca': { 'male': 'bruneiès', 'female': 'bruneiesa' },
             'en': { 'male': 'Bruneian', 'female': 'Bruneian' }, 
             'es': { 'male': 'bruneano', 'female': 'bruneana' }, 
-            'gl': { 'male': 'bruneano', 'female': 'bruneana' }, 
+            'gl': { 'male': 'bruneano', 'female': 'bruneana' },
+            'he': { 'male': 'מברוניי', 'female': 'מברוניי' }, 
         },
         'Bulgarian': {
             'ca': { 'male': 'búlgar', 'female': 'búlgara' },
@@ -810,12 +813,14 @@ def main():
             'en': { 'male': 'Lao', 'female': 'Lao' }, 
             'es': { 'male': 'laosiano', 'female': 'laosiana' }, 
             'gl': { 'male': 'laosiano', 'female': 'laosiana' }, 
+            'he': { 'male': 'מלאוס', 'female': 'מלאוס' }, 
         }, 
         'Laotian': {
             'ca': { 'male': 'laosià', 'female': 'laosiana' }, 
             'en': { 'male': 'Laotian', 'female': 'Laotian' }, 
             'es': { 'male': 'laosiano', 'female': 'laosiana' }, 
             'gl': { 'male': 'laosiano', 'female': 'laosiana' }, 
+            'he': { 'male': 'מלאוס', 'female': 'מלאוס' }, 
         }, 
         'Latvian': {
             'ca': { 'male': 'letó', 'female': 'letona' }, 
@@ -1214,6 +1219,7 @@ def main():
             'en': { 'male': 'Sammarinese', 'female': 'Sammarinese' }, 
             'es': { 'male': 'sanmarinense', 'female': 'sanmarinense' }, 
             'gl': { 'male': 'sanmariñés', 'female': 'sanmariñesa' }, 
+            'he': { 'male': 'מסן מרינו', 'female': 'מסן מרינו' },
         }, 
         'Samoan': {
             'ca': { 'male': 'samoà', 'female': 'samoana' }, 
@@ -1227,6 +1233,7 @@ def main():
             'en': { 'male': 'São Toméan', 'female': 'São Toméan' }, 
             'es': { 'male': 'santotomense', 'female': 'santotomense' }, 
             'gl': { 'male': 'santomense', 'female': 'santomense' }, 
+            'he': { 'male': 'מסאו טומה ופרינסיפה', 'female': 'מסאו טומה ופרינסיפה' },
         }, 
         'Saudi': {
             'ca': { 'male': 'saudita', 'female': 'saudita' }, 
@@ -1904,6 +1911,7 @@ def main():
     for targetlang in targetlangs:
         for genderq, genderlabel in genders.items():
             for translation in translations_list:
+                print(targetlang, genderlabel, translation)
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%20%23instanceof%0A%20%20%20%20%3Fitem%20wdt%3AP21%20wd%3A'+genderq+'%20.%20%23gender%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22'+urllib.parse.quote(translation)+'%22%40en.%20%23description%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%20%20%20%20FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
                 url = '%s&format=json' % (url)
                 sparql = getURL(url=url)
