@@ -45,6 +45,7 @@ def main():
                 'gl': 'escritor alemán', 
                 'it': 'scrittore tedesco', 
                 'oc': 'escrivan alemand', 
+                'he': 'סופר גרמני', 
             }, 
             'female': {
                 'an': 'escritora alemana', 
@@ -55,15 +56,18 @@ def main():
                 'gl': 'escritora alemá', 
                 'it': 'scrittrice tedesca', 
                 'oc': 'escrivana alemanda', 
+                'he': 'סופרת גרמנייה', 
             }, 
         }, 
         
         'Spanish painter': {
             'male': {
                 'es': 'pintor español', 
+                'he': 'צייר ספרדי', 
             }, 
             'female': {
-                'es': 'pintora española', 
+                'es': 'pintora española',  
+                'he': 'ציירת ספרדייה', 
             }, 
         }, 
         
@@ -73,12 +77,14 @@ def main():
                 'es': 'político español', 
                 'fr': 'politicien espagnol', 
                 'it': 'politico spagnolo', 
+                'he': 'פוליטיקאי ספרדי', 
             }, 
             'female': {
                 'ca': 'política espanyola', 
                 'es': 'política española', 
                 'fr': 'femme politique espagnole', 
-                'it': 'politica spagnola', 
+                'it': 'politica spagnola',   
+                'he': 'פוליטיקאית ספרדייה', 
             }, 
         }, 
         
@@ -92,6 +98,7 @@ def main():
                 'gl': 'escritor español', 
                 'it': 'scrittore spagnolo', 
                 'oc': 'escrivan espanhòl', 
+                'he': 'סופר ספרדי', 
             }, 
             'female': {
                 'an': 'escritora espanyola', 
@@ -101,7 +108,8 @@ def main():
                 'fr': 'écrivaine espagnole', 
                 'gl': 'escritora española', 
                 'it': 'scrittrice spagnola', 
-                'oc': 'escrivana espanhòla', 
+                'oc': 'escrivana espanhòla',  
+                'he': 'סופרת ספרדייה', 
             }, 
         }, 
     }
