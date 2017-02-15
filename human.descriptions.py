@@ -39,6 +39,8 @@ def main():
         'Q6581097': 'male', 
         'Q6581072': 'female', 
     }
+    genders_list = [[x, y] for x, y in genders.items()]
+    genders_list.sort()
     
     #ca: https://ca.wikipedia.org/wiki/Llista_de_gentilicis#Llista_de_gentilicis_per_estat
     #en: https://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations
@@ -1907,11 +1909,25 @@ def main():
     cqueries = 0
     translations_list = list(translations.keys())
     translations_list.sort()
-    totalqueries = len(translations_list)
+    totalqueries = len(translations_list) * len(targetlangs) * len(genders_list) # multiply by langs and genders
+    skiptolang = '' #'es'
+    skiptoperson = '' #'American politician'
     for targetlang in targetlangs:
-        for genderq, genderlabel in genders.items():
+        if skiptolang:
+            if skiptolang != targetlang:
+                print('Skiping lang:', targetlang)
+                continue
+            else:
+                skiptolang = ''
+        for genderq, genderlabel in genders_list:
             for translation in translations_list:
                 print(targetlang, genderlabel, translation)
+                if skiptoperson:
+                    if skiptoperson != translation:
+                        print('Skiping translation:', translation)
+                        continue
+                    else:
+                        skiptoperson = ''
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%20%23instanceof%0A%20%20%20%20%3Fitem%20wdt%3AP21%20wd%3A'+genderq+'%20.%20%23gender%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22'+urllib.parse.quote(translation)+'%22%40en.%20%23description%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%20%20%20%20FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
                 url = '%s&format=json' % (url)
                 sparql = getURL(url=url)
