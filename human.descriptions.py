@@ -576,7 +576,7 @@ def main():
             'en': { 'male': 'Ghanaian', 'female': 'Ghanaian' }, 
             'es': { 'male': 'ghanés', 'female': 'ghanesa' }, 
             'gl': { 'male': 'ghanés', 'female': 'ghanesa' }, 
-            'he': { 'male': 'גאני', 'female': 'גאנית' }, 
+            'he': { 'male': 'גאנאי', 'female': 'גאנאית' }, 
         },
         'Greek': {
             'ca': { 'male': 'grec', 'female': 'grega' },
