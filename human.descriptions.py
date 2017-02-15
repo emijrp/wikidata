@@ -15,6 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Translations authorship:
+# Catalan (ca): User:Emijrp
+# Galician (gl): User:Emijrp
+# Hebrew (he): User:Mikey641
+# Spanish (es): User:Emijrp
+
 import os
 import re
 import sys
