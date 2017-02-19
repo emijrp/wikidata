@@ -105,7 +105,12 @@ def main():
                 if addedlangs:
                     summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
                     print(summary)
-                    item.editEntity(data, summary=summary)
+                    try:
+                        item.editEntity(data, summary=summary)
+                    except:
+                        #pywikibot.data.api.APIError: modification-failed: Item Q... already has label "..." associated with language code ..., using the same description text.
+                        print('Error while saving')
+                        continue
                 else:
                     print('No changes needed')
     time.sleep(60*60*24*3)
