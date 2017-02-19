@@ -18,6 +18,7 @@
 import os
 import re
 import sys
+import time
 import urllib.parse
 
 import pwb
@@ -63,9 +64,8 @@ def main():
         'pt': ' e ', 
         'sv': ' och ', 
     }
-    errors = 0
     for targetlang in targetlangs:
-        for year in range(1980, 2020):
+        for year in range(1880, 2020):
             print(targetlang, year)
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+str(year)+'%20film%20by%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
             url = '%s&format=json' % (url)
@@ -82,12 +82,7 @@ def main():
                 if not author or len(author[0]) == 0:
                     continue
                 item = pywikibot.ItemPage(repo, q)
-                try:
-                    item.get()
-                except:
-                    errors += 1
-                    print("Error %d while retrieving item" % (errors))
-                    continue
+                item.get()
                 descriptions = item.descriptions
                 addedlangs = []
                 for lang in translations.keys():
@@ -109,15 +104,11 @@ def main():
                 addedlangs.sort()
                 if addedlangs:
                     summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
-                    #print(summary)
-                    #continue
-                    try:
-                        item.editEntity(data, summary=summary)
-                    except:
-                        print('Error while saving')
-                        continue
+                    print(summary)
+                    item.editEntity(data, summary=summary)
                 else:
                     print('No changes needed')
+    time.sleep(60*60*24*3)
 
 if __name__ == "__main__":
     main()

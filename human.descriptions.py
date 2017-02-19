@@ -24,6 +24,7 @@
 import os
 import re
 import sys
+import time
 import urllib.parse
 
 import pwb
@@ -1914,13 +1915,12 @@ def main():
     c2 = 1
     total2 = 0
     cqueries = 0
-    errors = 0
     translations_list = list(translations.keys())
     translations_list.sort()
     totalqueries = len(translations_list) * len(targetlangs) * len(genders_list) # multiply by langs and genders
-    skiptolang = 'es' #'es'
-    skiptogender = 'male' #'male'
-    skiptoperson = 'British athlete' #'American politician'
+    skiptolang = '' #'es'
+    skiptogender = '' #'male'
+    skiptoperson = '' #'American politician'
     for targetlang in targetlangs:
         if skiptolang:
             if skiptolang != targetlang:
@@ -1956,16 +1956,11 @@ def main():
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d; errors %d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2, cqueries, totalqueries, errors))
+                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2, cqueries, totalqueries))
                     c += 1
                     c2 += 1
                     item = pywikibot.ItemPage(repo, q)
-                    try:
-                        item.get()
-                    except:
-                        errors += 1
-                        print("Error while retrieving item")
-                        continue
+                    item.get()
                     descriptions = item.descriptions
                     addedlangs = []
                     for lang in translations[translation].keys():
@@ -1977,14 +1972,10 @@ def main():
                     if addedlangs:
                         summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
                         print(summary)
-                        try:
-                            item.editEntity(data, summary=summary)
-                        except:
-                            errors += 1
-                            print('Error while saving')
-                            continue
+                        item.editEntity(data, summary=summary)
                     else:
                         print('No changes needed')
+    time.sleep(60*60*24*3)
 
 if __name__ == "__main__":
     main()
