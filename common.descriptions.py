@@ -38,6 +38,8 @@ from wikidatafun import *
     }
 """
 
+#cuadro de https://www.wikidata.org/wiki/Q22661785
+
 def main():
     translations = {
         'chemical compound': {
