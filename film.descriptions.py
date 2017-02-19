@@ -63,6 +63,7 @@ def main():
         'pt': ' e ', 
         'sv': ' och ', 
     }
+    errors = 0
     for targetlang in targetlangs:
         for year in range(1980, 2020):
             print(targetlang, year)
@@ -81,7 +82,12 @@ def main():
                 if not author or len(author[0]) == 0:
                     continue
                 item = pywikibot.ItemPage(repo, q)
-                item.get()
+                try:
+                    item.get()
+                except:
+                    errors += 1
+                    print("Error %d while retrieving item" % (errors))
+                    continue
                 descriptions = item.descriptions
                 addedlangs = []
                 for lang in translations.keys():
