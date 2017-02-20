@@ -1980,7 +1980,7 @@ def main():
                             continue
                     else:
                         print('No changes needed')
-    time.sleep(60*60*24*3)
+    time.sleep(60*60*24*7)
 
 if __name__ == "__main__":
     main()
