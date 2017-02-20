@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import time
 
 import pwb
 import pywikibot
@@ -265,10 +266,15 @@ def main():
             'zh-tw': '女性人名'
         }, 
         'Hebrew calendar year': {
+            'bn': 'ইহুদি সাল', 
             'ca': 'any de calendari hebreu', 
             'en': 'Hebrew calendar year', 
             'es': 'año del calendario hebreo', 
-            'he': 'שנה בלוח השנה העברי',
+            'fa': 'سال در گاه‌شماری عبری', 
+            'fr': 'année hébraïque', 
+            'he': 'שנה עברית',
+            'hy': 'Հրեական օրացույցի տարեթիվ', 
+            'ru': 'год еврейского календаря', 
         }, 
         'Islamic calendar year': {
             'en': 'Islamic calendar year', 
@@ -351,7 +357,18 @@ def main():
             'zh-sg': '男性人名',
             'zh-tw': '男性人名'
         },         
-        
+        """'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493 
+            'ast': 'artículu científicu',
+            'ca': 'article científic',
+            'en': 'scientific article',
+            'eo': 'scienca artikolo',
+            'es': 'artículo científico',
+            'fr': 'article scientifique',
+            'gl': 'artigo científico',
+            'it': 'articolo scientifico',
+            'pt': 'artigo científico',
+            'pt-br': 'artigo científico',
+        }"""
     }
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -402,6 +419,7 @@ def main():
                 except:
                     print('Error while saving')
                     continue
+    time.sleep(60*60*24*7)
 
 if __name__ == "__main__":
     main()
