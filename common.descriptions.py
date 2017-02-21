@@ -357,7 +357,8 @@ def main():
             'zh-sg': '男性人名',
             'zh-tw': '男性人名'
         },         
-        """'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493 
+    }
+    """'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493 
             'ast': 'artículu científicu',
             'ca': 'article científic',
             'en': 'scientific article',
@@ -369,7 +370,7 @@ def main():
             'pt': 'artigo científico',
             'pt-br': 'artigo científico',
         }"""
-    }
+    
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
