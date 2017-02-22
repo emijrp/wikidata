@@ -44,6 +44,7 @@ from wikidatafun import *
 def main():
     translations = {
         'chemical compound': {
+            'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
             'ca': 'compost químic',
             'de': 'chemische Verbindung',
@@ -66,23 +67,27 @@ def main():
             'ro': 'compus chimic',
         }, 
         'genus of algae': {
+            'ar': 'جنس من الطحالب',
             'en': 'genus of algae',
             'es': 'género de algas',
             'gl': 'xénero de algas',
             'he': 'סוג של אצה',
         }, 
         'genus of amphibians': {
+            'ar': 'جنس من البرمائيات',
             'en': 'genus of amphibians',
             'es': 'género de anfibios',
             'he': 'סוג של דו־חיים',
         }, 
         'genus of arachnids': {
+            'ar': 'جنس من العنكبوتيات',
             'ca': "gènere d'aràcnids",
             'en': 'genus of arachnids',
             'es': 'género de arañas',
             'he': 'סוג של עכביש',
         }, 
         'genus of birds': {
+            'ar': 'جنس من الطيور',
             'ca': "gènere d'ocells",
             'en': 'genus of birds',
             'es': 'género de aves',
@@ -90,23 +95,27 @@ def main():
             'he': 'סוג של ציפור',
         }, 
         'genus of fishes': {
+            'ar': 'جنس من الأسماك',
             'en': 'genus of fishes',
             'es': 'género de peces',
             'he': 'סוג של דג',
         }, 
         'genus of fungi': {
+            'ar': 'جنس من الفطريات',
             'en': 'genus of fungi',
             'es': 'género de hongos',
             'gl': 'xénero de fungos',
             'he': 'סוג של פטריה',
         }, 
         'genus of insects': {
+            'ar': 'جنس من الحشرات',
             'ca': "gènere d'insectes",
             'en': 'genus of insects',
             'es': 'género de insectos',
             'he': 'סוג של חרק',
         }, 
         'genus of mammals': {
+            'ar': 'جنس من الثدييات',
             'ca': 'gènere de mamífers',
             'en': 'genus of mammals',
             'es': 'género de mamíferos',
@@ -114,12 +123,14 @@ def main():
             'he': 'סוג של יונק',
         }, 
         'genus of molluscs': {
+            'ar': 'جنس من الرخويات',
             'en': 'genus of molluscs',
             'es': 'género de moluscos',
             'gl': 'xénero de moluscos',
             'he': 'סוג של רכיכה',
         }, 
         'genus of plants': {
+            'ar': 'جنس من النباتات',
             'ca': 'gènere de plantes',
             'en': 'genus of plants',
             'es': 'género de plantas',
@@ -127,6 +138,7 @@ def main():
             'he': 'סוג של צמח',
         }, 
         'genus of reptiles': {
+            'ar': 'جنس من الزواحف',
             'ca': 'gènere de rèptils',
             'en': 'genus of reptiles',
             'es': 'género de reptiles',
@@ -207,7 +219,7 @@ def main():
         }, 
         'female given name': {
             'af': 'vroulike voornaam',
-            'ar': 'أسم مؤنث معطى',
+            'ar': 'اسم شخصي مذكر',
             'ast': 'nome femenín',
             'bar': 'Weiwanam',
             'be': 'жаночае асабістае імя',
@@ -277,6 +289,7 @@ def main():
             'zh-tw': '女性人名'
         }, 
         'Hebrew calendar year': {
+            'ar': 'سنة في التقويم العبري',
             'bn': 'ইহুদি সাল', 
             'ca': 'any de calendari hebreu', 
             'en': 'Hebrew calendar year', 
@@ -288,13 +301,14 @@ def main():
             'ru': 'год еврейского календаря', 
         }, 
         'Islamic calendar year': {
+            'ar': 'سنة في التقويم الإسلامي',
             'en': 'Islamic calendar year', 
             'es': 'año del calendario musulmán',
             'he': 'שנה בלוח השנה המוסלמי', 
         }, 
         'male given name': {
             'af': 'manlike voornaam',
-            'ar': 'أسم مذكر معطى',
+            'ar': 'اسم شخصي مذكر',
             'ast': 'nome masculín',
             'bar': 'Mannanam',
             'be': 'мужчынскае асабістае імя',
@@ -369,7 +383,8 @@ def main():
             'zh-tw': '男性人名'
         },         
     }
-    """'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493 
+    """'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
+            'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
             'ca': 'article científic',
             'en': 'scientific article',
