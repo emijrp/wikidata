@@ -473,7 +473,7 @@ def main():
             'pt-br': 'categoria de um projeto da Wikimedia',
             'ru': 'категория в проекте Викимедиа',
             'sco': 'Wikimedia category',
-            'sk': 'kategórie Wikimedie',
+            'sk': 'kategória projektov Wikimedia',
             'sl': 'kategorija Wikimedije',
             'sr': 'категорија на Викимедији',
             'sv': 'Wikimedia-kategori',
@@ -607,6 +607,51 @@ def main():
             'zh-sg': '维基媒体列表条目',
             'zh-tw': '維基媒體列表條目'
         },
+        'Wikinews article': {
+            'ar': 'مقالة ويكي أخبار',
+            'bn': 'উইকিসংবাদের নিবন্ধ',
+            'bs': 'Wikinews članak',
+            'ca': 'article de Viquinotícies', 
+            'cs': 'článek na Wikizprávách',
+            'da': 'Wikinews-artikel',
+            'de': 'Artikel bei Wikinews', 
+            'el': 'Άρθρο των Βικινέων', 
+            'en': 'Wikinews article', 
+            'en-gb': 'Wikinews article', 
+            'eo': 'artikolo de Vikinovaĵoj', 
+            'es': 'artículo de Wikinoticias', 
+            'fi': 'Wikiuutisten artikkeli',
+            'fr': 'article de Wikinews', 
+            'he': 'כתבה בוויקיחדשות',
+            'hu': 'Wikihírek-cikk',
+            'hy': 'Վիքիլուրերի հոդված',
+            'it': 'articolo di Wikinotizie', 
+            'ja': 'ウィキニュースの記事',
+            'ko': '위키뉴스 기사',
+            'ku-latn': 'gotara li ser Wîkînûçeyê',
+            'lt': 'Vikinaujienų straipsnis', 
+            'mk': 'напис на Викивести', 
+            'nb': 'Wikinytt-artikkel', 
+            'nl': 'Wikinews-artikel', 
+            'or': 'ଉଇକି ସୂଚନା ପତ୍ରିକା',
+            'pl': 'artykuł w Wikinews', 
+            'ps': 'د ويکيخبرونو ليکنه',
+            'pt': 'artigo do Wikinotícias', 
+            'ru': 'статья Викиновостей',
+            'sr': 'чланак са Викивести',
+            'sv': 'Wikinews-artikel',
+            'th': 'เนื้อหาวิกิข่าว', 
+            'uk': 'стаття Вікіновин', 
+            'zh': '維基新聞新聞稿', 
+            'zh-cn': '维基新闻新闻稿', 
+            'zh-hans': '维基新闻新闻稿', 
+            'zh-hant': '維基新聞新聞稿', 
+            'zh-hk': '維基新聞新聞稿', 
+            'zh-mo': '維基新聞新聞稿', 
+            'zh-my': '维基新闻新闻稿', 
+            'zh-sg': '维基新闻新闻稿', 
+            'zh-tw': '維基新聞新聞稿', 
+        }, 
     }
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -618,17 +663,17 @@ def main():
         
         #'female given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22female%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
-        'genus of algae': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20algae%22%40en.%0A%7D%0A', 
-        'genus of amphibians': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20amphibians%22%40en.%0A%7D%0A', 
-        'genus of arachnids': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20arachnids%22%40en.%0A%7D%0A', 
-        'genus of birds': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20birds%22%40en.%0A%7D%0A', 
-        'genus of fishes': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fishes%22%40en.%0A%7D%0A', 
-        'genus of fungi': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fungi%22%40en.%0A%7D%0A', 
-        'genus of insects': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20insects%22%40en.%0A%7D%0A', 
-        'genus of mammals': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20mammals%22%40en.%0A%7D%0A', 
-        'genus of molluscs': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20molluscs%22%40en.%0A%7D%0A', 
-        'genus of plants': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20plants%22%40en.%0A%7D%0A', 
-        'genus of reptiles': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20reptiles%22%40en.%0A%7D%0A', 
+        #'genus of algae': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20algae%22%40en.%0A%7D%0A', 
+        #'genus of amphibians': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20amphibians%22%40en.%0A%7D%0A', 
+        #'genus of arachnids': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20arachnids%22%40en.%0A%7D%0A', 
+        #'genus of birds': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20birds%22%40en.%0A%7D%0A', 
+        #'genus of fishes': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fishes%22%40en.%0A%7D%0A', 
+        #'genus of fungi': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fungi%22%40en.%0A%7D%0A', 
+        #'genus of insects': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20insects%22%40en.%0A%7D%0A', 
+        #'genus of mammals': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20mammals%22%40en.%0A%7D%0A', 
+        #'genus of molluscs': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20molluscs%22%40en.%0A%7D%0A', 
+        #'genus of plants': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20plants%22%40en.%0A%7D%0A', 
+        #'genus of reptiles': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20reptiles%22%40en.%0A%7D%0A', 
             
         #'Hebrew calendar year': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Hebrew%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
@@ -638,11 +683,13 @@ def main():
         
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
-        'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%2010000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%2010000', 
         
-        'Wikimedia disambiguation page': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
+        #'Wikimedia disambiguation page': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
-        'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+    
+        'Wikinews article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17633526%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikinews%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
