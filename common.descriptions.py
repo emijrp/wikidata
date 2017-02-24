@@ -779,17 +779,35 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
+    skip = 'Q6647070'
     for topic in queries_list:
         url = queries[topic]
         url = '%s&format=json' % (url)
         sparql = getURL(url=url)
         json1 = loadSPARQL(sparql=sparql)
         
+        qlist = []
         for result in json1['results']['bindings']:
             q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+            if q:
+                qlist.append(q)
+        #qlist.sort()
+        
+        for q in qlist:
             print('\n== %s [%s] ==' % (q, topic))
+            if skip:
+                if q != skip:
+                    print('Skiping...')
+                    continue
+                else:
+                    skip = ''
+            
             item = pywikibot.ItemPage(repo, q)
-            item.get()
+            try:
+                item.get()
+            except:
+                print('Error while .get()')
+                continue
             descriptions = item.descriptions
             addedlangs = []
             for lang in translations[topic].keys():
