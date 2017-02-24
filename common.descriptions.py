@@ -803,7 +803,7 @@ def main():
                     skip = ''
             
             item = pywikibot.ItemPage(repo, q)
-            try:
+            try: #to detect Redirect because .isRedirectPage fails
                 item.get()
             except:
                 print('Error while .get()')
