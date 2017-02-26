@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Translations authorship:
+# Arabic (ar): User:SR5
 # Catalan (ca): User:Emijrp
 # Galician (gl): User:Emijrp
 # Hebrew (he): User:Mikey641
@@ -1860,14 +1861,6 @@ def main():
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' },  
             'he': { 'male': 'שחקן כדורגל ~', 'female': 'שחקנית כדורגל ~' }, 
         }, 
-        '~ athlete': {
-            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' }, 
-            'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
-            'en': { 'male': '~ athlete', 'female': '~ athlete' }, 
-            'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
-            'gl': { 'male': 'atleta ~', 'female': 'atleta ~' },  
-            'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' }, 
-        }, 
         '~ association football manager': { #translate
             'ca': { 'male': 'entrenador de futbol ~', 'female': 'entrenadora de futbol ~' }, 
             'en': { 'male': '~ association football manager', 'female': '~ association football manager' }, 
@@ -1883,6 +1876,7 @@ def main():
             'he': { 'male': 'אסטרונום ~', 'female': 'אסטרונומית ~' }, 
         }, 
         '~ athlete': {
+            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' }, 
             'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
             'en': { 'male': '~ athlete', 'female': '~ athlete' }, 
             'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
@@ -1890,6 +1884,7 @@ def main():
             'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' }, 
         }, 
         '~ athletics competitor': {
+            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' }, 
             'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
             'en': { 'male': '~ athletics competitor', 'female': '~ athletics competitor' }, 
             'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
@@ -1942,14 +1937,6 @@ def main():
             'gl': { 'male': 'químico ~', 'female': 'química ~' },  
             'he': { 'male': 'כימאי ~', 'female': 'כימאית ~' }, 
         }, 
-        '~ composer': {
-            'ar': { 'male': 'ملحن ~', 'female': 'ملحنة ~' }, 
-            'ca': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
-            'en': { 'male': '~ composer', 'female': '~ composer' }, 
-            'es': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
-            'gl': { 'male': 'compositor ~', 'female': 'compositora ~' },  
-            'he': { 'male': 'מלחין ~', 'female': 'מלחינה ~' }, 
-        }, 
         "~ children's writer": { #translate
             'ca': { 'male': 'escriptor de literatura infantil ~', 'female': 'escriptora de literatura infantil ~' }, 
             'en': { 'male': "~ children's writer", 'female': "~ children's writer" }, 
@@ -1971,6 +1958,7 @@ def main():
             'gl': { 'male': 'historietista ~', 'female': 'historietista ~' },  
         }, 
         '~ composer': {
+            'ar': { 'male': 'ملحن ~', 'female': 'ملحنة ~' }, 
             'ca': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
             'en': { 'male': '~ composer', 'female': '~ composer' }, 
             'es': { 'male': 'compositor ~', 'female': 'compositora ~' }, 
@@ -2024,6 +2012,7 @@ def main():
             'he': { 'male': 'סייף ~', 'female': 'סייפת ~' }, 
         }, 
         '~ film actor': {
+            'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' }, 
             'ca': { 'male': 'actor ~', 'female': 'actriu ~' }, 
             'en': { 'male': '~ actor', 'female': '~ actress' }, 
             'es': { 'male': 'actor ~', 'female': 'actriz ~' }, 
