@@ -1917,13 +1917,13 @@ def main():
             'es': { 'male': 'empresario ~', 'female': 'empresaria ~' }, 
             'gl': { 'male': 'empresario ~', 'female': 'empresaria ~' },  
         }, 
-        '~ catholic priest': { #translate, lower c
+        '~ catholic priest': { #translate
             'ca': { 'male': 'sacerdot catòlic ~', 'female': 'sacerdot catòlica ~' }, 
             'en': { 'male': '~ catholic priest', 'female': '~ catholic priest' }, 
             'es': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' }, 
             'gl': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' },  
         }, 
-        '~ Catholic priest': { #translate, upper C
+        '~ Catholic priest': { #translate
             'ca': { 'male': 'sacerdot catòlic ~', 'female': 'sacerdot catòlica ~' }, 
             'en': { 'male': '~ Catholic priest', 'female': '~ Catholic priest' }, 
             'es': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' }, 
