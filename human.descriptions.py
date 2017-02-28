@@ -1980,6 +1980,12 @@ def main():
             'gl': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' }, 
         }, 
+        '~ diplomat': { #translate
+            'ar': { 'male': 'دبلوماسي ~', 'female': 'دبلوماسية ~' }, 
+            'en': { 'male': '~ diplomat', 'female': '~ diplomat' }, 
+            'es': { 'male': 'diplomático ~', 'female': 'diplomática ~' }, 
+            'he': { 'male': 'דיפולמט ~', 'female': 'דיפולמטית ~' }, 
+        }, 
         '~ economist': {
             'ar': { 'male': 'عالم اقتصاد ~', 'female': 'عالمة اقتصاد ~' }, 
             'ca': { 'male': 'economista ~', 'female': 'economista ~' }, 
