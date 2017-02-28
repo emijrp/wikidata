@@ -1980,10 +1980,12 @@ def main():
             'gl': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' }, 
         }, 
-        '~ diplomat': { #translate
+        '~ diplomat': {
             'ar': { 'male': 'دبلوماسي ~', 'female': 'دبلوماسية ~' }, 
+            'ca': { 'male': 'diplomàtic ~', 'female': 'diplomàtica ~' }, 
             'en': { 'male': '~ diplomat', 'female': '~ diplomat' }, 
             'es': { 'male': 'diplomático ~', 'female': 'diplomática ~' }, 
+            'gl': { 'male': 'diplomático ~', 'female': 'diplomática ~' }, 
             'he': { 'male': 'דיפולמט ~', 'female': 'דיפולמטית ~' }, 
         }, 
         '~ economist': {
@@ -2202,10 +2204,10 @@ def main():
         },  
         '~ rabbi': { #translate
             'ar': { 'male': 'حاخام ~', 'female': 'حاخامة ~' },
-            'ca': { 'male': 'rabí ~', 'female': 'rabínic ~' }, 
+            'ca': { 'male': 'rabí ~', 'female': 'rabí ~' }, 
             'en': { 'male': '~ rabbi', 'female': '~ rabbi' }, 
             'es': { 'male': 'rabino ~', 'female': 'rabina ~' }, 
-            'gl': { 'male': 'rabino ~', 'female': 'rabínica ~' },  
+            'gl': { 'male': 'rabino ~', 'female': 'rabina ~' },  
             'he': { 'male': 'רב ~', 'female': 'רבנית ~' }, 
         }, 
         '~ rugby union player': { #translate
