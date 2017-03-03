@@ -2378,9 +2378,7 @@ def main():
                             continue
                     else:
                         print('No changes needed')
-    time.sleep(60*60*24*7)
+    print("Finished successfully")
 
 if __name__ == "__main__":
     main()
-
-
