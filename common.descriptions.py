@@ -413,6 +413,34 @@ def main():
             'zh-sg': '男性人名',
             'zh-tw': '男性人名'
         },
+        'natural number': {
+            'af': 'natuurlike getal',
+            'als': 'natürlige Zahle',
+            'an': 'numero natural',
+            'ar': 'عدد طبيعي',
+            'ca': 'nombre natural',
+            'en': 'natural number',
+            'en-ca': 'natural number',
+            'en-gb': 'natural number',
+            'eo': 'natura nombro',
+            'es': 'número natural',
+            'he': 'מספר טבעי',
+            'hi': 'प्राकृतिक संख्या',
+            'hy': 'Բնական թիվ',
+            'ia': 'numero natural',
+            'ka': 'ნატურალური რიცხვი',
+            'kn': 'ಸ್ವಾಭಾವಿಕ ಸಂಖ್ಯೆ',
+            'it': 'numero naturale',
+            'la': 'numerus naturalis',
+            'mwl': 'númaro natural',
+            'pms': 'nùmer natural',
+            'pt': 'número natural',
+            'ro': 'număr natural',
+            'scn': 'nùmmuru naturali',
+            'sco': 'naitural nummer',
+            'sc': 'nùmeru naturale',
+            'szl': 'naturalno nůmera',
+        },
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
@@ -818,6 +846,8 @@ def main():
         #'Islamic calendar year': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20wdt%3AP361%20wd%3AQ28892%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Islamic%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
         #'male given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22male%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
+        
+        'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
         
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
