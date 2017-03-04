@@ -21,9 +21,14 @@ import re
 import sys
 import _thread
 import time
+import unicodedata
 import urllib
 import urllib.request
 import urllib.parse
+
+def removeAccents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s)
+                  if unicodedata.category(c) != 'Mn')
 
 def getURL(url=''):
     raw = ''
