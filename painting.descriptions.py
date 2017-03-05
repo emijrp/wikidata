@@ -35,16 +35,16 @@ def main():
         'ca': 'quadre de ~CREATOR~', 
         'es': 'cuadro de ~CREATOR~', 
         'gl': 'pintura de ~CREATOR~', 
+        'he': 'ציור מאת ~CREATOR~', 
         'oc': 'pintura de ~CREATOR~', 
-        'he': 'ציור של ~CREATOR~', 
     }
     translationsSpecial = { #for different prepositions when needed
         'ast': "pintura d'~CREATOR~", 
         'ca': "quadre d'~CREATOR~", 
         'es': 'cuadro de ~CREATOR~', 
         'gl': 'pintura de ~CREATOR~', 
+        'he': 'ציור מאת ~CREATOR~', 
         'oc': "pintura d'~CREATOR~", 
-        'he': 'ציור של ~CREATOR~', 
     }
     for targetlang in targetlangs:
         print('==', targetlang, '==')
