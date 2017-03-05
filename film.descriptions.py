@@ -67,53 +67,53 @@ def main():
     for targetlang in targetlangs:
         for year in range(1880, 2020):
             print(targetlang, year)
-            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+str(year)+'%20film%20by%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
-            url = '%s&format=json' % (url)
-            sparql = getURL(url=url)
-            json1 = loadSPARQL(sparql=sparql)
-            for result in json1['results']['bindings']:
-                q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                descen = result['itemDescriptionEN']['value']
-                if not q or not descen:
-                    continue
-                if not 'film by ' in descen:
-                    continue
-                author = descen.split('film by ')[1].split(', ')
-                if not author or len(author[0]) == 0:
-                    continue
-                item = pywikibot.ItemPage(repo, q)
-                item.get()
-                descriptions = item.descriptions
-                addedlangs = []
-                for lang in translations.keys():
-                    if not lang in descriptions.keys():
-                        translation = translations[lang]
-                        translation = translation.replace('~YEAR~', str(year))
-                        if len(author) == 1:
-                            translation = translation.replace('~AUTHOR~', ''.join(author))
-                        elif len(author) == 2:
-                            translation = translation.replace('~AUTHOR~', translationsand[lang].join(author))
-                        elif len(author) > 2:
-                            author_ = ', '.join(author[:-1])
-                            author_ = '%s%s%s' % (author_, translationsand[lang], author[-1])
-                            translation = translation.replace('~AUTHOR~', author_)
-                        descriptions[lang] = translation
-                        print(q, author, lang, translation)
-                        addedlangs.append(lang)
-                data = { 'descriptions': descriptions }
-                addedlangs.sort()
-                if addedlangs:
-                    summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
-                    print(summary)
-                    try:
-                        item.editEntity(data, summary=summary)
-                    except:
-                        #pywikibot.data.api.APIError: modification-failed: Item Q... already has label "..." associated with language code ..., using the same description text.
-                        print('Error while saving')
+            for defaultdescen in [str(year)+'%20film%20by', str(year)+'%20film%20directed%20by', ]:
+                url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+defaultdescen+'%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
+                url = '%s&format=json' % (url)
+                sparql = getURL(url=url)
+                json1 = loadSPARQL(sparql=sparql)
+                for result in json1['results']['bindings']:
+                    q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+                    descen = result['itemDescriptionEN']['value']
+                    if not q or not descen:
                         continue
-                else:
-                    print('No changes needed')
-    time.sleep(60*60*24*7)
+                    if not 'film by ' in descen:
+                        continue
+                    author = descen.split('film by ')[1].split(', ')
+                    if not author or len(author[0]) == 0:
+                        continue
+                    item = pywikibot.ItemPage(repo, q)
+                    item.get()
+                    descriptions = item.descriptions
+                    addedlangs = []
+                    for lang in translations.keys():
+                        if not lang in descriptions.keys():
+                            translation = translations[lang]
+                            translation = translation.replace('~YEAR~', str(year))
+                            if len(author) == 1:
+                                translation = translation.replace('~AUTHOR~', ''.join(author))
+                            elif len(author) == 2:
+                                translation = translation.replace('~AUTHOR~', translationsand[lang].join(author))
+                            elif len(author) > 2:
+                                author_ = ', '.join(author[:-1])
+                                author_ = '%s%s%s' % (author_, translationsand[lang], author[-1])
+                                translation = translation.replace('~AUTHOR~', author_)
+                            descriptions[lang] = translation
+                            print(q, author, lang, translation)
+                            addedlangs.append(lang)
+                    data = { 'descriptions': descriptions }
+                    addedlangs.sort()
+                    if addedlangs:
+                        summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+                        print(summary)
+                        try:
+                            item.editEntity(data, summary=summary)
+                        except:
+                            #pywikibot.data.api.APIError: modification-failed: Item Q... already has label "..." associated with language code ..., using the same description text.
+                            print('Error while saving')
+                            continue
+                    else:
+                        print('No changes needed')
 
 if __name__ == "__main__":
     main()
