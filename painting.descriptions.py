@@ -41,9 +41,6 @@ def main():
     translationsSpecial = { #for different prepositions when needed
         'ast': "pintura d'~CREATOR~", 
         'ca': "quadre d'~CREATOR~", 
-        'es': 'cuadro de ~CREATOR~', 
-        'gl': 'pintura de ~CREATOR~', 
-        'he': 'ציור מאת ~CREATOR~', 
         'oc': "pintura d'~CREATOR~", 
     }
     for targetlang in targetlangs:
@@ -80,35 +77,23 @@ def main():
                             translation = ''
                             
                             #rules
-                            if lang == 'es':
-                                translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
-                            elif lang == 'ast':
+                            if lang == 'ast':
                                 if removeAccents(creatorlabels[lang][0]).lower() in ['a', 'e', 'i', 'o', 'u']:
                                     translation = translationsSpecial[lang].replace('~CREATOR~', creatorlabels[lang])
                                 else:
                                     translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
                             elif lang == 'ca':
                                 if removeAccents(creatorlabels[lang][0]).lower() in ['a', 'e', 'i', 'o', 'u', 'h']:
                                     translation = translationsSpecial[lang].replace('~CREATOR~', creatorlabels[lang])
                                 else:
                                     translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
-                            elif lang == 'gl':
-                                translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
-                            elif lang == 'he':
-                                translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
                             elif lang == 'oc':
                                 if removeAccents(creatorlabels[lang][0]).lower() in ['a', 'e', 'i', 'o', 'u']:
                                     translation = translationsSpecial[lang].replace('~CREATOR~', creatorlabels[lang])
                                 else:
                                     translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
-                            
                             else:
-                                continue
+                                translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
                             
                             if translation:
                                 print(translation)
