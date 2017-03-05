@@ -29,7 +29,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    targetlangs = ['es', 'ca', 'gl', 'ast', 'oc', ]
+    targetlangs = ['es', 'ca', 'gl', 'ast', 'oc', 'he', ]
     translations = {
         'ast': 'pintura de ~CREATOR~', 
         'ca': 'quadre de ~CREATOR~', 
@@ -96,6 +96,9 @@ def main():
                                     translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
                             
                             elif lang == 'gl':
+                                translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
+                            
+                            elif lang == 'he':
                                 translation = translations[lang].replace('~CREATOR~', creatorlabels[lang])
                             
                             elif lang == 'oc':
