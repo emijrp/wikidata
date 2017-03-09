@@ -18,6 +18,7 @@
 # Translations authorship:
 # Arabic (ar): User:SR5
 # Catalan (ca): User:Emijrp
+# French (fr): User:Pamputt
 # Galician (gl): User:Emijrp
 # Hebrew (he): User:Mikey641
 # Spanish (es): User:Emijrp
