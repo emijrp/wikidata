@@ -16,7 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Translations authorship:
+# Arabic (ar): User:SR5
 # Catalan (ca): User:Emijrp
+# French (fr): User:Pamputt
 # Galician (gl): User:Emijrp
 # Hebrew (he): User:Mikey641
 # Spanish (es): User:Emijrp
@@ -38,7 +40,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl', 'he', 'ar']
+    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     

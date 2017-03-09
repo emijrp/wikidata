@@ -68,3 +68,19 @@ WHERE
 	FILTER (!BOUND(?itemDescription))
     SERVICE wikibase:label { bd:serviceParam wikibase:language "es"}
 }
+
+------------------------------------------------------
+Q sin labels
+------------------------------------------------------
+SELECT ?item ?labelEN ?labelES
+WHERE
+{
+	?item wdt:P31 wd:Q5 . #instance of
+    ?item wdt:P21 wd:Q6581097 . #gender male
+    ?item wdt:P106 wd:Q36180 . #occupation
+    {?item rdfs:label ?labelEN. FILTER(LANG(?labelEN) = "en").  }  
+    FILTER STRSTARTS(?labelEN, "William").
+	OPTIONAL { ?item rdfs:label ?labelES. FILTER(LANG(?labelES) = "es").  }
+	FILTER (!BOUND(?labelES))
+    #SERVICE wikibase:label { bd:serviceParam wikibase:language "es"}
+}

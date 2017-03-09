@@ -413,6 +413,34 @@ def main():
             'zh-sg': '男性人名',
             'zh-tw': '男性人名'
         },
+        'natural number': {
+            'af': 'natuurlike getal',
+            'als': 'natürlige Zahle',
+            'an': 'numero natural',
+            'ar': 'عدد طبيعي',
+            'ca': 'nombre natural',
+            'en': 'natural number',
+            'en-ca': 'natural number',
+            'en-gb': 'natural number',
+            'eo': 'natura nombro',
+            'es': 'número natural',
+            'he': 'מספר טבעי',
+            'hi': 'प्राकृतिक संख्या',
+            'hy': 'Բնական թիվ',
+            'ia': 'numero natural',
+            'ka': 'ნატურალური რიცხვი',
+            'kn': 'ಸ್ವಾಭಾವಿಕ ಸಂಖ್ಯೆ',
+            'it': 'numero naturale',
+            'la': 'numerus naturalis',
+            'mwl': 'númaro natural',
+            'pms': 'nùmer natural',
+            'pt': 'número natural',
+            'ro': 'număr natural',
+            'scn': 'nùmmuru naturali',
+            'sco': 'naitural nummer',
+            'sc': 'nùmeru naturale',
+            'szl': 'naturalno nůmera',
+        },
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
@@ -427,6 +455,19 @@ def main():
             'pt': 'artigo científico',
             'pt-br': 'artigo científico',
         }, 
+        'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
+        #decidir que hacer
+        # https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ16521.%0A%20%20%20%20%3Fitem%20wdt%3AP105%20wd%3AQ7432.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22species%20of%20insect%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22de%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
+            'bg': 'вид насекомо',
+            'ca': "espècie d'insecte",
+            'en': 'species of insect',
+            'es': 'especie de insecto',
+            'gl': 'especie de insecto',
+            'hy': 'միջատների տեսակ',
+            'pt': 'espécie de inseto',
+            'pt-br': 'espécie de inseto',
+            'ru': 'вид насекомых',
+        },
         'Wikimedia category': {
             'ar': 'تصنيف ويكيميديا',
             'be': 'катэгарызацыя',
@@ -490,6 +531,24 @@ def main():
             'zh-my': '维基媒体分类',
             'zh-sg': '维基媒体分类',
             'zh-tw': '維基媒體分類',
+        },
+        'village in China': {
+            'ar': 'قرية في الصين',
+            'ca': 'poble de la Xina',
+            'de': 'Dorf in China',
+            'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
+            'en': 'village in China',
+            'eo': 'vilaĝo en Ĉinujo',
+            'es': 'aldea de la República Popular China',
+            'fi': 'kiinalainen kylä',
+            'fr': 'village chinois',
+            'he': 'כפר ברפובליקה העממית של סין',
+            'id': 'desa di Cina',
+            'it': 'villaggio cinese',
+            'nl': 'dorp in China',
+            'oc': 'vilatge chinés',
+            'pt-br': 'vila chinesa',
+            'ru': 'деревня КНР',
         },
         'Wikimedia disambiguation page': {
             'ar': 'صفحة توضيح لويكيميديا',
@@ -736,6 +795,29 @@ def main():
             'zh-sg': '维基新闻新闻稿', 
             'zh-tw': '維基新聞新聞稿', 
         }, 
+        'year': {
+            'af': 'jaar',
+            'an': 'anyo',
+            'ar': 'سنة',
+            'ast': 'añu',
+            'bg': 'година',
+            'bn': 'বছর',
+            'ca': 'any',
+            'cs': 'rok',
+            'de': 'Jahr',
+            'el': 'έτος',
+            'en': 'year',
+            'es': 'año',
+            'fi': 'vuosi',
+            'fr': 'année',
+            'he': 'שנה',
+            'it': 'anno',
+            'ja': '年',
+            'ko': '연도',
+            'pl': 'rok',
+            'pt': 'ano',
+            'tr': 'yıl',
+        },
     }
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -765,21 +847,33 @@ def main():
         
         #'male given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22male%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
+        'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
+        
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
-        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%2010000', 
+        #'village in China': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%20500000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%201000000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%201500000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%202000000', 
+        #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%202500000', 
         
         #'Wikimedia disambiguation page': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
-        #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
         
-        'Wikimedia template': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
+        #'Wikimedia template': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
         #'Wikinews article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17633526%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikinews%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
+        
+        #'year': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = 'Q6647070'
+    skip = ''
     for topic in queries_list:
         url = queries[topic]
         url = '%s&format=json' % (url)
@@ -825,7 +919,7 @@ def main():
                 except:
                     print('Error while saving')
                     continue
-    time.sleep(60*60*24*7)
+    print("Finished successfully")
 
 if __name__ == "__main__":
     main()
