@@ -1,15 +1,30 @@
 {
 
-# This is a matrix of administrative territorial entity descriptions for all countries in any language
-# By default, all translations are commented until they are checked by a fluent speaker in every language
-# You can help uncommenting the translations in your language
+########################################################################
+# This is a matrix of administrative territorial entity descriptions for
+# all countries in any language.
+# By default, all translations are commented until they are checked by a
+# fluent speaker in every language.
+# You can help uncommenting the translations in your language.
+# 
 # Please note:
-#   * It is prefered lower case in the first letter, "district of Afghanistan" instead of "District of Afghanistan"
-#   * It is prefered singular "district of Afghanistan" instead of "districts of Afghanistan"
-
+#   * It is prefered lower case in the first letter,
+#     "district of Afghanistan" instead of "District of Afghanistan"
+#   * It is prefered singular form "district of Afghanistan" instead of 
+#     "districts of Afghanistan"
+# 
+# The following administrative territorial entities have been excluded
+# as they are used in more than one country and they are ambiguous:
+#   * Q86622
+#   * Q378636
+#   * Q483515
+#   * Q629870
+#   * Q1523821
+# 
 # Translation checkers:
 # English (en): User:Emijrp
 # Spanish (es): User:Emijrp
+########################################################################
 
 "Q496825": {
     #"bn": "আফগানিস্তানের জেলাসমূহ",
@@ -3878,23 +3893,6 @@
     #"ur": "ڈنمارک کے علاقہ جات",
     #"zh": "丹麦大区",
 },
-"Q1523821": {
-    #"be": "прыход",
-    #"da": "Sogn",
-    #"de": "Socken",
-    #"en": "socken",
-    #"fa": "زاکن",
-    #"fi": "pitäjä",
-    #"fr": "socken",
-    #"it": "Socken",
-    #"nb": "sogn",
-    #"nl": "socken",
-    #"nn": "sokn",
-    #"pt-br": "socken",
-    #"ru": "приход",
-    #"sv": "socken",
-    #"tr": "mahalle",
-},
 "Q12304704": {
     #"da": "Bybegrebet i Danmark",
     #"en": "urban area in Danmark",
@@ -4463,27 +4461,6 @@
     #"mk": "административна поделба на Оулу",
     #"nl": "bestuurlijke indeling van Oulu",
 },
-"Q629870": {
-    #"be-tarask": "Лэн",
-    #"de": "Län",
-    #"en": "län",
-    #"et": "Lään",
-    #"fi": "lääni",
-    #"fr": "län",
-    #"io": "Län",
-    #"it": "Län",
-    #"ku": "Län",
-    #"lv": "Lēne",
-    #"mk": "лен",
-    #"nan": "Län",
-    #"nb": "län",
-    #"nl": "Län",
-    #"nn": "län",
-    #"pt": "Län",
-    #"ro": "Län",
-    #"ru": "лен",
-    #"sv": "län",
-},
 "Q856076": {
     #"ca": "municipi de Finlàndia",
     #"cs": "Obce Finska",
@@ -4628,23 +4605,6 @@
     #"zh-sg": "芬兰行政区",
     #"zh-tw": "芬蘭行政區",
 },
-"Q1523821": {
-    #"be": "прыход",
-    #"da": "Sogn",
-    #"de": "Socken",
-    #"en": "socken",
-    #"fa": "زاکن",
-    #"fi": "pitäjä",
-    #"fr": "socken",
-    #"it": "Socken",
-    #"nb": "sogn",
-    #"nl": "socken",
-    #"nn": "sokn",
-    #"pt-br": "socken",
-    #"ru": "приход",
-    #"sv": "socken",
-    #"tr": "mahalle",
-},
 "Q762882": {
     #"cs": "Seutukunta",
     #"de": "Seutukunta",
@@ -4667,17 +4627,6 @@
     #"zh": "次區",
     #"zh-cn": "芬蘭次分區",
     #"zh-hant": "芬蘭次分割槽",
-},
-"Q378636": {
-    #"de": "Kirchdorf",
-    #"en": "village with a church",
-    #"et": "Kirikuküla",
-    #"fi": "kirkonkylä",
-    #"pt-br": "vila com igreja",
-    #"ru": "деревня с церковью",
-    #"sv": "Kyrkby",
-    #"zh-cn": "教区村庄",
-    #"zh-hant": "教區村莊",
 },
 "Q655851": {
     #"bar": "Departements vo Gabun",
@@ -10178,17 +10127,6 @@
 "Q28659240": {
     #"en": "ku of North Korea",
 },
-"Q483515": {
-    #"en": "myeon",
-    #"fr": "Myeon",
-    #"ja": "面",
-    #"ko": "면",
-    #"nan": "Biān",
-    #"nb": "myeon",
-    #"pt": "Myeon",
-    #"vi": "Myeon",
-    #"zh": "面",
-},
 "Q15620174": {
     #"de": "Provinz in Nordkorea",
     #"en": "province of North Korea",
@@ -10393,23 +10331,6 @@
     #"sq": "Rajonet e Norvegjisë",
     #"sv": "Norges landsdelar",
     #"ur": "ناروے کے علاقہ جات",
-},
-"Q1523821": {
-    #"be": "прыход",
-    #"da": "Sogn",
-    #"de": "Socken",
-    #"en": "socken",
-    #"fa": "زاکن",
-    #"fi": "pitäjä",
-    #"fr": "socken",
-    #"it": "Socken",
-    #"nb": "sogn",
-    #"nl": "socken",
-    #"nn": "sokn",
-    #"pt-br": "socken",
-    #"ru": "приход",
-    #"sv": "socken",
-    #"tr": "mahalle",
 },
 "Q3250615": {
     #"ar": "ولاية عمانية",
@@ -12869,17 +12790,6 @@
     #"zh-hant": "廣域市",
     #"zh-hk": "廣域市",
 },
-"Q483515": {
-    #"en": "myeon",
-    #"fr": "Myeon",
-    #"ja": "面",
-    #"ko": "면",
-    #"nan": "Biān",
-    #"nb": "myeon",
-    #"pt": "Myeon",
-    #"vi": "Myeon",
-    #"zh": "面",
-},
 "Q4925355": {
     #"ar": "مقاطعات كوريا الجنوبية",
     #"bn": "দক্ষিণ কোরিয়ার প্রদেশ",
@@ -13903,27 +13813,6 @@
     #"uk": "Краї Швеції",
     #"zh": "瑞典地區",
 },
-"Q629870": {
-    #"be-tarask": "Лэн",
-    #"de": "Län",
-    #"en": "län",
-    #"et": "Lään",
-    #"fi": "lääni",
-    #"fr": "län",
-    #"io": "Län",
-    #"it": "Län",
-    #"ku": "Län",
-    #"lv": "Lēne",
-    #"mk": "лен",
-    #"nan": "Län",
-    #"nb": "län",
-    #"nl": "Län",
-    #"nn": "län",
-    #"pt": "Län",
-    #"ro": "Län",
-    #"ru": "лен",
-    #"sv": "län",
-},
 "Q10552196": {
     #"en": "market town municipality of Sweden",
     #"mk": "пазарноградска општина",
@@ -14017,23 +13906,6 @@
     #"nl": "samenwerkingsverband gemeenten",
     #"sv": "Sekundärkommun",
 },
-"Q1523821": {
-    #"be": "прыход",
-    #"da": "Sogn",
-    #"de": "Socken",
-    #"en": "socken",
-    #"fa": "زاکن",
-    #"fi": "pitäjä",
-    #"fr": "socken",
-    #"it": "Socken",
-    #"nb": "sogn",
-    #"nl": "socken",
-    #"nn": "sokn",
-    #"pt-br": "socken",
-    #"ru": "приход",
-    #"sv": "socken",
-    #"tr": "mahalle",
-},
 "Q2261863": {
     #"bg": "Статут на исторически град в Швеция",
     #"da": "Stad",
@@ -14045,17 +13917,6 @@
     #"nl": "stad",
     #"pl": "Miasto",
     #"sv": "stad i Sverige",
-},
-"Q378636": {
-    #"de": "Kirchdorf",
-    #"en": "village with a church",
-    #"et": "Kirikuküla",
-    #"fi": "kirkonkylä",
-    #"pt-br": "vila com igreja",
-    #"ru": "деревня с церковью",
-    #"sv": "Kyrkby",
-    #"zh-cn": "教区村庄",
-    #"zh-hant": "教區村莊",
 },
 "Q7631098": {
     #"de": "Verwaltungseinheit des Kantons Bern",
@@ -17388,50 +17249,6 @@
     #"sr": "Генерал-губернаторство",
     #"uk": "Генерал-губернаторство",
 },
-"Q86622": {
-    #"ar": "غوبرنيه",
-    #"az": "Quberniya",
-    #"be": "губерня",
-    #"be-tarask": "губэрня",
-    #"bg": "Губерния",
-    #"ca": "Gubèrnia",
-    #"cs": "Gubernie",
-    #"cv": "Кĕперне",
-    #"de": "Gouvernement",
-    #"de-ch": "Gouvernement",
-    #"el": "κυβερνείο της Ρωσικής Αυτοκρατορίας",
-    #"en": "governorate",
-    #"eo": "Gubernio",
-    #"es": "Gubérniya",
-    #"et": "Kubermang",
-    #"eu": "Gubernia",
-    #"fi": "Kuvernementti",
-    #"fr": "goubernia",
-    #"gl": "Gubernia",
-    #"hr": "Gubernija",
-    #"hu": "kormányzóság",
-    #"it": "Gubernija",
-    #"ja": "グベールニヤ",
-    #"kk": "Губерния",
-    #"ko": "구베르니야",
-    #"lt": "Gubernija",
-    #"nb": "gubernija",
-    #"nl": "Goebernija",
-    #"nn": "Gubernija",
-    #"pl": "Gubernia",
-    #"pt": "Guberniya",
-    #"pt-br": "Guberniya",
-    #"ro": "gubernie",
-    #"ru": "губерния",
-    #"sk": "Gubernia",
-    #"sl": "gubernija Ruskega imperija",
-    #"sr": "губернија",
-    #"tr": "Guberniya",
-    #"tt": "Губерна",
-    #"uk": "губернія",
-    #"vi": "Guberniya",
-    #"zh": "省",
-},
 "Q7075127": {
     #"en": "oblast of the Russian Empire",
     #"ru": "список областей Российской империи",
@@ -17558,50 +17375,6 @@
     #"de": "Kanton der Sowjetunion",
     #"en": "canton of the Soviet Union",
     #"ru": "Кантон (РСФСР)",
-},
-"Q86622": {
-    #"ar": "غوبرنيه",
-    #"az": "Quberniya",
-    #"be": "губерня",
-    #"be-tarask": "губэрня",
-    #"bg": "Губерния",
-    #"ca": "Gubèrnia",
-    #"cs": "Gubernie",
-    #"cv": "Кĕперне",
-    #"de": "Gouvernement",
-    #"de-ch": "Gouvernement",
-    #"el": "κυβερνείο της Ρωσικής Αυτοκρατορίας",
-    #"en": "governorate",
-    #"eo": "Gubernio",
-    #"es": "Gubérniya",
-    #"et": "Kubermang",
-    #"eu": "Gubernia",
-    #"fi": "Kuvernementti",
-    #"fr": "goubernia",
-    #"gl": "Gubernia",
-    #"hr": "Gubernija",
-    #"hu": "kormányzóság",
-    #"it": "Gubernija",
-    #"ja": "グベールニヤ",
-    #"kk": "Губерния",
-    #"ko": "구베르니야",
-    #"lt": "Gubernija",
-    #"nb": "gubernija",
-    #"nl": "Goebernija",
-    #"nn": "Gubernija",
-    #"pl": "Gubernia",
-    #"pt": "Guberniya",
-    #"pt-br": "Guberniya",
-    #"ro": "gubernie",
-    #"ru": "губерния",
-    #"sk": "Gubernia",
-    #"sl": "gubernija Ruskega imperija",
-    #"sr": "губернија",
-    #"tr": "Guberniya",
-    #"tt": "Губерна",
-    #"uk": "губернія",
-    #"vi": "Guberniya",
-    #"zh": "省",
 },
 "Q15733039": {
     #"en": "governorate of the Russian Soviet Federative Socialist Republic",
