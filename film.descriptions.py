@@ -33,7 +33,7 @@ def main():
     #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
-        'ar': 'فيلم أصدر سنة ~YEAR~، من إخراج ~AUTHOR~', 
+        'ar': 'فيلم أنتج عام ~YEAR~', 
         'ast': 'película de ~YEAR~ dirixida por ~AUTHOR~', 
         'ca': 'pel·lícula de ~YEAR~ dirigida per ~AUTHOR~', 
         'de': 'Film von ~AUTHOR~ (~YEAR~)', 
