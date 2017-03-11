@@ -37,11 +37,11 @@ def main():
 |-
 | '''Edits''' || [[Special:Contributions/Emijrpbot|{{formatnum:%s}}]]
 |-
-| '''Labels''' || {{formatnum:%s}}
+| '''[[Help:Label|Labels]]''' || {{formatnum:%s}}
 |-
-| '''Descriptions''' || {{formatnum:%s}}
+| '''[[Help:Description|Descriptions]]''' || {{formatnum:%s}}
 |-
-| '''Aliases''' || {{formatnum:%s}}
+| '''[[Help:Aliases|Aliases]]''' || {{formatnum:%s}}
 |-
 | colspan=2 | <small>Last update: %s</small>
 |}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], datetime.datetime.now().strftime('%Y-%m-%d'))
