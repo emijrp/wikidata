@@ -1,7 +1,7 @@
 botnick="Emijrpbot"
 
 echo "SELECT rev_comment FROM revision WHERE rev_user_text='$botnick';" > bot.stats.query
-#sql wikidata < bot.stats.query > bot.stats.sql
+sql wikidata < bot.stats.query > bot.stats.sql
 
 edits=$(wc -l bot.stats.sql | cut -d" " -f1)
 echo "edits=$edits" | tee bot.stats.txt
