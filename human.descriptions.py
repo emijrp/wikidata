@@ -2087,7 +2087,7 @@ def main():
             'he': { 'male': 'שחקן כדורגל ~', 'female': 'שחקנית כדורגל ~' }, 
         }, 
         '~ association football manager': { #translate
-            'ar': { 'male': 'مدرب كرة سلة ~', 'female': 'مدربة كرة سلة ~' }, 
+            'ar': { 'male': 'مدرب كرة قدم ~', 'female': 'مدربة كرة قدم ~' }, 
             'ca': { 'male': 'entrenador de futbol ~', 'female': 'entrenadora de futbol ~' }, 
             'en': { 'male': '~ association football manager', 'female': '~ association football manager' }, 
             'es': { 'male': 'entrenador de fútbol ~', 'female': 'entrenadora de fútbol ~' }, 
