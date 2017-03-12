@@ -12,7 +12,7 @@ echo "labels=$labels" | tee -a bot.stats.txt
 descriptions=$(grep "BOT - Adding descriptions" bot.stats.sql | grep -ioE "[0-9]+ languages" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "descriptions=$descriptions" | tee -a bot.stats.txt
 
-aliases=$(grep "BOT - Adding aliases" bot.stats.sql | grep -ioE "[0-9]+ languages" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+aliases=$(grep -iE "BOT - Adding [0-9]+ aliases" bot.stats.sql | grep -ioE "[0-9]+ aliases" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "aliases=$aliases" | tee -a bot.stats.txt
 
 python3 bot.stats.py

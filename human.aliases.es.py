@@ -64,6 +64,7 @@ def main():
         if missingnames:
             print(names)
             print('Add', missingnames)
+            #"BOT - Adding %s aliases [%s]: %s" % (len(missingnames), targetlang, ', '.join(missingnames))
         
 if __name__ == "__main__":
     main()
