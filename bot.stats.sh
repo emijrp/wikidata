@@ -1,4 +1,6 @@
+#Cron example: 0 12    * * *   /usr/bin/jsub -N bot-stats -mem 5G -once -quiet /bin/bash /data/project/.../bot.stats.sh
 botnick="Emijrpbot"
+cd /data/project/emijrpbot/wikidata
 
 echo "SELECT rev_comment FROM revision WHERE rev_user_text='$botnick';" > bot.stats.query
 sql wikidata < bot.stats.query > bot.stats.sql
