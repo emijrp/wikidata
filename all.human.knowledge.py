@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import re
 import time
 
@@ -38,12 +39,14 @@ def main():
     ahknewtext = ahk.text
     
     #update inline stuff
-    wdarticles = 0
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    wpenstatsurl = 'https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
+    jsonwpen = json.loads(getURL(url=wpenstatsurl))
+    wpenarticles = jsonwpen['query']['statistics']['articles']
     wdstatsurl = 'https://www.wikidata.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
-    raw = getURL(url=wdstatsurl)
-    jsond = json.loads(raw)
-    wdarticles = jsond['query']['statistics']['articles']
-    wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{subst:NUMBEROFARTICLES}} articles<ref>{{cite web | url=http://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | accessdate={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | quote=Content pages: {{subst:NUMBEROFARTICLES}}}}</ref> and [[Wikidata]] includes {{subst:formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher= Wikidata | date= {{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | accessdate= {{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | quote=Content pages: {{subst:formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wdarticles, wdarticles)
+    jsonwd = json.loads(getURL(url=wdstatsurl))
+    wdarticles = jsonwd['query']['statistics']['articles']
+    wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and [[Wikidata]] includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
     ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
     
     #update rows
