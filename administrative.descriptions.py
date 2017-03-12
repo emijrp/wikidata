@@ -28,5 +28,7 @@ def main():
     dic = json.load(open('administrative.descriptions.i18n.txt'))
     print(dic)
     
+    #poner el having 1 para evitar describir cosas con mas de un p31
+    
 if __name__ == "__main__":
     main()
