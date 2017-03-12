@@ -20,7 +20,7 @@ import time
 
 import pwb
 import pywikibot
-from quickstatements import *
+from wikidatafun import *
 
 def getp31count(p31=''):
     if p31 and p31.startswith('Q'):
@@ -37,6 +37,15 @@ def main():
     ahktext = ahk.text
     ahknewtext = ahk.text
     
+    #update inline stuff
+    wdarticles = 0
+    wdstatsurl = 'https://www.wikidata.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
+    raw = getURL(url=wdstatsurl)
+    jsond = json.loads(raw)
+    wdarticles = jsond['query']['statistics']['articles']
+    wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{subst:NUMBEROFARTICLES}} articles<ref>{{cite web | url=http://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | accessdate={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | quote=Content pages: {{subst:NUMBEROFARTICLES}}}}</ref> and [[Wikidata]] includes {{subst:formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher= Wikidata | date= {{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | accessdate= {{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}} | quote=Content pages: {{subst:formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wdarticles, wdarticles)
+    ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
+    
     #update rows
     m = re.findall(r'({{User:Emijrp/AHKrow\|P31=(Q\d+)\|wikidata=(\d*)\|estimate=(\d*)}})', ahknewtext)
     for i in m:
@@ -45,7 +54,7 @@ def main():
         wikidata = i[2]
         estimate = i[3]
         count = getp31count(p31=p31)
-        time.sleep(1)
+        #time.sleep(1)
         newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (count))
         ahknewtext = ahknewtext.replace(row, newrow)
         print(row)
@@ -81,7 +90,7 @@ def main():
     if ahknewtext and ahktext != ahknewtext:
         pywikibot.showDiff(ahktext, ahknewtext)
         ahk.text = ahknewtext
-        ahk.save('BOT - Updating')
+        ahk.save('BOT - Updating the catalogue of catalogues')
     
 if __name__ == '__main__':
     main()
