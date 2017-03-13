@@ -45,7 +45,7 @@ def main():
     rows = []
     c = 1
     for lang in langs:
-        wplink = '[[:%s:|%s]]' % (lang, lang)
+        wplink = '[[:%s:|%s]] (<!--[https://%s.wikipedia.org/wiki/Special:ActiveUsers?username=&groups=sysop&wpFormIdentifier=specialactiveusers au]{{·}} [https://%s.wikipedia.org/wiki/Special:Recentchanges rc]{{·}} -->[[:Category:User %s|babel]])' % (lang, lang, lang, lang, lang)
         row = [str(c), wplink]
         for q in qq:
             if lang in translations[q]:
@@ -56,7 +56,10 @@ def main():
         c += 1
     headersplain = ' !! '.join([translations[q]['en'] for q in qq])
     rowsplain = '\n|-\n| '.join([' || '.join(row) for row in rows])
-    output = """{| class="wikitable sortable" style="text-align: center;font-size: 90%%;"
+    output = """
+This page contains all available translations for different types of Wikimedia pages. Please, check the translations for your language, add the missing ones and fix any mistakes. Don't edit this table directly, click in the links and edit the labels there. A bot will update this table regularly. Thank you.
+
+{| class="wikitable sortable plainlinks" style="text-align: center;font-size: 90%%;"
 ! # !! Language !! %s
 |-
 | %s
