@@ -93,7 +93,7 @@ def main():
     if ahknewtext and ahktext != ahknewtext:
         pywikibot.showDiff(ahktext, ahknewtext)
         ahk.text = ahknewtext
-        ahk.save('BOT - Updating the catalogue of catalogues')
+        ahk.save('BOT - Updating The Catalogue of Catalogues')
     
 if __name__ == '__main__':
     main()
