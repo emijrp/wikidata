@@ -38,7 +38,7 @@ def getQueryCount(p='', q=''):
 
 def main():
     site = pywikibot.Site('en', 'wikipedia')
-    ahk = pywikibot.Page(site, 'User:Emijrp/All human knowledge')
+    ahk = pywikibot.Page(site, 'User:Emijrp/All Human Knowledge')
     ahktext = ahk.text
     ahknewtext = ahk.text
     
@@ -123,12 +123,12 @@ def main():
             summarytotalestimate += summarydic[sectiontitle]['estimate']
         summaryrows.append(summaryrow)
     summarytotal = "{{User:Emijrp/AHKsummarytotal|wikidata=%s|estimate=%s}}" % (summarytotalwikidata, summarytotalestimate)
-    summary = """{| class="wikitable sortable plainlinks"
+    summary = """<!-- summary -->{| class="wikitable sortable plainlinks"
 ! Topic !! Subtopic !! Wikidata !! Estimate
 |-
 %s
 %s
-|}""" % ('\n'.join(summaryrows), summarytotal)
+|}<!-- /summary -->""" % ('\n'.join(summaryrows), summarytotal)
     ahknewtext = re.sub(r'<!-- summary -->.*?<!-- /summary -->', summary, ahknewtext)
     
     if ahknewtext and ahktext != ahknewtext:
