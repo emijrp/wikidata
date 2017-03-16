@@ -37,10 +37,11 @@ def getQueryCount(p='', q=''):
     return ''
 
 def main():
+    minsectionlevel = 2
     site = pywikibot.Site('en', 'wikipedia')
     ahk = pywikibot.Page(site, 'User:Emijrp/All Human Knowledge')
     ahktext = ahk.text
-    ahknewtext = ahk.text
+    ahknewtext = ahktext
     
     #update inline stuff
     today = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -68,18 +69,19 @@ def main():
     for line in lines:
         newline = line
         
-        if line.startswith('=') and line.endswith('='):
-            sectionlevel = len(line.split(' ')[0])
-            sectiontitle = line.replace('=', ' ').strip()
-            if sectionlevel == 1:
+        if line.startswith('='*minsectionlevel) and line.endswith('='*minsectionlevel):
+            sectionlevel = len(line.split(' ')[0].strip())
+            sectiontitle = line.replace('=', '').strip()
+            if sectionlevel == minsectionlevel:
                 sectionparent = sectiontitle
+                sections.append([sectiontitle, sectionlevel])
         
         #update row
         if re.search(row_r, newline):
             m = re.findall(row_r, newline)
             for i in m:
                 row, p, q, wikidata, estimate = i
-                newwikidata = getQueryCount(p=p, q=q)
+                newwikidata = wikidata #getQueryCount(p=p, q=q)
                 newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
                 newline = newline.replace(row, newrow)
                 newtotalwikidata += newwikidata and int(newwikidata) or 0
@@ -93,7 +95,8 @@ def main():
             newtotalrow = newtotalrow.replace('wikidata=%s|' % (totalwikidata), 'wikidata=%s|' % (newtotalwikidata))
             newtotalrow = newtotalrow.replace('estimate=%s}}' % (totalestimate), 'estimate=%s}}' % (newtotalestimate))
             newline = newline.replace(totalrow, newtotalrow)
-            sections.append([sectiontitle, sectionlevel])
+            if sectionlevel > minsectionlevel:
+                sections.append([sectiontitle, sectionlevel])
             summarydic[sectiontitle] = { 'parent': sectionparent, 'wikidata': newtotalwikidata, 'estimate': newtotalestimate }
             #reset
             newtotalwikidata = 0
@@ -102,26 +105,40 @@ def main():
         newlines.append(newline)
     ahknewtext = '\n'.join(newlines)
     
+    print(sections)
+    print(summarydic.items())
+    
     #update summary
     summaryrows = []
     summarytotalwikidata = 0
     summarytotalestimate = 0
     for sectiontitle, sectionlevel in sections:
-        if sectionlevel == 1:
+        summaryrow = ''
+        if sectionlevel == minsectionlevel:
             rowspan = 0
             for x, y in summarydic.items():
                 if y['parent'] == sectiontitle:
                     rowspan += 1
-            if rowspan >= 1:
+            if rowspan == 1:
+                summaryrow = """| [[#%s|%s]]
+| <li>[[#%s|%s]]
+{{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
+|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'])
+                summarytotalwikidata += summarydic[sectiontitle]['wikidata']
+                summarytotalestimate += summarydic[sectiontitle]['estimate']
+            elif rowspan > 1:
                 summaryrow = """| rowspan=%s | [[#%s|%s]]
-|-""" % (rowspan, sectiontitle, sectiontitle)
-        elif sectionlevel > 1:
+|-""" % (rowspan+1, sectiontitle, sectiontitle)
+        elif sectionlevel > minsectionlevel:
             summaryrow = """| <li>[[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
 |-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'])
             summarytotalwikidata += summarydic[sectiontitle]['wikidata']
             summarytotalestimate += summarydic[sectiontitle]['estimate']
-        summaryrows.append(summaryrow)
+        else:
+            continue
+        if summaryrow:
+            summaryrows.append(summaryrow)
     summarytotal = "{{User:Emijrp/AHKsummarytotal|wikidata=%s|estimate=%s}}" % (summarytotalwikidata, summarytotalestimate)
     summary = """<!-- summary -->{| class="wikitable sortable plainlinks"
 ! Topic !! Subtopic !! Wikidata !! Estimate
@@ -129,10 +146,10 @@ def main():
 %s
 %s
 |}<!-- /summary -->""" % ('\n'.join(summaryrows), summarytotal)
-    ahknewtext = re.sub(r'<!-- summary -->.*?<!-- /summary -->', summary, ahknewtext)
+    ahknewtext = '%s%s%s' % (ahknewtext.split('<!-- summary -->')[0], summary, ahknewtext.split('<!-- /summary -->')[1])
     
     if ahknewtext and ahktext != ahknewtext:
-        #pywikibot.showDiff(ahktext, ahknewtext)
+        pywikibot.showDiff(ahktext, ahknewtext)
         ahk.text = ahknewtext
         ahk.save('BOT - Updating The Catalogue of Catalogues')
     
