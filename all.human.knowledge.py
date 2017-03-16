@@ -81,7 +81,7 @@ def main():
             m = re.findall(row_r, newline)
             for i in m:
                 row, p, q, wikidata, estimate = i
-                newwikidata = wikidata #getQueryCount(p=p, q=q)
+                newwikidata = getQueryCount(p=p, q=q)
                 newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
                 newline = newline.replace(row, newrow)
                 newtotalwikidata += newwikidata and int(newwikidata) or 0
@@ -104,9 +104,6 @@ def main():
         
         newlines.append(newline)
     ahknewtext = '\n'.join(newlines)
-    
-    print(sections)
-    print(summarydic.items())
     
     #update summary
     summaryrows = []
