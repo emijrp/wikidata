@@ -27,7 +27,7 @@ def getQueryCount(p='', q=''):
     if p and p.startswith('P') and \
        q and q.startswith('Q'):
         try:
-            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20%23%20%3FitemLabel%0AWHERE%20{%0A%20%20%3Fitem%20wdt%3A'+p+'%2Fwdt%3AP279*%20wd%3A'+q+'.%0A%20%20SERVICE%20wikibase%3Alabel%20{%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20}%0A}%0A'
+            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20%23%20%3FitemLabel%0AWHERE%20{%0A%20%20%3Fitem%20wdt%3A'+p+'%2Fwdt%3AP279*%20wd%3A'+q+'.%0A}%0A'
             url = '%s&format=json' % (url)
             sparql = getURL(url=url)
             json1 = loadSPARQL(sparql=sparql)
@@ -45,6 +45,7 @@ def main():
     
     #update inline stuff
     today = datetime.datetime.now().strftime('%Y-%m-%d')
+    #intro
     wpenstatsurl = 'https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
     jsonwpen = json.loads(getURL(url=wpenstatsurl))
     wpenarticles = jsonwpen['query']['statistics']['articles']
@@ -53,6 +54,9 @@ def main():
     wdarticles = jsonwd['query']['statistics']['articles']
     wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and [[Wikidata]] includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
     ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
+    #biography
+    
+    #end update inline stuff
     
     #update tables
     lines = ahknewtext.splitlines()
@@ -103,6 +107,7 @@ def main():
             newtotalwikidata = 0
             newtotalestimate = 0
         
+        pywikibot.showDiff(line, newline)
         newlines.append(newline)
     ahknewtext = '\n'.join(newlines)
     
@@ -145,6 +150,9 @@ def main():
 %s
 |}<!-- /summary -->""" % ('\n'.join(summaryrows), summarytotal)
     ahknewtext = '%s%s%s' % (ahknewtext.split('<!-- summary -->')[0], summary, ahknewtext.split('<!-- /summary -->')[1])
+    
+    #ahk inline
+    ahknewtext = re.sub(r'<!-- ahk -->.*?<!-- /ahk -->', '<!-- ahk -->{{formatnum:%s}}<!-- /ahk -->' % (summarytotalestimate), ahknewtext)
     
     if ahknewtext and ahktext != ahknewtext:
         pywikibot.showDiff(ahktext, ahknewtext)
