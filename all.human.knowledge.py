@@ -64,8 +64,8 @@ def main():
     sectiontitle = ''
     sectionlevel = 0
     sectionparent = ''
-    row_r = r'({{User:Emijrp/AHKrow\|(P\d+?)=([^\|\}]*?)\|wikidata=(\d*?)\|estimate=(\d*?)}})'
-    rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*?)\|estimate=(\d*?)}})'
+    row_r = r'({{User:Emijrp/AHKrow\|(P\d+)=([^\|\}]*?)\|wikidata=(\d*)\|estimate=(\d*))'
+    rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*))'
     for line in lines:
         newline = line
         
@@ -82,18 +82,19 @@ def main():
             for i in m:
                 row, p, q, wikidata, estimate = i
                 newwikidata = getQueryCount(p=p, q=q)
-                newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
+                newrow = row.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata))
                 newline = newline.replace(row, newrow)
-                newtotalwikidata += newwikidata and int(newwikidata) or 0
-                newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or 0)
+                if not 'exclude=yes' in newline: #don't use newrow as row_r doesn't parse this param
+                    newtotalwikidata += newwikidata and int(newwikidata) or 0
+                    newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or 0)
         
         #update row total
         m = re.findall(rowtotal_r, newline)
         for i in m:
             totalrow, totalwikidata, totalestimate = i
             newtotalrow = totalrow
-            newtotalrow = newtotalrow.replace('wikidata=%s|' % (totalwikidata), 'wikidata=%s|' % (newtotalwikidata))
-            newtotalrow = newtotalrow.replace('estimate=%s}}' % (totalestimate), 'estimate=%s}}' % (newtotalestimate))
+            newtotalrow = newtotalrow.replace('wikidata=%s' % (totalwikidata), 'wikidata=%s' % (newtotalwikidata))
+            newtotalrow = newtotalrow.replace('estimate=%s' % (totalestimate), 'estimate=%s' % (newtotalestimate))
             newline = newline.replace(totalrow, newtotalrow)
             if sectionlevel > minsectionlevel:
                 sections.append([sectiontitle, sectionlevel])
