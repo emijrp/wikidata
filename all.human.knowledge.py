@@ -25,11 +25,14 @@ from wikidatafun import *
 
 def getp31count(p31=''):
     if p31 and p31.startswith('Q'):
-        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20%23%20%3FitemLabel%0AWHERE%20{%0A%20%20%3Fitem%20wdt%3AP31%2Fwdt%3AP279*%20wd%3A'+p31+'.%0A%20%20SERVICE%20wikibase%3Alabel%20{%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20}%0A}%0A'
-        url = '%s&format=json' % (url)
-        sparql = getURL(url=url)
-        json1 = loadSPARQL(sparql=sparql)
-        return json1['results']['bindings'][0]['count']['value']
+        try:
+            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20%23%20%3FitemLabel%0AWHERE%20{%0A%20%20%3Fitem%20wdt%3AP31%2Fwdt%3AP279*%20wd%3A'+p31+'.%0A%20%20SERVICE%20wikibase%3Alabel%20{%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20}%0A}%0A'
+            url = '%s&format=json' % (url)
+            sparql = getURL(url=url)
+            json1 = loadSPARQL(sparql=sparql)
+            return json1['results']['bindings'][0]['count']['value']
+        except:
+            return ''
     return ''
 
 def main():
@@ -49,49 +52,43 @@ def main():
     wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and [[Wikidata]] includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
     ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
     
-    #update rows
-    m = re.findall(r'({{User:Emijrp/AHKrow\|P31=(Q\d+)\|wikidata=(\d*)\|estimate=(\d*)}})', ahknewtext)
-    for i in m:
-        row = i[0]
-        p31 = i[1]
-        wikidata = i[2]
-        estimate = i[3]
-        count = getp31count(p31=p31)
-        #time.sleep(1)
-        newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (count))
-        ahknewtext = ahknewtext.replace(row, newrow)
-        print(row)
-        if wikidata != count:
-            print('Old value:', wikidata, 'New value:', count)
-        else:
-            print('No changes needed')
-    
-    #update totals
-    sections = ahknewtext.split('== ')
-    newsections = [sections[0]]
-    for section in sections[1:]:
-        title = section.split(' ==')[0]
-        newsection = section
-        m = re.findall(r'({{User:Emijrp/AHKrow\|[^\|]+?\|wikidata=(\d*)\|estimate=(\d*)}})', newsection)
-        newwikidata = 0
-        newestimate = 0
-        for i in m:
-            newwikidata += i[1] and int(i[1]) or 0
-            newestimate += i[2] and int(i[2]) or (i[1] and int(i[1]) or 0)
-        try:
-            rowtotal, wikidata, estimate = re.findall(r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*)}})', newsection)[0]
-        except:
-            newsections.append(newsection)
-            continue
-        newrowtotal = rowtotal
-        newrowtotal = newrowtotal.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
-        newrowtotal = newrowtotal.replace('estimate=%s}}' % (estimate), 'estimate=%s}}' % (newestimate))
-        newsection = newsection.replace(rowtotal, newrowtotal)
-        newsections.append(newsection)
-    ahknewtext = '== '.join(newsections)
+    #update tables
+    lines = ahknewtext.splitlines()
+    newlines = []
+    newtotalwikidata = 0
+    newtotalestimate = 0
+    row_r = r'({{User:Emijrp/AHKrow\|P31=([^\|\}]*?)\|wikidata=(\d*?)\|estimate=(\d*?)}})'
+    rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*?)\|estimate=(\d*?)}})'
+    for line in lines:
+        newline = line
         
+        #update row
+        m = re.findall(row_r, newline)
+        for i in m:
+            row, p31, wikidata, estimate = i
+            newwikidata = getp31count(p31=p31)
+            newrow = row.replace('wikidata=%s|' % (wikidata), 'wikidata=%s|' % (newwikidata))
+            newline = newline.replace(row, newrow)
+            newtotalwikidata += newwikidata and int(newwikidata) or 0
+            newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or 0)
+        
+        #update row total
+        m = re.findall(rowtotal_r, newline)
+        for i in m:
+            totalrow, totalwikidata, totalestimate = i
+            newtotalrow = totalrow
+            newtotalrow = newtotalrow.replace('wikidata=%s|' % (totalwikidata), 'wikidata=%s|' % (newtotalwikidata))
+            newtotalrow = newtotalrow.replace('estimate=%s}}' % (totalestimate), 'estimate=%s}}' % (newtotalestimate))
+            newline = newline.replace(totalrow, newtotalrow)
+            #reset
+            newtotalwikidata = 0
+            newtotalestimate = 0
+        
+        newlines.append(newline)
+    ahknewtext = '\n'.join(newlines)
+    
     if ahknewtext and ahktext != ahknewtext:
-        pywikibot.showDiff(ahktext, ahknewtext)
+        #pywikibot.showDiff(ahktext, ahknewtext)
         ahk.text = ahknewtext
         ahk.save('BOT - Updating The Catalogue of Catalogues')
     
