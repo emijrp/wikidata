@@ -65,20 +65,32 @@ def main():
     newlines = []
     newtotalwikidata = 0
     newtotalestimate = 0
+    anchors = []
     sectiontitle = ''
     sectionlevel = 0
     sectionparent = ''
+    anchor_r = r'(?i)(\{\{anchor\|([^\{\}]*?)\}\})'
     row_r = r'({{User:Emijrp/AHKrow\|(P\d+)=([^\|\}]*?)\|wikidata=(\d*)\|estimate=(\d*))'
     rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*))'
     for line in lines:
         newline = line
         
-        if line.startswith('='*minsectionlevel) and line.endswith('='*minsectionlevel):
-            sectionlevel = len(line.split(' ')[0].strip())
-            sectiontitle = line.replace('=', '').strip()
+        if newline.startswith('='*minsectionlevel) and newline.endswith('='*minsectionlevel):
+            sectionlevel = len(newline.split(' ')[0].strip())
+            sectiontitle = newline.replace('=', '').strip()
             if sectionlevel == minsectionlevel:
                 sectionparent = sectiontitle
                 sections.append([sectiontitle, sectionlevel])
+        
+        #anchors
+        if re.search(anchor_r, newline):
+            m = re.findall(anchor_r, newline)
+            for i in m:
+                x, y = i
+                for anchor in y.split('|'):
+                    anchor = anchor.strip()
+                    if anchor and not anchor in anchors:
+                        anchors.append(anchor)
         
         #update row
         if re.search(row_r, newline):
@@ -102,10 +114,11 @@ def main():
             newline = newline.replace(totalrow, newtotalrow)
             if sectionlevel > minsectionlevel:
                 sections.append([sectiontitle, sectionlevel])
-            summarydic[sectiontitle] = { 'parent': sectionparent, 'wikidata': newtotalwikidata, 'estimate': newtotalestimate }
+            summarydic[sectiontitle] = { 'parent': sectionparent, 'wikidata': newtotalwikidata, 'estimate': newtotalestimate, 'anchors': anchors }
             #reset
             newtotalwikidata = 0
             newtotalestimate = 0
+            anchors = []
         
         pywikibot.showDiff(line, newline)
         newlines.append(newline)
@@ -123,19 +136,23 @@ def main():
                 if y['parent'] == sectiontitle:
                     rowspan += 1
             if rowspan == 1:
+                anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
                 summaryrow = """| [[#%s|%s]]
 | <li>[[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
-|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'])
+| %s
+|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
                 summarytotalwikidata += summarydic[sectiontitle]['wikidata']
                 summarytotalestimate += summarydic[sectiontitle]['estimate']
             elif rowspan > 1:
                 summaryrow = """| rowspan=%s | [[#%s|%s]]
 |-""" % (rowspan+1, sectiontitle, sectiontitle)
         elif sectionlevel > minsectionlevel:
+            anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
             summaryrow = """| <li>[[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
-|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'])
+| %s
+|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
             summarytotalwikidata += summarydic[sectiontitle]['wikidata']
             summarytotalestimate += summarydic[sectiontitle]['estimate']
         else:
@@ -144,7 +161,11 @@ def main():
             summaryrows.append(summaryrow)
     summarytotal = "{{User:Emijrp/AHKsummarytotal|wikidata=%s|estimate=%s}}" % (summarytotalwikidata, summarytotalestimate)
     summary = """<!-- summary -->{| class="wikitable sortable plainlinks"
-! Topic !! Subtopic !! Wikidata !! Estimate
+! width="100px" | Topic
+! width="150px" | Subtopic
+! Wikidata
+! Estimate
+! Shortcuts
 |-
 %s
 %s
