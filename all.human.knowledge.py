@@ -137,6 +137,8 @@ def main():
                     rowspan += 1
             if rowspan == 1:
                 anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
+                if not anchors:
+                    anchors = '[[#%s|See table]]' % (sectiontitle)
                 summaryrow = """| [[#%s|%s]]
 | <li>[[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
@@ -149,6 +151,8 @@ def main():
 |-""" % (rowspan+1, sectiontitle, sectiontitle)
         elif sectionlevel > minsectionlevel:
             anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
+            if not anchors:
+                anchors = '[[#%s|See table]]' % (sectiontitle)
             summaryrow = """| <li>[[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
 | %s
