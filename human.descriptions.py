@@ -989,7 +989,7 @@ def main():
             'ca': { 'male': 'kiribatià', 'female': 'kiribatiana' }, 
             'en': { 'male': 'Kiribati', 'female': 'Kiribati' }, 
             'es': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
-            'en': { 'male': 'gilbertin', 'female': 'gilbertine' }, 
+            'fr': { 'male': 'gilbertin', 'female': 'gilbertine' }, 
             'gl': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
             'he': { 'male': 'קיריבטי', 'female': 'קיריבטית' }, 
         }, 
@@ -1898,6 +1898,7 @@ def main():
             'ca': { 'male': 'britànic', 'female': 'britànica' },
             'en': { 'male': 'UK', 'female': 'UK' }, 
             'es': { 'male': 'británico', 'female': 'británica' }, 
+            'fr': { 'male': 'britannique', 'female': 'britannique' }, 
             'gl': { 'male': 'británico', 'female': 'británica' }, 
             'he': { 'male': 'בריטי', 'female': 'בריטית' }, 
         },
@@ -2619,10 +2620,11 @@ def main():
     translations = {}
     for occupkey, occupdic in translationsOccupations.items():
         for natkey, natdic in translationsNationalities.items():
-            translations[re.sub('~', natkey, occupkey)] = {}
+            entranslation = re.sub('~', natkey, occupkey)
+            translations[entranslation] = {}
             for translang in occupdic.keys():
-                #print(occupkey, natkey, translang)
-                translations[re.sub('~', natkey, occupkey)][translang] = {
+                print(occupkey, natkey, translang)
+                translations[entranslation][translang] = {
                     'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
                     'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
                 }
@@ -2631,7 +2633,7 @@ def main():
     cqueries = 0
     translations_list = list(translations.keys())
     translations_list.sort()
-    totalqueries = len(translations_list) * len(targetlangs) * len(genders_list) # multiply by langs and genders
+    totalqueries = len(targetlangs) * len(genders_list) * len(translations_list)
     skiptolang = '' #'es'
     skiptogender = '' #'male'
     skiptoperson = '' #'American politician'
@@ -2652,6 +2654,7 @@ def main():
                     skiptogender = ''
             
             for translation in translations_list:
+                cqueries += 1
                 print(targetlang, genderlabel, translation)
                 if skiptoperson:
                     if skiptoperson != translation:
@@ -2666,7 +2669,6 @@ def main():
                 json1 = loadSPARQL(sparql=sparql)
                 total = len(json1['results']['bindings'])
                 total2 += total
-                cqueries += 1
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
