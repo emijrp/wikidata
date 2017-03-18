@@ -8,13 +8,19 @@ sql wikidata < bot.stats.query > bot.stats.sql
 edits=$(wc -l bot.stats.sql | cut -d" " -f1)
 echo "edits=$edits" | tee bot.stats.txt
 
-labels=$(grep "BOT - Adding labels" bot.stats.sql | grep -ioE "[0-9]+ languages" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+labels=$(grep "BOT - Adding label" bot.stats.sql | grep -ioE "[0-9]+ language" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "labels=$labels" | tee -a bot.stats.txt
 
-descriptions=$(grep "BOT - Adding descriptions" bot.stats.sql | grep -ioE "[0-9]+ languages" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+descriptions=$(grep "BOT - Adding description" bot.stats.sql | grep -ioE "[0-9]+ language" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "descriptions=$descriptions" | tee -a bot.stats.txt
 
-aliases=$(grep -iE "BOT - Adding [0-9]+ aliases" bot.stats.sql | grep -ioE "[0-9]+ aliases" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+aliases=$(grep -iE "BOT - Adding [0-9]+ alias" bot.stats.sql | grep -ioE "[0-9]+ alias" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "aliases=$aliases" | tee -a bot.stats.txt
+
+claims=$(grep -iE "BOT - Adding [0-9]+ claim" bot.stats.sql | grep -ioE "[0-9]+ claim" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+echo "claims=$claims" | tee -a bot.stats.txt
+
+sitelinks=$(grep -iE "BOT - Adding [0-9]+ sitelink" bot.stats.sql | grep -ioE "[0-9]+ sitelink" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
+echo "sitelinks=$sitelinks" | tee -a bot.stats.txt
 
 python3 bot.stats.py
