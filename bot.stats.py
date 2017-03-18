@@ -33,7 +33,7 @@ def main():
         y = y.strip()
         stats[x] = y and int(y) or 0
     
-    output = """{| class="wikitable sortable" style="text-align: center;"
+    output = """{| class="wikitable sortable plainlinks" style="text-align: center;"
 |-
 | '''Edits''' || [[Special:Contributions/Emijrpbot|{{formatnum:%s}}]]
 |-
@@ -47,7 +47,7 @@ def main():
 |-
 | '''[[Help:Sitelinks|Sitelinks]]''' || {{formatnum:%s}}
 |-
-| '''[[Help:Items|Items]]''' || {{formatnum:%s}}
+| '''[[Help:Items|Items]]''' || [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username=Emijrpbot {{formatnum:%s}}]
 |-
 | colspan=2 | <small>Last update: %s</small>
 |}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], stats['items'], datetime.datetime.now().strftime('%Y-%m-%d'))
