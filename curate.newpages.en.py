@@ -41,9 +41,9 @@ def addGenderClaim(repo='', item='', gender=''):
 def calculateGender(page=''):
     femalepoints = len(re.findall(r'(?i)\b(she|her|hers|Category:[^\]]+ female|Category:[^\]]+ women)\b', page.text))
     malepoints = len(re.findall(r'(?i)\b(he|his|him|Category:[^\]]+ male|Category:[^\]]+ men)\b', page.text))
-    if femalepoints > malepoints*3:
+    if femalepoints >= 2 and femalepoints > malepoints*3:
         return 'female'
-    elif malepoints > femalepoints*3:
+    elif malepoints >= 2 and malepoints > femalepoints*3:
         return 'male'
     return ''
 
@@ -54,8 +54,10 @@ def pageReferences(page=''):
     return len(re.findall(r'(?i)</ref>', page.text))
 
 def pageIsBiography(page=''):
-    if re.search(r'(?im)(\'{3} \(born \d|Category:\d{4} (births|deaths)|Category:Living people|birth_date *=|birth_place *=|death_date *=|death_place *=|== *Biography *==|Category:People from)', page.text):
-        return True
+    if not page.title().startswith('List'):
+        if len(page.title().split(' ')) <= 5:
+            if re.search(r'(?im)(\'{3} \(born \d|Category:\d{4} (births|deaths)|Category:Living people|birth_date *=|birth_place *=|death_date *=|death_place *=|== *Biography *==|Category:People from)', page.text):
+                return True
     return False
 
 def pageIsRubbish(page=''):
@@ -68,11 +70,12 @@ def main():
     wikisite = pywikibot.Site(lang, 'wikipedia')
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=50000)
+    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=100)
     pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
     for page in pre:
         if not pageIsBiography(page=page):
             continue
+        print('\n==', page.title(), '==')
         gender = calculateGender(page=page)
         item = ''
         try:
@@ -80,6 +83,7 @@ def main():
         except:
             pass
         if item:
+            print('Page has item')
             try:
                 item.get()
             except:
@@ -99,14 +103,14 @@ def main():
             if not p21:
                 addGenderClaim(repo=repo, item=item, gender=gender)
         else:
+            print('Page without item')
             #search for a valid item, otherwise create
             if pageIsRubbish(page=page) or \
-               pageCategories(page=page) < 3 or \
-               pageReferences(page=page) < 3 or \
-               len(list(page.getReferences(namespaces=[0]))) < 3:
+               (not pageCategories(page=page)) or \
+               (not pageReferences(page=page)) or \
+               (not len(list(page.getReferences(namespaces=[0])))):
                 continue
             
-            print('\n')
             print(page.title(), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
@@ -140,7 +144,7 @@ def main():
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
                             print('Adding sitelink %s:%s' % (lang, page.title()))
                             itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
-                            addGenderClaim(repo=repo, item=newitem, gender=gender)
+                            addGenderClaim(repo=repo, item=itemfound, gender=gender)
                             break
     
 if __name__ == "__main__":
