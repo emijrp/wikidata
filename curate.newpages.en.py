@@ -23,6 +23,20 @@ from pywikibot import pagegenerators
 
 from wikidatafun import *
 
+def addHumanClaim(repo='', item=''):
+    if repo and item:
+        claim = pywikibot.Claim(repo, 'P31')
+        target = pywikibot.ItemPage(repo, 'Q5')
+        claim.setTarget(target)
+        item.addClaim(claim, summary='BOT - Adding 1 claim')
+
+def addGenderClaim(repo='', item='', gender=''):
+    if repo and item and gender:
+        claim = pywikibot.Claim(repo, 'P21')
+        target = pywikibot.ItemPage(repo, gender)
+        claim.setTarget(target)
+        item.addClaim(claim, summary='BOT - Adding 1 claim')
+
 def calculateGender(page=''):
     femalepoints = len(re.findall(r'(?i)\b(she|her|hers|Category:[^\]]+ female|Category:[^\]]+ women)\b', page.text))
     malepoints = len(re.findall(r'(?i)\b(he|his|him|Category:[^\]]+ male|Category:[^\]]+ men)\b', page.text))
@@ -54,7 +68,7 @@ def main():
     wikisite = pywikibot.Site(lang, 'wikipedia')
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=100)
+    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=5000)
     pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
     for page in pre:
         if not pageIsBiography(page=page):
@@ -66,7 +80,6 @@ def main():
         except:
             pass
         if item:
-            continue
             try:
                 item.get()
             except:
@@ -82,16 +95,10 @@ def main():
                     p21 = item.claims['P21'][0].getTarget()
             print(page.title(), item, gender, p31, p21)
             if not p31:
-                claim = pywikibot.Claim(repo, 'P31')
-                target = pywikibot.ItemPage(repo, 'Q5')
-                claim.setTarget(target)
-                item.addClaim(claim, summary='BOT - Adding 1 claim')
+                addHumanClaim(repo=repo, item=item)
             if not p21:
                 if gender and gender in gender2q.keys():
-                    claim = pywikibot.Claim(repo, 'P21')
-                    target = pywikibot.ItemPage(repo, gender2q[gender])
-                    claim.setTarget(target)
-                    item.addClaim(claim, summary='BOT - Adding 1 claim')
+                    addGenderClaim(repo=repo, item=item, gender=gender2q[gender])
         else:
             #search for a valid item, otherwise create
             if pageIsRubbish(page=page) or \
@@ -110,7 +117,13 @@ def main():
             if 'Sorry, no item with that label was found' in raw:
                 print('No useful item found. Creating a new one...')
                 #create item
-                
+                newitemlabels = { 'en': wtitle_ }
+                newitem = pywikibot.ItemPage(repo)
+                newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s)" % (lang, wtitle, wtitle, lang))
+                newitem.get()
+                addHumanClaim(repo=repo, item=newitem)
+                addGenderClaim(repo=repo, item=newitem, gender=gender2q[gender])
+                newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
                 print(searchitemurl)
                 #check birthdate and if it matches add interwiki 
