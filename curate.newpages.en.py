@@ -75,7 +75,7 @@ def main():
     for page in pre:
         if not pageIsBiography(page=page):
             continue
-        print('\n==', page.title(), '==')
+        print('\n==', page.title().encode('utf-8'), '==')
         gender = calculateGender(page=page)
         item = ''
         try:
@@ -97,7 +97,7 @@ def main():
                     p31 = item.claims['P31'][0].getTarget()
                 if 'P21' in item.claims:
                     p21 = item.claims['P21'][0].getTarget()
-            print(page.title(), item, gender, p31, p21)
+            print(page.title().encode('utf-8'), item, gender, p31, p21)
             if not p31:
                 addHumanClaim(repo=repo, item=item)
             if not p21:
@@ -111,7 +111,7 @@ def main():
                (not len(list(page.getReferences(namespaces=[0])))):
                 continue
             
-            print(page.title(), 'need item', gender)
+            print(page.title().encode('utf-8'), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
             searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
@@ -128,7 +128,7 @@ def main():
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
-                print(searchitemurl)
+                print(searchitemurl.encode('utf-8'))
                 #check birthdate and if it matches add interwiki 
                 m = re.findall(r'<li class="wikibase-disambiguation"><a title="(Q\d+)"', raw)
                 if len(m) > 3:
@@ -142,7 +142,7 @@ def main():
                         birthyear = itemfound.claims['P569'][0].getTarget().year
                         if birthyear and re.search(r'[[Category:%s births]]' % (birthyear), page.text):
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
-                            print('Adding sitelink %s:%s' % (lang, page.title()))
+                            print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
                             itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
                             addGenderClaim(repo=repo, item=itemfound, gender=gender)
                             break
