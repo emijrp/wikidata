@@ -43,12 +43,14 @@ def main():
 |-
 | '''[[Help:Aliases|Aliases]]''' || {{formatnum:%s}}
 |-
-| '''[[Help:Statements|Claims]]''' || {{formatnum:%}}
+| '''[[Help:Statements|Claims]]''' || {{formatnum:%s}}
 |-
-| '''[[Help:Sitelinks|Sitelinks]]''' || {{formatnum:%}}
+| '''[[Help:Sitelinks|Sitelinks]]''' || {{formatnum:%s}}
+|-
+| '''[[Help:Items|Items]]''' || {{formatnum:%s}}
 |-
 | colspan=2 | <small>Last update: %s</small>
-|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'],  stats['sitelinks'], datetime.datetime.now().strftime('%Y-%m-%d'))
+|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], stats['items'], datetime.datetime.now().strftime('%Y-%m-%d'))
     
     page = pywikibot.Page(site, 'User:Emijrpbot/stats')
     page.text = output

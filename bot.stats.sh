@@ -23,4 +23,7 @@ echo "claims=$claims" | tee -a bot.stats.txt
 sitelinks=$(grep -iE "BOT - Adding [0-9]+ sitelink" bot.stats.sql | grep -ioE "[0-9]+ sitelink" | cut -d" " -f1 | awk "{ sum += \$1 } END { print sum }")
 echo "sitelinks=$sitelinks" | tee -a bot.stats.txt
 
+items=$(grep -ic "BOT - Creating item" bot.stats.sql)
+echo "items=$items" | tee -a bot.stats.txt
+
 python3 bot.stats.py
