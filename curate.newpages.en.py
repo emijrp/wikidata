@@ -31,9 +31,10 @@ def addHumanClaim(repo='', item=''):
         item.addClaim(claim, summary='BOT - Adding 1 claim')
 
 def addGenderClaim(repo='', item='', gender=''):
-    if repo and item and gender:
+    gender2q = { 'female': 'Q6581072', 'male': 'Q6581097' }
+    if repo and item and gender and gender in gender2q.keys():
         claim = pywikibot.Claim(repo, 'P21')
-        target = pywikibot.ItemPage(repo, gender)
+        target = pywikibot.ItemPage(repo, gender2q[gender])
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
 
@@ -44,7 +45,7 @@ def calculateGender(page=''):
         return 'female'
     elif malepoints > femalepoints*3:
         return 'male'
-    return 'unknown'
+    return ''
 
 def pageCategories(page=''):
     return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
@@ -63,12 +64,11 @@ def pageIsRubbish(page=''):
     return False
 
 def main():
-    gender2q = { 'female': 'Q6581072', 'male': 'Q6581097' }
     lang = 'en'
     wikisite = pywikibot.Site(lang, 'wikipedia')
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=5000)
+    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=50000)
     pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
     for page in pre:
         if not pageIsBiography(page=page):
@@ -97,8 +97,7 @@ def main():
             if not p31:
                 addHumanClaim(repo=repo, item=item)
             if not p21:
-                if gender and gender in gender2q.keys():
-                    addGenderClaim(repo=repo, item=item, gender=gender2q[gender])
+                addGenderClaim(repo=repo, item=item, gender=gender)
         else:
             #search for a valid item, otherwise create
             if pageIsRubbish(page=page) or \
@@ -122,7 +121,7 @@ def main():
                 newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s)" % (lang, wtitle, wtitle, lang))
                 newitem.get()
                 addHumanClaim(repo=repo, item=newitem)
-                addGenderClaim(repo=repo, item=newitem, gender=gender2q[gender])
+                addGenderClaim(repo=repo, item=newitem, gender=gender)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
                 print(searchitemurl)
@@ -141,6 +140,7 @@ def main():
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
                             print('Adding sitelink %s:%s' % (lang, page.title()))
                             itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                            addGenderClaim(repo=repo, item=newitem, gender=gender)
                             break
     
 if __name__ == "__main__":
