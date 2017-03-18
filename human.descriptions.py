@@ -2590,6 +2590,31 @@ def main():
             'gl': { 'male': 'escritor ~', 'female': 'escritora ~' },  
             'he': { 'male': 'סופר ~', 'female': 'סופרת ~' }, 
         }, 
+         '~ skier': {
+            'en': { 'male': '~ skier', 'female': '~ skier' }, 
+            'es': { 'male': 'esquiador ~', 'female': 'esquiadora ~' }, 
+            'fr': { 'male': 'skieur ~', 'female': 'skieuse ~' }, 
+            'he': { 'male': 'גולש סקי ~', 'female': 'גולשת סקי ~' }, 
+        },
+        '~ educator': {
+            'en': { 'male': '~ educator', 'female': '~ educator' }, 
+            'es': { 'male': 'educador ~', 'female': 'educadora ~' }, 
+            'fr': { 'male': 'éducateur ~', 'female': 'éducatrice ~' }, 
+            'he': { 'male': 'מחנך ~', 'female': 'מחנכת ~' }, 
+        }, 
+        '~ translator': {
+            'en': { 'male': '~ translator', 'female': '~ translator' }, 
+            'es': { 'male': 'traductor ~', 'female': 'traductora ~' }, 
+            'fr': { 'male': 'traducteur ~', 'female': 'traductrice ~' }, 
+            'he': { 'male': 'מתרגם ~', 'female': 'מתרגמת ~' }, 
+        }, 
+        '~ model': {
+            'en': { 'male': '~ model', 'female': '~ model' }, 
+            'es': { 'male': 'modelo ~', 'female': 'modelo ~' }, 
+            'fr': { 'male': 'mannequin ~', 'female': 'mannequin ~' }, 
+            'he': { 'male': 'דוגמן ~', 'female': 'דוגמנית ~' }, 
+        }, 
+        
     }
     translations = {}
     for occupkey, occupdic in translationsOccupations.items():
