@@ -82,3 +82,16 @@ def loadSPARQL(sparql=''):
         return 
     return
 
+def getAllCountries():
+    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemLabel%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ6256.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20.%20%7D%0A%7D%0AORDER%20BY%20ASC(%3FitemLabel)'
+    url = '%s&format=json' % (url)
+    sparql = getURL(url=url)
+    json1 = loadSPARQL(sparql=sparql)
+    countries = []
+    for result in json1['results']['bindings']:
+        #print(result)
+        q = result['item']['value'].split('/entity/')[1]
+        label = result['itemLabel']['value']
+        countries.append([label, q])
+    return countries
+
