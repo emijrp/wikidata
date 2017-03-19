@@ -2151,7 +2151,7 @@ def main():
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' }, 
         }, 
         '~ businessperson': {
-            'ar': { 'male': 'رجل أعمال ~', 'female': 'رجل أعمال ~' }, 
+            'ar': { 'male': 'رجل أعمال ~', 'female': 'سيدة أعمال ~' },
             'ca': { 'male': 'empresari ~', 'female': 'empresària ~' }, 
             'en': { 'male': '~ businessperson', 'female': '~ businessperson' }, 
             'es': { 'male': 'empresario ~', 'female': 'empresaria ~' }, 
@@ -2205,7 +2205,7 @@ def main():
             'he': { 'male': 'כוריאוגרף ~', 'female': 'כוריאוגרפית ~' },  
         }, 
         '~ comics artist': {
-            'ar': { 'male': 'فنان قصص مصورة ~', 'female': 'فنان قصص مصورة ~' }, 
+            'ar': { 'male': 'فنان قصص مصورة ~', 'female': 'فنانة قصص مصورة ~' },
             'ca': { 'male': 'dibuixant de còmics ~', 'female': 'dibuixant de còmics ~' }, 
             'en': { 'male': '~ comics artist', 'female': '~ comics artist' }, 
             'es': { 'male': 'historietista ~', 'female': 'historietista ~' }, 
@@ -2466,7 +2466,7 @@ def main():
             'he': { 'male': 'משורר ~', 'female': 'משוררת ~' }, 
         }, 
         '~ politician': {
-            'ar': { 'male': 'سياسي ~', 'female': 'سياسي ~' }, 
+            'ar': { 'male': 'سياسي ~', 'female': 'سياسية ~' }, 
             'ca': { 'male': 'polític ~', 'female': 'política ~' }, 
             'en': { 'male': '~ politician', 'female': '~ politician' }, 
             'es': { 'male': 'político ~', 'female': 'política ~' }, 
@@ -2623,7 +2623,7 @@ def main():
             entranslation = re.sub('~', natkey, occupkey)
             translations[entranslation] = {}
             for translang in occupdic.keys():
-                print(occupkey, natkey, translang)
+                #print(occupkey, natkey, translang)
                 translations[entranslation][translang] = {
                     'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
                     'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
