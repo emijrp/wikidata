@@ -39,11 +39,13 @@ def addGenderClaim(repo='', item='', gender=''):
         item.addClaim(claim, summary='BOT - Adding 1 claim')
 
 def calculateGender(page=''):
-    femalepoints = len(re.findall(r'(?i)\b(she|her|hers|Category:[^\]]+ female|Category:[^\]]+ women)\b', page.text))
-    malepoints = len(re.findall(r'(?i)\b(he|his|him|Category:[^\]]+ male|Category:[^\]]+ men)\b', page.text))
-    if femalepoints >= 2 and femalepoints > malepoints*3:
+    femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
+    malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
+    if re.search(r'(?i)\b(Category *:[^\]]+ female|Category *:[^\]]+ women)\b', page.text) or \
+       (femalepoints >= 2 and femalepoints > malepoints*3):
         return 'female'
-    elif malepoints >= 2 and malepoints > femalepoints*3:
+    elif re.search(r'(?i)\b(Category *:[^\]]+ male|Category *:[^\]]+ men)\b', page.text) or \
+       (malepoints >= 2 and malepoints > femalepoints*3):
         return 'male'
     return ''
 
