@@ -38,15 +38,17 @@ from wikidatafun import *
         FILTER NOT EXISTS { ?item wdt:P31 wd:Q4167410 } . 
     }
 """
-
-#cuadro de https://www.wikidata.org/wiki/Q22661785
 #family
 #genus
 #species
-#numbers
 #proteins https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemDescription%20(COUNT(%3Fitem)%20AS%20%3Fcount)%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP279%20wd%3AQ8054.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22mammalian%20protein%20found%20in%20Mus%20musculus%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC(%3Fcount)
 
 def main():
+    fixthiswhenfound = {
+        'village in China': {
+            'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
+        }, 
+    }
     translations = {
         'chemical compound': {
             'ar': 'مركب كيميائي',
@@ -468,14 +470,43 @@ def main():
             'pt-br': 'espécie de inseto',
             'ru': 'вид насекомых',
         },
+        'village in China': {
+            'ar': 'قرية في الصين',
+            'ca': 'poble de la Xina',
+            'de': 'Dorf in China',
+            'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
+            'en': 'village in China',
+            'eo': 'vilaĝo en Ĉinujo',
+            'es': 'aldea de la República Popular China',
+            'fi': 'kylä Kiinassa',
+            'fr': 'village chinois',
+            'he': 'כפר ברפובליקה העממית של סין',
+            'id': 'desa di Cina',
+            'it': 'villaggio cinese',
+            'nl': 'dorp in China',
+            'oc': 'vilatge chinés',
+            'pt-br': 'vila chinesa',
+            'ru': 'деревня КНР',
+        },
         'Wikimedia category': {
+            'ace': 'kawan Wikimèdia',
+            'af': 'Wikimedia-kategorie',
             'ar': 'تصنيف ويكيميديا',
+            'arz': 'ويكيبيديا:تصنيف',
+            'ast': 'categoría de Wikimedia',
+            'bar': 'Wikimedia-Kategorie',
             'be': 'катэгарызацыя',
             'be-tarask': 'Катэгорыя',
             'bg': 'категория на Уикимедия',
+            'bho': 'विकिपीडिया:श्रेणी',
+            'bjn': 'tumbung Wikimedia',
             'bn': 'উইকিমিডিয়া বিষয়শ্রেণী',
+            'br': 'pajenn rummata eus Wikimedia',
             'bs': 'kategorija na Wikimediji',
+            'bug': 'kategori Wikimedia',
             'ca': 'categoria de Wikimedia',
+            #'ce': 'Викимедиа проектан категореш',
+            #'ceb': 'Wikimedia:Kategorisasyon',
             'ckb': 'پۆلی ویکیمیدیا',
             'cs': 'kategorie na projektech Wikimedia',
             'cy': 'tudalen categori Wikimedia',
@@ -531,24 +562,6 @@ def main():
             'zh-my': '维基媒体分类',
             'zh-sg': '维基媒体分类',
             'zh-tw': '維基媒體分類',
-        },
-        'village in China': {
-            'ar': 'قرية في الصين',
-            'ca': 'poble de la Xina',
-            'de': 'Dorf in China',
-            'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
-            'en': 'village in China',
-            'eo': 'vilaĝo en Ĉinujo',
-            'es': 'aldea de la República Popular China',
-            'fi': 'kiinalainen kylä',
-            'fr': 'village chinois',
-            'he': 'כפר ברפובליקה העממית של סין',
-            'id': 'desa di Cina',
-            'it': 'villaggio cinese',
-            'nl': 'dorp in China',
-            'oc': 'vilatge chinés',
-            'pt-br': 'vila chinesa',
-            'ru': 'деревня КНР',
         },
         'Wikimedia disambiguation page': {
             'ar': 'صفحة توضيح لويكيميديا',
@@ -634,6 +647,7 @@ def main():
             'en': 'Wikimedia list article',
             'eo': 'Listartikolo en Vikipedio',
             'es': 'artículo de lista de Wikimedia',
+            'fi': 'Wikimedia-luetteloartikkeli',
             'fr': 'liste d\'un projet Wikimedia',
             'gl': 'artigo de listas da Wikimedia',
             'he': 'רשימת ערכים',
@@ -847,11 +861,11 @@ def main():
         
         #'male given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22male%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
-        'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
+        #'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
         
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
-        #'village in China': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        'village in China': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
         
         #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000', 
         #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%20500000', 
@@ -873,7 +887,7 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = ''
+    skip = 'Q14392201'
     for topic in queries_list:
         url = queries[topic]
         url = '%s&format=json' % (url)
@@ -904,15 +918,31 @@ def main():
                 continue
             descriptions = item.descriptions
             addedlangs = []
+            fixedlangs = []
             for lang in translations[topic].keys():
-                if lang not in descriptions.keys():
+                if lang in descriptions.keys():
+                    if topic in fixthiswhenfound and \
+                       lang in fixthiswhenfound[topic] and \
+                       descriptions[lang] in fixthiswhenfound[topic][lang]:
+                        descriptions[lang] = translations[topic][lang]
+                        fixedlangs.append(lang)
+                else:
                     descriptions[lang] = translations[topic][lang]
                     addedlangs.append(lang)
-                    #print('%s\tD%s\t"%s"' % (q, lang, translations[topic][lang])) #quickstatements mode
-            data = { 'descriptions': descriptions }
-            addedlangs.sort()
-            if addedlangs:
-                summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+            
+            if addedlangs or fixedlangs:
+                data = { 'descriptions': descriptions }
+                addedlangs.sort()
+                summary = 'BOT - '
+                if addedlangs:
+                    if fixedlangs:
+                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs[:15]))
+                        summary += ' / Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
+                    else:
+                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+                else:
+                    if fixedlangs:
+                        summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
                 print(summary)
                 try:
                     item.editEntity(data, summary=summary)
