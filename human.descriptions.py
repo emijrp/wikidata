@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2017 emijrp <emijrp@gmail.com>
@@ -988,7 +989,7 @@ def main():
             'ca': { 'male': 'kiribatià', 'female': 'kiribatiana' }, 
             'en': { 'male': 'Kiribati', 'female': 'Kiribati' }, 
             'es': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
-            'fr': { 'male': 'gilbertin', 'female': 'gilbertine' }, 
+            'en': { 'male': 'gilbertin', 'female': 'gilbertine' }, 
             'gl': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
             'he': { 'male': 'קיריבטי', 'female': 'קיריבטית' }, 
         }, 
@@ -1897,7 +1898,6 @@ def main():
             'ca': { 'male': 'britànic', 'female': 'britànica' },
             'en': { 'male': 'UK', 'female': 'UK' }, 
             'es': { 'male': 'británico', 'female': 'británica' }, 
-            'fr': { 'male': 'britannique', 'female': 'britannique' }, 
             'gl': { 'male': 'británico', 'female': 'británica' }, 
             'he': { 'male': 'בריטי', 'female': 'בריטית' }, 
         },
@@ -2086,7 +2086,7 @@ def main():
             'gl': { 'male': 'futbolista ~', 'female': 'futbolista ~' },  
             'he': { 'male': 'שחקן כדורגל ~', 'female': 'שחקנית כדורגל ~' }, 
         }, 
-        '~ association football manager': {
+        '~ association football manager': { #translate
             'ar': { 'male': 'مدرب كرة قدم ~', 'female': 'مدربة كرة قدم ~' }, 
             'ca': { 'male': 'entrenador de futbol ~', 'female': 'entrenadora de futbol ~' }, 
             'en': { 'male': '~ association football manager', 'female': '~ association football manager' }, 
@@ -2122,7 +2122,7 @@ def main():
             'gl': { 'male': 'atleta ~', 'female': 'atleta ~' },  
             'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' }, 
         }, 
-        '~ basketball player': {
+        '~ basketball player': { #translate
             'ar': { 'male': 'لاعب كرة سلة ~', 'female': 'لاعبة كرة سلة ~' }, 
             'ca': { 'male': 'jugador de bàsquet ~', 'female': 'jugadora de bàsquet ~' }, 
             'en': { 'male': '~ basketball player', 'female': '~ basketball player' }, 
@@ -2140,7 +2140,7 @@ def main():
             'gl': { 'male': 'botánico ~', 'female': 'botánica ~' },  
             'he': { 'male': 'בוטנאי ~', 'female': 'בוטנאית ~' }, 
         }, 
-        '~ bicycle racer': { #it should be the same as cyclist
+        '~ bicycle racer': { #translate, it should be the same as cyclist
             'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' }, 
             'ca': { 'male': 'ciclista ~', 'female': 'ciclista ~' }, 
             'en': { 'male': '~ bicycle racer', 'female': '~ bicycle racer' }, 
@@ -2149,7 +2149,7 @@ def main():
             'gl': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' }, 
         }, 
-        '~ businessperson': {
+        '~ businessperson': { #translate
             'ar': { 'male': 'رجل أعمال ~', 'female': 'سيدة أعمال ~' }, 
             'ca': { 'male': 'empresari ~', 'female': 'empresària ~' }, 
             'en': { 'male': '~ businessperson', 'female': '~ businessperson' }, 
@@ -2158,8 +2158,8 @@ def main():
             'gl': { 'male': 'empresario ~', 'female': 'empresaria ~' }, 
             'he': { 'male': 'איש עסקים ~', 'female': 'אשת עסקים ~' },  
         }, 
-        '~ catholic priest': {
-            'ar': { 'male': 'قس كاثوليكي ~', 'female': 'قسيسة كاثوليكية ~' }, 
+        '~ catholic priest': { #translate
+            'ar': { 'male': 'قس كاثوليكي ~', 'female': 'قس كاثوليكي ~' }, 
             'ca': { 'male': 'sacerdot catòlic ~', 'female': 'sacerdot catòlica ~' }, 
             'en': { 'male': '~ catholic priest', 'female': '~ catholic priest' }, 
             'es': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' }, 
@@ -2167,8 +2167,8 @@ def main():
             'gl': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' },  
             'he': { 'male': 'כומר קתולי ~', 'female': 'כומרה קתולית ~' }, 
         }, 
-        '~ Catholic priest': {
-            'ar': { 'male': 'قس كاثوليكي ~', 'female': 'قسيسة كاثوليكية ~' }, 
+        '~ Catholic priest': { #translate
+            'ar': { 'male': 'قس كاثوليكي ~', 'female': 'قس كاثوليكي ~' }, 
             'ca': { 'male': 'sacerdot catòlic ~', 'female': 'sacerdot catòlica ~' }, 
             'en': { 'male': '~ Catholic priest', 'female': '~ Catholic priest' }, 
             'es': { 'male': 'sacerdote católico ~', 'female': 'sacerdote católica ~' }, 
@@ -2185,7 +2185,7 @@ def main():
             'gl': { 'male': 'químico ~', 'female': 'química ~' },  
             'he': { 'male': 'כימאי ~', 'female': 'כימאית ~' }, 
         }, 
-        "~ children's writer": {
+        "~ children's writer": { #translate
             'ar': { 'male': 'كاتب أدب أطفال ~', 'female': 'كاتبة أدب أطفال ~' }, 
             'ca': { 'male': 'escriptor de literatura infantil ~', 'female': 'escriptora de literatura infantil ~' }, 
             'en': { 'male': "~ children's writer", 'female': "~ children's writer" }, 
@@ -2203,7 +2203,7 @@ def main():
             'gl': { 'male': 'coreógrafo ~', 'female': 'coreógrafa ~' },
             'he': { 'male': 'כוריאוגרף ~', 'female': 'כוריאוגרפית ~' },  
         }, 
-        '~ comics artist': {
+        '~ comics artist': { #translate
             'ar': { 'male': 'فنان قصص مصورة ~', 'female': 'فنانة قصص مصورة ~' }, 
             'ca': { 'male': 'dibuixant de còmics ~', 'female': 'dibuixant de còmics ~' }, 
             'en': { 'male': '~ comics artist', 'female': '~ comics artist' }, 
@@ -2221,7 +2221,7 @@ def main():
             'gl': { 'male': 'compositor ~', 'female': 'compositora ~' },  
             'he': { 'male': 'מלחין ~', 'female': 'מלחינה ~' }, 
         }, 
-        '~ cyclist': {
+        '~ cyclist': { #translate
             'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' }, 
             'ca': { 'male': 'ciclista ~', 'female': 'ciclista ~' }, 
             'en': { 'male': '~ cyclist', 'female': '~ cyclist' }, 
@@ -2383,7 +2383,7 @@ def main():
             'gl': { 'male': 'músico ~', 'female': 'música ~' },  
             'he': { 'male': 'מוזיקאי ~', 'female': 'מוזיקאית ~' }, 
         }, 
-        '~ novelist': {
+        '~ novelist': { #translate
             'ar': { 'male': 'روائي ~', 'female': 'روائية ~' }, 
             'ca': { 'male': 'novel·lista ~', 'female': 'novel·lista ~' }, 
             'en': { 'male': '~ novelist', 'female': '~ novelist' }, 
@@ -2473,7 +2473,7 @@ def main():
             'gl': { 'male': 'político ~', 'female': 'política ~' },  
             'he': { 'male': 'פוליטיקאי ~', 'female': 'פוליטיקאית ~' }, 
         }, 
-        '~ publisher': {
+        '~ publisher': { #translate
             'ar': { 'male': 'ناشر ~', 'female': 'ناشرة ~' }, 
             'ca': { 'male': 'editor ~', 'female': 'editora ~' }, 
             'en': { 'male': '~ publisher', 'female': '~ publisher' }, 
@@ -2482,7 +2482,7 @@ def main():
             'gl': { 'male': 'editor ~', 'female': 'editora ~' },  
             'he': { 'male': 'מוציא לאור ~', 'female': 'מוציאה לאור ~' }, 
         },  
-        '~ rabbi': {
+        '~ rabbi': { #translate
             'ar': { 'male': 'حاخام ~', 'female': 'حاخامة ~' },
             'ca': { 'male': 'rabí ~', 'female': 'rabí ~' }, 
             'en': { 'male': '~ rabbi', 'female': '~ rabbi' }, 
@@ -2491,7 +2491,7 @@ def main():
             'gl': { 'male': 'rabino ~', 'female': 'rabina ~' },  
             'he': { 'male': 'רב ~', 'female': 'רבנית ~' }, 
         }, 
-        '~ rugby union player': {
+        '~ rugby union player': { #translate
             'ar': { 'male': 'لاعب رغبي ~', 'female': 'لاعبة رغبي ~' }, 
             'ca': { 'male': 'jugador de rugbi ~', 'female': 'jugadora de rugbi ~' }, 
             'en': { 'male': '~ rugby union player', 'female': '~ rugby union player' }, 
@@ -2545,7 +2545,7 @@ def main():
             'gl': { 'male': 'militar ~', 'female': 'militar ~' },  
             'he': { 'male': 'חייל ~', 'female': 'חיילת ~' }, 
         }, 
-        '~ sport cyclist': { #it should be the same as cyclist
+        '~ sport cyclist': { #translate, it should be the same as cyclist
             'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' }, 
             'ca': { 'male': 'ciclista ~', 'female': 'ciclista ~' }, 
             'en': { 'male': '~ sport cyclist', 'female': '~ sport cyclist' }, 
@@ -2572,7 +2572,7 @@ def main():
             'gl': { 'male': 'tenista profesional ~', 'female': 'tenista profesional ~' },  
             'he': { 'male': 'טניסאי ~', 'female': 'טניסאית ~' }, 
         }, 
-        '~ university teacher': {
+        '~ university teacher': { #translate
             'ar': { 'male': "أستاذ جامعي ~", 'female': "أستاذة جامعية ~" }, 
             'ca': { 'male': "professor d'universitat ~", 'female': "professora d'universitat ~" }, 
             'en': { 'male': '~ university teacher', 'female': '~ university teacher' }, 
@@ -2590,43 +2590,14 @@ def main():
             'gl': { 'male': 'escritor ~', 'female': 'escritora ~' },  
             'he': { 'male': 'סופר ~', 'female': 'סופרת ~' }, 
         }, 
-         '~ skier': {
-            'ar': { 'male': 'متزلج ~', 'female': 'متزلجة ~' }, 
-            'en': { 'male': '~ skier', 'female': '~ skier' }, 
-            'es': { 'male': 'esquiador ~', 'female': 'esquiadora ~' }, 
-            'fr': { 'male': 'skieur ~', 'female': 'skieuse ~' }, 
-            'he': { 'male': 'גולש סקי ~', 'female': 'גולשת סקי ~' }, 
-        },
-        '~ educator': {
-            'en': { 'male': '~ educator', 'female': '~ educator' }, 
-            'es': { 'male': 'educador ~', 'female': 'educadora ~' }, 
-            'fr': { 'male': 'éducateur ~', 'female': 'éducatrice ~' }, 
-            'he': { 'male': 'מחנך ~', 'female': 'מחנכת ~' }, 
-        }, 
-        '~ translator': {
-            'ar': { 'male': 'مترجم ~', 'female': 'مترجمة ~' }, 
-            'en': { 'male': '~ translator', 'female': '~ translator' }, 
-            'es': { 'male': 'traductor ~', 'female': 'traductora ~' }, 
-            'fr': { 'male': 'traducteur ~', 'female': 'traductrice ~' }, 
-            'he': { 'male': 'מתרגם ~', 'female': 'מתרגמת ~' }, 
-        }, 
-        '~ model': {
-            'ar': { 'male': 'عارض ~', 'female': 'عارضة ~' }, 
-            'en': { 'male': '~ model', 'female': '~ model' }, 
-            'es': { 'male': 'modelo ~', 'female': 'modelo ~' }, 
-            'fr': { 'male': 'mannequin ~', 'female': 'mannequin ~' }, 
-            'he': { 'male': 'דוגמן ~', 'female': 'דוגמנית ~' }, 
-        }, 
-        
     }
     translations = {}
     for occupkey, occupdic in translationsOccupations.items():
         for natkey, natdic in translationsNationalities.items():
-            entranslation = re.sub('~', natkey, occupkey)
-            translations[entranslation] = {}
+            translations[re.sub('~', natkey, occupkey)] = {}
             for translang in occupdic.keys():
-                print(occupkey, natkey, translang)
-                translations[entranslation][translang] = {
+                #print(occupkey, natkey, translang)
+                translations[re.sub('~', natkey, occupkey)][translang] = {
                     'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
                     'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
                 }
@@ -2635,7 +2606,7 @@ def main():
     cqueries = 0
     translations_list = list(translations.keys())
     translations_list.sort()
-    totalqueries = len(targetlangs) * len(genders_list) * len(translations_list)
+    totalqueries = len(translations_list) * len(targetlangs) * len(genders_list) # multiply by langs and genders
     skiptolang = '' #'es'
     skiptogender = '' #'male'
     skiptoperson = '' #'American politician'
@@ -2656,7 +2627,6 @@ def main():
                     skiptogender = ''
             
             for translation in translations_list:
-                cqueries += 1
                 print(targetlang, genderlabel, translation)
                 if skiptoperson:
                     if skiptoperson != translation:
@@ -2671,6 +2641,7 @@ def main():
                 json1 = loadSPARQL(sparql=sparql)
                 total = len(json1['results']['bindings'])
                 total2 += total
+                cqueries += 1
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
