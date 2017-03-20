@@ -68,6 +68,15 @@ def isScriptAlive(filename=''):
         except:
            print("Error: unable to start thread")
 
+def getUserEditCount(user='', site=''):
+    if user and site:
+        editcounturl = 'https://%s/w/api.php?action=query&list=users&ususers=%s&usprop=editcount&format=json' % (site, urllib.parse.quote(user))
+        raw = getURL(editcounturl)
+        json1 = json.loads(raw)
+        if 'query' in json1 and 'users' in json1['query'] and 'editcount' in json1['query']['users'][0]:
+            return json1['query']['users'][0]['editcount']
+    return 0
+
 def loadSPARQL(sparql=''):
     json1 = ''
     if sparql:

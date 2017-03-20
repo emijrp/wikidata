@@ -38,6 +38,15 @@ def addGenderClaim(repo='', item='', gender=''):
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
 
+def authorIsNewbie(page=''):
+    if page:
+        hist = page.getVersionHistory(reverse=True, total=1)
+        if hist:
+            editcount = getUserEditCount(user=hist[0].user, site='en.wikipedia.org')
+            if editcount >= 1000:
+                return False
+    return True
+
 def calculateGender(page=''):
     femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
     malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
@@ -107,11 +116,12 @@ def main():
         else:
             print('Page without item')
             #search for a valid item, otherwise create
-            if pageIsRubbish(page=page) or \
-               (not pageCategories(page=page)) or \
-               (not pageReferences(page=page)) or \
-               (not len(list(page.getReferences(namespaces=[0])))):
-                continue
+            if authorIsNewbie(page=page):
+                if pageIsRubbish(page=page) or \
+                   (not pageCategories(page=page)) or \
+                   (not pageReferences(page=page)) or \
+                   (not len(list(page.getReferences(namespaces=[0])))):
+                    continue
             
             print(page.title().encode('utf-8'), 'need item', gender)
             wtitle = page.title()
