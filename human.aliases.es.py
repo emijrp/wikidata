@@ -27,7 +27,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    countries = [ #only Spanish language countries
+    countries = [ #only Spanish spoken countries
         'Q414', #Argentina
         'Q750', #Bolivia
         'Q298', #Chile
@@ -47,7 +47,8 @@ def main():
         'Q29',  #Spain
         'Q77',  #Uruguay
         'Q717', #Venezuela
-    ] 
+    ]
+    skip = 'Q973088'
     for country in countries:
         url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3A'+country+'.%0A%7D'
         url = '%s&format=json' % (url)
@@ -57,6 +58,13 @@ def main():
         for result in json1['results']['bindings']:
             q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
             print('==', q, '==')
+            if skip:
+                if skip != q:
+                    print('Skiping until', skip)
+                    continue
+                else:
+                    skip = ''
+            
             item = pywikibot.ItemPage(repo, q)
             try: #to detect Redirect because .isRedirectPage fails
                 item.get()
@@ -76,8 +84,9 @@ def main():
             plainnames = []
             for name in names:
                 if not 'ñ' in name.lower() and \
-                    not 'ç' in name.lower():
-                    #avoid producing names Carlos I de España->Espana
+                    not 'ç' in name.lower() and \
+                    not '(' in name and not ')' in name:
+                    #avoid producing names like Carlos I de España->Espana
                     plainnames.append(removeAccents(name))
             
             missingnames = []
@@ -93,8 +102,8 @@ def main():
             if missingnames:
                 data = { 'aliases': aliases }
                 missingnames.sort()
-                summary = "BOT - Adding aliases (%s in %s language): %s" % (len(missingnames), targetlang, ', '.join(missingnames))
-                print(summary)
+                summary = "BOT - Adding %s aliases (%s): %s" % (len(missingnames), targetlang, ', '.join(missingnames))
+                print(summary.encode('utf-8'))
                 try:
                     item.editEntity(data, summary=summary)
                 except:
