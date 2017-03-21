@@ -68,9 +68,11 @@ def pageReferences(page=''):
     return len(re.findall(r'(?i)</ref>', page.text))
 
 def pageIsBiography(page=''):
-    if not page.title().startswith('List'):
+    if re.search('(?im)Category:\d+ animal (births|deaths)'):
+        return False
+    elif not page.title().startswith('List'):
         if len(page.title().split(' ')) <= 5:
-            if re.search(r'(?im)(\'{3} \(born \d|Category:\d{4} (births|deaths)|Category:Living people|birth_date *=|birth_place *=|death_date *=|death_place *=|== *Biography *==|Category:People from)', page.text):
+            if re.search(r'(?im)(\'{3} \(born \d|Category:\d+ (births|deaths)|Category:Living people|birth_date *=|birth_place *=|death_date *=|death_place *=|== *Biography *==|Category:People from)', page.text):
                 return True
     return False
 
