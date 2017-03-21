@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import sys
 import urllib
 
 import pywikibot
@@ -83,9 +84,14 @@ def main():
     wikisite = pywikibot.Site(lang, 'wikipedia')
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=100)
+    total = 100
+    if len(sys.argv) >= 2:
+        total = int(sys.argv[1])
+    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=total)
     pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
     for page in pre:
+        if page.isRedirectPage():
+            continue
         if not pageIsBiography(page=page):
             continue
         print('\n==', page.title().encode('utf-8'), '==')
@@ -158,7 +164,10 @@ def main():
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
                             print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
                             itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
-                            addGenderClaim(repo=repo, item=itemfound, gender=gender)
+                            if not 'P31' in itemfound.claims:
+                                addHumanClaim(repo=repo, item=itemfound)
+                            if not 'P21' in itemfound.claims:
+                                addGenderClaim(repo=repo, item=itemfound, gender=gender)
                             break
     
 if __name__ == "__main__":
