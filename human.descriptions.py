@@ -1534,7 +1534,7 @@ def main():
             'he': { 'male': 'רומני', 'female': 'רומנייה' },  
         }, 
         'Russian': {
-            'ar': { 'male': 'روسي', 'female': 'روسي' },
+            'ar': { 'male': 'روسي', 'female': 'روسية' },
             'ca': { 'male': 'rus', 'female': 'russa' }, 
             'en': { 'male': 'Russian', 'female': 'Russian' }, 
             'es': { 'male': 'ruso', 'female': 'rusa' }, 
