@@ -83,9 +83,7 @@ def main():
             
             plainnames = []
             for name in names:
-                if not 'ñ' in name.lower() and \
-                    not 'ç' in name.lower() and \
-                    not '(' in name and not ')' in name:
+                if not re.search(r'[ñç\(\)\:]', name):
                     #avoid producing names like Carlos I de España->Espana
                     plainnames.append(removeAccents(name))
             
