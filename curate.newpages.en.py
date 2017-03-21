@@ -50,10 +50,12 @@ def authorIsNewbie(page=''):
 def calculateGender(page=''):
     femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
     malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
-    if re.search(r'(?i)\b(Category *:[^\]]+ female|Category *:[^\]]+ women)\b', page.text) or \
+    if re.search(r'(?i)\b(Category *:[^\]]*?female|Category *:[^\]]*?women|Category *:[^\]]*?actresses)\b', page.text) or \
+       (len(page.text) <= 2000 and femalepoints >= 1 and malepoints == 0) or \
        (femalepoints >= 2 and femalepoints > malepoints*3):
         return 'female'
-    elif re.search(r'(?i)\b(Category *:[^\]]+ male|Category *:[^\]]+ men)\b', page.text) or \
+    elif re.search(r'(?i)\b(Category *:[^\]]*? male|Category *:[^\]]*? men)\b', page.text) or \
+       (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
        (malepoints >= 2 and malepoints > femalepoints*3):
         return 'male'
     return ''
@@ -134,7 +136,7 @@ def main():
                 #create item
                 newitemlabels = { 'en': wtitle_ }
                 newitem = pywikibot.ItemPage(repo)
-                newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s)" % (lang, wtitle, wtitle, lang))
+                newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s): %s %s" % (lang, wtitle, wtitle, lang, 'human', gender))
                 newitem.get()
                 addHumanClaim(repo=repo, item=newitem)
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
