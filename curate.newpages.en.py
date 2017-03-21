@@ -68,7 +68,7 @@ def pageReferences(page=''):
     return len(re.findall(r'(?i)</ref>', page.text))
 
 def pageIsBiography(page=''):
-    if re.search('(?im)Category:\d+ animal (births|deaths)'):
+    if re.search('(?im)Category:\d+ animal (births|deaths)', page.text):
         return False
     elif not page.title().startswith('List'):
         if len(page.title().split(' ')) <= 5:
