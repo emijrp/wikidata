@@ -48,6 +48,9 @@ def main():
         'village in China': {
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
+        'Wikimedia template': {
+            'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
+        }, 
     }
     translations = {
         'chemical compound': {
@@ -519,6 +522,7 @@ def main():
             'eo': 'kategorio en Vikimedio',
             'es': 'categoría de Wikimedia',
             'et': 'Wikimedia kategooria',
+            'eu': 'Wikimediako kategoria',
             'fa': 'ردهٔ ویکی‌پدیا',
             'fi': 'Wikimedia-luokka',
             'fr': 'page de catégorie de Wikimedia',
@@ -582,6 +586,7 @@ def main():
             'eo': 'Vikimedia apartigilo',
             'es': 'página de desambiguación de Wikimedia',
             'et': 'Wikimedia täpsustuslehekülg',
+            'eu': 'Wikimediako argipen orria',
             'fa': 'یک صفحهٔ ابهام\u200cزدایی در ویکی\u200cپدیا',
             'fi': 'Wikimedia-täsmennyssivu',
             'fr': 'page d\'homonymie de Wikimedia',
@@ -653,6 +658,7 @@ def main():
             'en-gb': 'Wikimedia list article',
             'eo': 'listartikolo en Vikimedio',
             'es': 'artículo de lista de Wikimedia',
+            'eu': 'Wikimediako zerrenda artikulua',
             'fi': 'Wikimedia-luetteloartikkeli',
             'fr': 'liste d\'un projet Wikimedia',
             'gl': 'artigo de listas da Wikimedia',
@@ -711,7 +717,7 @@ def main():
             'eo': 'Vikimedia ŝablono', 
             'es': 'plantilla de Wikimedia', 
             'et': 'Wikimedia mall', 
-            'eu': 'Wikimediarako txantiloia', 
+            'eu': 'Wikimediako txantiloia', 
             'fa': 'الگوی ویکی‌مدیا', 
             'fi': 'Wikimedia-malline', 
             'fo': 'fyrimynd Wikimedia', 
@@ -787,6 +793,7 @@ def main():
             'en-gb': 'Wikinews article', 
             'eo': 'artikolo de Vikinovaĵoj', 
             'es': 'artículo de Wikinoticias', 
+            'eu': 'Wikialbistakeko artikulua',
             'fi': 'Wikiuutisten artikkeli',
             'fr': 'article de Wikinews', 
             'he': 'כתבה בוויקיחדשות',
