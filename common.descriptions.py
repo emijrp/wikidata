@@ -632,8 +632,11 @@ def main():
             'zh-tw': '維基媒體消歧義頁',
         },
         'Wikimedia list article': {
+            'ace': 'teunuléh dapeuta Wikimèdia',
+            'af': 'Wikimedia lysartikel',
             'ar': 'قائمة ويكيميديا',
             'as': 'ৱিকিপিডিয়া:ৰচনাশৈলীৰ হাতপুথি',
+            'ast': 'artículu de llista de Wikimedia',
             'be': 'спіс атыкулаў у адным з праектаў Вікімедыя',
             'bn': 'উইকিমিডিয়ার তালিকা নিবন্ধ',
             'bs': 'spisak na Wikimediji',
@@ -645,7 +648,9 @@ def main():
             'de-ch': 'Wikimedia-Liste',
             'el': 'κατάλογος εγχειρήματος Wikimedia',
             'en': 'Wikimedia list article',
-            'eo': 'Listartikolo en Vikipedio',
+            'en-ca': 'Wikimedia list article',
+            'en-gb': 'Wikimedia list article',
+            'eo': 'listartikolo en Vikimedio',
             'es': 'artículo de lista de Wikimedia',
             'fi': 'Wikimedia-luetteloartikkeli',
             'fr': 'liste d\'un projet Wikimedia',
@@ -653,7 +658,8 @@ def main():
             'he': 'רשימת ערכים',
             'hr': 'popis na Wikimediji',
             'hy': 'Վիքիմեդիայի նախագծի ցանկ',
-            'it': 'voci di liste Wikimedia',
+            'ia': 'lista de un projecto de Wikimedia',
+            'it': 'lista di un progetto Wikimedia',
             'ja': 'ウィキメディアの一覧記事',
             'ko': '위키미디어 목록 항목',
             'lb': 'Wikimedia-Lëschtenartikel',
@@ -662,6 +668,7 @@ def main():
             'oc': 'lista d\'un projècte Wikimèdia',
             'pl': 'lista w projekcie Wikimedia',
             'ru': 'статья-список в проекте Викимедиа',
+            'sco': 'Wikimedia leet airticle',
             'si': 'විකිමීඩියා ලැයිස්තු ලිපිය',
             'sk': 'zoznamový článok projektov Wikimedia',
             'sl': 'seznam Wikimedije',
@@ -865,7 +872,7 @@ def main():
         
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
-        'village in China': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        #'village in China': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
         
         #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000', 
         #'Wikimedia category': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20500000%0AOFFSET%20500000', 
@@ -877,6 +884,8 @@ def main():
         #'Wikimedia disambiguation page': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
         #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', #lists with language selector enabled
+        'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', #lists even without english description
         
         #'Wikimedia template': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
@@ -887,7 +896,7 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = 'Q14392201'
+    skip = ''
     for topic in queries_list:
         url = queries[topic]
         url = '%s&format=json' % (url)
