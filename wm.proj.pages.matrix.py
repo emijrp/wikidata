@@ -57,7 +57,7 @@ def main():
     headersplain = ' !! '.join([translations[q]['en'] for q in qq])
     rowsplain = '\n|-\n| '.join([' || '.join(row) for row in rows])
     output = """
-This page contains all available translations for different types of Wikimedia pages. Please, check the translations for your language, add the missing ones and fix any mistakes. Don't edit this table directly, click in the links and edit the labels there. A bot will update this table regularly. Thank you.
+{{notice|This page contains all available translations for different types of Wikimedia pages. Please, check the translations for your language, add the missing ones and fix any mistakes. '''Don't edit this table directly, click in the links and edit the labels there'''. A bot will update this table regularly. Thank you.}}
 
 {| class="wikitable sortable plainlinks" style="text-align: center;font-size: 90%%;"
 ! # !! Language !! %s
@@ -66,8 +66,9 @@ This page contains all available translations for different types of Wikimedia p
 |}""" % (headersplain, rowsplain)
     #print(output)
     page = pywikibot.Page(site, 'User:Emijrp/Wikimedia project pages matrix')
-    page.text = output
-    page.save('BOT - Updating')
+    if page.text != output:
+        page.text = output
+        page.save('BOT - Updating')
 
 if __name__ == "__main__":
     main()
