@@ -27,14 +27,20 @@ def main():
         'dewiki': pywikibot.Site('de', 'wikipedia'),
         'enwiki': pywikibot.Site('en', 'wikipedia'),
         'frwiki': pywikibot.Site('fr', 'wikipedia'),
+        'itwiki': pywikibot.Site('it', 'wikipedia'),
+        'plwiki': pywikibot.Site('pl', 'wikipedia'),
+        'ruwiki': pywikibot.Site('ru', 'wikipedia'),
         'wikidata': pywikibot.Site('wikidata', 'wikidata'),
     }
     importedfroms = {
         'dewiki': 'Q48183', 
         'enwiki': 'Q328', 
         'frwiki': 'Q8447', 
+        'itwiki': 'Q11920', 
+        'plwiki': 'Q1551807', 
+        'ruwiki': 'Q206855', 
     }
-    wikisites = ['enwiki', 'dewiki', 'frwiki', ] #prefered order for importedfrom
+    wikisites = ['enwiki', 'dewiki', 'frwiki', 'itwiki', 'plwiki', 'ruwiki', ] #prefered order for importedfrom
     repo = sites['wikidata'].data_repository()
     url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP18%20%3Fimage.%0A%7D%0ALIMIT%20100%0AOFFSET%200'
     url = '%s&format=json' % (url)
@@ -74,13 +80,13 @@ def main():
                             page = pywikibot.Page(sites[wikisite], item.sitelinks[wikisite])
                             if page.exists() and not page.isRedirectPage() and \
                                re.search(imagefilename_r, page.text):
-                                print('Image "%s" found in "%s"' % (imagefilename, page.title()))
+                                print('Image "%s" found in "%s"' % (imagefilename.encode('utf-8'), page.title().encode('utf-8')))
                                 importedfrom = pywikibot.Claim(repo, 'P143')
                                 importedwp = pywikibot.ItemPage(repo, importedfroms[wikisite])
                                 importedfrom.setTarget(importedwp)
                                 itemimage.addSource(importedfrom, summary='BOT - Adding 1 reference')
                 
-            time.sleep(0.5)
+    print("Finished successfully")
 
 if __name__ == "__main__":
     main()
