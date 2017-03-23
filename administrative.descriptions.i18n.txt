@@ -1,5 +1,3 @@
-{
-
 ########################################################################
 # This is a matrix of administrative territorial entity descriptions for
 # all countries in any language.
@@ -25,7 +23,7 @@
 # English (en): User:Emijrp
 # Spanish (es): User:Emijrp
 ########################################################################
-
+{
 "Q496825": {
     #"bn": "আফগানিস্তানের জেলাসমূহ",
     #"ca": "districte d'Afganistan",

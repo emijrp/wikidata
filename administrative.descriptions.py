@@ -24,11 +24,26 @@ from wikidatafun import *
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    
-    dic = json.load(open('administrative.descriptions.i18n.txt'))
-    print(dic)
+    raw = ''
+    with open('administrative.descriptions.i18n.txt', 'r') as f:
+        raw = f.read()
+    raw2 = []
+    for l in raw.splitlines():
+        l = l.strip()
+        if not l.startswith('#'):
+            raw2.append(l)
+    raw = '\n'.join(raw2)
+    raw = re.sub(r'\,\s*\}', '}', raw)
+    dic = json.loads(raw)
     
     #poner el having 1 para evitar describir cosas con mas de un p31
+    for admq, translations in dic.items():
+        print(admq, translations)
+        for lang, translation in translations.items():
+            print(admq, lang, translation)
+            #https://query.wikidata.org/#SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ753113%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstanceof.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING%28COUNT%28%3Finstanceof%29%20%3D%201%29
+            
+            #los admq tienen unos label y luego la gente ha puesto otros label en los elementos...
     
 if __name__ == "__main__":
     main()
