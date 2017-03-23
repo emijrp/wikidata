@@ -49,8 +49,10 @@ def main():
 |-
 | '''[[Help:Items|Items]]''' || [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username=Emijrpbot {{formatnum:%s}}]
 |-
+| '''[[Help:Sources|References]]''' || {{formatnum:%s}}
+|-
 | colspan=2 | <small>Last update: %s</small>
-|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], stats['items'], datetime.datetime.now().strftime('%Y-%m-%d'))
+|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], stats['items'], stats['references'], datetime.datetime.now().strftime('%Y-%m-%d'))
     
     page = pywikibot.Page(site, 'User:Emijrpbot/stats')
     page.text = output
