@@ -142,7 +142,7 @@ def main():
             if 'Sorry, no item with that label was found' in raw:
                 print('No useful item found. Creating a new one...')
                 #create item
-                newitemlabels = { 'en': wtitle_ }
+                newitemlabels = { lang: wtitle_ }
                 newitem = pywikibot.ItemPage(repo)
                 newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s): %s %s" % (lang, wtitle, wtitle, lang, 'human', gender))
                 newitem.get()
@@ -162,7 +162,7 @@ def main():
                         continue
                     if 'P569' in itemfound.claims:
                         birthyear = itemfound.claims['P569'][0].getTarget().year
-                        if birthyear and re.search(r'[[Category:%s births]]' % (birthyear), page.text):
+                        if birthyear and re.search(r'(?i)\[\[ *Category *\: *%s births *\]\]' % (birthyear), page.text):
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
                             print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
                             itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
