@@ -24,33 +24,49 @@ from wikidatafun import *
 
 def main():
     sites = {
+        'arwiki': pywikibot.Site('ar', 'wikipedia'),
+        'cawiki': pywikibot.Site('ca', 'wikipedia'),
         'dewiki': pywikibot.Site('de', 'wikipedia'),
         'enwiki': pywikibot.Site('en', 'wikipedia'),
+        'eswiki': pywikibot.Site('es', 'wikipedia'),
+        'fawiki': pywikibot.Site('fa', 'wikipedia'),
         'frwiki': pywikibot.Site('fr', 'wikipedia'),
         'itwiki': pywikibot.Site('it', 'wikipedia'),
         'jawiki': pywikibot.Site('ja', 'wikipedia'),
         'nlwiki': pywikibot.Site('nl', 'wikipedia'),
+        'nowiki': pywikibot.Site('no', 'wikipedia'),
         'plwiki': pywikibot.Site('pl', 'wikipedia'),
         'ptwiki': pywikibot.Site('pt', 'wikipedia'),
         'ruwiki': pywikibot.Site('ru', 'wikipedia'),
         'svwiki': pywikibot.Site('sv', 'wikipedia'),
+        'ukwiki': pywikibot.Site('uk', 'wikipedia'),
+        'viwiki': pywikibot.Site('vi', 'wikipedia'),
+        'zhwiki': pywikibot.Site('zh', 'wikipedia'),
         'wikidata': pywikibot.Site('wikidata', 'wikidata'),
     }
     importedfroms = {
+        'arwiki': 'Q199700', 
+        'cawiki': 'Q199693', 
         'dewiki': 'Q48183', 
         'enwiki': 'Q328', 
+        'eswiki': 'Q8449', 
+        'fawiki': 'Q48952', 
         'frwiki': 'Q8447', 
         'itwiki': 'Q11920', 
         'jawiki': 'Q177837', 
         'nlwiki': 'Q10000', 
+        'nowiki': 'Q191769', 
         'plwiki': 'Q1551807', 
         'ptwiki': 'Q11921', 
         'ruwiki': 'Q206855', 
         'svwiki': 'Q169514', 
+        'ukwiki': 'Q199698', 
+        'viwiki': 'Q200180', 
+        'zhwiki': 'Q30239', 
     }
-    wikisites = ['enwiki', 'dewiki', 'frwiki', 'itwiki', 'plwiki', 'ptwiki', 'nlwiki', 'svwiki', 'ruwiki', 'jawiki', ] #prefered order for importedfrom
+    wikisites = ['enwiki', 'dewiki', 'frwiki', 'itwiki', 'eswiki', 'plwiki', 'ptwiki', 'nlwiki', 'svwiki', 'ruwiki', 'jawiki', 'viwiki', 'zhwiki', 'ukwiki', 'cawiki', 'fawiki', 'arwiki', 'nowiki', ] #prefered order for importedfrom
     repo = sites['wikidata'].data_repository()
-    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP18%20%3Fimage.%0A%7D%0ALIMIT%20100%0AOFFSET%200'
+    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP18%20%3Fimage.%0A%7D'
     url = '%s&format=json' % (url)
     sparql = getURL(url=url)
     json1 = loadSPARQL(sparql=sparql)
