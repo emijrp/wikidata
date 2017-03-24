@@ -92,7 +92,8 @@ def main():
                                 importedfrom = pywikibot.Claim(repo, 'P143')
                                 importedwp = pywikibot.ItemPage(repo, importedfroms[wikisite])
                                 importedfrom.setTarget(importedwp)
-                                itemimage.addSource(importedfrom, summary='BOT - Adding 1 reference')
+                                itemimage.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[%s]]' % (importedfroms[wikisite]))
+                                break
                 
     print("Finished successfully")
 
