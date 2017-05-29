@@ -82,6 +82,7 @@ def main():
             'es': 'género de algas',
             'gl': 'xénero de algas',
             'he': 'סוג של אצה',
+            'ro': 'gen de alge',
         }, 
         'genus of amphibians': {
             'ar': 'جنس من البرمائيات',
@@ -90,6 +91,8 @@ def main():
             'fr': "genre d'amphibiens",
             'he': 'סוג של דו־חיים',
             'it': 'genere di anfibi',
+            'ro': 'gen de amfibieni',
+            'ru': 'род амфибий',
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
@@ -99,6 +102,7 @@ def main():
             'fr': "genre d'araignées",
             'he': 'סוג של עכביש',
             'it': 'genere di ragni',
+            'ro': 'gen de arahnide',
         }, 
         'genus of birds': {
             'ar': 'جنس من الطيور',
@@ -109,6 +113,7 @@ def main():
             'gl': 'xénero de aves',
             'he': 'סוג של ציפור',
             'it': 'genere di uccelli',
+            'ro': 'gen de păsări',
         }, 
         'genus of fishes': {
             'ar': 'جنس من الأسماك',
@@ -119,6 +124,7 @@ def main():
             'it': 'genere di pesci',
             'pt': 'género de peixes',
             'pt-br': 'gênero de peixes',
+            'ro': 'gen de pești',
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
@@ -130,6 +136,7 @@ def main():
             'it': 'genere di funghi',
             'pt': 'género de fungos',
             'pt-br': 'gênero de fungos',
+#            'ro': 'gen de fungi',# or 'gen de ciuperci'
         }, 
         'genus of insects': {
             'ar': 'جنس من الحشرات',
@@ -141,6 +148,8 @@ def main():
             'it': 'genere di insetti',
             'pt': 'género de insetos',
             'pt-br': 'gênero de insetos',
+            'ro': 'gen de insecte',
+            'ru': 'род насекомых',
         }, 
         'genus of mammals': {
             'ar': 'جنس من الثدييات',
@@ -150,6 +159,7 @@ def main():
             'fr': 'genre de mammifères',
             'gl': 'xénero de mamíferos',
             'he': 'סוג של יונק',
+            'ro': 'gen de mamifere',
         }, 
         'genus of molluscs': {
             'ar': 'جنس من الرخويات',
@@ -160,6 +170,7 @@ def main():
             'gl': 'xénero de moluscos',
             'he': 'סוג של רכיכה',
             'it': 'genere di molluschi',
+            'ro': 'gen de moluște',
         }, 
         'genus of plants': {
             'ar': 'جنس من النباتات',
@@ -171,6 +182,7 @@ def main():
             'he': 'סוג של צמח',
             'pt': 'género de plantas',
             'pt-br': 'gênero de plantas',
+            'ro': 'gen de plante',
         }, 
         'genus of reptiles': {
             'ar': 'جنس من الزواحف',
@@ -179,6 +191,7 @@ def main():
             'es': 'género de reptiles',
             'fr': 'genre de reptiles',
             'he': 'סוג של זוחל',
+            'ro': 'gen de reptile',
         }, 
         'family name': {
             'an': 'apelliu', 
@@ -471,6 +484,7 @@ def main():
             'hy': 'միջատների տեսակ',
             'pt': 'espécie de inseto',
             'pt-br': 'espécie de inseto',
+            'ro': 'specie de insecte',
             'ru': 'вид насекомых',
         },
         'village in China': {
@@ -865,6 +879,8 @@ def main():
             'ko': '연도',
             'pl': 'rok',
             'pt': 'ano',
+            'ro': 'an',
+            'ru': 'год', 
             'tr': 'yıl',
         },
     }
