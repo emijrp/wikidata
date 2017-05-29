@@ -17,6 +17,7 @@
 
 # Translations authorship:
 # Arabic (ar): User:SR5
+# Bengali (bn): User:Aftabuzzaman
 # Catalan (ca): User:Emijrp
 # French (fr): User:Pamputt
 # Galician (gl): User:Emijrp
@@ -59,6 +60,7 @@ def main():
     translationsNationalities = {
         'Afghan': {
             'ar': { 'male': 'أفغاني', 'female': 'أفغانية' },
+            'bn': { 'male': 'আফগান', 'female': 'আফগান' },
             'ca': { 'male': 'afganès', 'female': 'afganesa' },
             'en': { 'male': 'Afghan', 'female': 'Afghan' }, 
             'es': { 'male': 'afgano', 'female': 'afgana' }, 
@@ -68,6 +70,7 @@ def main():
         },
         'Albanian': {
             'ar': { 'male': 'ألباني', 'female': 'ألبانية' },
+            'bn': { 'male': 'আলবেনীয়', 'female': 'আলবেনীয়' },
             'ca': { 'male': 'albanès', 'female': 'albanesa' },
             'en': { 'male': 'Albanian', 'female': 'Albanian' }, 
             'es': { 'male': 'albanés', 'female': 'albanesa' }, 
@@ -77,6 +80,7 @@ def main():
         },
         'Algerian': {
             'ar': { 'male': 'جزائري', 'female': 'جزائرية' },
+            'bn': { 'male': 'আলজেরীয়', 'female': 'আলজেরীয়' },
             'ca': { 'male': 'algerià', 'female': 'algeriana' },
             'en': { 'male': 'Algerian', 'female': 'Algerian' },
             'es': { 'male': 'argelino', 'female': 'argelina' },  
@@ -86,6 +90,7 @@ def main():
         },
         'American': {
             'ar': { 'male': 'أمريكي', 'female': 'أمريكية' },
+            'bn': { 'male': 'মার্কিন', 'female': 'মার্কিন' },
             'ca': { 'male': 'estatunidenc', 'female': 'estatunidenca' }, 
             'en': { 'male': 'American', 'female': 'American' }, 
             'es': { 'male': 'estadounidense', 'female': 'estadounidense' }, 
@@ -95,6 +100,7 @@ def main():
         }, 
         'Andorran': {
             'ar': { 'male': 'أندوري', 'female': 'أندورية' },
+            'bn': { 'male': 'অ্যান্ডোরীয়', 'female': 'অ্যান্ডোরীয়' },
             'ca': { 'male': 'andorrà', 'female': 'andorrana' },
             'en': { 'male': 'Andorran', 'female': 'Andorran' }, 
             'es': { 'male': 'andorrano', 'female': 'andorrana' }, 
@@ -104,6 +110,7 @@ def main():
         },
         'Angolan': {
             'ar': { 'male': 'أنغولي', 'female': 'أنغولية' },
+            'bn': { 'male': 'অ্যাঙ্গোলীয়', 'female': 'অ্যাঙ্গোলীয়' }, 
             'ca': { 'male': 'angolès', 'female': 'angolesa' },
             'en': { 'male': 'Angolan', 'female': 'Angolan' }, 
             'es': { 'male': 'angoleño', 'female': 'angoleña' }, 
@@ -113,6 +120,7 @@ def main():
         },
         'Argentine': {
             'ar': { 'male': 'أرجنتيني', 'female': 'أرجنتينية' },
+            'bn': { 'male': 'আর্জেন্টিনীয়', 'female': 'আর্জেন্টিনীয়' },
             'ca': { 'male': 'argentí', 'female': 'argentina' },
             'en': { 'male': 'Argentine', 'female': 'Argentine' }, 
             'es': { 'male': 'argentino', 'female': 'argentina' }, 
@@ -122,6 +130,7 @@ def main():
         },
         'Argentinean': {
             'ar': { 'male': 'أرجنتيني', 'female': 'أرجنتينية' },
+            'bn': { 'male': 'আর্জেন্টিনীয়', 'female': 'আর্জেন্টিনীয়' },
             'ca': { 'male': 'argentí', 'female': 'argentina' },
             'en': { 'male': 'Argentinean', 'female': 'Argentinean' }, 
             'es': { 'male': 'argentino', 'female': 'argentina' }, 
@@ -131,6 +140,7 @@ def main():
         },
         'Armenian': {
             'ar': { 'male': 'أرمني', 'female': 'أرمنية' },
+            'bn': { 'male': 'আর্মেনীয়', 'female': 'আর্মেনীয়' }, 
             'ca': { 'male': 'armeni', 'female': 'armènia' },
             'en': { 'male': 'Armenian', 'female': 'Armenian' }, 
             'es': { 'male': 'armenio', 'female': 'armenia' }, 
@@ -140,6 +150,7 @@ def main():
         },
         'Argentinian': {
             'ar': { 'male': 'أرجنتيني', 'female': 'أرجنتينية' },
+            'bn': { 'male': 'আর্জেন্টিনীয়', 'female': 'আর্জেন্টিনীয়' },
             'ca': { 'male': 'argentí', 'female': 'argentina' },
             'en': { 'male': 'Argentinian', 'female': 'Argentinian' }, 
             'es': { 'male': 'argentino', 'female': 'argentina' }, 
@@ -149,6 +160,7 @@ def main():
         },
         'Australian': {
             'ar': { 'male': 'أسترالي', 'female': 'أسترالية' },
+            'bn': { 'male': 'অস্ট্রেলীয়', 'female': 'অস্ট্রেলীয়' },
             'ca': { 'male': 'australià', 'female': 'australiana' },
             'en': { 'male': 'Australian', 'female': 'Australian' }, 
             'es': { 'male': 'australiano', 'female': 'australiana' }, 
@@ -158,6 +170,7 @@ def main():
         },
         'Austrian': {
             'ar': { 'male': 'نمساوي', 'female': 'نمساوية' },
+            'bn': { 'male': 'অস্ট্রীয়', 'female': 'অস্ট্রীয়' },
             'ca': { 'male': 'austríac', 'female': 'austríaca' },
             'en': { 'male': 'Austrian', 'female': 'Austrian' }, 
             'es': { 'male': 'austríaco', 'female': 'austríaca' }, 
@@ -167,6 +180,7 @@ def main():
         },
         'Azerbaijani': {
             'ar': { 'male': 'أذربيجاني', 'female': 'أذربيجانية' },
+            'bn': { 'male': 'আজারবাইজানী', 'female': 'আজারবাইজানী' },
             'ca': { 'male': 'azerbaidjanès', 'female': 'azerbaidjanesa' },
             'en': { 'male': 'Azerbaijani', 'female': 'Azerbaijani' }, 
             'es': { 'male': 'azerbaiyano', 'female': 'azerbaiyana' }, 
@@ -176,6 +190,7 @@ def main():
         },
         'Bahamian': {
             'ar': { 'male': 'باهامي', 'female': 'باهامية' },
+            'bn': { 'male': 'বাহামীয়', 'female': 'বাহামীয়' },
             'ca': { 'male': 'bahamià', 'female': 'bahamiana' },
             'en': { 'male': 'Bahamian', 'female': 'Bahamian' }, 
             'es': { 'male': 'bahameño', 'female': 'bahameña' }, 
@@ -185,6 +200,7 @@ def main():
         },
         'Bahraini': {
             'ar': { 'male': 'بحريني', 'female': 'بحرينية' },
+            'bn': { 'male': 'বাহরাইনী', 'female': 'বাহরাইনী' },
             'ca': { 'male': 'bahrenià', 'female': 'bahreniana' },
             'en': { 'male': 'Bahraini', 'female': 'Bahraini' }, 
             'es': { 'male': 'bareiní', 'female': 'bareiní' }, 
@@ -194,6 +210,7 @@ def main():
         },
         'Bangladeshi': {
             'ar': { 'male': 'بنغلاديشي', 'female': 'بنغلاديشية' },
+            'bn': { 'male': 'বাংলাদেশী', 'female': 'বাংলাদেশী' },
             'ca': { 'male': 'bangladeshià', 'female': 'bangladeshiana' },
             'en': { 'male': 'Bangladeshi', 'female': 'Bangladeshi' }, 
             'es': { 'male': 'bangladesí', 'female': 'bangladesí' }, 
@@ -203,6 +220,7 @@ def main():
         },
         'Barbadian': {
             'ar': { 'male': 'بربادوسي', 'female': 'بربادوسية' },
+            'bn': { 'male': 'বার্বাডোসীয়', 'female': 'বার্বাডোসীয়' },
             'ca': { 'male': 'barbadià', 'female': 'barbadiana' },
             'en': { 'male': 'Barbadian', 'female': 'Barbadian' }, 
             'es': { 'male': 'barbadense', 'female': 'barbadense' }, 
@@ -212,6 +230,7 @@ def main():
         },
         'Belarusian': {
             'ar': { 'male': 'بيلاروسي', 'female': 'بيلاروسية' },
+            'bn': { 'male': 'বেলারুশীয়', 'female': 'বেলারুশীয়' },
             'ca': { 'male': 'bielorús', 'female': 'bielorussa' },
             'en': { 'male': 'Belarusian', 'female': 'Belarusian' }, 
             'es': { 'male': 'bielorruso', 'female': 'bielorrusa' }, 
@@ -221,6 +240,7 @@ def main():
         },
         'Belgian': {
             'ar': { 'male': 'بلجيكي', 'female': 'بلجيكية' },
+            'bn': { 'male': 'বেলজীয়', 'female': 'বেলজীয়' },
             'ca': { 'male': 'belga', 'female': 'belga' },
             'en': { 'male': 'Belgian', 'female': 'Belgian' }, 
             'es': { 'male': 'belga', 'female': 'belga' }, 
@@ -230,6 +250,7 @@ def main():
         },
         'Belizean': {
             'ar': { 'male': 'بليزي', 'female': 'بليزية' },
+            'bn': { 'male': 'বেলিজীয়', 'female': 'বেলিজীয়' },
             'ca': { 'male': 'belizià', 'female': 'beliziana' },
             'en': { 'male': 'Belizean', 'female': 'Belizean' }, 
             'es': { 'male': 'beliceño', 'female': 'beliceña' }, 
@@ -239,6 +260,7 @@ def main():
         },
         'Beninese': {
             'ar': { 'male': 'بنيني', 'female': 'بنينية' },
+            'bn': { 'male': 'বেনিনীয়', 'female': 'বেনিনীয়' },
             'ca': { 'male': 'beninès', 'female': 'beninesa' },
             'en': { 'male': 'Beninese', 'female': 'Beninese' }, 
             'es': { 'male': 'beninés', 'female': 'beninesa' }, 
@@ -248,6 +270,7 @@ def main():
         },
         'Beninois': {
             'ar': { 'male': 'بنيني', 'female': 'بنينية' },
+            'bn': { 'male': 'বেনিনীয়', 'female': 'বেনিনীয়' },
             'ca': { 'male': 'beninès', 'female': 'beninesa' },
             'en': { 'male': 'Beninois', 'female': 'Beninois' }, 
             'es': { 'male': 'beninés', 'female': 'beninesa' }, 
@@ -257,6 +280,7 @@ def main():
         },
         'Bermudan': {
             'ar': { 'male': 'برمودي', 'female': 'برمودية' },
+            'bn': { 'male': 'বার্মুডীয়', 'female': 'বার্মুডীয়' },
             'ca': { 'male': 'de Bermudes', 'female': 'de Bermudes' },
             'en': { 'male': 'Bermudan', 'female': 'Bermudan' }, 
             'es': { 'male': 'bermudeño', 'female': 'bermudeño' }, 
@@ -266,6 +290,7 @@ def main():
         },
         'Bermudian': {
             'ar': { 'male': 'برمودي', 'female': 'برمودية' },
+            'bn': { 'male': 'বার্মুডীয়', 'female': 'বার্মুডীয়' },
             'ca': { 'male': 'de Bermudes', 'female': 'de Bermudes' },
             'en': { 'male': 'Bermudan', 'female': 'Bermudan' }, 
             'es': { 'male': 'bermudeño', 'female': 'bermudeño' }, 
@@ -275,6 +300,7 @@ def main():
         },
         'Bhutanese': {
             'ar': { 'male': 'بوتاني', 'female': 'بوتانية' },
+            'bn': { 'male': 'ভুটানী', 'female': 'ভুটানী' },
             'ca': { 'male': 'bhutanès', 'female': 'bhutanesa' },
             'en': { 'male': 'Bhutanese', 'female': 'Bhutanese' }, 
             'es': { 'male': 'butanés', 'female': 'butanesa' }, 
@@ -284,6 +310,7 @@ def main():
         },
         'Bissau-Guinean': {
             'ar': { 'male': 'من غينيا بيساو', 'female': 'من غينيا بيساو' },
+            'bn': { 'male': 'বিসাউ-গিনীয়', 'female': 'বিসাউ-গিনীয়' },
             'ca': { 'male': 'guineà', 'female': 'guineana' },
             'en': { 'male': 'Bissau-Guinean', 'female': 'Bissau-Guinean' }, 
             'es': { 'male': 'guineano', 'female': 'guineana' }, 
@@ -293,6 +320,7 @@ def main():
         },
         'Bolivian': {
             'ar': { 'male': 'بوليفي', 'female': 'بوليفية' },
+            'bn': { 'male': 'বলিভীয়', 'female': 'বলিভীয়' },
             'ca': { 'male': 'bolivià', 'female': 'boliviana' },
             'en': { 'male': 'Bolivian', 'female': 'Bolivian' }, 
             'es': { 'male': 'boliviano', 'female': 'boliviana' }, 
@@ -302,6 +330,7 @@ def main():
         },
         'Bosnian': {
             'ar': { 'male': 'بوسني', 'female': 'بوسنية' },
+            'bn': { 'male': 'বসনীয়', 'female': 'বসনীয়' },
             'ca': { 'male': 'bosnià', 'female': 'bosniana' },
             'en': { 'male': 'Bosnian', 'female': 'Bosnian' }, 
             'es': { 'male': 'bosnio', 'female': 'bosnia' }, 
@@ -311,6 +340,7 @@ def main():
         },
         'Botswanan': {
             'ar': { 'male': 'بوتسواني', 'female': 'بوتسوانية' },
+            'bn': { 'male': 'বোতসোয়ানীয়', 'female': 'বোতসোয়ানীয়' },
             'ca': { 'male': 'botswanès', 'female': 'botswanesa' },
             'en': { 'male': 'Botswanan', 'female': 'Botswanan' }, 
             'es': { 'male': 'botsuano', 'female': 'botsuana' }, 
@@ -320,6 +350,7 @@ def main():
         },
         'Brazilian': {
             'ar': { 'male': 'برازيلي', 'female': 'برازيلية' },
+            'bn': { 'male': 'ব্রাজিলীয়', 'female': 'ব্রাজিলীয়' },
             'ca': { 'male': 'brasiler', 'female': 'brasilera' },
             'en': { 'male': 'Brazilian', 'female': 'Brazilian' }, 
             'es': { 'male': 'brasileño', 'female': 'brasileña' }, 
@@ -329,6 +360,7 @@ def main():
         },
         'British': {
             'ar': { 'male': 'بريطاني', 'female': 'بريطانية' },
+            'bn': { 'male': 'ব্রিটিশ', 'female': 'ব্রিটিশ' },
             'ca': { 'male': 'britànic', 'female': 'britànica' },
             'en': { 'male': 'British', 'female': 'British' }, 
             'es': { 'male': 'británico', 'female': 'británica' }, 
@@ -338,6 +370,7 @@ def main():
         },
         'Bruneian': {
             'ar': { 'male': 'بروني', 'female': 'برونية' },
+            'bn': { 'male': 'ব্রুনাইয়ান', 'female': 'ব্রুনাইয়ান' },
             'ca': { 'male': 'bruneiès', 'female': 'bruneiesa' },
             'en': { 'male': 'Bruneian', 'female': 'Bruneian' }, 
             'es': { 'male': 'bruneano', 'female': 'bruneana' },  
@@ -347,6 +380,7 @@ def main():
         },
         'Bulgarian': {
             'ar': { 'male': 'بلغاري', 'female': 'بلغارية' },
+            'bn': { 'male': 'বুলগেরীয়', 'female': 'বুলগেরীয়' },
             'ca': { 'male': 'búlgar', 'female': 'búlgara' },
             'en': { 'male': 'Bulgarian', 'female': 'Bulgarian' }, 
             'es': { 'male': 'búlgaro', 'female': 'búlgara' }, 
@@ -356,6 +390,7 @@ def main():
         },
         'Burkinabe': {
             'ar': { 'male': 'بوركينابي', 'female': 'بوركينابية' },
+            'bn': { 'male': 'বুর্কিনাবে', 'female': 'বুর্কিনাবে' },
             'ca': { 'male': 'burkinès', 'female': 'burkinesa' },
             'en': { 'male': 'Burkinabe', 'female': 'Burkinabe' }, 
             'es': { 'male': 'burkinés', 'female': 'burkinesa' }, 
@@ -365,6 +400,7 @@ def main():
         },
         'Burkinabé': {
             'ar': { 'male': 'بوركينابيّ', 'female': 'بوركينابيّة' },
+            'bn': { 'male': 'বুর্কিনাবে', 'female': 'বুর্কিনাবে' },
             'ca': { 'male': 'burkinès', 'female': 'burkinesa' },
             'en': { 'male': 'Burkinabé', 'female': 'Burkinabé' }, 
             'es': { 'male': 'burkinés', 'female': 'burkinesa' }, 
@@ -374,6 +410,7 @@ def main():
         },
         'Burmese': {
             'ar': { 'male': 'بورمي', 'female': 'بورمية' },
+            'bn': { 'male': 'বর্মী', 'female': 'বর্মী' },
             'ca': { 'male': 'birmà', 'female': 'birmana' },
             'en': { 'male': 'Burmese', 'female': 'Burmese' }, 
             'es': { 'male': 'birmano', 'female': 'birmana' }, 
@@ -383,6 +420,7 @@ def main():
         },
         'Burundian': {
             'ar': { 'male': 'بوروندي', 'female': 'بوروندية' },
+            'bn': { 'male': 'বুরুন্ডীয়', 'female': 'বুরুন্ডীয়' },
             'ca': { 'male': 'burundès', 'female': 'burundesa' },
             'en': { 'male': 'Burundian', 'female': 'Burundian' }, 
             'es': { 'male': 'burundés', 'female': 'burundesa' }, 
@@ -392,6 +430,7 @@ def main():
         },
         'Cabo Verdean': {
             'ar': { 'male': 'من الرأس الأخضر', 'female': 'من الرأس الأخضر' },
+            'bn': { 'male': 'কাবু ভের্দীয়', 'female': 'কাবু ভের্দীয়' },
             'ca': { 'male': 'capverdià', 'female': 'capverdiana' },
             'en': { 'male': 'Cabo Verdean', 'female': 'Cabo Verdean' }, 
             'es': { 'male': 'caboverdiano', 'female': 'caboverdiana' }, 
@@ -2043,7 +2082,8 @@ def main():
     #https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142%20.%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22en%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
     translationsOccupations = {
         '~ actor': {
-            'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' }, 
+            'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' },
+            'bn': { 'male': '~ অভিনেতা', 'female': '~ অভিনেত্রী' },
             'ca': { 'male': 'actor ~', 'female': 'actriu ~' }, 
             'en': { 'male': '~ actor', 'female': '~ actress' }, 
             'es': { 'male': 'actor ~', 'female': 'actriz ~' }, 
@@ -2053,6 +2093,7 @@ def main():
         }, 
         '~ architect': {
             'ar': { 'male': 'مهندس معماري ~', 'female': 'مهندسة معمارية ~' }, 
+            'bn': { 'male': '~ স্থপতি', 'female': '~ স্থপতি' },
             'ca': { 'male': 'arquitecte ~', 'female': 'arquitecta ~' }, 
             'en': { 'male': '~ architect', 'female': '~ architect' }, 
             'es': { 'male': 'arquitecto ~', 'female': 'arquitecta ~' }, 
@@ -2062,6 +2103,7 @@ def main():
         }, 
         '~ art historian': {
             'ar': { 'male': 'مؤرخ فن ~', 'female': 'مؤرخة فن ~' }, 
+            'bn': { 'male': '~ শিল্প ইতিহাসবিদ', 'female': '~ শিল্প ইতিহাসবিদ' },
             'ca': { 'male': "historiador de l'art ~", 'female': "historiadora de l'art ~" }, 
             'en': { 'male': '~ art historian', 'female': '~ art historian' }, 
             'es': { 'male': 'historiador del arte ~', 'female': 'historiadora del arte ~' }, 
@@ -2070,7 +2112,8 @@ def main():
             'he': { 'male': 'היסטוריון אמנות ~', 'female': 'היסטוריונית אמנות ~' }, 
         }, 
         '~ artist': {
-            'ar': { 'male': 'فنان ~', 'female': 'فنانة ~' }, 
+            'ar': { 'male': 'فنان ~', 'female': 'فنانة ~' },
+            'bn': { 'male': '~ শিল্পী', 'female': '~ শিল্পী' },
             'ca': { 'male': 'artista ~', 'female': 'artista ~' }, 
             'en': { 'male': '~ artist', 'female': '~ artist' }, 
             'es': { 'male': 'artista ~', 'female': 'artista ~' }, 
@@ -2079,7 +2122,8 @@ def main():
             'he': { 'male': 'אמן ~', 'female': 'אמנית ~' }, 
         }, 
         '~ association football player': {
-            'ar': { 'male': 'لاعب كرة قدم ~', 'female': 'لاعبة كرة قدم ~' }, 
+            'ar': { 'male': 'لاعب كرة قدم ~', 'female': 'لاعبة كرة قدم ~' },
+            'bn': { 'male': '~ ফুটবল খেলোয়াড়', 'female': '~ ফুটবল খেলোয়াড়' },
             'ca': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
             'en': { 'male': '~ association football player', 'female': '~ association football player' }, 
             'es': { 'male': 'futbolista ~', 'female': 'futbolista ~' }, 
@@ -2088,7 +2132,8 @@ def main():
             'he': { 'male': 'שחקן כדורגל ~', 'female': 'שחקנית כדורגל ~' }, 
         }, 
         '~ association football manager': {
-            'ar': { 'male': 'مدرب كرة قدم ~', 'female': 'مدربة كرة قدم ~' }, 
+            'ar': { 'male': 'مدرب كرة قدم ~', 'female': 'مدربة كرة قدم ~' },
+            'bn': { 'male': '~ ফুটবল ম্যানেজার', 'female': '~ ফুটবল ম্যানেজার' },
             'ca': { 'male': 'entrenador de futbol ~', 'female': 'entrenadora de futbol ~' }, 
             'en': { 'male': '~ association football manager', 'female': '~ association football manager' }, 
             'es': { 'male': 'entrenador de fútbol ~', 'female': 'entrenadora de fútbol ~' }, 
@@ -2097,7 +2142,8 @@ def main():
             'he': { 'male': 'מאמן כדורגל ~', 'female': 'מאמנת כדורגל ~' },  
         }, 
         '~ astronomer': {
-            'ar': { 'male': 'عالم فلك ~', 'female': 'عالمة فلك ~' }, 
+            'ar': { 'male': 'عالم فلك ~', 'female': 'عالمة فلك ~' },
+            'bn': { 'male': '~ জ্যোতির্বিদ', 'female': '~ জ্যোতির্বিদ' },
             'ca': { 'male': 'astrònom ~', 'female': 'astrònoma ~' }, 
             'en': { 'male': '~ astronomer', 'female': '~ astronomer' },  
             'es': { 'male': 'astrónomo ~', 'female': 'astrónoma ~' }, 
@@ -2106,7 +2152,8 @@ def main():
             'he': { 'male': 'אסטרונום ~', 'female': 'אסטרונומית ~' }, 
         }, 
         '~ athlete': {
-            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' }, 
+            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' },
+            'bn': { 'male': '~ অ্যাথলেট', 'female': '~ অ্যাথলেট' },
             'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
             'en': { 'male': '~ athlete', 'female': '~ athlete' }, 
             'es': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
@@ -2115,7 +2162,8 @@ def main():
             'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' }, 
         }, 
         '~ athletics competitor': {
-            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' }, 
+            'ar': { 'male': 'رياضي ~', 'female': 'رياضية ~' },
+            'bn': { 'male': '~ অ্যাথলেটিক্স প্রতিযোগী', 'female': '~ অ্যাথলেটিক্স প্রতিযোগী' },
             'ca': { 'male': 'atleta ~', 'female': 'atleta ~' }, 
             'en': { 'male': '~ athletics competitor', 'female': '~ athletics competitor' }, 
             'es': { 'male': 'atleta ~', 'female': 'atleta ~' },
