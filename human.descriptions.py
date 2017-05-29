@@ -440,6 +440,7 @@ def main():
         },
         'Cambodian': {
             'ar': { 'male': 'كمبودي', 'female': 'كمبودية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'cambodjà', 'female': 'cambodjana' },
             'en': { 'male': 'Cambodian', 'female': 'Cambodian' }, 
             'es': { 'male': 'camboyano', 'female': 'camboyana' }, 
@@ -449,6 +450,7 @@ def main():
         },
         'Cameroonian': {
             'ar': { 'male': 'كاميروني', 'female': 'كاميرونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'camerunès', 'female': 'camerunesa' },
             'en': { 'male': 'Cameroonian', 'female': 'Cameroonian' }, 
             'es': { 'male': 'camerunés', 'female': 'camerunesa' }, 
@@ -458,6 +460,7 @@ def main():
         },
         'Canadian': {
             'ar': { 'male': 'كندي', 'female': 'كندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'canadenc', 'female': 'canadenca' },
             'en': { 'male': 'Canadian', 'female': 'Canadian' }, 
             'es': { 'male': 'canadiense', 'female': 'canadiense' }, 
@@ -467,6 +470,7 @@ def main():
         },
         'Chadian': {
             'ar': { 'male': 'تشادي', 'female': 'تشادية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'txadià', 'female': 'txadiana' },
             'en': { 'male': 'Chadian', 'female': 'Chadian' }, 
             'es': { 'male': 'chadiano', 'female': 'chadiana' }, 
@@ -476,6 +480,7 @@ def main():
         },
         'Chilean': {
             'ar': { 'male': 'تشيلي', 'female': 'تشيلية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'xilè', 'female': 'xilena' },
             'en': { 'male': 'Chilean', 'female': 'Chilean' }, 
             'es': { 'male': 'chileno', 'female': 'chilena' }, 
@@ -485,6 +490,7 @@ def main():
         },
         'Chinese': {
             'ar': { 'male': 'صيني', 'female': 'صينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'xinès', 'female': 'xinesa' },
             'en': { 'male': 'Chinese', 'female': 'Chinese' },  
             'es': { 'male': 'chino', 'female': 'china' }, 
@@ -494,6 +500,7 @@ def main():
         },
         'Colombian': {
             'ar': { 'male': 'كولومبي', 'female': 'كولومبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'colombià', 'female': 'colombiana' },
             'en': { 'male': 'Colombian', 'female': 'Colombian' }, 
             'es': { 'male': 'colombiano', 'female': 'colombiana' }, 
@@ -503,6 +510,7 @@ def main():
         },
         'Comoran': {
             'ar': { 'male': 'قمري', 'female': 'قمرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'comorià', 'female': 'comoriana' },
             'en': { 'male': 'Comoran', 'female': 'Comoran' }, 
             'es': { 'male': 'comorense', 'female': 'comorense' }, 
@@ -512,6 +520,7 @@ def main():
         },
         'Comorian': {
             'ar': { 'male': 'قمري', 'female': 'قمرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'comorià', 'female': 'comoriana' },
             'en': { 'male': 'Comorian', 'female': 'Comorian' }, 
             'es': { 'male': 'comorense', 'female': 'comorense' },
@@ -521,6 +530,7 @@ def main():
         },
         'Congolese': {
             'ar': { 'male': 'كونغولي', 'female': 'كونغولية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'congolès', 'female': 'congolesa' },
             'en': { 'male': 'Congolese', 'female': 'Congolese' }, 
             'es': { 'male': 'congoleño', 'female': 'congoleña' }, 
@@ -530,6 +540,7 @@ def main():
         },
         'Costa Rican': {
             'ar': { 'male': 'كوستاريكي', 'female': 'كوستاريكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'costa-riqueny', 'female': 'costa-riquenya' },
             'en': { 'male': 'Costa Rican', 'female': 'Costa Rican' }, 
             'es': { 'male': 'costarricense', 'female': 'costarricense' }, 
@@ -539,6 +550,7 @@ def main():
         },
         'Croatian': {
             'ar': { 'male': 'كرواتي', 'female': 'كرواتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'croat', 'female': 'croata' },
             'en': { 'male': 'Croatian', 'female': 'Croatian' }, 
             'es': { 'male': 'croata', 'female': 'croata' },  
@@ -548,6 +560,7 @@ def main():
         },
         'Cuban': {
             'ar': { 'male': 'كوبي', 'female': 'كوبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'cubà', 'female': 'cubana' },
             'en': { 'male': 'Cuban', 'female': 'Cuban' }, 
             'es': { 'male': 'cubano', 'female': 'cubana' }, 
@@ -557,6 +570,7 @@ def main():
         },
         'Cypriot': {
             'ar': { 'male': 'قبرصي', 'female': 'قبرصية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'xipriota', 'female': 'xipriota' },
             'en': { 'male': 'Cypriot', 'female': 'Cypriot' }, 
             'es': { 'male': 'chipriota', 'female': 'chipriota' }, 
@@ -566,6 +580,7 @@ def main():
         },
         'Czech': {
             'ar': { 'male': 'تشيكي', 'female': 'تشيكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'txec', 'female': 'txeca' },
             'en': { 'male': 'Czech', 'female': 'Czech' }, 
             'es': { 'male': 'checo', 'female': 'checa' }, 
@@ -575,6 +590,7 @@ def main():
         },
         'Danish': {
             'ar': { 'male': 'دنماركي', 'female': 'دنماركية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'danès', 'female': 'danesa' },
             'en': { 'male': 'Danish', 'female': 'Danish' }, 
             'es': { 'male': 'danés', 'female': 'danesa' }, 
@@ -584,6 +600,7 @@ def main():
         },
         'Djiboutian': {
             'ar': { 'male': 'جيبوتي', 'female': 'جيبوتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'djiboutià', 'female': 'djiboutiana' },
             'en': { 'male': 'Djiboutian', 'female': 'Djiboutian' }, 
             'es': { 'male': 'yibutiano', 'female': 'yibutiana' }, 
@@ -593,6 +610,7 @@ def main():
         },
         'Dutch': {
             'ar': { 'male': 'هولندي', 'female': 'هولندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'neerlandès', 'female': 'neerlandesa' },
             'en': { 'male': 'Dutch', 'female': 'Dutch' }, 
             'es': { 'male': 'neerlandés', 'female': 'neerlandesa' }, 
@@ -602,6 +620,7 @@ def main():
         },
         'Ecuadorian': {
             'ar': { 'male': 'إكوادوري', 'female': 'إكوادورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'equatorià', 'female': 'equatoriana' },
             'en': { 'male': 'Ecuadorian', 'female': 'Ecuadorian' }, 
             'es': { 'male': 'ecuatoriano', 'female': 'ecuatoriana' }, 
@@ -611,6 +630,7 @@ def main():
         },
         'Egyptian': {
             'ar': { 'male': 'مصري', 'female': 'مصرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'egipci', 'female': 'egípcia' },
             'en': { 'male': 'Egyptian', 'female': 'Egyptian' }, 
             'es': { 'male': 'egipcio', 'female': 'egipcia' }, 
@@ -620,6 +640,7 @@ def main():
         },
         'Emirati': {
             'ar': { 'male': 'إماراتي', 'female': 'إماراتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
             'en': { 'male': 'Emirati', 'female': 'Emirati' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
@@ -629,6 +650,7 @@ def main():
         },
         'Emiri': {
             'ar': { 'male': 'إماراتي', 'female': 'إماراتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
             'en': { 'male': 'Emiri', 'female': 'Emiri' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
@@ -638,6 +660,7 @@ def main():
         },
         'Emirian': {
             'ar': { 'male': 'إماراتي', 'female': 'إماراتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'dels Emirats Àrabs Units', 'female': 'dels Emirats Àrabs Units' },
             'en': { 'male': 'Emirian', 'female': 'Emirian' }, 
             'es': { 'male': 'emiratí', 'female': 'emiratí' }, 
@@ -647,6 +670,7 @@ def main():
         },
         'Equatoguinean': {
             'ar': { 'male': 'من غينيا الاستوائية', 'female': 'من غينيا الاستوائية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'equatoguineà', 'female': 'equatoguineana' },
             'en': { 'male': 'Equatoguinean', 'female': 'Equatoguinean' }, 
             'es': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
@@ -656,6 +680,7 @@ def main():
         },
         'Equatorial Guinean': {
             'ar': { 'male': 'من غينيا الاستوائية', 'female': 'من غينيا الاستوائية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'equatoguineà', 'female': 'equatoguineana' },
             'en': { 'male': 'Equatorial Guinean', 'female': 'Equatorial Guinean' }, 
             'es': { 'male': 'ecuatoguineano', 'female': 'ecuatoguineana' }, 
@@ -665,6 +690,7 @@ def main():
         },
         'Eritrean': {
             'ar': { 'male': 'إريتري', 'female': 'إريترية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'eritreu', 'female': 'eritrea' },
             'en': { 'male': 'Eritrean', 'female': 'Eritrean' }, 
             'es': { 'male': 'eritreo', 'female': 'eritrea' }, 
@@ -674,6 +700,7 @@ def main():
         },
         'Estonian': {
             'ar': { 'male': 'إستوني', 'female': 'إستونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'estonià', 'female': 'estoniana' },
             'en': { 'male': 'Estonian', 'female': 'Estonian' }, 
             'es': { 'male': 'estonio', 'female': 'estonia' }, 
@@ -683,6 +710,7 @@ def main():
         },
         'Ethiopian': {
             'ar': { 'male': 'إثيوبي', 'female': 'إثيوبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'etiòpic', 'female': 'etiòpica' },
             'en': { 'male': 'Ethiopian', 'female': 'Ethiopian' }, 
             'es': { 'male': 'etíope', 'female': 'etíope' }, 
@@ -692,6 +720,7 @@ def main():
         },
         'Fijian': {
             'ar': { 'male': 'فيجي', 'female': 'فيجية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'fijià', 'female': 'fijiana' },
             'en': { 'male': 'Fijian', 'female': 'Fijian' }, 
             'es': { 'male': 'fiyiano', 'female': 'fiyiana' }, 
@@ -701,6 +730,7 @@ def main():
         },
         'Filipino': {
             'ar': { 'male': 'فلبيني', 'female': 'فلبينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'filipí', 'female': 'filipina' },
             'en': { 'male': 'Filipino', 'female': 'Filipino' }, 
             'es': { 'male': 'filipino', 'female': 'filipina' }, 
@@ -710,6 +740,7 @@ def main():
         },
         'Finnish': {
             'ar': { 'male': 'فنلندي', 'female': 'فنلندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'finlandès', 'female': 'finlandesa' },
             'en': { 'male': 'Finnish', 'female': 'Finnish' }, 
             'es': { 'male': 'finlandés', 'female': 'finlandesa' }, 
@@ -719,6 +750,7 @@ def main():
         },
         'French': {
             'ar': { 'male': 'فرنسي', 'female': 'فرنسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'francès', 'female': 'francesa' },
             'en': { 'male': 'French', 'female': 'French' }, 
             'es': { 'male': 'francés', 'female': 'francesa' }, 
@@ -728,6 +760,7 @@ def main():
         },
         'Gabonese': {
             'ar': { 'male': 'غابوني', 'female': 'غابونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'gabonès', 'female': 'gabonesa' },
             'en': { 'male': 'Gabonese', 'female': 'Gabonese' }, 
             'es': { 'male': 'gabonés', 'female': 'gabonesa' }, 
@@ -737,6 +770,7 @@ def main():
         },
         'Gambian': {
             'ar': { 'male': 'غامبي', 'female': 'غامبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'gambià', 'female': 'gambiana' },
             'en': { 'male': 'Gambian', 'female': 'Gambian' }, 
             'es': { 'male': 'gambiano', 'female': 'gambiana' }, 
@@ -746,6 +780,7 @@ def main():
         },
         'Georgian': {
             'ar': { 'male': 'جورجي', 'female': 'جورجية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'georgià', 'female': 'georgiana' },
             'en': { 'male': 'Georgian', 'female': 'Georgian' }, 
             'es': { 'male': 'georgiano', 'female': 'georgiana' }, 
@@ -755,6 +790,7 @@ def main():
         },
         'German': {
             'ar': { 'male': 'ألماني', 'female': 'ألمانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'alemany', 'female': 'alemanya' },
             'en': { 'male': 'German', 'female': 'German' }, 
             'es': { 'male': 'alemán', 'female': 'alemana' },  
@@ -764,6 +800,7 @@ def main():
         },
         'Ghanaian': {
             'ar': { 'male': 'غاني', 'female': 'غانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'ghanès', 'female': 'ghanesa' },
             'en': { 'male': 'Ghanaian', 'female': 'Ghanaian' }, 
             'es': { 'male': 'ghanés', 'female': 'ghanesa' }, 
@@ -773,6 +810,7 @@ def main():
         },
         'Greek': {
             'ar': { 'male': 'يوناني', 'female': 'يونانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'grec', 'female': 'grega' },
             'en': { 'male': 'Greek', 'female': 'Greek' }, 
             'es': { 'male': 'griego', 'female': 'griega' }, 
@@ -782,6 +820,7 @@ def main():
         },
         'Greenlandic': {
             'ar': { 'male': 'غرينلاندي', 'female': 'غرينلاندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'groenlandès', 'female': 'groenlandesa' },
             'en': { 'male': 'Greenlandic', 'female': 'Greenlandic' }, 
             'es': { 'male': 'groenlandés', 'female': 'groenlandesa' }, 
@@ -791,6 +830,7 @@ def main():
         },
         'Grenadian': {
             'ar': { 'male': 'غرينادي', 'female': 'غرينادية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'grenadí', 'female': 'grenadina' },
             'en': { 'male': 'Grenadian', 'female': 'Grenadian' }, 
             'es': { 'male': 'granadino', 'female': 'granadina' }, 
@@ -800,6 +840,7 @@ def main():
         },
         'Guatemalan': {
             'ar': { 'male': 'غواتيمالي', 'female': 'غواتيمالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'guatemalenc', 'female': 'guatemalenca' },
             'en': { 'male': 'Guatemalan', 'female': 'Guatemalan' }, 
             'es': { 'male': 'guatemalteco', 'female': 'guatemalteca' }, 
@@ -809,6 +850,7 @@ def main():
         },
         'Guinean': {
             'ar': { 'male': 'غيني', 'female': 'غينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'guineà', 'female': 'guineana' },
             'en': { 'male': 'Guinean', 'female': 'Guinean' }, 
             'es': { 'male': 'guineano', 'female': 'guineana' }, 
@@ -818,6 +860,7 @@ def main():
         },
         'Guyanese': {
             'ar': { 'male': 'غياني', 'female': 'غيانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'guyanès', 'female': 'guyanesa' },
             'en': { 'male': 'Guyanese', 'female': 'Guyanese' }, 
             'es': { 'male': 'guyanés', 'female': 'guyanesa' }, 
@@ -827,6 +870,7 @@ def main():
         },
         'Haitian': {
             'ar': { 'male': 'هايتي', 'female': 'هايتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'haitià', 'female': 'haitiana' },
             'en': { 'male': 'Haitian', 'female': 'Haitian' }, 
             'es': { 'male': 'haitiano', 'female': 'haitiana' }, 
@@ -836,6 +880,7 @@ def main():
         },
         'Herzegovinian': {
             'ar': { 'male': 'هرسكي', 'female': 'هرسكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'hercegoví', 'female': 'hercegovina' },
             'en': { 'male': 'Herzegovinian', 'female': 'Herzegovinian' }, 
             'es': { 'male': 'herzegovino', 'female': 'herzegovina' }, 
@@ -845,6 +890,7 @@ def main():
         },
         'Honduran': {
             'ar': { 'male': 'هندوراسي', 'female': 'هندوراسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'hondureny', 'female': 'hondurenya' },
             'en': { 'male': 'Honduran', 'female': 'Honduran' }, 
             'es': { 'male': 'hondureño', 'female': 'hondureña' }, 
@@ -854,6 +900,7 @@ def main():
         },
         'Hungarian': {
             'ar': { 'male': 'مجري', 'female': 'مجرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'hongarès', 'female': 'hongaresa' },
             'en': { 'male': 'Hungarian', 'female': 'Hungarian' }, 
             'es': { 'male': 'húngaro', 'female': 'húngara' }, 
@@ -863,6 +910,7 @@ def main():
         },
         'Icelandic': {
             'ar': { 'male': 'آيسلندي', 'female': 'آيسلندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'islandès', 'female': 'islandesa' },
             'en': { 'male': 'Icelandic', 'female': 'Icelandic' }, 
             'es': { 'male': 'islandés', 'female': 'islandesa' }, 
@@ -872,6 +920,7 @@ def main():
         },
         'I-Kiribati': {
             'ar': { 'male': 'كيريباتي', 'female': 'كيريباتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kiribatià', 'female': 'kiribatiana' }, 
             'en': { 'male': 'I-Kiribati', 'female': 'I-Kiribati' }, 
             'es': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
@@ -881,6 +930,7 @@ def main():
         }, 
         'Indian': {
             'ar': { 'male': 'هندي', 'female': 'هندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'indi', 'female': 'índia' },
             'en': { 'male': 'Indian', 'female': 'Indian' }, 
             'es': { 'male': 'indio', 'female': 'india' }, 
@@ -890,6 +940,7 @@ def main():
         },
         'Indonesian': {
             'ar': { 'male': 'إندونيسي', 'female': 'إندونيسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'indonesi', 'female': 'indonèsia' },
             'en': { 'male': 'Indonesian', 'female': 'Indonesian' }, 
             'es': { 'male': 'indonesio', 'female': 'indonesia' }, 
@@ -899,6 +950,7 @@ def main():
         },
         'Iranian': {
             'ar': { 'male': 'إيراني', 'female': 'إيرانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'iranià', 'female': 'iraniana' },
             'en': { 'male': 'Iranian', 'female': 'Iranian' }, 
             'es': { 'male': 'iraní', 'female': 'iraní' },  
@@ -908,6 +960,7 @@ def main():
         },
         'Iraqi': {
             'ar': { 'male': 'عراقي', 'female': 'عراقية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'iraquià', 'female': 'iraquiana' },
             'en': { 'male': 'Iraqi', 'female': 'Iraqi' }, 
             'es': { 'male': 'iraquí', 'female': 'iraquí' }, 
@@ -917,6 +970,7 @@ def main():
         },
         'Irish': {
             'ar': { 'male': 'أيرلندي', 'female': 'أيرلندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'irlandès', 'female': 'irlandesa' },
             'en': { 'male': 'Irish', 'female': 'Irish' }, 
             'es': { 'male': 'irlandés', 'female': 'irlandesa' }, 
@@ -926,6 +980,7 @@ def main():
         },
         'Israeli': {
             'ar': { 'male': 'إسرائيلي', 'female': 'إسرائيلية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'israelià', 'female': 'israeliana' },
             'en': { 'male': 'Israeli', 'female': 'Israeli' }, 
             'es': { 'male': 'israelí', 'female': 'israelí' }, 
@@ -935,6 +990,7 @@ def main():
         },
         'Italian': {
             'ar': { 'male': 'إيطالي', 'female': 'إيطالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'italià', 'female': 'italiana' }, 
             'en': { 'male': 'Italian', 'female': 'Italian' }, 
             'es': { 'male': 'italiano', 'female': 'italiana' }, 
@@ -944,6 +1000,7 @@ def main():
         }, 
         'Ivorian': {
             'ar': { 'male': 'إيفواري', 'female': 'إيفوارية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'ivorià', 'female': 'ivoriana' }, 
             'en': { 'male': 'Ivorian', 'female': 'Ivorian' }, 
             'es': { 'male': 'marfileño', 'female': 'marfileña' }, 
@@ -953,6 +1010,7 @@ def main():
         }, 
         'Jamaican': {
             'ar': { 'male': 'جمايكي', 'female': 'جمايكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'jamaicà', 'female': 'jamaicana' }, 
             'en': { 'male': 'Jamaican', 'female': 'Jamaican' }, 
             'es': { 'male': 'jamaicano', 'female': 'jamaicana' }, 
@@ -962,6 +1020,7 @@ def main():
         }, 
         'Japanese': {
             'ar': { 'male': 'ياباني', 'female': 'يابانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'japonès', 'female': 'japonesa' }, 
             'en': { 'male': 'Japanese', 'female': 'Japanese' }, 
             'es': { 'male': 'japonés', 'female': 'japonesa' },
@@ -971,6 +1030,7 @@ def main():
         }, 
         'Jordanian': {
             'ar': { 'male': 'أردني', 'female': 'أردنية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'jordà', 'female': 'jordana' }, 
             'en': { 'male': 'Jordanian', 'female': 'Jordanian' },  
             'es': { 'male': 'jordano', 'female': 'jordana' }, 
@@ -980,6 +1040,7 @@ def main():
         }, 
         'Kazakh': {
             'ar': { 'male': 'كازاخي', 'female': 'كازاخية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kazakh', 'female': 'kazakh' }, 
             'en': { 'male': 'Kazakh', 'female': 'Kazakh' }, 
             'es': { 'male': 'kazajo', 'female': 'kazaja' }, 
@@ -989,6 +1050,7 @@ def main():
         }, 
         'Kazakhstani': {
             'ar': { 'male': 'كازاخستاني', 'female': 'كازاخستانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kazakh', 'female': 'kazakh' }, 
             'en': { 'male': 'Kazakhstani', 'female': 'Kazakhstani' }, 
             'es': { 'male': 'kazajo', 'female': 'kazaja' }, 
@@ -998,6 +1060,7 @@ def main():
         }, 
         'Kenyan': {
             'ar': { 'male': 'كيني', 'female': 'كينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kenyà', 'female': 'kenyana' }, 
             'en': { 'male': 'Kenyan', 'female': 'Kenyan' }, 
             'es': { 'male': 'keniata', 'female': 'keniata' }, 
@@ -1007,6 +1070,7 @@ def main():
         }, 
         'Kirghiz': {
             'ar': { 'male': 'قيرغيزي', 'female': 'قيرغيزية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kirguís', 'female': 'kirguís' }, 
             'en': { 'male': 'Kirghiz', 'female': 'Kirghiz' }, 
             'es': { 'male': 'kirguís', 'female': 'kirguís' }, 
@@ -1016,6 +1080,7 @@ def main():
         }, 
         'Kirgiz': {
             'ar': { 'male': 'قيرغيزي', 'female': 'قيرغيزية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kirguís', 'female': 'kirguís' }, 
             'en': { 'male': 'Kirgiz', 'female': 'Kirgiz' }, 
             'es': { 'male': 'kirguís', 'female': 'kirguís' }, 
@@ -1025,6 +1090,7 @@ def main():
         }, 
         'Kiribati': {
             'ar': { 'male': 'كيريباتي', 'female': 'كيريباتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kiribatià', 'female': 'kiribatiana' }, 
             'en': { 'male': 'Kiribati', 'female': 'Kiribati' }, 
             'es': { 'male': 'kiribatiano', 'female': 'kiribatiana' }, 
@@ -1034,6 +1100,7 @@ def main():
         }, 
         'Kosovan': {
             'ar': { 'male': 'كوسوفي', 'female': 'كوسوفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kosovar', 'female': 'kosovar' }, 
             'en': { 'male': 'Kosovan', 'female': 'Kosovan' }, 
             'es': { 'male': 'kosovar', 'female': 'kosovar' }, 
@@ -1043,6 +1110,7 @@ def main():
         }, 
         'Kosovar': {
             'ar': { 'male': 'كوسوفي', 'female': 'كوسوفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kosovar', 'female': 'kosovar' }, 
             'en': { 'male': 'Kosovar', 'female': 'Kosovar' }, 
             'es': { 'male': 'kosovar', 'female': 'kosovar' }, 
@@ -1052,6 +1120,7 @@ def main():
         }, 
         'Kuwaiti': {
             'ar': { 'male': 'كويتي', 'female': 'كويتية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kuwaitià', 'female': 'kuwaitiana' }, 
             'en': { 'male': 'Kuwaiti', 'female': 'Kuwaiti' }, 
             'es': { 'male': 'kuwaití', 'female': 'kuwaití' }, 
@@ -1061,6 +1130,7 @@ def main():
         }, 
         'Kyrgyz': {
             'ar': { 'male': 'قيرغيزي', 'female': 'قيرغيزية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kirguís', 'female': 'kirguís' }, 
             'en': { 'male': 'Kyrgyz', 'female': 'Kyrgyz' }, 
             'es': { 'male': 'kirguís', 'female': 'kirguís' }, 
@@ -1070,6 +1140,7 @@ def main():
         }, 
         'Kyrgyzstani': {
             'ar': { 'male': 'قيرغيزستاني', 'female': 'قيرغيزستانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'kirguís', 'female': 'kirguís' }, 
             'en': { 'male': 'Kyrgyzstani', 'female': 'Kyrgyzstani' }, 
             'es': { 'male': 'kirguís', 'female': 'kirguís' }, 
@@ -1079,6 +1150,7 @@ def main():
         }, 
         'Lao': {
             'ar': { 'male': 'لاوسي', 'female': 'لاوسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'laosià', 'female': 'laosiana' }, 
             'en': { 'male': 'Lao', 'female': 'Lao' }, 
             'es': { 'male': 'laosiano', 'female': 'laosiana' }, 
@@ -1088,6 +1160,7 @@ def main():
         }, 
         'Laotian': {
             'ar': { 'male': 'لاوسي', 'female': 'لاوسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'laosià', 'female': 'laosiana' }, 
             'en': { 'male': 'Laotian', 'female': 'Laotian' }, 
             'es': { 'male': 'laosiano', 'female': 'laosiana' }, 
@@ -1097,6 +1170,7 @@ def main():
         }, 
         'Latvian': {
             'ar': { 'male': 'لاتفي', 'female': 'لاتفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'letó', 'female': 'letona' }, 
             'en': { 'male': 'Latvian', 'female': 'Latvian' }, 
             'es': { 'male': 'letón', 'female': 'letona' }, 
@@ -1106,6 +1180,7 @@ def main():
         }, 
         'Lebanese': {
             'ar': { 'male': 'لبناني', 'female': 'لبنانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'libanès', 'female': 'libanesa' }, 
             'en': { 'male': 'Lebanese', 'female': 'Lebanese' }, 
             'es': { 'male': 'libanés', 'female': 'libanesa' }, 
@@ -1115,6 +1190,7 @@ def main():
         }, 
         'Liberian': {
             'ar': { 'male': 'ليبيري', 'female': 'ليبيرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'liberià', 'female': 'liberiana' }, 
             'en': { 'male': 'Liberian', 'female': 'Liberian' }, 
             'es': { 'male': 'liberiano', 'female': 'liberiana' }, 
@@ -1124,6 +1200,7 @@ def main():
         }, 
         'Libyan': {
             'ar': { 'male': 'ليبي', 'female': 'ليبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'libi', 'female': 'líbia' }, 
             'en': { 'male': 'Libyan', 'female': 'Libyan' }, 
             'es': { 'male': 'libio', 'female': 'libia' }, 
@@ -1133,6 +1210,7 @@ def main():
         }, 
         'Liechtensteiner': {
             'ar': { 'male': 'ليختنشتايني', 'female': 'ليختنشتاينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'liechtensteinès', 'female': 'liechtensteinesa' }, 
             'en': { 'male': 'Liechtensteiner', 'female': 'Liechtensteiner' }, 
             'es': { 'male': 'liechtensteiniano', 'female': 'liechtensteiniana' }, 
@@ -1142,6 +1220,7 @@ def main():
         }, 
         'Lithuanian': {
             'ar': { 'male': 'ليتواني', 'female': 'ليتوانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'lituà', 'female': 'lituana' }, 
             'en': { 'male': 'Lithuanian', 'female': 'Lithuanian' }, 
             'es': { 'male': 'lituano', 'female': 'lituana' }, 
@@ -1151,6 +1230,7 @@ def main():
         }, 
         'Luxembourg': {
             'ar': { 'male': 'لوكسمبورغي', 'female': 'لوكسمبورغية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'luxemburguès', 'female': 'luxemburguesa' }, 
             'en': { 'male': 'Luxembourg', 'female': 'Luxembourg' }, 
             'es': { 'male': 'luxemburgués', 'female': 'luxemburguesa' }, 
@@ -1160,6 +1240,7 @@ def main():
         }, 
         'Luxembourgish': {
             'ar': { 'male': 'لوكسمبورغي', 'female': 'لوكسمبورغية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'luxemburguès', 'female': 'luxemburguesa' }, 
             'en': { 'male': 'Luxembourgish', 'female': 'Luxembourgish' }, 
             'es': { 'male': 'luxemburgués', 'female': 'luxemburguesa' }, 
@@ -1169,6 +1250,7 @@ def main():
         }, 
         'Macanese': {
             'ar': { 'male': 'ماكاوي', 'female': 'ماكاوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'de Macau', 'female': 'de Macau' }, 
             'en': { 'male': 'Macanese', 'female': 'Macanese' }, 
             'es': { 'male': 'macaense', 'female': 'macaense' }, 
@@ -1178,6 +1260,7 @@ def main():
         }, 
         'Macedonian': {
             'ar': { 'male': 'مقدوني', 'female': 'مقدونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'macedonià', 'female': 'macedoniana' }, 
             'en': { 'male': 'Macedonian', 'female': 'Macedonian' }, 
             'es': { 'male': 'macedonio', 'female': 'macedonia' }, 
@@ -1187,6 +1270,7 @@ def main():
         }, 
         'Malagasy': {
             'ar': { 'male': 'مدغشقري', 'female': 'مدغشقرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'malgaix', 'female': 'malgaixa' }, 
             'en': { 'male': 'Malagasy', 'female': 'Malagasy' }, 
             'es': { 'male': 'malgache', 'female': 'malgache' }, 
@@ -1196,6 +1280,7 @@ def main():
         }, 
         'Malawian': {
             'ar': { 'male': 'ملاوي', 'female': 'ملاوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'malawià', 'female': 'malawiana' }, 
             'en': { 'male': 'Malawian', 'female': 'Malawian' },  
             'es': { 'male': 'malauí', 'female': 'malauí' }, 
@@ -1205,6 +1290,7 @@ def main():
         }, 
         'Malaysian': {
             'ar': { 'male': 'ماليزي', 'female': 'ماليزية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'malaisi', 'female': 'malàisia' }, 
             'en': { 'male': 'Malaysian', 'female': 'Malaysian' }, 
             'es': { 'male': 'malasio', 'female': 'malasia' }, 
@@ -1214,6 +1300,7 @@ def main():
         }, 
         'Maldivian': {
             'ar': { 'male': 'مالديفي', 'female': 'مالديفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'maldivià', 'female': 'maldiviana' }, 
             'en': { 'male': 'Maldivian', 'female': 'Maldivian' }, 
             'es': { 'male': 'maldivo', 'female': 'maldiva' }, 
@@ -1223,6 +1310,7 @@ def main():
         }, 
         'Malian': {
             'ar': { 'male': 'مالي', 'female': 'مالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'malià', 'female': 'maliana' }, 
             'en': { 'male': 'Malian', 'female': 'Malian' }, 
             'es': { 'male': 'maliense', 'female': 'maliense' }, 
@@ -1232,6 +1320,7 @@ def main():
         }, 
         'Maltese': {
             'ar': { 'male': 'مالطي', 'female': 'مالطية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'maltès', 'female': 'maltesa' }, 
             'en': { 'male': 'Maltese', 'female': 'Maltese' }, 
             'es': { 'male': 'maltés', 'female': 'maltesa' }, 
@@ -1241,6 +1330,7 @@ def main():
         }, 
         'Mauritanian': {
             'ar': { 'male': 'موريتاني', 'female': 'موريتانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'maurità', 'female': 'mauritana' }, 
             'en': { 'male': 'Mauritanian', 'female': 'Mauritanian' }, 
             'es': { 'male': 'mauritano', 'female': 'mauritana' },  
@@ -1250,6 +1340,7 @@ def main():
         }, 
         'Mauritian': {
             'ar': { 'male': 'موريشيوسي', 'female': 'موريشيوسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'mauricià', 'female': 'mauriciana' }, 
             'en': { 'male': 'Mauritian', 'female': 'Mauritian' }, 
             'es': { 'male': 'mauriciano', 'female': 'mauriciana' }, 
@@ -1259,6 +1350,7 @@ def main():
         }, 
         'Mexican': {
             'ar': { 'male': 'مكسيكي', 'female': 'مكسيكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'mexicà', 'female': 'mexicana' }, 
             'en': { 'male': 'Mexican', 'female': 'Mexican' }, 
             'es': { 'male': 'mexicano', 'female': 'mexicana' }, 
@@ -1268,6 +1360,7 @@ def main():
         }, 
         'Moldovan': {
             'ar': { 'male': 'مولدوفي', 'female': 'مولدوفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'moldau', 'female': 'moldava' }, 
             'en': { 'male': 'Moldovan', 'female': 'Moldovan' }, 
             'es': { 'male': 'moldavo', 'female': 'moldava' }, 
@@ -1277,6 +1370,7 @@ def main():
         }, 
         'Monacan': {
             'ar': { 'male': 'موناكي', 'female': 'موناكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'monegasc', 'female': 'monegasca' }, 
             'en': { 'male': 'Monacan', 'female': 'Monacan' }, 
             'es': { 'male': 'monegasco', 'female': 'monegasca' }, 
@@ -1286,6 +1380,7 @@ def main():
         }, 
         'Monégasque': {
             'ar': { 'male': 'موناكي', 'female': 'موناكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'monegasc', 'female': 'monegasca' }, 
             'en': { 'male': 'Monégasque', 'female': 'Monégasque' }, 
             'es': { 'male': 'monegasco', 'female': 'monegasca' }, 
@@ -1295,6 +1390,7 @@ def main():
         }, 
         'Mongolian': {
             'ar': { 'male': 'منغولي', 'female': 'منغولية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'mongol', 'female': 'mongola' }, 
             'en': { 'male': 'Mongolian', 'female': 'Mongolian' }, 
             'es': { 'male': 'mongol', 'female': 'mongola' }, 
@@ -1304,6 +1400,7 @@ def main():
         }, 
         'Montenegrin': {
             'ar': { 'male': 'مونتينيغري', 'female': 'مونتينيغرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'montenegrí', 'female': 'montenegrina' }, 
             'en': { 'male': 'Montenegrin', 'female': 'Montenegrin' }, 
             'es': { 'male': 'montenegrino', 'female': 'montenegrina' }, 
@@ -1313,6 +1410,7 @@ def main():
         }, 
         'Moroccan': {
             'ar': { 'male': 'مغربي', 'female': 'مغربية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'marroquí', 'female': 'marroquina' }, 
             'en': { 'male': 'Moroccan', 'female': 'Moroccan' }, 
             'es': { 'male': 'marroquí', 'female': 'marroquí' }, 
@@ -1322,6 +1420,7 @@ def main():
         }, 
         'Mosotho': { #Lesotho
             'ar': { 'male': 'ليسوثوي', 'female': 'ليسوثوية' }, 
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'basuto', 'female': 'basuto' }, 
             'en': { 'male': 'Mosotho', 'female': 'Mosotho' }, 
             'es': { 'male': 'lesotense', 'female': 'lesotense' }, 
@@ -1331,6 +1430,7 @@ def main():
         }, 
         'Mozambican': {
             'ar': { 'male': 'موزمبيقي', 'female': 'موزمبيقية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'moçambiquès', 'female': 'moçambiquesa' }, 
             'en': { 'male': 'Mozambican', 'female': 'Mozambican' }, 
             'es': { 'male': 'mozambiqueño', 'female': 'mozambiqueña' },  
@@ -1340,6 +1440,7 @@ def main():
         }, 
         'Namibian': {
             'ar': { 'male': 'ناميبي', 'female': 'ناميبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'namibià', 'female': 'namibiana' }, 
             'en': { 'male': 'Namibian', 'female': 'Namibian' }, 
             'es': { 'male': 'namibio', 'female': 'namibia' }, 
@@ -1349,6 +1450,7 @@ def main():
         }, 
         'Nauruan': {
             'ar': { 'male': 'ناوروني', 'female': 'ناورونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nauruà', 'female': 'nauruana' }, 
             'en': { 'male': 'Nauruan', 'female': 'Nauruan' }, 
             'es': { 'male': 'nauruano', 'female': 'nauruana' }, 
@@ -1358,6 +1460,7 @@ def main():
         }, 
         'Nepalese': {
             'ar': { 'male': 'نيبالي', 'female': 'نيبالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nepalès', 'female': 'nepalesa' }, 
             'en': { 'male': 'Nepalese', 'female': 'Nepalese' }, 
             'es': { 'male': 'nepalés', 'female': 'nepalesa' }, 
@@ -1367,6 +1470,7 @@ def main():
         }, 
         'Nepali': {
             'ar': { 'male': 'نيبالي', 'female': 'نيبالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nepalès', 'female': 'nepalesa' }, 
             'en': { 'male': 'Nepali', 'female': 'Nepali' }, 
             'es': { 'male': 'nepalés', 'female': 'nepalesa' },
@@ -1376,6 +1480,7 @@ def main():
         }, 
         'New Zealand': {
             'ar': { 'male': 'نيوزيلندي', 'female': 'نيوزيلندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'neozelandès', 'female': 'neozelandesa' }, 
             'en': { 'male': 'New Zealand', 'female': 'New Zealand' }, 
             'es': { 'male': 'neozelandés', 'female': 'neozelandesa' }, 
@@ -1385,6 +1490,7 @@ def main():
         }, 
         'Ni-Vanuatu': {
             'ar': { 'male': 'فانواتوي', 'female': 'فانواتوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'vanuatuenc', 'female': 'vanuatuenca' }, 
             'en': { 'male': 'Ni-Vanuatu', 'female': 'Ni-Vanuatu' }, 
             'es': { 'male': 'vanuatuense', 'female': 'vanuatuense' }, 
@@ -1394,6 +1500,7 @@ def main():
         }, 
         'Nicaraguan': {
             'ar': { 'male': 'نيكاراغوي', 'female': 'نيكاراغوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nicaragüenc', 'female': 'nicaragüenca' }, 
             'en': { 'male': 'Nicaraguan', 'female': 'Nicaraguan' }, 
             'es': { 'male': 'nicaragüense', 'female': 'nicaragüense' }, 
@@ -1403,6 +1510,7 @@ def main():
         }, 
         'Nigerian': {
             'ar': { 'male': 'نيجيري', 'female': 'نيجيرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nigerià', 'female': 'nigeriana' }, 
             'en': { 'male': 'Nigerian', 'female': 'Nigerian' }, 
             'es': { 'male': 'nigeriano', 'female': 'nigeriana' }, 
@@ -1412,6 +1520,7 @@ def main():
         }, 
         'Nigerien': {
             'ar': { 'male': 'نيجري', 'female': 'نيجرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nigerí', 'female': 'nigerina' }, 
             'en': { 'male': 'Nigerien', 'female': 'Nigerien' }, 
             'es': { 'male': 'nigerino', 'female': 'nigerina' }, 
@@ -1421,6 +1530,7 @@ def main():
         }, 
         'North Korean': {
             'ar': { 'male': 'كوري شمالي', 'female': 'كورية شمالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'nord-coreà', 'female': 'nord-coreana' }, 
             'en': { 'male': 'North Korean', 'female': 'North Korean' }, 
             'es': { 'male': 'norcoreano', 'female': 'norcoreana' }, 
@@ -1430,6 +1540,7 @@ def main():
         }, 
         'Norwegian': {
             'ar': { 'male': 'نرويجي', 'female': 'نرويجية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'noruec', 'female': 'noruega' }, 
             'en': { 'male': 'Norwegian', 'female': 'Norwegian' }, 
             'es': { 'male': 'noruego', 'female': 'noruega' }, 
@@ -1439,6 +1550,7 @@ def main():
         }, 
         'Omani': {
             'ar': { 'male': 'عماني', 'female': 'عمانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'omanita', 'female': 'omanita' }, 
             'en': { 'male': 'Omani', 'female': 'Omani' }, 
             'es': { 'male': 'omaní', 'female': 'omaní' }, 
@@ -1448,6 +1560,7 @@ def main():
         }, 
         'Pakistani': {
             'ar': { 'male': 'باكستاني', 'female': 'باكستانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'pakistanès', 'female': 'pakistanesa' }, 
             'en': { 'male': 'Pakistani', 'female': 'Pakistani' }, 
             'es': { 'male': 'pakistaní', 'female': 'pakistaní' }, 
@@ -1457,6 +1570,7 @@ def main():
         }, 
         'Palauan': {
             'ar': { 'male': 'بالاوي', 'female': 'بالاوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'palauà', 'female': 'palauana' }, 
             'en': { 'male': 'Palauan', 'female': 'Palauan' }, 
             'es': { 'male': 'palauano', 'female': 'palauana' }, 
@@ -1466,6 +1580,7 @@ def main():
         }, 
         'Palestinian': {
             'ar': { 'male': 'فلسطيني', 'female': 'فلسطينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'palestí', 'female': 'palestina' }, 
             'en': { 'male': 'Palestinian', 'female': 'Palestinian' }, 
             'es': { 'male': 'palestino', 'female': 'palestina' }, 
@@ -1475,6 +1590,7 @@ def main():
         }, 
         'Panamanian': {
             'ar': { 'male': 'بنمي', 'female': 'بنمية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'panameny', 'female': 'panamenya' }, 
             'en': { 'male': 'Panamanian', 'female': 'Panamanian' }, 
             'es': { 'male': 'panameño', 'female': 'panameña' }, 
@@ -1484,6 +1600,7 @@ def main():
         }, 
         'Papua New Guinean': {
             'ar': { 'male': 'من بابوا غينيا الجديدة', 'female': 'من بابوا غينيا الجديدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'papú', 'female': 'papú' }, 
             'en': { 'male': 'Papua New Guinean', 'female': 'Papua New Guinean' }, 
             'es': { 'male': 'papú', 'female': 'papú' }, 
@@ -1493,6 +1610,7 @@ def main():
         }, 
         'Papuan': {
             'ar': { 'male': 'من بابوا غينيا الجديدة', 'female': 'من بابوا غينيا الجديدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'papú', 'female': 'papú' }, 
             'en': { 'male': 'Papuan', 'female': 'Papuan' }, 
             'es': { 'male': 'papú', 'female': 'papú' }, 
@@ -1502,6 +1620,7 @@ def main():
         }, 
         'Paraguayan': {
             'ar': { 'male': 'باراغواياني', 'female': 'باراغوايانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'paraguaià', 'female': 'paraguaiana' }, 
             'en': { 'male': 'Paraguayan', 'female': 'Paraguayan' }, 
             'es': { 'male': 'paraguayo', 'female': 'paraguaya' },  
@@ -1511,6 +1630,7 @@ def main():
         }, 
         'Peruvian': {
             'ar': { 'male': 'بيروفي', 'female': 'بيروفية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'peruà', 'female': 'peruana' }, 
             'en': { 'male': 'Peruvian', 'female': 'Peruvian' }, 
             'es': { 'male': 'peruano', 'female': 'peruana' }, 
@@ -1520,6 +1640,7 @@ def main():
         }, 
         'Philippine': {
             'ar': { 'male': 'فلبيني', 'female': 'فلبينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'filipí', 'female': 'filipina' },
             'en': { 'male': 'Philippine', 'female': 'Philippine' }, 
             'es': { 'male': 'filipino', 'female': 'filipina' }, 
@@ -1529,6 +1650,7 @@ def main():
         },
         'Polish': {
             'ar': { 'male': 'بولندي', 'female': 'بولندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'polonès', 'female': 'polonesa' },
             'en': { 'male': 'Polish', 'female': 'Polish' }, 
             'es': { 'male': 'polaco', 'female': 'polaca' }, 
@@ -1538,6 +1660,7 @@ def main():
         },
         'Portuguese': {
             'ar': { 'male': 'برتغالي', 'female': 'برتغالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'portuguès', 'female': 'portuguesa' }, 
             'en': { 'male': 'Portuguese', 'female': 'Portuguese' }, 
             'es': { 'male': 'portugués', 'female': 'portuguesa' }, 
@@ -1547,6 +1670,7 @@ def main():
         }, 
         'Puerto Rican': {
             'ar': { 'male': 'بورتوريكي', 'female': 'بورتوريكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'porto-riqueny', 'female': 'porto-riquenya' }, 
             'en': { 'male': 'Puerto Rican', 'female': 'Puerto Rican' }, 
             'es': { 'male': 'puertorriqueño', 'female': 'puertorriqueña' }, 
@@ -1556,6 +1680,7 @@ def main():
         }, 
         'Qatari': {
             'ar': { 'male': 'قطري', 'female': 'قطرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'catarí', 'female': 'catarina' }, 
             'en': { 'male': 'Qatari', 'female': 'Qatari' }, 
             'es': { 'male': 'catarí', 'female': 'catarí' }, 
@@ -1565,6 +1690,7 @@ def main():
         }, 
         'Romanian': {
             'ar': { 'male': 'روماني', 'female': 'رومانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'romanès', 'female': 'romanesa' }, 
             'en': { 'male': 'Romanian', 'female': 'Romanian' }, 
             'es': { 'male': 'rumano', 'female': 'rumana' }, 
@@ -1574,6 +1700,7 @@ def main():
         }, 
         'Russian': {
             'ar': { 'male': 'روسي', 'female': 'روسي' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'rus', 'female': 'russa' }, 
             'en': { 'male': 'Russian', 'female': 'Russian' }, 
             'es': { 'male': 'ruso', 'female': 'rusa' }, 
@@ -1583,6 +1710,7 @@ def main():
         }, 
         'Rwandan': {
             'ar': { 'male': 'رواندي', 'female': 'رواندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'ruandès', 'female': 'ruandesa' }, 
             'en': { 'male': 'Rwandan', 'female': 'Rwandan' }, 
             'es': { 'male': 'ruandés', 'female': 'ruandesa' }, 
@@ -1592,6 +1720,7 @@ def main():
         }, 
         'Salvadoran': {
             'ar': { 'male': 'سلفادوري', 'female': 'سلفادورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'salvadorenc', 'female': 'salvadorenca' }, 
             'en': { 'male': 'Salvadoran', 'female': 'Salvadoran' }, 
             'es': { 'male': 'salvadoreño', 'female': 'salvadoreña' }, 
@@ -1601,6 +1730,7 @@ def main():
         }, 
         'Sammarinese': {
             'ar': { 'male': 'من سان مارينو', 'female': 'من سان مارينو' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'sanmarinès', 'female': 'sanmarinesa' }, 
             'en': { 'male': 'Sammarinese', 'female': 'Sammarinese' }, 
             'es': { 'male': 'sanmarinense', 'female': 'sanmarinense' }, 
@@ -1610,6 +1740,7 @@ def main():
         }, 
         'Samoan': {
             'ar': { 'male': 'ساموي', 'female': 'ساموية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'samoà', 'female': 'samoana' }, 
             'en': { 'male': 'Samoan', 'female': 'Samoan' }, 
             'es': { 'male': 'samoano', 'female': 'samoana' }, 
@@ -1619,6 +1750,7 @@ def main():
         }, 
         'São Toméan': {
             'ar': { 'male': 'ساوتومي', 'female': 'ساوتومية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'de São Tomé i Príncipe', 'female': 'de São Tomé i Príncipe' }, 
             'en': { 'male': 'São Toméan', 'female': 'São Toméan' }, 
             'es': { 'male': 'santotomense', 'female': 'santotomense' },  
@@ -1628,6 +1760,7 @@ def main():
         }, 
         'Saudi': {
             'ar': { 'male': 'سعودي', 'female': 'سعودية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'saudita', 'female': 'saudita' }, 
             'en': { 'male': 'Saudi', 'female': 'Saudi' }, 
             'es': { 'male': 'saudita', 'female': 'saudita' }, 
@@ -1637,6 +1770,7 @@ def main():
         }, 
         'Saudi Arabian': {
             'ar': { 'male': 'سعودي', 'female': 'سعودية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'saudita', 'female': 'saudita' }, 
             'en': { 'male': 'Saudi', 'female': 'Saudi' }, 
             'es': { 'male': 'saudita', 'female': 'saudita' }, 
@@ -1646,6 +1780,7 @@ def main():
         }, 
         'Senegalese': {
             'ar': { 'male': 'سنغالي', 'female': 'سنغالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'senegalès', 'female': 'senegalesa' }, 
             'en': { 'male': 'Senegalese', 'female': 'Senegalese' }, 
             'es': { 'male': 'senegalés', 'female': 'senegalesa' }, 
@@ -1655,6 +1790,7 @@ def main():
         }, 
         'Serbian': {
             'ar': { 'male': 'صربي', 'female': 'صربية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'serbi', 'female': 'sèrbia' }, 
             'en': { 'male': 'Serbian', 'female': 'Serbian' }, 
             'es': { 'male': 'serbio', 'female': 'serbia' }, 
@@ -1664,6 +1800,7 @@ def main():
         }, 
         'Seychellois': {
             'ar': { 'male': 'سيشيلي', 'female': 'سيشيلية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'seychellès', 'female': 'seychellesa' }, 
             'en': { 'male': 'Seychellois', 'female': 'Seychellois' }, 
             'es': { 'male': 'seychellense', 'female': 'seychellense' }, 
@@ -1673,6 +1810,7 @@ def main():
         }, 
         'Sierra Leonean': {
             'ar': { 'male': 'سيراليوني', 'female': 'سيراليونية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'de Sierra Leone', 'female': 'de Sierra Leone' }, 
             'en': { 'male': 'Sierra Leonean', 'female': 'Sierra Leonean' },  
             'es': { 'male': 'sierraleonés', 'female': 'sierraleonesa' }, 
@@ -1682,6 +1820,7 @@ def main():
         }, 
         'Singapore': {
             'ar': { 'male': 'سنغافوري', 'female': 'سنغافورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'singapurès', 'female': 'singapuresa' }, 
             'en': { 'male': 'Singapore', 'female': 'Singapore' }, 
             'es': { 'male': 'singapurense', 'female': 'singapurense' },
@@ -1691,6 +1830,7 @@ def main():
         }, 
         'Singaporean': {
             'ar': { 'male': 'سنغافوري', 'female': 'سنغافورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'singapurès', 'female': 'singapuresa' }, 
             'en': { 'male': 'Singaporean', 'female': 'Singaporean' }, 
             'es': { 'male': 'singapurense', 'female': 'singapurense' }, 
@@ -1700,6 +1840,7 @@ def main():
         }, 
         'Slovak': {
             'ar': { 'male': 'سلوفاكي', 'female': 'سلوفاكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'eslovac', 'female': 'eslovaca' }, 
             'en': { 'male': 'Slovak', 'female': 'Slovak' }, 
             'es': { 'male': 'eslovaco', 'female': 'eslovaca' }, 
@@ -1709,6 +1850,7 @@ def main():
         }, 
         'Slovene': {
             'ar': { 'male': 'سلوفيني', 'female': 'سلوفينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'eslovè', 'female': 'eslovena' }, 
             'en': { 'male': 'Slovene', 'female': 'Slovene' }, 
             'es': { 'male': 'esloveno', 'female': 'eslovena' }, 
@@ -1718,6 +1860,7 @@ def main():
         }, 
         'Slovenian': {
             'ar': { 'male': 'سلوفيني', 'female': 'سلوفينية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'eslovè', 'female': 'eslovena' }, 
             'en': { 'male': 'Slovenian', 'female': 'Slovenian' }, 
             'es': { 'male': 'esloveno', 'female': 'eslovena' }, 
@@ -1727,6 +1870,7 @@ def main():
         }, 
         'Somali': {
             'ar': { 'male': 'صومالي', 'female': 'صومالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'somali', 'female': 'somali' }, 
             'en': { 'male': 'Somali', 'female': 'Somali' }, 
             'es': { 'male': 'somalí', 'female': 'somalí' }, 
@@ -1736,6 +1880,7 @@ def main():
         }, 
         'South African': {
             'ar': { 'male': 'جنوب أفريقي', 'female': 'جنوب أفريقية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'sud-africà', 'female': 'sud-africana' }, 
             'en': { 'male': 'South African', 'female': 'South African' }, 
             'es': { 'male': 'sudafricano', 'female': 'sudafricana' }, 
@@ -1745,6 +1890,7 @@ def main():
         }, 
         'South Korean': {
             'ar': { 'male': 'كوري جنوبي', 'female': 'كورية جنوبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'sud-coreà', 'female': 'sud-coreana' }, 
             'en': { 'male': 'South Korean', 'female': 'South Korean' }, 
             'es': { 'male': 'surcoreano', 'female': 'surcoreana' }, 
@@ -1754,6 +1900,7 @@ def main():
         }, 
         'Spanish': {
             'ar': { 'male': 'إسباني', 'female': 'إسبانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'espanyol', 'female': 'espanyola' }, 
             'en': { 'male': 'Spanish', 'female': 'Spanish' }, 
             'es': { 'male': 'español', 'female': 'española' }, 
@@ -1763,6 +1910,7 @@ def main():
         }, 
         'Sri Lankan': {
             'ar': { 'male': 'سريلانكي', 'female': 'سريلانكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'singalès', 'female': 'singalesa' }, 
             'en': { 'male': 'Sri Lankan', 'female': 'Sri Lankan' }, 
             'es': { 'male': 'ceilanés', 'female': 'ceilanesa' }, 
@@ -1772,6 +1920,7 @@ def main():
         }, 
         'Sudanese': {
             'ar': { 'male': 'سوداني', 'female': 'سودانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'sudanès', 'female': 'sudanesa' }, 
             'en': { 'male': 'Sudanese', 'female': 'Sudanese' }, 
             'es': { 'male': 'sudanés', 'female': 'sudanesa' }, 
@@ -1781,6 +1930,7 @@ def main():
         }, 
         'Surinamese': {
             'ar': { 'male': 'سورينامي', 'female': 'سورينامية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'surinamès', 'female': 'surinamesa' }, 
             'en': { 'male': 'Surinamese', 'female': 'Surinamese' }, 
             'es': { 'male': 'surinamés', 'female': 'surinamesa' }, 
@@ -1790,6 +1940,7 @@ def main():
         }, 
         'Swedish': {
             'ar': { 'male': 'سويدي', 'female': 'سويدية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'suec', 'female': 'sueca' }, 
             'en': { 'male': 'Swedish', 'female': 'Swedish' }, 
             'es': { 'male': 'sueco', 'female': 'sueca' }, 
@@ -1799,6 +1950,7 @@ def main():
         }, 
         'Swiss': {
             'ar': { 'male': 'سويسري', 'female': 'سويسرية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'suís', 'female': 'suïssa' }, 
             'en': { 'male': 'Swiss', 'female': 'Swiss' }, 
             'es': { 'male': 'suizo', 'female': 'suiza' }, 
@@ -1808,6 +1960,7 @@ def main():
         }, 
         'Syrian': {
             'ar': { 'male': 'سوري', 'female': 'سورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'sirià', 'female': 'siriana' }, 
             'en': { 'male': 'Syrian', 'female': 'Syrian' }, 
             'es': { 'male': 'sirio', 'female': 'siria' }, 
@@ -1817,6 +1970,7 @@ def main():
         }, 
         'Tajikistani': {
             'ar': { 'male': 'طاجيكستاني', 'female': 'طاجيكستانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tadjik', 'female': 'tadjik' }, 
             'en': { 'male': 'Tajikistani', 'female': 'Tajikistani' }, 
             'es': { 'male': 'tayiko', 'female': 'tayika' }, 
@@ -1826,6 +1980,7 @@ def main():
         }, 
         'Tanzanian': {
             'ar': { 'male': 'تنزاني', 'female': 'تنزانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tanzà', 'female': 'tanzana' }, 
             'en': { 'male': 'Tanzanian', 'female': 'Tanzanian' },  
             'es': { 'male': 'tanzano', 'female': 'tanzana' }, 
@@ -1835,6 +1990,7 @@ def main():
         }, 
         'Thai': {
             'ar': { 'male': 'تايلندي', 'female': 'تايلندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tailandès', 'female': 'tailandesa' }, 
             'en': { 'male': 'Thai', 'female': 'Thai' }, 
             'es': { 'male': 'tailandés', 'female': 'tailandesa' }, 
@@ -1844,6 +2000,7 @@ def main():
         }, 
         'Timorese': {
             'ar': { 'male': 'تيموري', 'female': 'تيمورية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'timorès', 'female': 'timoresa' }, 
             'en': { 'male': 'Timorese', 'female': 'Timorese' }, 
             'es': { 'male': 'timorense', 'female': 'timorense' }, 
@@ -1853,6 +2010,7 @@ def main():
         }, 
         'Togolese': {
             'ar': { 'male': 'توغولي', 'female': 'توغولية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'togolès', 'female': 'togolesa' }, 
             'en': { 'male': 'Togolese', 'female': 'Togolese' }, 
             'es': { 'male': 'togolés', 'female': 'togolesa' }, 
@@ -1862,6 +2020,7 @@ def main():
         }, 
         'Tongan': {
             'ar': { 'male': 'تونغاني', 'female': 'تونغانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tongalès', 'female': 'tongalesa' }, 
             'en': { 'male': 'Tongan', 'female': 'Tongan' }, 
             'es': { 'male': 'tongano', 'female': 'tongana' }, 
@@ -1871,6 +2030,7 @@ def main():
         }, 
         'Trinidadian': {
             'ar': { 'male': 'من ترينيداد', 'female': 'من ترينيداد' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'de Trinitat i Tobago', 'female': 'de Trinitat i Tobago' }, 
             'en': { 'male': 'Trinidadian', 'female': 'Trinidadian' }, 
             'es': { 'male': 'trinitense', 'female': 'trinitense' }, 
@@ -1880,6 +2040,7 @@ def main():
         }, 
         'Tobagonian': {
             'ar': { 'male': 'من توباغو', 'female': 'من توباغو' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'de Trinitat i Tobago', 'female': 'de Trinitat i Tobago' }, 
             'en': { 'male': 'Tobagonian', 'female': 'Tobagonian' }, 
             'es': { 'male': 'trinitense', 'female': 'trinitense' }, 
@@ -1889,6 +2050,7 @@ def main():
         }, 
         'Tunisian': {
             'ar': { 'male': 'تونسي', 'female': 'تونسية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tunisià', 'female': 'tunisiana' }, 
             'en': { 'male': 'Tunisian', 'female': 'Tunisian' }, 
             'es': { 'male': 'tunecino', 'female': 'tunecina' }, 
@@ -1898,6 +2060,7 @@ def main():
         }, 
         'Turkish': {
             'ar': { 'male': 'تركي', 'female': 'تركية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'turc', 'female': 'turca' }, 
             'en': { 'male': 'Turkish', 'female': 'Turkish' }, 
             'es': { 'male': 'turco', 'female': 'turca' }, 
@@ -1907,6 +2070,7 @@ def main():
         }, 
         'Turkmen': {
             'ar': { 'male': 'تركماني', 'female': 'تركمانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'turcman', 'female': 'turcmana' }, 
             'en': { 'male': 'Turkmen', 'female': 'Turkmen' }, 
             'es': { 'male': 'turcomano', 'female': 'turcomana' },  
@@ -1916,6 +2080,7 @@ def main():
         }, 
         'Tuvaluan': {
             'ar': { 'male': 'توفالي', 'female': 'توفالية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'tuvalià', 'female': 'tuvaliana' }, 
             'en': { 'male': 'Tuvaluan', 'female': 'Tuvaluan' }, 
             'es': { 'male': 'tuvaluano', 'female': 'tuvaluana' }, 
@@ -1925,6 +2090,7 @@ def main():
         }, 
         'Ugandan': {
             'ar': { 'male': 'أوغندي', 'female': 'أوغندية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'ugandès', 'female': 'ugandesa' }, 
             'en': { 'male': 'Ugandan', 'female': 'Ugandan' }, 
             'es': { 'male': 'ugandés', 'female': 'ugandesa' }, 
@@ -1934,6 +2100,7 @@ def main():
         }, 
         'UK': {
             'ar': { 'male': 'من المملكة المتحدة', 'female': 'من المملكة المتحدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'britànic', 'female': 'britànica' },
             'en': { 'male': 'UK', 'female': 'UK' }, 
             'es': { 'male': 'británico', 'female': 'británica' }, 
@@ -1943,6 +2110,7 @@ def main():
         },
         'U.K.': {
             'ar': { 'male': 'من المملكة المتحدة', 'female': 'من المملكة المتحدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'britànic', 'female': 'britànica' },
             'en': { 'male': 'U.K.', 'female': 'U.K.' }, 
             'es': { 'male': 'británico', 'female': 'británica' }, 
@@ -1952,6 +2120,7 @@ def main():
         },
         'Ukrainian': {
             'ar': { 'male': 'أوكراني', 'female': 'أوكرانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'ucraïnès', 'female': 'ucraïnesa' }, 
             'en': { 'male': 'Ukrainian', 'female': 'Ukrainian' }, 
             'es': { 'male': 'ucraniano', 'female': 'ucraniana' }, 
@@ -1961,6 +2130,7 @@ def main():
         }, 
         'United States': {
             'ar': { 'male': 'من الولايات المتحدة', 'female': 'من الولايات المتحدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'estatunidenc', 'female': 'estatunidenca' }, 
             'en': { 'male': 'United States', 'female': 'United States' }, 
             'es': { 'male': 'estadounidense', 'female': 'estadounidense' }, 
@@ -1970,6 +2140,7 @@ def main():
         }, 
         'Uruguayan': {
             'ar': { 'male': 'أوروغواياني', 'female': 'أوروغوايانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'uruguaià', 'female': 'uruguaiana' }, 
             'en': { 'male': 'Uruguayan', 'female': 'Uruguayan' }, 
             'es': { 'male': 'uruguayo', 'female': 'uruguaya' }, 
@@ -1979,6 +2150,7 @@ def main():
         }, 
         'US': {
             'ar': { 'male': 'من الولايات المتحدة', 'female': 'من الولايات المتحدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'estatunidenc', 'female': 'estatunidenca' }, 
             'en': { 'male': 'US', 'female': 'US' }, 
             'es': { 'male': 'estadounidense', 'female': 'estadounidense' }, 
@@ -1988,6 +2160,7 @@ def main():
         }, 
         'U.S.': {
             'ar': { 'male': 'من الولايات المتحدة', 'female': 'من الولايات المتحدة' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'estatunidenc', 'female': 'estatunidenca' }, 
             'en': { 'male': 'U.S.', 'female': 'U.S.' }, 
             'es': { 'male': 'estadounidense', 'female': 'estadounidense' }, 
@@ -1997,6 +2170,7 @@ def main():
         }, 
         'Uzbek': {
             'ar': { 'male': 'أوزبكي', 'female': 'أوزبكية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'uzbek', 'female': 'uzbeka' }, 
             'en': { 'male': 'Uzbek', 'female': 'Uzbek' }, 
             'es': { 'male': 'uzbeko', 'female': 'uzbeka' }, 
@@ -2006,6 +2180,7 @@ def main():
         }, 
         'Uzbekistani': {
             'ar': { 'male': 'أوزبكستاني', 'female': 'أوزبكستانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'uzbek', 'female': 'uzbeka' }, 
             'en': { 'male': 'Uzbekistani', 'female': 'Uzbekistani' }, 
             'es': { 'male': 'uzbeko', 'female': 'uzbeka' }, 
@@ -2015,6 +2190,7 @@ def main():
         }, 
         'Vanuatuan': {
             'ar': { 'male': 'فانواتوي', 'female': 'فانواتوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'vanuatuenc', 'female': 'vanuatuenca' }, 
             'en': { 'male': 'Vanuatuan', 'female': 'Vanuatuan' }, 
             'es': { 'male': 'vanuatuense', 'female': 'vanuatuense' }, 
@@ -2024,6 +2200,7 @@ def main():
         }, 
         'Vatican': {
             'ar': { 'male': 'فاتيكاني', 'female': 'فاتيكانية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'vaticà', 'female': 'vaticana' }, 
             'en': { 'male': 'Vatican', 'female': 'Vatican' }, 
             'es': { 'male': 'vaticano', 'female': 'vaticana' }, 
@@ -2033,6 +2210,7 @@ def main():
         }, 
         'Venezuelan': {
             'ar': { 'male': 'فنزويلي', 'female': 'فنزويلية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'veneçolà', 'female': 'veneçolana' }, 
             'en': { 'male': 'Venezuelan', 'female': 'Venezuelan' }, 
             'es': { 'male': 'venezolano', 'female': 'venezolana' }, 
@@ -2042,6 +2220,7 @@ def main():
         }, 
         'Vietnamese': {
             'ar': { 'male': 'فيتنامي', 'female': 'فيتنامية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'vietnamita', 'female': 'vietnamita' }, 
             'en': { 'male': 'Vietnamese', 'female': 'Vietnamese' }, 
             'es': { 'male': 'vietnamita', 'female': 'vietnamita' }, 
@@ -2051,6 +2230,7 @@ def main():
         }, 
         'Yemeni': {
             'ar': { 'male': 'يمني', 'female': 'يمنية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'iemenita', 'female': 'iemenita' }, 
             'en': { 'male': 'Yemeni', 'female': 'Yemeni' }, 
             'es': { 'male': 'yemení', 'female': 'yemení' }, 
@@ -2060,6 +2240,7 @@ def main():
         }, 
         'Zambian': {
             'ar': { 'male': 'زامبي', 'female': 'زامبية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'zambià', 'female': 'zambiana' }, 
             'en': { 'male': 'Zambian', 'female': 'Zambian' }, 
             'es': { 'male': 'zambiano', 'female': 'zambiana' }, 
@@ -2069,6 +2250,7 @@ def main():
         }, 
         'Zimbabwean': {
             'ar': { 'male': 'زيمبابوي', 'female': 'زيمبابوية' },
+            'bn': { 'male': '', 'female': '' }, 
             'ca': { 'male': 'zimbabuès', 'female': 'zimbabuesa' }, 
             'en': { 'male': 'Zimbabwean', 'female': 'Zimbabwean' }, 
             'es': { 'male': 'zimbabuense', 'female': 'zimbabuense' }, 
