@@ -56,6 +56,7 @@ def main():
         'chemical compound': {
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
+            'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
             'de': 'chemische Verbindung',
             'en': 'chemical compound',
@@ -78,6 +79,7 @@ def main():
         }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
+            'bn': 'শৈবালের গণ',
             'en': 'genus of algae',
             'es': 'género de algas',
             'gl': 'xénero de algas',
@@ -88,6 +90,7 @@ def main():
         }, 
         'genus of amphibians': {
             'ar': 'جنس من البرمائيات',
+            'bn': 'উভচর প্রাণীর গণ',
             'en': 'genus of amphibians',
             'es': 'género de anfibios',
             'fr': "genre d'amphibiens",
@@ -100,6 +103,7 @@ def main():
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
+            'bn': 'আর‍্যাকনিডের গণ',
             'ca': "gènere d'aràcnids",
             'en': 'genus of arachnids',
             'es': 'género de arañas',
@@ -112,6 +116,7 @@ def main():
         }, 
         'genus of birds': {
             'ar': 'جنس من الطيور',
+            'bn': 'পাখির গণ',
             'ca': "gènere d'ocells",
             'en': 'genus of birds',
             'es': 'género de aves',
@@ -123,6 +128,7 @@ def main():
         }, 
         'genus of fishes': {
             'ar': 'جنس من الأسماك',
+            'bn': 'মাছের গণ',
             'en': 'genus of fishes',
             'es': 'género de peces',
             'fr': 'genre de poissons',
@@ -136,6 +142,7 @@ def main():
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
+            'bn': 'চত্রাকের গণ',
             'en': 'genus of fungi',
             'es': 'género de hongos',
             'fr': 'genre de champignons',
@@ -150,6 +157,7 @@ def main():
         }, 
         'genus of insects': {
             'ar': 'جنس من الحشرات',
+            'bn': 'কীটপতঙ্গের গণ',
             'ca': "gènere d'insectes",
             'en': 'genus of insects',
             'es': 'género de insectos',
@@ -165,6 +173,7 @@ def main():
         }, 
         'genus of mammals': {
             'ar': 'جنس من الثدييات',
+            'bn': 'স্তন্যপায়ীর গণ',
             'ca': 'gènere de mamífers',
             'en': 'genus of mammals',
             'es': 'género de mamíferos',
@@ -177,6 +186,7 @@ def main():
         }, 
         'genus of molluscs': {
             'ar': 'جنس من الرخويات',
+            'bn': 'মলাস্কার গণ',
             'ca': 'gènere de mol·luscs',
             'en': 'genus of molluscs',
             'es': 'género de moluscos',
@@ -191,6 +201,7 @@ def main():
         'genus of plants': {
             'ar': 'جنس من النباتات',
             'ca': 'gènere de plantes',
+            'bn': 'উদ্ভিদের গণ',
             'en': 'genus of plants',
             'es': 'género de plantas',
             'fr': 'genre de plantes',
@@ -204,6 +215,7 @@ def main():
         }, 
         'genus of reptiles': {
             'ar': 'جنس من الزواحف',
+            'bn': 'সরীসৃপের গণ',
             'ca': 'gènere de rèptils',
             'en': 'genus of reptiles',
             'es': 'género de reptiles',
@@ -362,7 +374,7 @@ def main():
         }, 
         'Hebrew calendar year': {
             'ar': 'سنة في التقويم العبري',
-            'bn': 'ইহুদি সাল', 
+            'bn': 'হিব্রু পঞ্জিকার বছর', 
             'ca': 'any de calendari hebreu', 
             'en': 'Hebrew calendar year', 
             'es': 'año del calendario hebreo', 
@@ -376,6 +388,7 @@ def main():
         }, 
         'Islamic calendar year': {
             'ar': 'سنة في التقويم الإسلامي',
+            'bn': 'ইসলামী পঞ্জিকার বছর',
             'en': 'Islamic calendar year', 
             'es': 'año del calendario musulmán',
             'he': 'שנה בלוח השנה המוסלמי', 
@@ -463,6 +476,7 @@ def main():
             'als': 'natürlige Zahle',
             'an': 'numero natural',
             'ar': 'عدد طبيعي',
+            'bn': 'প্রাকৃতিক সংখ্যা',
             'ca': 'nombre natural',
             'en': 'natural number',
             'en-ca': 'natural number',
@@ -491,6 +505,7 @@ def main():
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
+            'bn': 'বৈজ্ঞানিক নিবন্ধ',
             'ca': 'article científic',
             'en': 'scientific article',
             'eo': 'scienca artikolo',
@@ -508,6 +523,7 @@ def main():
         #decidir que hacer
         # https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ16521.%0A%20%20%20%20%3Fitem%20wdt%3AP105%20wd%3AQ7432.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22species%20of%20insect%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22de%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
             'bg': 'вид насекомо',
+            'bn': 'কীটপতঙ্গের প্রজাতি',
             'ca': "espècie d'insecte",
             'en': 'species of insect',
             'es': 'especie de insecto',
@@ -522,6 +538,7 @@ def main():
         },
         'village in China': {
             'ar': 'قرية في الصين',
+            'bn': 'চীনের গ্রাম',
             'ca': 'poble de la Xina',
             'de': 'Dorf in China',
             'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
