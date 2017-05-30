@@ -22,6 +22,7 @@
 # Galician (gl): User:Emijrp
 # Hebrew (he): User:Mikey641
 # Spanish (es): User:Emijrp
+# Thanks everybody for your help!
 
 import os
 import re
