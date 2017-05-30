@@ -1699,7 +1699,7 @@ def main():
             'he': { 'male': 'רומני', 'female': 'רומנייה' },  
         }, 
         'Russian': {
-            'ar': { 'male': 'روسي', 'female': 'روسي' },
+            'ar': { 'male': 'روسي', 'female': 'روسية' },
             'bn': { 'male': 'রুশ', 'female': 'রুশ' }, 
             'ca': { 'male': 'rus', 'female': 'russa' }, 
             'en': { 'male': 'Russian', 'female': 'Russian' }, 
@@ -2384,7 +2384,7 @@ def main():
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' }, 
         }, 
         '~ businessperson': {
-            'ar': { 'male': 'رجل أعمال ~', 'female': 'سيدة أعمال ~' },
+            'ar': { 'male': 'رجل أعمال ~', 'female': 'سيدة أعمال ~' }, 
             'bn': { 'male': '~ ব্যবসায়ী', 'female': '~ ব্যবসায়ী' },
             'ca': { 'male': 'empresari ~', 'female': 'empresària ~' }, 
             'en': { 'male': '~ businessperson', 'female': '~ businessperson' }, 
@@ -2444,7 +2444,7 @@ def main():
             'he': { 'male': 'כוריאוגרף ~', 'female': 'כוריאוגרפית ~' },  
         }, 
         '~ comics artist': {
-            'ar': { 'male': 'فنان قصص مصورة ~', 'female': 'فنانة قصص مصورة ~' },
+            'ar': { 'male': 'فنان قصص مصورة ~', 'female': 'فنانة قصص مصورة ~' }, 
             'bn': { 'male': '~ কমিক শিল্পী', 'female': '~ কমিক শিল্পী' }, 
             'ca': { 'male': 'dibuixant de còmics ~', 'female': 'dibuixant de còmics ~' }, 
             'en': { 'male': '~ comics artist', 'female': '~ comics artist' }, 
