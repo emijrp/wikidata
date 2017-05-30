@@ -2526,7 +2526,7 @@ def main():
         }, 
         '~ fencer': {
             'ar': { 'male': 'مسايف ~', 'female': 'مسايفة ~' }, 
-            'bn': { 'male': '~ অসিচালক', 'female': '~ অসিচালক' }, 
+            'bn': { 'male': '~ অসিক্রীড়াবিদ', 'female': '~ অসিক্রীড়াবিদ' }, 
             'ca': { 'male': "tirador d'esgrima ~", 'female': "tiradora d'esgrima ~" }, 
             'en': { 'male': '~ fencer', 'female': '~ fencer' }, 
             'es': { 'male': 'esgrimista ~', 'female': 'esgrimista ~' }, 
