@@ -38,19 +38,25 @@ from wikidatafun import *
         FILTER NOT EXISTS { ?item wdt:P31 wd:Q4167410 } . 
     }
 """
-
-#cuadro de https://www.wikidata.org/wiki/Q22661785
 #family
 #genus
 #species
-#numbers
 #proteins https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemDescription%20(COUNT(%3Fitem)%20AS%20%3Fcount)%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP279%20wd%3AQ8054.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22mammalian%20protein%20found%20in%20Mus%20musculus%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC(%3Fcount)
 
 def main():
+    fixthiswhenfound = {
+        'village in China': {
+            'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
+        }, 
+        'Wikimedia template': {
+            'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
+        }, 
+    }
     translations = {
         'chemical compound': {
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
+            'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
             'de': 'chemische Verbindung',
             'en': 'chemical compound',
@@ -73,30 +79,44 @@ def main():
         }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
+            'bn': 'শৈবালের গণ',
             'en': 'genus of algae',
             'es': 'género de algas',
             'gl': 'xénero de algas',
             'he': 'סוג של אצה',
+            'nb': 'algeslekt',
+            'nn': 'algeslekt',
+            'ro': 'gen de alge',
         }, 
         'genus of amphibians': {
             'ar': 'جنس من البرمائيات',
+            'bn': 'উভচর প্রাণীর গণ',
             'en': 'genus of amphibians',
             'es': 'género de anfibios',
             'fr': "genre d'amphibiens",
             'he': 'סוג של דו־חיים',
             'it': 'genere di anfibi',
+            'nb': 'amfibieslekt',
+            'nn': 'amfibieslekt',
+            'ro': 'gen de amfibieni',
+            'ru': 'род амфибий',
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
+            'bn': 'আর‍্যাকনিডের গণ',
             'ca': "gènere d'aràcnids",
             'en': 'genus of arachnids',
             'es': 'género de arañas',
             'fr': "genre d'araignées",
             'he': 'סוג של עכביש',
             'it': 'genere di ragni',
+            'nb': 'edderkoppslekt',
+            'nn': 'edderkoppslekt',
+            'ro': 'gen de arahnide',
         }, 
         'genus of birds': {
             'ar': 'جنس من الطيور',
+            'bn': 'পাখির গণ',
             'ca': "gènere d'ocells",
             'en': 'genus of birds',
             'es': 'género de aves',
@@ -104,50 +124,69 @@ def main():
             'gl': 'xénero de aves',
             'he': 'סוג של ציפור',
             'it': 'genere di uccelli',
+            'ro': 'gen de păsări',
         }, 
         'genus of fishes': {
             'ar': 'جنس من الأسماك',
+            'bn': 'মাছের গণ',
             'en': 'genus of fishes',
             'es': 'género de peces',
             'fr': 'genre de poissons',
             'he': 'סוג של דג',
             'it': 'genere di pesci',
+            'nb': 'fiskeslekt',
+            'nn': 'fiskeslekt',
             'pt': 'género de peixes',
             'pt-br': 'gênero de peixes',
+            'ro': 'gen de pești',
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
+            'bn': 'চত্রাকের গণ',
             'en': 'genus of fungi',
             'es': 'género de hongos',
             'fr': 'genre de champignons',
             'gl': 'xénero de fungos',
             'he': 'סוג של פטריה',
             'it': 'genere di funghi',
+            'nb': 'soppslekt',
+            'nn': 'soppslekt',
             'pt': 'género de fungos',
             'pt-br': 'gênero de fungos',
+#            'ro': 'gen de fungi',# or 'gen de ciuperci'
         }, 
         'genus of insects': {
             'ar': 'جنس من الحشرات',
+            'bn': 'কীটপতঙ্গের গণ',
             'ca': "gènere d'insectes",
             'en': 'genus of insects',
             'es': 'género de insectos',
             'fr': "genre d'insectes",
             'he': 'סוג של חרק',
             'it': 'genere di insetti',
+            'nb': 'insektslekt',
+            'nn': 'insektslekt',
             'pt': 'género de insetos',
             'pt-br': 'gênero de insetos',
+            'ro': 'gen de insecte',
+            'ru': 'род насекомых',
         }, 
         'genus of mammals': {
             'ar': 'جنس من الثدييات',
+            'bn': 'স্তন্যপায়ীর গণ',
             'ca': 'gènere de mamífers',
             'en': 'genus of mammals',
             'es': 'género de mamíferos',
             'fr': 'genre de mammifères',
             'gl': 'xénero de mamíferos',
             'he': 'סוג של יונק',
+            'nb': 'pattedyrslekt',
+            'nn': 'pattedyrslekt',
+            'ro': 'gen de mamifere',
         }, 
         'genus of molluscs': {
             'ar': 'جنس من الرخويات',
+            'bn': 'মলাস্কার গণ',
             'ca': 'gènere de mol·luscs',
             'en': 'genus of molluscs',
             'es': 'género de moluscos',
@@ -155,28 +194,39 @@ def main():
             'gl': 'xénero de moluscos',
             'he': 'סוג של רכיכה',
             'it': 'genere di molluschi',
+            'nb': 'bløtdyrslekt',
+            'nn': 'blautdyrslekt',
+            'ro': 'gen de moluște',
         }, 
         'genus of plants': {
             'ar': 'جنس من النباتات',
             'ca': 'gènere de plantes',
+            'bn': 'উদ্ভিদের গণ',
             'en': 'genus of plants',
             'es': 'género de plantas',
             'fr': 'genre de plantes',
             'gl': 'xénero de plantas',
             'he': 'סוג של צמח',
+            'nb': 'planteslekt',
+            'nn': 'planteslekt',
             'pt': 'género de plantas',
             'pt-br': 'gênero de plantas',
+            'ro': 'gen de plante',
         }, 
         'genus of reptiles': {
             'ar': 'جنس من الزواحف',
+            'bn': 'সরীসৃপের গণ',
             'ca': 'gènere de rèptils',
             'en': 'genus of reptiles',
             'es': 'género de reptiles',
             'fr': 'genre de reptiles',
             'he': 'סוג של זוחל',
+            'nb': 'krypdyrslekt',
+            'nn': 'krypdyrslekt',
+            'ro': 'gen de reptile',
         }, 
         'family name': {
-            #'an': '', #no esta claro si es apellido o apelliu?
+            'an': 'apelliu', 
             'ar': 'اسم العائلة', 
             'ast': 'apellíu', 
             'az': 'Soyad', 
@@ -228,9 +278,12 @@ def main():
             'pt-br': 'nome de família', 
             'ro': 'nume de familie', 
             'ru': 'фамилия', 
+            'se': 'goargu',
             'sh': 'prezime', 
+            'sje': 'maŋŋepnamma',
             'sk': 'priezvisko', 
             'sl': 'priimek', 
+            'smj': 'maŋepnamma',
             'sq': 'mbiemri', 
             'sr': 'презиме', 
             'sv': 'efternamn', 
@@ -321,7 +374,7 @@ def main():
         }, 
         'Hebrew calendar year': {
             'ar': 'سنة في التقويم العبري',
-            'bn': 'ইহুদি সাল', 
+            'bn': 'হিব্রু পঞ্জিকার বছর', 
             'ca': 'any de calendari hebreu', 
             'en': 'Hebrew calendar year', 
             'es': 'año del calendario hebreo', 
@@ -329,13 +382,18 @@ def main():
             'fr': 'année hébraïque', 
             'he': 'שנה עברית',
             'hy': 'Հրեական օրացույցի տարեթիվ', 
+            'nb': 'hebraisk kalenderår',
+            'nn': 'hebraisk kalenderår',
             'ru': 'год еврейского календаря', 
         }, 
         'Islamic calendar year': {
             'ar': 'سنة في التقويم الإسلامي',
+            'bn': 'ইসলামী পঞ্জিকার বছর',
             'en': 'Islamic calendar year', 
             'es': 'año del calendario musulmán',
             'he': 'שנה בלוח השנה המוסלמי', 
+            'nb': 'islamsk kalenderår',
+            'nn': 'islamsk kalenderår',
         }, 
         'male given name': {
             'af': 'manlike voornaam',
@@ -418,6 +476,7 @@ def main():
             'als': 'natürlige Zahle',
             'an': 'numero natural',
             'ar': 'عدد طبيعي',
+            'bn': 'প্রাকৃতিক সংখ্যা',
             'ca': 'nombre natural',
             'en': 'natural number',
             'en-ca': 'natural number',
@@ -433,6 +492,8 @@ def main():
             'it': 'numero naturale',
             'la': 'numerus naturalis',
             'mwl': 'númaro natural',
+            'nb': 'naturlig tall',
+            'nn': 'naturleg tal',
             'pms': 'nùmer natural',
             'pt': 'número natural',
             'ro': 'număr natural',
@@ -444,6 +505,7 @@ def main():
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
+            'bn': 'বৈজ্ঞানিক নিবন্ধ',
             'ca': 'article científic',
             'en': 'scientific article',
             'eo': 'scienca artikolo',
@@ -452,6 +514,8 @@ def main():
             'he': 'מאמר מדעי',
             'gl': 'artigo científico',
             'it': 'articolo scientifico',
+            'nb': 'vitenskapelig artikkel',
+            'nn': 'vitskapeleg artikkel',
             'pt': 'artigo científico',
             'pt-br': 'artigo científico',
         }, 
@@ -459,23 +523,60 @@ def main():
         #decidir que hacer
         # https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ16521.%0A%20%20%20%20%3Fitem%20wdt%3AP105%20wd%3AQ7432.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22species%20of%20insect%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22de%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
             'bg': 'вид насекомо',
+            'bn': 'কীটপতঙ্গের প্রজাতি',
             'ca': "espècie d'insecte",
             'en': 'species of insect',
             'es': 'especie de insecto',
             'gl': 'especie de insecto',
             'hy': 'միջատների տեսակ',
+            'nb': 'insektart',
+            'nn': 'insektart',
             'pt': 'espécie de inseto',
             'pt-br': 'espécie de inseto',
+            'ro': 'specie de insecte',
             'ru': 'вид насекомых',
         },
-        'Wikimedia category': {
+        'village in China': {
+            'ar': 'قرية في الصين',
+            'bn': 'চীনের গ্রাম',
+            'ca': 'poble de la Xina',
+            'de': 'Dorf in China',
+            'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
+            'en': 'village in China',
+            'eo': 'vilaĝo en Ĉinujo',
+            'es': 'aldea de la República Popular China',
+            'fi': 'kylä Kiinassa',
+            'fr': 'village chinois',
+            'he': 'כפר ברפובליקה העממית של סין',
+            'id': 'desa di Cina',
+            'it': 'villaggio cinese',
+            'nb': 'landsby i Kina',
+            'nn': 'landsby i Kina',
+            'nl': 'dorp in China',
+            'oc': 'vilatge chinés',
+            'pt-br': 'vila chinesa',
+            'ru': 'деревня КНР',
+        },
+        'Wikimedia category': { #Q4167836
+            'ace': 'kawan Wikimèdia',
+            'af': 'Wikimedia-kategorie',
             'ar': 'تصنيف ويكيميديا',
+            'arz': 'ويكيبيديا:تصنيف',
+            'ast': 'categoría de Wikimedia',
+            'ba': 'Викимедиа категорияһы',
+            'bar': 'Wikimedia-Kategorie',
             'be': 'катэгарызацыя',
             'be-tarask': 'Катэгорыя',
             'bg': 'категория на Уикимедия',
+            'bho': 'विकिपीडिया:श्रेणी',
+            'bjn': 'tumbung Wikimedia',
             'bn': 'উইকিমিডিয়া বিষয়শ্রেণী',
+            'br': 'pajenn rummata eus Wikimedia',
             'bs': 'kategorija na Wikimediji',
+            'bug': 'kategori Wikimedia',
             'ca': 'categoria de Wikimedia',
+            #'ce': 'Викимедиа проектан категореш',
+            #'ceb': 'Wikimedia:Kategorisasyon',
             'ckb': 'پۆلی ویکیمیدیا',
             'cs': 'kategorie na projektech Wikimedia',
             'cy': 'tudalen categori Wikimedia',
@@ -488,6 +589,7 @@ def main():
             'eo': 'kategorio en Vikimedio',
             'es': 'categoría de Wikimedia',
             'et': 'Wikimedia kategooria',
+            'eu': 'Wikimediako kategoria',
             'fa': 'ردهٔ ویکی‌پدیا',
             'fi': 'Wikimedia-luokka',
             'fr': 'page de catégorie de Wikimedia',
@@ -495,6 +597,7 @@ def main():
             'gsw': 'Wikimedia-Kategorie',
             'gu': 'વિકિપીડિયા શ્રેણી',
             'he': 'דף קטגוריה',
+            'hi': 'विकिमीडिया श्रेणी',
             'hr': 'kategorija na Wikimediji',
             'hu': 'Wikimédia-kategória',
             'hy': 'Վիքիմեդիայի նախագծի կատեգորիա',
@@ -502,6 +605,7 @@ def main():
             'it': 'categoria di un progetto Wikimedia',
             'ja': 'ウィキメディアのカテゴリ',
             'ko': '위키미디어 분류',
+            'ky': 'Wikimedia категориясы',
             'lb': 'Wikimedia-Kategorie',
             'lv': 'Wikimedia projekta kategorija',
             'mk': 'Викимедиина категорија',
@@ -513,12 +617,16 @@ def main():
             'pl': 'kategoria w projekcie Wikimedia',
             'pt': 'categoria de um projeto da Wikimedia',
             'pt-br': 'categoria de um projeto da Wikimedia',
+            'ro': 'categorie în cadrul unui proiect Wikimedia',
             'ru': 'категория в проекте Викимедиа',
             'sco': 'Wikimedia category',
+            'se': 'Wikimedia-kategoriija',
             'sk': 'kategória projektov Wikimedia',
             'sl': 'kategorija Wikimedije',
             'sr': 'категорија на Викимедији',
             'sv': 'Wikimedia-kategori',
+            'tg': 'гурӯҳи Викимедиа',
+            'tr': 'Vikimedya kategorisi',
             'uk': 'категорія в проекті Вікімедіа',
             'vi': 'thể loại Wikimedia',
             'yue': '維基媒體分類',
@@ -532,25 +640,7 @@ def main():
             'zh-sg': '维基媒体分类',
             'zh-tw': '維基媒體分類',
         },
-        'village in China': {
-            'ar': 'قرية في الصين',
-            'ca': 'poble de la Xina',
-            'de': 'Dorf in China',
-            'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
-            'en': 'village in China',
-            'eo': 'vilaĝo en Ĉinujo',
-            'es': 'aldea de la República Popular China',
-            'fi': 'kiinalainen kylä',
-            'fr': 'village chinois',
-            'he': 'כפר ברפובליקה העממית של סין',
-            'id': 'desa di Cina',
-            'it': 'villaggio cinese',
-            'nl': 'dorp in China',
-            'oc': 'vilatge chinés',
-            'pt-br': 'vila chinesa',
-            'ru': 'деревня КНР',
-        },
-        'Wikimedia disambiguation page': {
+        'Wikimedia disambiguation page': { #Q4167410
             'ar': 'صفحة توضيح لويكيميديا',
             'bn': 'উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা',
             'bs': 'čvor stranica na Wikimediji',
@@ -568,6 +658,7 @@ def main():
             'eo': 'Vikimedia apartigilo',
             'es': 'página de desambiguación de Wikimedia',
             'et': 'Wikimedia täpsustuslehekülg',
+            'eu': 'Wikimediako argipen orri',
             'fa': 'یک صفحهٔ ابهام\u200cزدایی در ویکی\u200cپدیا',
             'fi': 'Wikimedia-täsmennyssivu',
             'fr': 'page d\'homonymie de Wikimedia',
@@ -602,8 +693,10 @@ def main():
             'sco': 'Wikimedia disambiguation page',
             'sk': 'rozlišovacia stránka',
             'sl': 'razločitvena stran Wikimedije',
+            'sq': 'faqe kthjelluese e Wikimedias',
             'sr': 'вишезначна одредница на Викимедији',
             'sv': 'Wikimedia-förgreningssida',
+            'tg': 'саҳифаи ибҳомзудоии Викимаълумот',
             'tr': 'Vikimedya anlam ayrımı sayfası',
             'uk': 'сторінка значень в проекті Вікімедіа',
             'vi': 'trang định hướng Wikimedia',
@@ -618,9 +711,13 @@ def main():
             'zh-sg': '维基媒体消歧义页',
             'zh-tw': '維基媒體消歧義頁',
         },
-        'Wikimedia list article': {
+        'Wikimedia list article': { #Q13406463
+            'ace': 'teunuléh dapeuta Wikimèdia',
+            'af': 'Wikimedia lysartikel',
             'ar': 'قائمة ويكيميديا',
             'as': 'ৱিকিপিডিয়া:ৰচনাশৈলীৰ হাতপুথি',
+            'ast': 'artículu de llista de Wikimedia',
+            'ba': 'Wikimedia-Listn',
             'be': 'спіс атыкулаў у адным з праектаў Вікімедыя',
             'bn': 'উইকিমিডিয়ার তালিকা নিবন্ধ',
             'bs': 'spisak na Wikimediji',
@@ -632,29 +729,42 @@ def main():
             'de-ch': 'Wikimedia-Liste',
             'el': 'κατάλογος εγχειρήματος Wikimedia',
             'en': 'Wikimedia list article',
-            'eo': 'Listartikolo en Vikipedio',
+            'en-ca': 'Wikimedia list article',
+            'en-gb': 'Wikimedia list article',
+            'eo': 'listartikolo en Vikimedio',
             'es': 'artículo de lista de Wikimedia',
-            'fr': 'liste d\'un projet Wikimedia',
+            'eu': 'Wikimediako zerrenda artikulua',
+            'fi': 'Wikimedia-luetteloartikkeli',
+            'fr': 'page de liste de Wikimedia',
             'gl': 'artigo de listas da Wikimedia',
             'he': 'רשימת ערכים',
             'hr': 'popis na Wikimediji',
             'hy': 'Վիքիմեդիայի նախագծի ցանկ',
-            'it': 'voci di liste Wikimedia',
+            'ia': 'lista de un projecto de Wikimedia',
+            'it': 'lista di un progetto Wikimedia',
             'ja': 'ウィキメディアの一覧記事',
             'ko': '위키미디어 목록 항목',
             'lb': 'Wikimedia-Lëschtenartikel',
+            'mk': 'список на статии на Викимедија',
+            'ms': 'rencana senarai Wikimedia',
             'nb': 'Wikimedia-listeartikkel',
             'nl': 'Wikimedia-lijst',
+            'nn': 'Wikimedia-listeartikkel',
             'oc': 'lista d\'un projècte Wikimèdia',
             'pl': 'lista w projekcie Wikimedia',
+            'ro': 'articol-listă în cadrul unui proiect Wikimedia',
             'ru': 'статья-список в проекте Викимедиа',
+            'sco': 'Wikimedia leet airticle',
             'si': 'විකිමීඩියා ලැයිස්තු ලිපිය',
             'sk': 'zoznamový článok projektov Wikimedia',
             'sl': 'seznam Wikimedije',
             'sr': 'списак на Викимедији',
             'sv': 'Wikimedia-listartikel',
             'ta': 'விக்கிப்பீடியா:பட்டியலிடல்',
-            'uk': 'стаття-список у проекті Вікімедіа',
+            'tg': 'саҳифаи феҳристӣ',
+            'th': 'บทความรายชื่อวิกิมีเดีย',
+            'tr': 'Vikimedya liste maddesi',
+            'uk': 'сторінка-список в проекті Вікімедіа',
             'vi': 'bài viết danh sách Wikimedia',
             'yi': 'וויקימעדיע ליסטע',
             'zh': '维基媒体列表条目',
@@ -667,9 +777,11 @@ def main():
             'zh-sg': '维基媒体列表条目',
             'zh-tw': '維基媒體列表條目'
         },
-        'Wikimedia template': {
+        'Wikimedia template': { #Q11266439
             'ar': 'قالب ويكيميديا', 
             'ast': 'plantía de proyectu', 
+            'ba': 'Викимедиа ҡалыбы', 
+            'bar': 'Wikimedia-Vorlog', 
             'be': 'шаблон праекта Вікімедыя', 
             'be-tarask': 'шаблён праекту Вікімэдыя', 
             'bg': 'Уикимедия шаблон', 
@@ -688,7 +800,7 @@ def main():
             'eo': 'Vikimedia ŝablono', 
             'es': 'plantilla de Wikimedia', 
             'et': 'Wikimedia mall', 
-            'eu': 'Wikimediarako txantiloia', 
+            'eu': 'Wikimediako txantiloia', 
             'fa': 'الگوی ویکی‌مدیا', 
             'fi': 'Wikimedia-malline', 
             'fo': 'fyrimynd Wikimedia', 
@@ -721,6 +833,7 @@ def main():
             'nds': 'Wikimedia-Vörlaag', 
             'nds-nl': 'Wikimedia-mal', 
             'nl': 'Wikimedia-sjabloon', 
+            'nn': 'Wikimedia-mal',
             'oc': 'modèl de Wikimèdia', 
             'or': 'ଉଇକିମିଡ଼ିଆ ଛାଞ୍ଚ', 
             'pam': 'Ulmang pang-Wikimedia', 
@@ -731,6 +844,7 @@ def main():
             'ro': 'format Wikimedia', 
             'ru': 'шаблон проекта Викимедиа', 
             'sco': 'Wikimedia template', 
+            'se': 'Wikimedia-málle',
             'sk': 'šablóna projektov Wikimedia', 
             'sr': 'Викимедијин шаблон', 
             'sr-ec': 'Викимедијин шаблон', 
@@ -741,6 +855,7 @@ def main():
             'tg': 'Шаблони Викимедиа', 
             'th': 'หน้าแม่แบบวิกิมีเดีย', 
             'tl': 'Padrong pang-Wikimedia', 
+            'tr': 'Vikimedya şablonu',
             'uk': 'шаблон проекту Вікімедіа', 
             'vi': 'bản mẫu Wikimedia', 
             'zh': '维基媒体模板', 
@@ -750,8 +865,9 @@ def main():
             'zh-hk': '維基媒體模板', 
             'zh-tw': '維基媒體模板', 
         },
-        'Wikinews article': {
+        'Wikinews article': { #Q17633526
             'ar': 'مقالة ويكي أخبار',
+            'bar': 'Artike bei Wikinews',
             'bn': 'উইকিসংবাদের নিবন্ধ',
             'bs': 'Wikinews članak',
             'ca': 'article de Viquinotícies', 
@@ -763,6 +879,7 @@ def main():
             'en-gb': 'Wikinews article', 
             'eo': 'artikolo de Vikinovaĵoj', 
             'es': 'artículo de Wikinoticias', 
+            'eu': 'Wikialbisteakeko artikulua',
             'fi': 'Wikiuutisten artikkeli',
             'fr': 'article de Wikinews', 
             'he': 'כתבה בוויקיחדשות',
@@ -776,6 +893,7 @@ def main():
             'mk': 'напис на Викивести', 
             'nb': 'Wikinytt-artikkel', 
             'nl': 'Wikinews-artikel', 
+            'nn': 'Wikinytt-artikkel',
             'or': 'ଉଇକି ସୂଚନା ପତ୍ରିକା',
             'pl': 'artykuł w Wikinews', 
             'ps': 'د ويکيخبرونو ليکنه',
@@ -783,7 +901,9 @@ def main():
             'ru': 'статья Викиновостей',
             'sr': 'чланак са Викивести',
             'sv': 'Wikinews-artikel',
+            'te': 'వికీవార్త వ్యాసం',
             'th': 'เนื้อหาวิกิข่าว', 
+            'tr': 'Vikihaber maddesi',
             'uk': 'стаття Вікіновин', 
             'zh': '維基新聞新聞稿', 
             'zh-cn': '维基新闻新闻稿', 
@@ -814,8 +934,12 @@ def main():
             'it': 'anno',
             'ja': '年',
             'ko': '연도',
+            'nb': 'år',
+            'nn': 'år',
             'pl': 'rok',
             'pt': 'ano',
+            'ro': 'an',
+            'ru': 'год', 
             'tr': 'yıl',
         },
     }
@@ -847,7 +971,7 @@ def main():
         
         #'male given name': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22male%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
-        'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
+        #'natural number': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A',
         
         #'scientific article': '', # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
@@ -863,6 +987,8 @@ def main():
         #'Wikimedia disambiguation page': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
         #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)',
+        #'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', #lists with language selector enabled
+        'Wikimedia list article': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', #lists even without english description
         
         #'Wikimedia template': 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)', 
         
@@ -904,15 +1030,31 @@ def main():
                 continue
             descriptions = item.descriptions
             addedlangs = []
+            fixedlangs = []
             for lang in translations[topic].keys():
-                if lang not in descriptions.keys():
+                if lang in descriptions.keys():
+                    if topic in fixthiswhenfound and \
+                       lang in fixthiswhenfound[topic] and \
+                       descriptions[lang] in fixthiswhenfound[topic][lang]:
+                        descriptions[lang] = translations[topic][lang]
+                        fixedlangs.append(lang)
+                else:
                     descriptions[lang] = translations[topic][lang]
                     addedlangs.append(lang)
-                    #print('%s\tD%s\t"%s"' % (q, lang, translations[topic][lang])) #quickstatements mode
-            data = { 'descriptions': descriptions }
-            addedlangs.sort()
-            if addedlangs:
-                summary = 'BOT - Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+            
+            if addedlangs or fixedlangs:
+                data = { 'descriptions': descriptions }
+                addedlangs.sort()
+                summary = 'BOT - '
+                if addedlangs:
+                    if fixedlangs:
+                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs[:15]))
+                        summary += ' / Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
+                    else:
+                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+                else:
+                    if fixedlangs:
+                        summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
                 print(summary)
                 try:
                     item.editEntity(data, summary=summary)

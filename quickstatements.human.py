@@ -39,6 +39,7 @@ def main():
             'male': {
                 'an': 'escritor alemán', 
                 'ast': 'escritor alemán', 
+                'bn': 'জার্মান লেখক', 
                 'ca': 'escriptor alemany', 
                 'es': 'escritor alemán', 
                 'fr': 'écrivain allemand', 
@@ -50,6 +51,7 @@ def main():
             'female': {
                 'an': 'escritora alemana', 
                 'ast': 'escritora alemana', 
+                'bn': 'জার্মান লেখিকা',
                 'ca': 'escriptora alemanya', 
                 'es': 'escritora alemana', 
                 'fr': 'écrivaine allemande', 
@@ -62,10 +64,12 @@ def main():
         
         'Spanish painter': {
             'male': {
+                'bn': 'স্পেনীয় চিত্রকর',
                 'es': 'pintor español', 
                 'he': 'צייר ספרדי', 
             }, 
             'female': {
+                'bn': 'স্পেনীয় চিত্রকর',
                 'es': 'pintora española',  
                 'he': 'ציירת ספרדייה', 
             }, 
@@ -73,6 +77,7 @@ def main():
         
         'Spanish politician': {
             'male': {
+                'bn': 'স্পেনীয় রাজনীতিবিদ',
                 'ca': 'polític espanyol', 
                 'es': 'político español', 
                 'fr': 'politicien espagnol', 
@@ -80,6 +85,7 @@ def main():
                 'he': 'פוליטיקאי ספרדי', 
             }, 
             'female': {
+                'bn': 'স্পেনীয় রাজনীতিবিদ',
                 'ca': 'política espanyola', 
                 'es': 'política española', 
                 'fr': 'femme politique espagnole', 
@@ -92,6 +98,7 @@ def main():
             'male': {
                 'an': 'escritor espanyol', 
                 'ast': 'escritor español', 
+                'bn': 'স্পেনীয় লেখক',
                 'ca': 'escriptor espanyol', 
                 'es': 'escritor español', 
                 'fr': 'écrivain espagnol', 
@@ -103,6 +110,7 @@ def main():
             'female': {
                 'an': 'escritora espanyola', 
                 'ast': 'escritora española', 
+                'bn': 'স্পেনীয় লেখিকা',
                 'ca': 'escriptora espanyola', 
                 'es': 'escritora española', 
                 'fr': 'écrivaine espagnole', 
