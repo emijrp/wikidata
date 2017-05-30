@@ -1340,7 +1340,7 @@ def main():
         }, 
         'Mauritian': {
             'ar': { 'male': 'موريشيوسي', 'female': 'موريشيوسية' },
-            'bn': { 'male': 'মৌরিতি', 'female': 'মৌরিতি' }, 
+            'bn': { 'male': 'মরিশাসীয়', 'female': 'মরিশাসীয়' }, 
             'ca': { 'male': 'mauricià', 'female': 'mauriciana' }, 
             'en': { 'male': 'Mauritian', 'female': 'Mauritian' }, 
             'es': { 'male': 'mauriciano', 'female': 'mauriciana' }, 
@@ -1850,7 +1850,7 @@ def main():
         }, 
         'Slovene': {
             'ar': { 'male': 'سلوفيني', 'female': 'سلوفينية' },
-            'bn': { 'male': 'স্লোভেনী', 'female': 'স্লোভেনী' }, 
+            'bn': { 'male': 'স্লোভেনীয়', 'female': 'স্লোভেনীয়' }, 
             'ca': { 'male': 'eslovè', 'female': 'eslovena' }, 
             'en': { 'male': 'Slovene', 'female': 'Slovene' }, 
             'es': { 'male': 'esloveno', 'female': 'eslovena' }, 
@@ -1910,7 +1910,7 @@ def main():
         }, 
         'Sri Lankan': {
             'ar': { 'male': 'سريلانكي', 'female': 'سريلانكية' },
-            'bn': { 'male': 'শ্রীলঙ্কী', 'female': 'শ্রীলঙ্কী' }, 
+            'bn': { 'male': 'শ্রীলঙ্কান', 'female': 'শ্রীলঙ্কান' }, 
             'ca': { 'male': 'singalès', 'female': 'singalesa' }, 
             'en': { 'male': 'Sri Lankan', 'female': 'Sri Lankan' }, 
             'es': { 'male': 'ceilanés', 'female': 'ceilanesa' }, 
