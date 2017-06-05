@@ -29,7 +29,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', 'he', 'ar', ]
+    targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fr', 'he', 'ar', 'ro', ]
     #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
@@ -47,6 +47,7 @@ def main():
         'nl': 'film uit ~YEAR~ van ~AUTHOR~', 
         'oc': 'filme de ~YEAR~ dirigit per ~AUTHOR~', 
         'pt': 'filme de ~YEAR~ dirigido por ~AUTHOR~', 
+        'ro': 'film din ~YEAR~ regizat de ~AUTHOR~', 
         'sv': 'film från ~YEAR~ regisserad av ~AUTHOR~', 
     }
     translationsand = {
@@ -64,6 +65,7 @@ def main():
         'nl': ' en ', 
         'oc': ' e ', 
         'pt': ' e ', 
+        'ro': ' și ', 
         'sv': ' och ', 
     }
     for targetlang in targetlangs:
