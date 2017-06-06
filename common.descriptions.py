@@ -54,6 +54,7 @@ def main():
     }
     translations = {
         'chemical compound': {
+            'an': 'compuesto quimico'
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
             'bn': 'রাসায়নিক যৌগ',
@@ -522,6 +523,7 @@ def main():
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
         #decidir que hacer
         # https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ16521.%0A%20%20%20%20%3Fitem%20wdt%3AP105%20wd%3AQ7432.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22species%20of%20insect%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22de%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
+            'an': 'especie d\'insecto',
             'bg': 'вид насекомо',
             'bn': 'কীটপতঙ্গের প্রজাতি',
             'ca': "espècie d'insecte",
@@ -537,6 +539,7 @@ def main():
             'ru': 'вид насекомых',
         },
         'village in China': {
+            'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
             'bn': 'চীনের গ্রাম',
             'ca': 'poble de la Xina',
@@ -560,6 +563,7 @@ def main():
         'Wikimedia category': { #Q4167836
             'ace': 'kawan Wikimèdia',
             'af': 'Wikimedia-kategorie',
+            'an': 'categoría de Wikimedia',
             'ar': 'تصنيف ويكيميديا',
             'arz': 'ويكيبيديا:تصنيف',
             'ast': 'categoría de Wikimedia',
@@ -641,6 +645,7 @@ def main():
             'zh-tw': '維基媒體分類',
         },
         'Wikimedia disambiguation page': { #Q4167410
+            'an': 'pachina de desambigación',
             'ar': 'صفحة توضيح لويكيميديا',
             'bn': 'উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা',
             'bs': 'čvor stranica na Wikimediji',
@@ -778,6 +783,7 @@ def main():
             'zh-tw': '維基媒體列表條目'
         },
         'Wikimedia template': { #Q11266439
+            'an': 'plantilla de Wikimedia',
             'ar': 'قالب ويكيميديا', 
             'ast': 'plantía de proyectu', 
             'ba': 'Викимедиа ҡалыбы', 
