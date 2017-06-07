@@ -52,8 +52,9 @@ def main():
     skip = ''
     for country in countries:
         urls = [
-            'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query='+'SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP17%20wd%3A'+country+'.%0A%7D', #stuff in these countries
-            'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query='+'SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3A'+country+'.%0A%7D', #biographies by citizenship
+            'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query='+'SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP17%20wd%3A'+country+'.%0A%7D', #P17 country
+            'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query='+'SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP495%20wd%3A'+country+'.%0A%7D', #P495 country of origin
+            'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query='+'SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3A'+country+'.%0A%7D', #P27 country of citizenship
         ]
         for url in urls:
             url = '%s&format=json' % (url)
@@ -90,7 +91,7 @@ def main():
                 
                 plainnames = []
                 for name in names:
-                    if not re.search(r'[ñç\(\)\:]', name):
+                    if not re.search(r'(?i)[ñç\(\)\:]', name):
                         #avoid producing names like Carlos I de España->Espana
                         plainnames.append(removeAccents(name))
                 
