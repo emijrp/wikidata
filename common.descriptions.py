@@ -54,7 +54,7 @@ def main():
     }
     translations = {
         'chemical compound': {
-            'an': 'compuesto quimico'
+            'an': 'compuesto quimico', 
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
             'bn': 'রাসায়নিক যৌগ',
