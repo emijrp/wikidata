@@ -558,6 +558,7 @@ def main():
             'fi': 'kylä Kiinassa',
             'fr': 'village chinois',
             'he': 'כפר ברפובליקה העממית של סין',
+            'hy': 'գյուղ Չինաստանում',
             'id': 'desa di Cina',
             'it': 'villaggio cinese',
             'nb': 'landsby i Kina',
@@ -565,6 +566,7 @@ def main():
             'nl': 'dorp in China',
             'oc': 'vilatge chinés',
             'pt-br': 'vila chinesa',
+            'ro': 'sat din China',
             'ru': 'деревня КНР',
         },
         'Wikimedia category': { #Q4167836
@@ -654,6 +656,7 @@ def main():
         'Wikimedia disambiguation page': { #Q4167410
             'an': 'pachina de desambigación',
             'ar': 'صفحة توضيح لويكيميديا',
+            'bg': 'Уикимедия пояснителна страница',
             'bn': 'উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা',
             'bs': 'čvor stranica na Wikimediji',
             'ca': 'pàgina de desambiguació de Wikimedia',
@@ -911,6 +914,7 @@ def main():
             'pl': 'artykuł w Wikinews', 
             'ps': 'د ويکيخبرونو ليکنه',
             'pt': 'artigo do Wikinotícias', 
+            'ro': 'articol în Wikiștiri', 
             'ru': 'статья Викиновостей',
             'sr': 'чланак са Викивести',
             'sv': 'Wikinews-artikel',
