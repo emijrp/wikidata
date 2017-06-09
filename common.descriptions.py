@@ -48,6 +48,9 @@ def main():
         'village in China': {
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
+        'Wikimedia disambiguation page': {
+            'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
+        }, 
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
         }, 
@@ -701,7 +704,7 @@ def main():
             'sq': 'faqe kthjelluese e Wikimedias',
             'sr': 'вишезначна одредница на Викимедији',
             'sv': 'Wikimedia-förgreningssida',
-            'tg': 'саҳифаи ибҳомзудоии Викимаълумот',
+            'tg': 'саҳифаи маъноҳои Викимедиа',
             'tr': 'Vikimedya anlam ayrımı sayfası',
             'uk': 'сторінка значень в проекті Вікімедіа',
             'vi': 'trang định hướng Wikimedia',
@@ -908,6 +911,7 @@ def main():
             'sr': 'чланак са Викивести',
             'sv': 'Wikinews-artikel',
             'te': 'వికీవార్త వ్యాసం',
+            'tg': 'саҳифаи Викиахбор',
             'th': 'เนื้อหาวิกิข่าว', 
             'tr': 'Vikihaber maddesi',
             'uk': 'стаття Вікіновин', 
