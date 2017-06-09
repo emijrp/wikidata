@@ -44,15 +44,19 @@ from wikidatafun import *
 #proteins https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemDescription%20(COUNT(%3Fitem)%20AS%20%3Fcount)%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP279%20wd%3AQ8054.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22mammalian%20protein%20found%20in%20Mus%20musculus%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC(%3Fcount)
 
 def main():
-    fixthiswhenfound = {
+    fixthiswhenfound = { #fixing old, wrong or poor translations
         'village in China': {
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
         'Wikimedia disambiguation page': {
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
         }, 
+        'Wikimedia list article': {
+            'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
+        }, 
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
+            'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
         }, 
     }
     translations = {
@@ -861,7 +865,7 @@ def main():
             'sv': 'Wikimedia-mall', 
             'ta': 'விக்கிமீடியா வார்ப்புரு', 
             'te': 'వికీమీడియా మూస', 
-            'tg': 'Шаблони Викимедиа', 
+            'tg': 'шаблони лоиҳаи Викимедиа', 
             'th': 'หน้าแม่แบบวิกิมีเดีย', 
             'tl': 'Padrong pang-Wikimedia', 
             'tr': 'Vikimedya şablonu',
