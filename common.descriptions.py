@@ -45,6 +45,9 @@ from wikidatafun import *
 
 def main():
     fixthiswhenfound = { #fixing old, wrong or poor translations
+        'chemical compound': {
+            'nl': ['chemische stof'], #https://www.wikidata.org/w/index.php?title=Q27165025&type=revision&diff=486050731&oldid=466952438
+        }, 
         'village in China': {
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
@@ -77,7 +80,7 @@ def main():
             'hy': 'քիմիական միացություն',
             'it': 'composto chimico',
             'nb': 'kjemisk forbindelse',
-            'nl': 'chemische stof',
+            'nl': 'chemische verbinding',
             'nn': 'kjemisk sambinding',
             'oc': 'component quimic',
             'pl': 'związek chemiczny',
