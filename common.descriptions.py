@@ -44,7 +44,7 @@ from wikidatafun import *
 #proteins https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemDescription%20(COUNT(%3Fitem)%20AS%20%3Fcount)%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP279%20wd%3AQ8054.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22mammalian%20protein%20found%20in%20Mus%20musculus%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC(%3Fcount)
 
 def main():
-    fixthiswhenfound = { #fixing old, wrong or poor translations
+    fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
         'chemical compound': {
             'nl': ['chemische stof'], #https://www.wikidata.org/w/index.php?title=Q27165025&type=revision&diff=486050731&oldid=466952438
         }, 
@@ -52,6 +52,7 @@ def main():
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
         'Wikimedia disambiguation page': {
+            'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
         }, 
         'Wikimedia list article': {
@@ -609,6 +610,7 @@ def main():
             'fa': 'ردهٔ ویکی‌پدیا',
             'fi': 'Wikimedia-luokka',
             'fr': 'page de catégorie de Wikimedia',
+            'fy': 'Wikimedia-kategory',
             'gl': 'categoría de Wikimedia',
             'gsw': 'Wikimedia-Kategorie',
             'gu': 'વિકિપીડિયા શ્રેણી',
@@ -680,6 +682,7 @@ def main():
             'fa': 'یک صفحهٔ ابهام\u200cزدایی در ویکی\u200cپدیا',
             'fi': 'Wikimedia-täsmennyssivu',
             'fr': 'page d\'homonymie de Wikimedia',
+            'fy': 'Wikimedia-betsjuttingsside',
             'gl': 'páxina de homónimos de Wikimedia',
             'gsw': 'Wikimedia-Begriffsklärigssite',
             'gu': 'સ્પષ્ટતા પાનું',
@@ -754,6 +757,7 @@ def main():
             'eu': 'Wikimediako zerrenda artikulua',
             'fi': 'Wikimedia-luetteloartikkeli',
             'fr': 'page de liste de Wikimedia',
+            'fy': 'Wikimedia-list',
             'gl': 'artigo de listas da Wikimedia',
             'he': 'רשימת ערכים',
             'hr': 'popis na Wikimediji',
@@ -901,6 +905,7 @@ def main():
             'eu': 'Wikialbisteakeko artikulua',
             'fi': 'Wikiuutisten artikkeli',
             'fr': 'article de Wikinews', 
+            'fy': 'Wikinews-artikel', 
             'he': 'כתבה בוויקיחדשות',
             'hu': 'Wikihírek-cikk',
             'hy': 'Վիքիլուրերի հոդված',
