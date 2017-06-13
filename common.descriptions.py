@@ -513,6 +513,8 @@ def main():
             'sco': 'naitural nummer',
             'sc': 'nùmeru naturale',
             'szl': 'naturalno nůmera',
+            'ru': 'натуральное число',
+            'uk': 'натуральне число',
         },
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
@@ -530,6 +532,9 @@ def main():
             'nn': 'vitskapeleg artikkel',
             'pt': 'artigo científico',
             'pt-br': 'artigo científico',
+            'ro': 'articol științific',
+            'ru': 'научная статья',
+            'uk': 'наукова стаття',
         }, 
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
         #decidir que hacer
@@ -548,6 +553,7 @@ def main():
             'pt-br': 'espécie de inseto',
             'ro': 'specie de insecte',
             'ru': 'вид насекомых',
+            'ta': 'பூச்சி இனம்',
         },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
@@ -582,8 +588,8 @@ def main():
             'ast': 'categoría de Wikimedia',
             'ba': 'Викимедиа категорияһы',
             'bar': 'Wikimedia-Kategorie',
-            'be': 'катэгарызацыя',
-            'be-tarask': 'Катэгорыя',
+#            'be': 'катэгарызацыя',# bad term: =categorization
+#            'be-tarask': 'Катэгорыя',# =Category; should contain "Wikimedia"
             'bg': 'категория на Уикимедия',
             'bho': 'विकिपीडिया:श्रेणी',
             'bjn': 'tumbung Wikimedia',
@@ -947,6 +953,8 @@ def main():
             'ar': 'سنة',
             'ast': 'añu',
             'bg': 'година',
+            'be': 'год', 
+            'be-tarask': 'год', 
             'bn': 'বছর',
             'ca': 'any',
             'cs': 'rok',
@@ -967,6 +975,7 @@ def main():
             'ro': 'an',
             'ru': 'год', 
             'tr': 'yıl',
+            'uk': 'рік', 
         },
     }
     site = pywikibot.Site('wikidata', 'wikidata')
