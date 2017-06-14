@@ -588,8 +588,8 @@ def main():
             'ast': 'categoría de Wikimedia',
             'ba': 'Викимедиа категорияһы',
             'bar': 'Wikimedia-Kategorie',
-#            'be': 'катэгарызацыя',# bad term: =categorization
-#            'be-tarask': 'Катэгорыя',# =Category; should contain "Wikimedia"
+            'be': 'катэгорыя ў праекце Вікімедыя',
+            'be-tarask': 'катэгорыя ў праекце Вікімэдыя',
             'bg': 'категория на Уикимедия',
             'bho': 'विकिपीडिया:श्रेणी',
             'bjn': 'tumbung Wikimedia',
