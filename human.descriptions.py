@@ -221,7 +221,7 @@ def main():
         },
         'Barbadian': {
             'ar': { 'male': 'بربادوسي', 'female': 'بربادوسية' },
-            'bn': { 'male': 'বার্বাডোসীয়', 'female': 'বার্বাডোসীয়' },
+            'bn': { 'male': 'বার্বাডীয়', 'female': 'বার্বাডীয়' },
             'ca': { 'male': 'barbadià', 'female': 'barbadiana' },
             'en': { 'male': 'Barbadian', 'female': 'Barbadian' }, 
             'es': { 'male': 'barbadense', 'female': 'barbadense' }, 
@@ -891,7 +891,7 @@ def main():
         },
         'Honduran': {
             'ar': { 'male': 'هندوراسي', 'female': 'هندوراسية' },
-            'bn': { 'male': 'হন্ডুরাসীয়', 'female': 'হন্ডুরাসীয়' }, 
+            'bn': { 'male': 'হন্ডুরীয়', 'female': 'হন্ডুরীয়' }, 
             'ca': { 'male': 'hondureny', 'female': 'hondurenya' },
             'en': { 'male': 'Honduran', 'female': 'Honduran' }, 
             'es': { 'male': 'hondureño', 'female': 'hondureña' }, 
@@ -1681,7 +1681,7 @@ def main():
         }, 
         'Qatari': {
             'ar': { 'male': 'قطري', 'female': 'قطرية' },
-            'bn': { 'male': 'কাতারি', 'female': '' }, 
+            'bn': { 'male': 'কাতারি', 'female': 'কাতারি' }, 
             'ca': { 'male': 'catarí', 'female': 'catarina' }, 
             'en': { 'male': 'Qatari', 'female': 'Qatari' }, 
             'es': { 'male': 'catarí', 'female': 'catarí' }, 
