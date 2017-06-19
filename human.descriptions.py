@@ -891,7 +891,7 @@ def main():
         },
         'Honduran': {
             'ar': { 'male': 'هندوراسي', 'female': 'هندوراسية' },
-            'bn': { 'male': 'হন্ডুরাসীয়', 'female': 'হন্ডুরাসীয়' }, 
+            'bn': { 'male': 'হন্ডুরীয়', 'female': 'হন্ডুরীয়' }, 
             'ca': { 'male': 'hondureny', 'female': 'hondurenya' },
             'en': { 'male': 'Honduran', 'female': 'Honduran' }, 
             'es': { 'male': 'hondureño', 'female': 'hondureña' }, 
