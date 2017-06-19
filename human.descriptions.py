@@ -767,7 +767,7 @@ def main():
             'es': { 'male': 'gabonés', 'female': 'gabonesa' }, 
             'fr': { 'male': 'gabonais', 'female': 'gabonaise' }, 
             'gl': { 'male': 'gabonés', 'female': 'gabonesa' }, 
-            'he': { 'male': 'גבוני', 'female': 'גבונית' }, 
+            'he': { 'male': 'גבונזי', 'female': 'גבונזית' }, 
         },
         'Gambian': {
             'ar': { 'male': 'غامبي', 'female': 'غامبية' },
