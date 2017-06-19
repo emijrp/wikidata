@@ -1681,7 +1681,7 @@ def main():
         }, 
         'Qatari': {
             'ar': { 'male': 'قطري', 'female': 'قطرية' },
-            'bn': { 'male': 'কাতারি', 'female': '' }, 
+            'bn': { 'male': 'কাতারি', 'female': 'কাতারি' }, 
             'ca': { 'male': 'catarí', 'female': 'catarina' }, 
             'en': { 'male': 'Qatari', 'female': 'Qatari' }, 
             'es': { 'male': 'catarí', 'female': 'catarí' }, 
