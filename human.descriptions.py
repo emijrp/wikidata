@@ -221,7 +221,7 @@ def main():
         },
         'Barbadian': {
             'ar': { 'male': 'بربادوسي', 'female': 'بربادوسية' },
-            'bn': { 'male': 'বার্বাডোসীয়', 'female': 'বার্বাডোসীয়' },
+            'bn': { 'male': 'বার্বাডীয়', 'female': 'বার্বাডীয়' },
             'ca': { 'male': 'barbadià', 'female': 'barbadiana' },
             'en': { 'male': 'Barbadian', 'female': 'Barbadian' }, 
             'es': { 'male': 'barbadense', 'female': 'barbadense' }, 
