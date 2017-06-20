@@ -51,6 +51,10 @@ def main():
         'village in China': {
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
+        'Wikimedia category': {
+            'be': 'катэгарызацыя', #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
+            'be-tarask': 'Катэгорыя',#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
+        }, 
         'Wikimedia disambiguation page': {
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
@@ -582,8 +586,8 @@ def main():
             'ast': 'categoría de Wikimedia',
             'ba': 'Викимедиа категорияһы',
             'bar': 'Wikimedia-Kategorie',
-            'be': 'катэгарызацыя',
-            'be-tarask': 'Катэгорыя',
+            'be': 'катэгорыя ў праекце Вікімедыя',
+            'be-tarask': 'катэгорыя ў праекце Вікімэдыя',
             'bg': 'категория на Уикимедия',
             'bho': 'विकिपीडिया:श्रेणी',
             'bjn': 'tumbung Wikimedia',
@@ -644,9 +648,11 @@ def main():
             'sr': 'категорија на Викимедији',
             'sv': 'Wikimedia-kategori',
             'tg': 'гурӯҳи Викимедиа',
+            'tg-latn': 'gurühi Vikimedia',
             'tr': 'Vikimedya kategorisi',
             'uk': 'категорія в проекті Вікімедіа',
             'vi': 'thể loại Wikimedia',
+            'yo': 'ẹ̀ka Wikimedia',
             'yue': '維基媒體分類',
             'zh': '维基媒体分类',
             'zh-cn': '维基媒体分类',
@@ -718,6 +724,7 @@ def main():
             'sr': 'вишезначна одредница на Викимедији',
             'sv': 'Wikimedia-förgreningssida',
             'tg': 'саҳифаи маъноҳои Викимедиа',
+            'tg-latn': "sahifai ma'nohoi Vikimedia",
             'tr': 'Vikimedya anlam ayrımı sayfası',
             'uk': 'сторінка значень в проекті Вікімедіа',
             'vi': 'trang định hướng Wikimedia',
@@ -784,11 +791,13 @@ def main():
             'sv': 'Wikimedia-listartikel',
             'ta': 'விக்கிப்பீடியா:பட்டியலிடல்',
             'tg': 'саҳифаи феҳристӣ',
+            'tg-latn': 'sahifai fehristī',
             'th': 'บทความรายชื่อวิกิมีเดีย',
             'tr': 'Vikimedya liste maddesi',
             'uk': 'сторінка-список в проекті Вікімедіа',
             'vi': 'bài viết danh sách Wikimedia',
             'yi': 'וויקימעדיע ליסטע',
+            'yo': 'ojúewé àtojọ Wikimedia',
             'zh': '维基媒体列表条目',
             'zh-cn': '维基媒体列表条目',
             'zh-hans': '维基媒体列表条目',
@@ -869,6 +878,7 @@ def main():
             'sco': 'Wikimedia template', 
             'se': 'Wikimedia-málle',
             'sk': 'šablóna projektov Wikimedia', 
+            'sq': 'stampë e Wikimedias', 
             'sr': 'Викимедијин шаблон', 
             'sr-ec': 'Викимедијин шаблон', 
             'stq': 'Wikimedia-Foarloage', 
@@ -876,11 +886,13 @@ def main():
             'ta': 'விக்கிமீடியா வார்ப்புரு', 
             'te': 'వికీమీడియా మూస', 
             'tg': 'шаблони лоиҳаи Викимедиа', 
+            'tg-latn': 'shabloni loihai Vikimedia', 
             'th': 'หน้าแม่แบบวิกิมีเดีย', 
             'tl': 'Padrong pang-Wikimedia', 
             'tr': 'Vikimedya şablonu',
             'uk': 'шаблон проекту Вікімедіа', 
             'vi': 'bản mẫu Wikimedia', 
+            'yo': 'àdàkọ Wikimedia',
             'zh': '维基媒体模板', 
             'zh-cn': '维基媒体模板', 
             'zh-hans': '维基媒体模板', 
@@ -1003,15 +1015,15 @@ def main():
         
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         
-        'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(2700000, 1500000, -1*querylimit)],
+        #'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(2700000, 1500000, -1*querylimit)],
         
-        #'Wikimedia disambiguation page': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        #'Wikimedia disambiguation page': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 1300000, querylimit)], 
         
         #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], #lists with language selector enabled
         #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], #lists even without english description
         
-        #'Wikimedia template': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'Wikimedia template': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11266439%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 1000000, querylimit)], 
         
         #'Wikinews article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17633526%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikinews%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
         
