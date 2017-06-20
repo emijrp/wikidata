@@ -2894,13 +2894,21 @@ def main():
             'es': { 'male': 'traductor ~', 'female': 'traductora ~' }, 
             'fr': { 'male': 'traducteur ~', 'female': 'traductrice ~' }, 
             'he': { 'male': 'מתרגם ~', 'female': 'מתרגמת ~' }, 
+            'sl': { 'male': '~ prevajalec', 'female': '~ prevajalka' }, 
         }, 
         '~ model': {
             'bn': { 'male': '~ মডেল', 'female': '~ মডেল' },
             'en': { 'male': '~ model', 'female': '~ model' }, 
             'es': { 'male': 'modelo ~', 'female': 'modelo ~' }, 
             'fr': { 'male': 'mannequin ~', 'female': 'mannequin ~' }, 
+            'sl': { 'male': '~ model', 'female': '~ model' },
             'he': { 'male': 'דוגמן ~', 'female': 'דוגמנית ~' }, 
+        }, 
+        '~ filmmaker': {
+            'ar': { 'male': 'صانع أفلام ~', 'female': 'صانعة أفلام ~' }, 
+            'en': { 'male': '~ filmmaker', 'female': '~ filmmaker' }, 
+            'sl': { 'male': '~ kinematografist', 'female': '~ kinematografinja' }, 
+            'he': { 'male': 'יוצר קולנוע ~', 'female': 'יוצרת קולנוע ~' }, 
         }, 
         
     }
