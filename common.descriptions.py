@@ -742,6 +742,7 @@ def main():
         'Wikimedia list article': { #Q13406463
             'ace': 'teunuléh dapeuta Wikimèdia',
             'af': 'Wikimedia lysartikel',
+            'an': 'articlo de lista de Wikimedia',
             'ar': 'قائمة ويكيميديا',
             'as': 'ৱিকিপিডিয়া:ৰচনাশৈলীৰ হাতপুথি',
             'ast': 'artículu de llista de Wikimedia',
@@ -901,6 +902,7 @@ def main():
             'zh-tw': '維基媒體模板', 
         },
         'Wikinews article': { #Q17633526
+            'an': 'articlo de Wikinews',
             'ar': 'مقالة ويكي أخبار',
             'bar': 'Artike bei Wikinews',
             'bn': 'উইকিসংবাদের নিবন্ধ',
