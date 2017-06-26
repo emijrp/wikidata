@@ -2946,7 +2946,7 @@ def main():
             
             for translation in translations_list:
                 cqueries += 1
-                print(targetlang, genderlabel, translation)
+                print(targetlang, genderlabel, translation.encode('utf-8'))
                 if skiptoperson:
                     if skiptoperson != translation:
                         print('Skiping translation:', translation)
@@ -2963,7 +2963,7 @@ def main():
                 c = 1
                 for result in json1['results']['bindings']:
                     q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d) ==' % (q, c, total, translation, genderlabel, targetlang, c2, total2, cqueries, totalqueries))
+                    print('\n== %s (%d/%d; %s; %s; %s; items %d/%d; queries %d/%d) ==' % (q, c, total, translation.encode('utf-8'), genderlabel, targetlang, c2, total2, cqueries, totalqueries))
                     c += 1
                     c2 += 1
                     item = pywikibot.ItemPage(repo, q)
