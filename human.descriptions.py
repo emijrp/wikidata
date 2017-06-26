@@ -42,7 +42,8 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr']
+    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn']
+    targetlangs = ['bn', 'es', 'ca', 'gl', 'he', 'fr']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
@@ -2874,7 +2875,10 @@ def main():
             'gl': { 'male': 'escritor ~', 'female': 'escritora ~' },  
             'he': { 'male': 'סופר ~', 'female': 'סופרת ~' }, 
         }, 
-         '~ skier': {
+    }
+    """
+        #Translate to all languages before removing comment
+        '~ skier': {
             'bn': { 'male': '~ স্কিয়ার', 'female': '~ স্কিয়ার' }, 
             'en': { 'male': '~ skier', 'female': '~ skier' }, 
             'es': { 'male': 'esquiador ~', 'female': 'esquiadora ~' }, 
@@ -2902,8 +2906,8 @@ def main():
             'fr': { 'male': 'mannequin ~', 'female': 'mannequin ~' }, 
             'he': { 'male': 'דוגמן ~', 'female': 'דוגמנית ~' }, 
         }, 
-        
-    }
+    """
+    
     translations = {}
     for occupkey, occupdic in translationsOccupations.items():
         for natkey, natdic in translationsNationalities.items():
