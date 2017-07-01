@@ -49,6 +49,7 @@ def main():
             'nl': ['chemische stof'], #https://www.wikidata.org/w/index.php?title=Q27165025&type=revision&diff=486050731&oldid=466952438
         }, 
         'village in China': {
+            'bn': ['চীনের গ্রাম'],
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
         }, 
         'Wikimedia category': {
@@ -564,7 +565,7 @@ def main():
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
-            'bn': 'চীনের গ্রাম',
+            'bn': 'চীনের একটি গ্রাম',
             'ca': 'poble de la Xina',
             'de': 'Dorf in China',
             'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
