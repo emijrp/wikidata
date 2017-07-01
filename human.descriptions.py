@@ -2931,7 +2931,7 @@ def main():
     for targetlang in targetlangs:
         if skiptolang:
             if skiptolang != targetlang:
-                print('Skiping lang:', targetlang)
+                print('Skiping lang:', targetlang.encode('utf-8'))
                 continue
             else:
                 skiptolang = ''
@@ -2939,7 +2939,7 @@ def main():
         for genderq, genderlabel in genders_list:
             if skiptogender:
                 if skiptogender != genderlabel:
-                    print('Skiping gender:', genderlabel)
+                    print('Skiping gender:', genderlabel.encode('utf-8'))
                     continue
                 else:
                     skiptogender = ''
@@ -2949,7 +2949,7 @@ def main():
                 print(targetlang, genderlabel, translation.encode('utf-8'))
                 if skiptoperson:
                     if skiptoperson != translation:
-                        print('Skiping translation:', translation)
+                        print('Skiping translation:', translation.encode('utf-8'))
                         continue
                     else:
                         skiptoperson = ''
