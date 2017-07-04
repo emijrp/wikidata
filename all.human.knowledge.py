@@ -38,7 +38,8 @@ def getQueryCount(p='', q=''):
 
 def main():
     minsectionlevel = 2
-    site = pywikibot.Site('en', 'wikipedia')
+    #site = pywikibot.Site('en', 'wikipedia')
+    site = pywikibot.Site('wikidata', 'wikidata')
     ahk = pywikibot.Page(site, 'User:Emijrp/All Human Knowledge')
     ahktext = ahk.text
     ahknewtext = ahktext
@@ -52,7 +53,7 @@ def main():
     wdstatsurl = 'https://www.wikidata.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
     jsonwd = json.loads(getURL(url=wdstatsurl))
     wdarticles = jsonwd['query']['statistics']['articles']
-    wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, [[English Wikipedia]] has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and [[Wikidata]] includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
+    wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, {{Q|Q328}} has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and {{Q|Q2013}} includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
     ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
     #biography
     
@@ -136,7 +137,7 @@ def main():
                 if y['parent'] == sectiontitle:
                     rowspan += 1
             if rowspan == 1:
-                anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
+                anchors = '{{·}} '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
                 if not anchors:
                     anchors = '[[#%s|See table]]' % (sectiontitle)
                 summaryrow = """| [[#%s|%s]]
