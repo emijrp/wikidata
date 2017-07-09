@@ -28,7 +28,7 @@ def main():
     ahktext = ahk.text
     ahknewtext = ahktext
     
-    """
+    
     #[[links]] -> {{Q|123}}
     m = re.findall(r'(?im)(\[\[([^\[\]\:\|]+?)\]\]([A-Za-z]*))', ahknewtext)
     for i in m:
@@ -41,7 +41,7 @@ def main():
             ahknewtext = ahknewtext.replace(i[0], "{{Q|%s}}" % q.title(), 1)
         except:
             continue
-    """
+    
     #[[link|links]] -> [[Q123|links]]
     m = re.findall(r'(?im)(\[\[([^\[\]\:]+?)\|([^\[\]\:]+?)\]\]([A-Za-z]*))', ahknewtext)
     for i in m:
