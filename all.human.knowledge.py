@@ -151,7 +151,7 @@ def main():
                 summaryrow = """| rowspan=%s | [[#%s|%s]]
 |-""" % (rowspan+1, sectiontitle, sectiontitle)
         elif sectionlevel > minsectionlevel:
-            anchors = ', '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
+            anchors = '{{·}} '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
             if not anchors:
                 anchors = '[[#%s|See table]]' % (sectiontitle)
             summaryrow = """| <li>[[#%s|%s]]
