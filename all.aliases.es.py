@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import sys
 import time
 
 import pwb
@@ -27,8 +28,12 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    skip = 'Q1000'
-    for n in range(1000, 32000000):
+    i = 0
+    if len(sys.argv) > 1:
+        i = int(sys.argv[1])
+    
+    skip = ''
+    for n in range(i*1000000, (i+1)*1000000):
         q = 'Q%s' % (n)
         print('==', q, '==')
         if skip:
