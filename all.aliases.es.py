@@ -24,6 +24,15 @@ import pywikibot
 from wikidatafun import *
 
 def main():
+    excludedP31 = [
+        #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&oldid=516964105#Aliases_on_given_name
+        'Q202444', #given name
+        'Q147276', #proper noun
+        'Q11879590', #female given name
+        'Q12308941', #male given name
+        'Q101352', #family name
+        'Q4116295', #after-name
+    ]
     targetlang = 'es'
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -33,8 +42,8 @@ def main():
         i = int(sys.argv[1])
     
     skip = ''
-    for n in range(i*1000000, (i+1)*1000000):
-        q = 'Q%s' % (n)
+    for n in range(i*1000000, (i+1)*1000000+1):
+        q = 'Q%s' % (n+1)
         print('==', q, '==')
         if skip:
             if skip != q:
@@ -49,6 +58,17 @@ def main():
         except:
             print('Error while .get()')
             continue
+        
+        excludeditem = False
+        if 'P31' in item.claims:
+            for p31 in item.claims['P31']:
+                if p31.getTarget().title() in excludedP31:
+                    print('Skiping excluded item')
+                    excludeditem = True
+                    break
+        if excludeditem:
+            continue
+        
         aliases = item.aliases
         labels = item.labels
         if not targetlang in labels:
@@ -61,7 +81,7 @@ def main():
         
         plainnames = []
         for name in names:
-            if not re.search(r'(?i)[^a-záéíóú\.\- ]', name):
+            if not re.search(r'(?i)[^a-záéíóúàèìòùâêîôû\.\- ]', name):
                 #avoid producing names like Carlos I de España->Espana
                 plainnames.append(removeAccents(name))
             else:
