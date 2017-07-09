@@ -44,6 +44,7 @@ def main():
                 'es': 'escritor alemán', 
                 'fr': 'écrivain allemand', 
                 'gl': 'escritor alemán', 
+                'id': 'penulis laki-laki asal Jerman', 
                 'it': 'scrittore tedesco', 
                 'oc': 'escrivan alemand', 
                 'he': 'סופר גרמני', 
@@ -56,6 +57,7 @@ def main():
                 'es': 'escritora alemana', 
                 'fr': 'écrivaine allemande', 
                 'gl': 'escritora alemá', 
+                'id': 'penulis perempuan asal Jerman', 
                 'it': 'scrittrice tedesca', 
                 'oc': 'escrivana alemanda', 
                 'he': 'סופרת גרמנייה', 
@@ -67,11 +69,13 @@ def main():
                 'bn': 'স্পেনীয় চিত্রকর',
                 'es': 'pintor español', 
                 'he': 'צייר ספרדי', 
+                'id': 'pelukis laki-laki asal Spanyol'
             }, 
             'female': {
                 'bn': 'স্পেনীয় চিত্রকর',
                 'es': 'pintora española',  
                 'he': 'ציירת ספרדייה', 
+                'id': 'pelukis perempuan asal Spanyol'
             }, 
         }, 
         
@@ -81,6 +85,7 @@ def main():
                 'ca': 'polític espanyol', 
                 'es': 'político español', 
                 'fr': 'politicien espagnol', 
+                'id': 'politisi laki-laki asal Spanyol'
                 'it': 'politico spagnolo', 
                 'he': 'פוליטיקאי ספרדי', 
             }, 
@@ -89,6 +94,7 @@ def main():
                 'ca': 'política espanyola', 
                 'es': 'política española', 
                 'fr': 'femme politique espagnole', 
+                'id': 'politisi perempuan asal Spanyol'
                 'it': 'politica spagnola',   
                 'he': 'פוליטיקאית ספרדייה', 
             }, 
@@ -103,6 +109,7 @@ def main():
                 'es': 'escritor español', 
                 'fr': 'écrivain espagnol', 
                 'gl': 'escritor español', 
+                'id': 'penulis laki-laki asal Spanyol'
                 'it': 'scrittore spagnolo', 
                 'oc': 'escrivan espanhòl', 
                 'he': 'סופר ספרדי', 
@@ -115,6 +122,7 @@ def main():
                 'es': 'escritora española', 
                 'fr': 'écrivaine espagnole', 
                 'gl': 'escritora española', 
+                'id': 'penulis perempuan asal Spanyol'
                 'it': 'scrittrice spagnola', 
                 'oc': 'escrivana espanhòla',  
                 'he': 'סופרת ספרדייה', 
