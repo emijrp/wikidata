@@ -25,13 +25,15 @@ from wikidatafun import *
 
 def main():
     excludedP31 = [
-        #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&oldid=516964105#Aliases_on_given_name
+        #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&oldid=516982714#Aliases_on_given_name
         'Q202444', #given name
         'Q147276', #proper noun
         'Q11879590', #female given name
         'Q12308941', #male given name
         'Q101352', #family name
         'Q4116295', #after-name
+        'Q3409032', #unisex given name
+        'Q82799', #name
     ]
     targetlang = 'es'
     site = pywikibot.Site('wikidata', 'wikidata')
@@ -42,7 +44,8 @@ def main():
         i = int(sys.argv[1])
     
     skip = ''
-    for n in range(i*1000000, (i+1)*1000000+1):
+    #for n in range(i*1000000, (i+1)*1000000+1):
+    for n in range((i+1)*1000000+1, i*1000000, -1):
         q = 'Q%s' % (n+1)
         print('==', q, '==')
         if skip:
@@ -62,10 +65,14 @@ def main():
         excludeditem = False
         if 'P31' in item.claims:
             for p31 in item.claims['P31']:
-                if p31.getTarget().title() in excludedP31:
-                    print('Skiping excluded item')
-                    excludeditem = True
-                    break
+                try:
+                    #unknown value for .title() https://www.wikidata.org/wiki/Q22980688
+                    if p31.getTarget().title() in excludedP31:
+                        print('Skiping excluded item')
+                        excludeditem = True
+                        break
+                except:
+                    pass
         if excludeditem:
             continue
         
