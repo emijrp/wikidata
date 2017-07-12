@@ -1018,7 +1018,7 @@ def main():
             'es': { 'male': 'jamaicano', 'female': 'jamaicana' }, 
             'fr': { 'male': 'jamaïcain', 'female': 'jamaïcaine' }, 
             'gl': { 'male': 'xamaicano', 'female': 'xamaicana' }, 
-            'he': { 'male': 'ג\'מייקני', 'female': 'ג\'מייקני' }, 
+            'he': { 'male': 'ג\'מייקני', 'female': 'ג\'מייקנית' }, 
         }, 
         'Japanese': {
             'ar': { 'male': 'ياباني', 'female': 'يابانية' },
