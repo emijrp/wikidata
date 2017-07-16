@@ -56,6 +56,7 @@ def main():
             'be': ['катэгарызацыя'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'be-tarask': ['Катэгорыя'],#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'es': ['categoría de Wikipedia'], 
+            'uk': ['Категорії'],
         }, 
         'Wikimedia disambiguation page': {
             'es': ['desambiguación de Wikipedia'], 
