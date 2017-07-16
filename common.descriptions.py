@@ -96,6 +96,24 @@ def main():
             'pt-br': 'composto químico',
             'ro': 'compus chimic',
         }, 
+        'encyclopedic article': {
+            'ar': 'مقالة موسوعية',
+            'ca': 'article enciclopèdic',
+            'cs': 'encyklopedický článek',
+            'da': 'encyklopædiartikel',
+            'en': 'encyclopedic article',
+            'eo': 'enciklopedia artikolo',
+            'es': 'artículo de enciclopedia',
+            'fr': "article d'encyclopédie",
+            'gl': 'artigo enciclopédico',
+            'hy': 'հանրագիտարանային հոդված',
+            'nb': 'encyklopedisk artikkel',
+            'nl': 'encyclopedisch artikel',
+            'pl': 'artykuł w encyklopedii',
+            'ru': 'энциклопедическая статья',
+            'sl': 'enciklopedični članek',
+            'sv': 'encyklopedisk artikel',
+        }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
             'bn': 'শৈবালের গণ',
@@ -1022,6 +1040,8 @@ def main():
     queries = {
         #'chemical compound': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11173%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22chemical%20compound%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
         
+        'encyclopedic article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17329259%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22encyclopedic%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 300000, querylimit)], 
+        
         #'family name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ101352%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22family%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
         
         #'female given name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22female%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
@@ -1051,7 +1071,7 @@ def main():
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         
         #'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(32760000, 30000000, -1*querylimit)],
-        'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(3680000, 3100000, -1*querylimit)],
+        #'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(1, 3200000, querylimit)],
         
         #'Wikimedia disambiguation page': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167410%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20disambiguation%20page%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 1300000, querylimit)], 
         
