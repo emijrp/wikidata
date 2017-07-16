@@ -44,8 +44,8 @@ def main():
         i = int(sys.argv[1])
     
     skip = ''
-    #for n in range(i*1000000, (i+1)*1000000+1):
-    for n in range((i+1)*1000000+1, i*1000000, -1):
+    for n in range(i*1000000+1, (i+1)*1000000+1):
+    #for n in range((i+1)*1000000+1, i*1000000, -1):
         q = 'Q%s' % (n+1)
         print('==', q, '==')
         if skip:
@@ -89,7 +89,7 @@ def main():
             
             plainnames = []
             for name in names:
-                if not re.search(r'(?i)[^a-záéíóúàèìòùâêîôû\.\- ]', name):
+                if not re.search(r'(?i)[^a-záéíóúàèìòùâêîôû\.\- ]', name): #cuidado con ':', crearía alias en Cats, Templates...
                     #avoid producing names like Carlos I de España->Espana
                     plainnames.append(removeAccents(name))
                 else:
