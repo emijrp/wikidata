@@ -98,6 +98,7 @@ def main():
         }, 
         'encyclopedic article': {
             'ar': 'مقالة موسوعية',
+            'bn': 'বিশ্বকোষীয় নিবন্ধ',
             'ca': 'article enciclopèdic',
             'cs': 'encyklopedický článek',
             'da': 'encyklopædiartikel',
