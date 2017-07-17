@@ -111,6 +111,7 @@ def main():
             'nb': 'encyklopedisk artikkel',
             'nl': 'encyclopedisch artikel',
             'pl': 'artykuł w encyklopedii',
+            'ro': 'articol enciclopedic',
             'ru': 'энциклопедическая статья',
             'sl': 'enciklopedični članek',
             'sv': 'encyklopedisk artikel',
