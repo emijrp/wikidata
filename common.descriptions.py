@@ -46,34 +46,29 @@ from wikidatafun import *
 def main():
     fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
         'chemical compound': {
-            'id': ['senyawa kimia'],
             'nl': ['chemische stof'], #https://www.wikidata.org/w/index.php?title=Q27165025&type=revision&diff=486050731&oldid=466952438
         }, 
         'village in China': {
             'bn': ['চীনের গ্রাম'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=prev&oldid=510797889
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
-            'id': ['desa di Tiongkok'],
+            'id': ['desa di Cina'],
         }, 
         'Wikimedia category': {
             'be': ['катэгарызацыя'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'be-tarask': ['Катэгорыя'],#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'es': ['categoría de Wikipedia'],
-            'id': ['kategori Wikimedia'],
             'uk': ['Категорії'],
         }, 
         'Wikimedia disambiguation page': {
             'es': ['desambiguación de Wikipedia'], 
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
-            'id': ['halaman disambiguasi Wikimedia'],
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
         }, 
         'Wikimedia list article': {
-            'id': ['artikel daftar Wikimedia'],
             'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
         }, 
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
-            'id': ['templat Wikimedia'],
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
         }, 
     }
