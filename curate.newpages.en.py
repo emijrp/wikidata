@@ -24,12 +24,19 @@ from pywikibot import pagegenerators
 
 from wikidatafun import *
 
+def addImportedFrom(repo='', claim=''):
+    importedfrom = pywikibot.Claim(repo, 'P143') #imported from
+    importedwp = pywikibot.ItemPage(repo, 'Q328') #enwp
+    importedfrom.setTarget(importedwp)
+    claim.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[Q328]]')
+
 def addHumanClaim(repo='', item=''):
     if repo and item:
         claim = pywikibot.Claim(repo, 'P31')
         target = pywikibot.ItemPage(repo, 'Q5')
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
+        addImportedFrom(repo=repo, claim=claim)
 
 def addGenderClaim(repo='', item='', gender=''):
     gender2q = { 'female': 'Q6581072', 'male': 'Q6581097' }
@@ -38,6 +45,7 @@ def addGenderClaim(repo='', item='', gender=''):
         target = pywikibot.ItemPage(repo, gender2q[gender])
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
+        addImportedFrom(repo=repo, claim=claim)
 
 def authorIsNewbie(page=''):
     if page:
