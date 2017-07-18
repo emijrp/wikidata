@@ -114,7 +114,7 @@ def main():
             'id': 'artikel ensiklopedia',
             'nb': 'encyklopedisk artikkel',
             'nl': 'encyclopedisch artikel',
-            'nn': 'ensyklopedisk artikkel,
+            'nn': 'ensyklopedisk artikkel',
             'pl': 'artykuł w encyklopedii',
             'ro': 'articol enciclopedic',
             'ru': 'энциклопедическая статья',
