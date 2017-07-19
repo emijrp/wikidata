@@ -62,6 +62,7 @@ def main():
         'Wikimedia disambiguation page': {
             'es': ['desambiguación de Wikipedia'], 
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
+            'id': ['halaman disambiguasi'], 
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
         }, 
         'Wikimedia list article': {
