@@ -58,7 +58,7 @@ def main():
             'be': ['катэгарызацыя'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'be-tarask': ['Катэгорыя'],#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'es': ['categoría de Wikipedia'],
-            'uk': ['Категорії'],
+            'uk': ['Категорії', 'категорія в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=User_talk%3AEmijrp&type=revision&diff=527336622&oldid=525302741
         }, 
         'Wikimedia disambiguation page': {
             'es': ['desambiguación de Wikipedia'], 
@@ -709,7 +709,7 @@ def main():
             'tg-cyrl': 'гурӯҳ дар лоиҳаи Викимедиа',
             'tg-latn': 'gurühi Vikimedia',
             'tr': 'Vikimedya kategorisi',
-            'uk': 'категорія в проекті Вікімедіа',
+            'uk': 'категорія проекту Вікімедіа',
             'vi': 'thể loại Wikimedia',
             'yo': 'ẹ̀ka Wikimedia',
             'yue': '維基媒體分類',
@@ -859,6 +859,7 @@ def main():
             'sv': 'Wikimedia-listartikel',
             'ta': 'விக்கிப்பீடியா:பட்டியலிடல்',
             'tg': 'саҳифаи феҳристӣ',
+            'tg-cyrl': 'мақолаи феҳристӣ',
             'tg-latn': 'sahifai fehristī',
             'th': 'บทความรายชื่อวิกิมีเดีย',
             'tr': 'Vikimedya liste maddesi',
@@ -1018,6 +1019,8 @@ def main():
             'sv': 'Wikinews-artikel',
             'te': 'వికీవార్త వ్యాసం',
             'tg': 'саҳифаи Викиахбор',
+            'tg-cyrl': 'саҳифаи Викиахбор',
+            'tg-latn': 'sahifai Vikiakhbor',
             'th': 'เนื้อหาวิกิข่าว', 
             'tr': 'Vikihaber maddesi',
             'uk': 'стаття Вікіновин', 
@@ -1100,8 +1103,17 @@ def main():
         
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         
-        #'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(32760000, 30000000, -1*querylimit)],
-        #'Wikimedia category': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ4167836.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20category%22%40en.%0A%7D%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(1, 3200000, querylimit)],
+        'Wikimedia category': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q4167836.
+            ?item schema:description "Wikimedia category"@en.
+        }
+        LIMIT %s
+        OFFSET %s 
+        """ % (str(querylimit), str(offset)) for offset in range(1, 3200000, querylimit)
+        ],
         
         'Wikimedia disambiguation page': [
         """
@@ -1154,8 +1166,8 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = 'Q7646509'
-    topics = ['Wikimedia template']
+    skip = ''
+    topics = ['Wikimedia category']
     for topic in queries_list:
         if not topic in topics:
             continue
