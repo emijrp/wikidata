@@ -631,6 +631,7 @@ def main():
             'pt-br': 'vila chinesa',
             'ro': 'sat din China',
             'ru': 'деревня КНР',
+            'sq': 'fshat në Kinë',
         },
         'Wikimedia category': { #Q4167836
             'ace': 'kawan Wikimèdia',
