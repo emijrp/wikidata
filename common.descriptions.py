@@ -581,6 +581,7 @@ def main():
             'id': 'artikel ilmiah',
             'it': 'articolo scientifico',
             'nb': 'vitenskapelig artikkel',
+            'nl': 'wetenschappelijk artikel',
             'nn': 'vitskapeleg artikkel',
             'pt': 'artigo científico',
             'pt-br': 'artigo científico',
