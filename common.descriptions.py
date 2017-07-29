@@ -1113,7 +1113,7 @@ def main():
         }
         LIMIT %s
         OFFSET %s 
-        """ % (str(querylimit), str(offset)) for offset in range(1, 3200000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 5000000, querylimit)
         ],
         
         'Wikimedia disambiguation page': [
@@ -1128,10 +1128,27 @@ def main():
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 1300000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(0, 2000000, querylimit)
         ], 
         
-        #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
+        'Wikimedia list article': [
+        """
+        SELECT ?item
+        WHERE
+        {
+            ?item wdt:P31 wd:Q13406463 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "Wikimedia list article"@en.
+            #OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es").  }
+            #FILTER (!BOUND(?itemDescription))
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 500000, querylimit)
+        ],
+        
         #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], #lists with language selector enabled
         #'Wikimedia list article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13406463%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%23%3Fitem%20schema%3Adescription%20%22Wikimedia%20list%20article%22%40en.%0A%20%20%20%20%23OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09%23FILTER%20(!BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], #lists even without english description
         
@@ -1167,8 +1184,12 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = ''
-    topics = ['Wikimedia category']
+    skip = 'Q11567521'
+    topics = [
+        'Wikimedia disambiguation page', 
+        #'Wikimedia list article', 
+        #'Wikimedia template', 
+    ]
     for topic in queries_list:
         if not topic in topics:
             continue
@@ -1202,6 +1223,12 @@ def main():
                 except:
                     print('Error while .get()')
                     continue
+                
+                #skiping items with en: sitelinks (temporal patch)
+                sitelinks = item.sitelinks
+                if 'enwiki' in sitelinks:
+                    continue
+                
                 descriptions = item.descriptions
                 addedlangs = []
                 fixedlangs = []
