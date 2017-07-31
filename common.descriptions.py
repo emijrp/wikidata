@@ -75,14 +75,20 @@ def main():
         }, 
     }
     translations = {
-        'chemical compound': {
+        'chemical compound': { #Q11173
+            'af': 'chemiese verbinding', 
             'an': 'compuesto quimico', 
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
             'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
+            'cs': 'chemická sloučenina',
+            'da': 'kemisk forbindelse',
             'de': 'chemische Verbindung',
+            'de-ch': 'chemische Verbindung',
             'en': 'chemical compound',
+            'en-ca': 'chemical compound',
+            'en-gb': 'chemical compound',
             'eo': 'kemia kombinaĵo',
             'es': 'compuesto químico',
             'eu': 'konposatu kimiko',
@@ -92,6 +98,9 @@ def main():
             'hy': 'քիմիական միացություն',
             'id': 'senyawa kimia',
             'it': 'composto chimico',
+            'la': 'compositum chemicum',
+            'lb': 'chemesch Verbindung',
+            'lv': 'ķīmisks savienojums',
             'nb': 'kjemisk forbindelse',
             'nl': 'chemische verbinding',
             'nn': 'kjemisk sambinding',
@@ -100,6 +109,8 @@ def main():
             'pt': 'composto químico',
             'pt-br': 'composto químico',
             'ro': 'compus chimic',
+            'sk': 'chemická zlúčenina',
+            'sq': 'komponim kimik',
         }, 
         'encyclopedic article': {
             'ar': 'مقالة موسوعية',
@@ -1073,7 +1084,20 @@ def main():
     repo = site.data_repository()
     querylimit = 10000
     queries = {
-        #'chemical compound': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11173%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22chemical%20compound%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'chemical compound': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q11173 ;
+                  wdt:P31 ?instance .
+            #?item schema:description "chemical compound"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 250000, querylimit)
+        ],
         
         #'encyclopedic article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17329259%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22encyclopedic%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 300000, querylimit)], 
         
@@ -1113,7 +1137,7 @@ def main():
             ?item schema:description "Wikimedia category"@en.
         }
         LIMIT %s
-        OFFSET %s 
+        OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(1, 5000000, querylimit)
         ],
         
