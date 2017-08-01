@@ -2914,11 +2914,15 @@ def main():
             entranslation = re.sub('~', natkey, occupkey)
             translations[entranslation] = {}
             for translang in occupdic.keys():
-                #print(occupkey, natkey, translang)
-                translations[entranslation][translang] = {
-                    'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
-                    'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
-                }
+                if translang in natdic.keys(): #when no translation for this nationatily, skip to avoid error
+                    #print(occupkey, natkey, translang)
+                    translations[entranslation][translang] = {
+                        'male': re.sub('~', natdic[translang]['male'], occupdic[translang]['male']), 
+                        'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
+                    }
+                else:
+                    print('Missing %s: translation for %s. Skiping...' % (translang, natkey))
+    time.sleep(5)
     c2 = 1
     total2 = 0
     cqueries = 0
