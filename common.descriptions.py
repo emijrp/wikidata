@@ -74,7 +74,7 @@ def main():
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
         },
         'family name': {
-            'sq': 'mbiemër',#because "mbiemri" = "the family name"
+            'sq': ['mbiemër'], #because "mbiemri" = "the family name"
         },
     }
     translations = {
@@ -135,8 +135,8 @@ def main():
             'ro': 'articol enciclopedic',
             'ru': 'энциклопедическая статья',
             'sl': 'enciklopedični članek',
-            'sq': ['artikull enciklopedik'],
-            'sv': 'encyklopedisk artikel',]
+            'sq': 'artikull enciklopedik',
+            'sv': 'encyklopedisk artikel',
         }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
@@ -149,7 +149,7 @@ def main():
             'nb': 'algeslekt',
             'nn': 'algeslekt',
             'ro': 'gen de alge',
-            'sq': ['gjini e algave'],
+            'sq': 'gjini e algave',
         }, 
         'genus of amphibians': {
             'ar': 'جنس من البرمائيات',
@@ -164,7 +164,7 @@ def main():
             'nn': 'amfibieslekt',
             'ro': 'gen de amfibieni',
             'ru': 'род амфибий',
-            'sq': ['gjini e amfibeve'],
+            'sq': 'gjini e amfibeve',
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
@@ -192,7 +192,7 @@ def main():
             'id': 'genus burung',
             'it': 'genere di uccelli',
             'ro': 'gen de păsări',
-            'sq': ['gjini e zogjve'],
+            'sq': 'gjini e zogjve',
         }, 
         'genus of fishes': {
             'ar': 'جنس من الأسماك',
@@ -208,7 +208,7 @@ def main():
             'pt': 'género de peixes',
             'pt-br': 'gênero de peixes',
             'ro': 'gen de pești',
-            'sq': ['gjini e peshqëve'],
+            'sq': 'gjini e peshqëve',
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
@@ -225,7 +225,7 @@ def main():
             'pt': 'género de fungos',
             'pt-br': 'gênero de fungos',
 #            'ro': 'gen de fungi',# or 'gen de ciuperci'
-            'sq': ['gjini e kërpudhave'],
+            'sq': 'gjini e kërpudhave',
         }, 
         'genus of insects': {
             'ar': 'جنس من الحشرات',
