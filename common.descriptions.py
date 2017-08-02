@@ -1209,9 +1209,10 @@ def main():
     }
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
-    skip = 'Q11567521'
+    skip = ''
     topics = [
-        'Wikimedia disambiguation page', 
+        'chemical compound',
+        #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
         #'Wikimedia template', 
     ]
