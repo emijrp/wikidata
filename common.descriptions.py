@@ -72,7 +72,10 @@ def main():
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
-        }, 
+        },
+        'family name': {
+            'sq': ['mbiemri'], #because "mbiemri" = "the family name"
+        },
     }
     translations = {
         'chemical compound': { #Q11173
@@ -132,6 +135,7 @@ def main():
             'ro': 'articol enciclopedic',
             'ru': 'энциклопедическая статья',
             'sl': 'enciklopedični članek',
+            'sq': 'artikull enciklopedik',
             'sv': 'encyklopedisk artikel',
         }, 
         'genus of algae': {
@@ -145,6 +149,7 @@ def main():
             'nb': 'algeslekt',
             'nn': 'algeslekt',
             'ro': 'gen de alge',
+            'sq': 'gjini e algave',
         }, 
         'genus of amphibians': {
             'ar': 'جنس من البرمائيات',
@@ -159,6 +164,7 @@ def main():
             'nn': 'amfibieslekt',
             'ro': 'gen de amfibieni',
             'ru': 'род амфибий',
+            'sq': 'gjini e amfibeve',
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
@@ -186,6 +192,7 @@ def main():
             'id': 'genus burung',
             'it': 'genere di uccelli',
             'ro': 'gen de păsări',
+            'sq': 'gjini e zogjve',
         }, 
         'genus of fishes': {
             'ar': 'جنس من الأسماك',
@@ -201,6 +208,7 @@ def main():
             'pt': 'género de peixes',
             'pt-br': 'gênero de peixes',
             'ro': 'gen de pești',
+            'sq': 'gjini e peshqëve',
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
@@ -217,6 +225,7 @@ def main():
             'pt': 'género de fungos',
             'pt-br': 'gênero de fungos',
 #            'ro': 'gen de fungi',# or 'gen de ciuperci'
+            'sq': 'gjini e kërpudhave',
         }, 
         'genus of insects': {
             'ar': 'جنس من الحشرات',
@@ -234,6 +243,7 @@ def main():
             'pt-br': 'gênero de insetos',
             'ro': 'gen de insecte',
             'ru': 'род насекомых',
+            'sq': 'gjini e insekteve',
         }, 
         'genus of mammals': {
             'ar': 'جنس من الثدييات',
@@ -248,6 +258,7 @@ def main():
             'nb': 'pattedyrslekt',
             'nn': 'pattedyrslekt',
             'ro': 'gen de mamifere',
+            'sq': 'gjini e gjitarëve',
         }, 
         'genus of molluscs': {
             'ar': 'جنس من الرخويات',
@@ -263,6 +274,7 @@ def main():
             'nb': 'bløtdyrslekt',
             'nn': 'blautdyrslekt',
             'ro': 'gen de moluște',
+            'sq': 'gjini e molusqeve',
         }, 
         'genus of plants': {
             'ar': 'جنس من النباتات',
@@ -279,6 +291,7 @@ def main():
             'pt': 'género de plantas',
             'pt-br': 'gênero de plantas',
             'ro': 'gen de plante',
+            'sq': 'gjini e bimëve',
         }, 
         'genus of reptiles': {
             'ar': 'جنس من الزواحف',
@@ -292,6 +305,7 @@ def main():
             'nb': 'krypdyrslekt',
             'nn': 'krypdyrslekt',
             'ro': 'gen de reptile',
+            'sq': 'e zvarranikëve',
         }, 
         'family name': {
             'an': 'apelliu', 
@@ -353,7 +367,7 @@ def main():
             'sl': 'priimek',
             'sma': 'fuelhkienomme',
             'smj': 'maŋepnamma',
-            'sq': 'mbiemri', 
+            'sq': 'mbiemër', 
             'sr': 'презиме', 
             'sv': 'efternamn', 
             'tl': 'apelyido', 
@@ -456,6 +470,7 @@ def main():
             'nb': 'hebraisk kalenderår',
             'nn': 'hebraisk kalenderår',
             'ru': 'год еврейского календаря', 
+            'sq': 'vit i kalendarik hebraik',
         }, 
         'Islamic calendar year': {
             'ar': 'سنة في التقويم الإسلامي',
@@ -466,6 +481,7 @@ def main():
             'id': 'tahun kalendar Islam',
             'nb': 'islamsk kalenderår',
             'nn': 'islamsk kalenderår',
+            'sq': 'vit i kalendarik islamik',
         }, 
         'male given name': {
             'af': 'manlike voornaam',
@@ -576,6 +592,7 @@ def main():
             'sc': 'nùmeru naturale',
             'szl': 'naturalno nůmera',
             'ru': 'натуральное число',
+            'sq': 'numër natyror',
             'uk': 'натуральне число',
         },
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
@@ -598,6 +615,7 @@ def main():
             'pt-br': 'artigo científico',
             'ro': 'articol științific',
             'ru': 'научная статья',
+            'sq': 'artikull shkencor',
             'uk': 'наукова стаття',
         }, 
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
@@ -618,6 +636,7 @@ def main():
             'pt-br': 'espécie de inseto',
             'ro': 'specie de insecte',
             'ru': 'вид насекомых',
+            'sq': 'specie e insekteve',
             'ta': 'பூச்சி இனம்',
         },
         'village in China': {
@@ -1075,7 +1094,8 @@ def main():
             'pl': 'rok',
             'pt': 'ano',
             'ro': 'an',
-            'ru': 'год', 
+            'ru': 'год',
+            'sq': 'vit',
             'tr': 'yıl',
             'uk': 'рік', 
         },
