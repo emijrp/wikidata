@@ -74,7 +74,7 @@ def main():
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
         },
         'family name': {
-            'sq': ['mbiemër'], #because "mbiemri" = "the family name"
+            'sq': ['mbiemri'], #because "mbiemri" = "the family name"
         },
     }
     translations = {
