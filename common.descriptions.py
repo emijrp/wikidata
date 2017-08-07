@@ -1166,17 +1166,156 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(0, 10000, querylimit)
         ], 
         
-        #'genus of amphibians': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20amphibians%22%40en.%0A%7D%0A'], 
-        #'genus of arachnids': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20arachnids%22%40en.%0A%7D%0A'], 
-        #'genus of birds': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20birds%22%40en.%0A%7D%0A'], 
-        #'genus of fishes': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fishes%22%40en.%0A%7D%0A'], 
-        #'genus of fungi': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20fungi%22%40en.%0A%7D%0A'], 
-        #'genus of insects': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20insects%22%40en.%0A%7D%0A'], 
-        #'genus of mammals': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20mammals%22%40en.%0A%7D%0A'], 
-        #'genus of molluscs': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20molluscs%22%40en.%0A%7D%0A'], 
-        #'genus of plants': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20plants%22%40en.%0A%7D%0A'], 
-        #'genus of reptiles': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20reptiles%22%40en.%0A%7D%0A'], 
-            
+        'genus of amphibians': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of amphibians"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000, querylimit)
+        ], 
+        
+        'genus of arachnids': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of arachnids"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 20000, querylimit)
+        ], 
+        
+        'genus of birds': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of birds"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 5000, querylimit)
+        ], 
+        
+        'genus of fishes': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of fishes"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 10000, querylimit)
+        ], 
+        
+        'genus of fungi': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of fungi"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 20000, querylimit)
+        ], 
+        
+        'genus of insects': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of insects"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 100000, querylimit)
+        ], 
+        
+        'genus of mammals': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of mammals"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 10000, querylimit)
+        ], 
+        
+        'genus of molluscs': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of molluscs"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 20000, querylimit)
+        ], 
+        
+        'genus of plants': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of plants"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 50000, querylimit)
+        ], 
+        
+        'genus of reptiles': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of reptiles"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 5000, querylimit)
+        ], 
+                    
         #'Hebrew calendar year': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Hebrew%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
         
         #'Islamic calendar year': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20wdt%3AP361%20wd%3AQ28892%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Islamic%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
@@ -1272,8 +1411,20 @@ def main():
     skip = ''
     topics = [
         #'chemical compound',
-        'family name',
+        #'family name',
+        
         #'genus of algae',
+        'genus of amphibians',
+        'genus of arachnids',
+        'genus of birds',
+        'genus of fishes',
+        'genus of fungi',
+        'genus of insects',
+        'genus of mammals',
+        'genus of molluscs',
+        'genus of plants',
+        'genus of reptiles',
+
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
         #'Wikimedia template', 
@@ -1315,9 +1466,9 @@ def main():
                     continue
                 
                 #skiping items with en: sitelinks (temporal patch)
-                sitelinks = item.sitelinks
-                if 'enwiki' in sitelinks:
-                    continue
+                #sitelinks = item.sitelinks
+                #if 'enwiki' in sitelinks:
+                #    continue
                 
                 descriptions = item.descriptions
                 addedlangs = []
