@@ -1119,13 +1119,53 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(1, 250000, querylimit)
         ],
         
-        #'encyclopedic article': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ17329259%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22encyclopedic%20article%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)%0ALIMIT%20' + str(querylimit) + '%0AOFFSET%20' + str(offset) for offset in range(0, 300000, querylimit)], 
+        'encyclopedic article': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q17329259 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "encyclopedic article"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 300000, querylimit)
+        ],
         
-        #'family name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ101352%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22family%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'family name': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q101352 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "family name"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 200000, querylimit)
+        ], 
         
         #'female given name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22female%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
         
-        #'genus of algae': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20algae%22%40en.%0A%7D%0A'], 
+        'genus of algae': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P105 wd:Q34740 ;
+                  wdt:P105 ?instance .
+            ?item schema:description "genus of algae"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 10000, querylimit)
+        ], 
+        
         #'genus of amphibians': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20amphibians%22%40en.%0A%7D%0A'], 
         #'genus of arachnids': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20arachnids%22%40en.%0A%7D%0A'], 
         #'genus of birds': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP105%20wd%3AQ34740%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22genus%20of%20birds%22%40en.%0A%7D%0A'], 
@@ -1231,7 +1271,9 @@ def main():
     queries_list.sort()
     skip = ''
     topics = [
-        'chemical compound',
+        #'chemical compound',
+        'family name',
+        #'genus of algae',
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
         #'Wikimedia template', 
@@ -1253,6 +1295,8 @@ def main():
                 q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
                 if q:
                     qlist.append(q)
+            if not qlist: #empty query result? maybe no more Q
+                break
             
             for q in qlist:
                 print('\n== %s [%s] ==' % (q, topic))
