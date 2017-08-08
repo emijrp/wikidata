@@ -43,8 +43,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn']
-    targetlangs = ['bn', 'es', 'ca', 'gl', 'he', 'fr']
+    targetlangs = ['ro'] #, 'es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
