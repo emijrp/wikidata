@@ -1072,32 +1072,76 @@ def main():
             'an': 'anyo',
             'ar': 'سنة',
             'ast': 'añu',
-            'bg': 'година',
             'be': 'год', 
-            'be-tarask': 'год', 
+            'be-tarask': 'год',
+            'bg': 'година',
             'bn': 'বছর',
+            'br': 'bloavezh',
+            'bs': 'godina',
             'ca': 'any',
             'cs': 'rok',
+            'da': 'år',
             'de': 'Jahr',
             'el': 'έτος',
             'en': 'year',
+            'en-ca': 'year',
+            'en-gb': 'year',
+            'eo': 'jaro',
             'es': 'año',
             'fi': 'vuosi',
             'fr': 'année',
+            'fy': 'jier',
+            'gl': 'ano',
+            'gsw': 'joor',
             'he': 'שנה',
+            'hr': 'Godina',
+            'ht': 'Lane',
+            'hu': 'Év',
+            'hy': 'տարեթիվ',
+            'ia': 'anno',
             'id': 'tahun',
+            'ilo': 'tawen',
+            'is': 'ár',
             'it': 'anno',
             'ja': '年',
+            'ka': 'წელი',
             'ko': '연도',
+            'ku': 'Sal',
+            'la': 'annus',
+            'lt': 'Metai',
+            'lv': 'gads',
+            'mhr': 'Идалык',
+            'min': 'taun',
+            'mk': 'година',
+            'ms': 'Tahun',
+            'nan': 'nî',
             'nb': 'år',
+            'nds': 'Johr',
+            'nl': 'jaar',
             'nn': 'år',
+            'or': 'ବର୍ଷ',
             'pl': 'rok',
             'pt': 'ano',
             'ro': 'an',
             'ru': 'год',
-            'sq': 'vit',
+            'sh': 'godina',
+            'sk': 'Rok',
+            'sl': 'Leto',
+            #'sq': 'vit', or viti?
+            'sr': 'Година',
+            'srn': 'Yari',
+            'sv': 'år',
+            'th': 'ปี',
+            'tl': 'taon',
             'tr': 'yıl',
-            'uk': 'рік', 
+            'uk': 'рік',
+            'vi': 'năm',
+            'war': 'Tuig',
+            'yi': 'יאר',
+            'yue': '年',
+            'zh': '年',
+            'zh-hans': '年份',
+            'zh-hant': '年份',
         },
     }
     site = pywikibot.Site('wikidata', 'wikidata')
@@ -1403,7 +1447,18 @@ def main():
         """
         ], 
         
-        #'year': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
+        'year': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q577 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "year"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ],
         
     }
     queries_list = [x for x in queries.keys()]
@@ -1414,17 +1469,19 @@ def main():
         #'family name',
         
         #'genus of algae',
-        'genus of amphibians',
-        'genus of arachnids',
-        'genus of birds',
-        'genus of fishes',
-        'genus of fungi',
-        'genus of insects',
-        'genus of mammals',
-        'genus of molluscs',
-        'genus of plants',
-        'genus of reptiles',
-
+        #'genus of amphibians',
+        #'genus of arachnids',
+        #'genus of birds',
+        #'genus of fishes',
+        #'genus of fungi',
+        #'genus of insects',
+        #'genus of mammals',
+        #'genus of molluscs',
+        #'genus of plants',
+        #'genus of reptiles',
+        
+        'year',
+        
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
         #'Wikimedia template', 
