@@ -65,6 +65,7 @@ def main():
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
             'id': ['halaman disambiguasi'], 
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
+            'tt': ['Википедия:Күп мәгънәле мәкаләләр'],
         }, 
         'Wikimedia list article': {
             'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
@@ -72,6 +73,9 @@ def main():
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
+        },
+        'Wikinews article': {
+            'nl': ['Wikinews-artikel'], 
         },
         'family name': {
             'sq': ['mbiemri'], #because "mbiemri" = "the family name"
@@ -822,6 +826,9 @@ def main():
             'tg-cyrl': 'саҳифаи маъноҳои Викимедиа',
             'tg-latn': "sahifai ma'nohoi Vikimedia",
             'tr': 'Vikimedya anlam ayrımı sayfası',
+            'tt': 'Мәгънәләр бите Викимедиа проектында',
+            'tt-cyrl': 'Мәгънәләр бите Викимедиа проектында',
+            'tt-latn': 'Mäğnälär bite Wikimedia proyektında',
             'uk': 'сторінка значень в проекті Вікімедіа',
             'vi': 'trang định hướng Wikimedia',
             'yo': 'ojúewé ìṣojútùú Wikimedia',
@@ -1001,6 +1008,7 @@ def main():
             'uk': 'шаблон проекту Вікімедіа', 
             'vi': 'bản mẫu Wikimedia', 
             'yo': 'àdàkọ Wikimedia',
+            'yue': '維基媒體模',
             'zea': 'Wikimedia-sjabloon',
             'zh': '维基媒体模板', 
             'zh-cn': '维基媒体模板', 
@@ -1041,7 +1049,7 @@ def main():
             'lt': 'Vikinaujienų straipsnis', 
             'mk': 'напис на Викивести', 
             'nb': 'Wikinytt-artikkel', 
-            'nl': 'Wikinews-artikel', 
+            'nl': 'Wikinieuws-artikel', 
             'nn': 'Wikinytt-artikkel',
             'or': 'ଉଇକି ସୂଚନା ପତ୍ରିକା',
             'pl': 'artykuł w Wikinews', 
@@ -1196,7 +1204,18 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(0, 200000, querylimit)
         ], 
         
-        #'female given name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11879590%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22female%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'female given name': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q11879590 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "female given name"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
         
         'genus of algae': [
         """
@@ -1363,11 +1382,45 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(0, 5000, querylimit)
         ], 
                     
-        #'Hebrew calendar year': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Hebrew%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'Hebrew calendar year': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q577 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "Hebrew calendar year"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
         
-        #'Islamic calendar year': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ577%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20wdt%3AP361%20wd%3AQ28892%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22Islamic%20calendar%20year%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'Islamic calendar year': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q577 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P361 wd:Q28892 .
+            ?item schema:description "Islamic calendar year"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
         
-        #'male given name': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ12308941%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22male%20given%20name%22%40en.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'], 
+        'male given name': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q12308941 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "male given name"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """        
+        ], 
         
         #'natural number': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A'],
         
@@ -1467,9 +1520,12 @@ def main():
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
     skip = ''
-    topics = [
+    topics = [ #uncomment topics you want to add descriptions to
         #'chemical compound',
+        
         #'family name',
+        #'female given name',
+        #'male given name',
         
         #'genus of algae',
         #'genus of amphibians',
@@ -1483,7 +1539,9 @@ def main():
         #'genus of plants',
         #'genus of reptiles',
         
-        'year',
+        #'year',
+        'Hebrew calendar year',
+        'Islamic calendar year',
         
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
