@@ -643,6 +643,14 @@ def main():
             'sq': 'specie e insekteve',
             'ta': 'பூச்சி இனம்',
         },
+        'species of plant': {
+            'bg': 'вид растение',
+            'ca': 'espècie de planta',
+            'en': 'species of plant',
+            'es': 'especie de planta',
+            'gl': 'especie de planta',
+            'hy': 'բույսերի տեսակ',
+        },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
@@ -1426,6 +1434,38 @@ def main():
         
         #'scientific article': [''], # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
+        'species of insect': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of insect"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)    
+        ], 
+        
+        'species of plant': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of plant"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 600000, querylimit)    
+        ], 
+        
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         
         'Wikimedia category': [
@@ -1540,8 +1580,11 @@ def main():
         #'genus of reptiles',
         
         #'year',
-        'Hebrew calendar year',
-        'Islamic calendar year',
+        #'Hebrew calendar year',
+        #'Islamic calendar year',
+        
+        #'species of insect',
+        'species of plant',
         
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
