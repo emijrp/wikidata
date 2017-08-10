@@ -645,6 +645,7 @@ def main():
         },
         'species of plant': {
             'bg': 'вид растение',
+            'bn': 'উদ্ভিদের প্রজাতি',
             'ca': 'espècie de planta',
             'en': 'species of plant',
             'es': 'especie de planta',
