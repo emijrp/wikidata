@@ -142,6 +142,23 @@ def main():
             'sq': 'artikull enciklopedik',
             'sv': 'encyklopedisk artikel',
         }, 
+        #more families https://query.wikidata.org/#SELECT %3FitemDescription (COUNT(%3Fitem) AS %3Fcount)%0AWHERE {%0A%09%3Fitem wdt%3AP31 wd%3AQ16521.%0A %3Fitem wdt%3AP105 wd%3AQ35409.%0A %23%3Fitem schema%3Adescription "family of insects"%40en.%0A OPTIONAL { %3Fitem schema%3Adescription %3FitemDescription. FILTER(LANG(%3FitemDescription) %3D "en"). }%0A%09FILTER (BOUND(%3FitemDescription))%0A}%0AGROUP BY %3FitemDescription%0AORDER BY DESC(%3Fcount)
+        'family of crustaceans': {
+            'en': 'family of crustaceans',
+            'es': 'familia de crustáceos',
+        }, 
+        'family of insects': {
+            'en': 'family of insects',
+            'es': 'familia de insectos',
+        }, 
+        'family of molluscs': {
+            'en': 'family of molluscs',
+            'es': 'familia de moluscos',
+        }, 
+        'family of plants': {
+            'en': 'family of plants',
+            'es': 'familia de plantas',
+        }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
             'bn': 'শৈবালের গণ',
@@ -1213,6 +1230,62 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(0, 200000, querylimit)
         ], 
         
+        'family of crustaceans': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q35409.
+            ?item schema:description "family of crustaceans"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ],
+        
+        'family of insects': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q35409.
+            ?item schema:description "family of insects"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ],
+        
+        'family of molluscs': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q35409.
+            ?item schema:description "family of molluscs"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ],
+        
+        'family of plants': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q35409.
+            ?item schema:description "family of plants"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ],
+        
         'female given name': [
         """
         SELECT ?item
@@ -1568,6 +1641,11 @@ def main():
         #'female given name',
         #'male given name',
         
+        'family of crustaceans',
+        'family of insects',
+        'family of molluscs',
+        'family of plants',
+        
         #'genus of algae',
         #'genus of amphibians',
         #'genus of arachnids',
@@ -1585,7 +1663,7 @@ def main():
         #'Islamic calendar year',
         
         #'species of insect',
-        'species of plant',
+        #'species of plant',
         
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
