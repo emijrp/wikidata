@@ -639,6 +639,27 @@ def main():
             'sq': 'artikull shkencor',
             'uk': 'наукова стаття',
         }, 
+        'species of alga': {
+            'en': 'species of alga',
+            'es': 'especie de alga',
+            'gl': 'especie de alga',
+        },
+        'species of amphibian': {
+            'ca': 'espècie d\'amfibi',
+            'en': 'species of amphibian',
+            'es': 'especie de amfibio',
+            'fr': 'espèce d\'amphibiens',
+            #'it': 'specie di anfibio', or anfibi?
+            'pt': 'espécie de anfíbio',
+        },
+        'species of arachnid': {
+            'ca': 'espècie d\'aràcnid',
+            'en': 'species of arachnid',
+            'es': 'especie de arácnido',
+            'fr': 'espèce d\'araignées',
+            'it': 'specie di ragno',
+            'pt': 'espécie de aracnídeo',
+        },
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
         #decidir que hacer
         # https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ16521.%0A%20%20%20%20%3Fitem%20wdt%3AP105%20wd%3AQ7432.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22species%20of%20insect%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22de%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
@@ -659,6 +680,13 @@ def main():
             'ru': 'вид насекомых',
             'sq': 'specie e insekteve',
             'ta': 'பூச்சி இனம்',
+        },
+        'species of mollusc': {
+            'ca': 'espècie de mol·lusc',
+            'en': 'species of mollusc',
+            'es': 'especie de molusco',
+            'gl': 'especie de molusco',
+            'pt': 'espécie de molusco',
         },
         'species of plant': {
             'bg': 'вид растение',
@@ -1508,6 +1536,48 @@ def main():
         
         #'scientific article': [''], # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
+        'species of alga': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of alga"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
+        'species of amphibian': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of amphibian"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
+        'species of arachnid': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of arachnid"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
         'species of insect': [
         """
         SELECT ?item
@@ -1522,6 +1592,20 @@ def main():
         LIMIT %s
         OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)    
+        ], 
+        
+        'species of mollusc': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q16521 ;
+                  wdt:P31 ?instance .
+            ?item wdt:P105 wd:Q7432.
+            ?item schema:description "species of mollusc"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
         ], 
         
         'species of plant': [
@@ -1662,7 +1746,11 @@ def main():
         #'Hebrew calendar year',
         #'Islamic calendar year',
         
+        'species of alga',
+        'species of amphibian',
+        'species of arachnid',
         #'species of insect',
+        'species of mollusc',
         #'species of plant',
         
         #'Wikimedia disambiguation page', 
