@@ -141,26 +141,31 @@ def main():
             'sl': 'enciklopedični članek',
             'sq': 'artikull enciklopedik',
             'sv': 'encyklopedisk artikel',
+            'he': 'ערך אנציקלופדי',
         }, 
         #more families https://query.wikidata.org/#SELECT %3FitemDescription (COUNT(%3Fitem) AS %3Fcount)%0AWHERE {%0A%09%3Fitem wdt%3AP31 wd%3AQ16521.%0A %3Fitem wdt%3AP105 wd%3AQ35409.%0A %23%3Fitem schema%3Adescription "family of insects"%40en.%0A OPTIONAL { %3Fitem schema%3Adescription %3FitemDescription. FILTER(LANG(%3FitemDescription) %3D "en"). }%0A%09FILTER (BOUND(%3FitemDescription))%0A}%0AGROUP BY %3FitemDescription%0AORDER BY DESC(%3Fcount)
         'family of crustaceans': {
             'en': 'family of crustaceans',
             'es': 'familia de crustáceos',
+            'he': 'משפחה של סרטנאים',
         }, 
         'family of insects': {
             'bn': 'কীটপতঙ্গের পরিবার',
             'en': 'family of insects',
             'es': 'familia de insectos',
+            'he': 'משפחה של חרקים',
         }, 
         'family of molluscs': {
             'bn': 'মলাস্কার পরিবার',
             'en': 'family of molluscs',
             'es': 'familia de moluscos',
+            'he': 'משפחה של רכיכות',
         }, 
         'family of plants': {
             'bn': 'উদ্ভিদের পরিবার',
             'en': 'family of plants',
             'es': 'familia de plantas',
+            'he': 'משפחה של צמחים',
         }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
@@ -647,6 +652,7 @@ def main():
             'en': 'species of alga',
             'es': 'especie de alga',
             'gl': 'especie de alga',
+            'he': 'מין של אצה',
         },
         'species of amphibian': {
             'bn': 'উভচর প্রাণীর প্রজাতি',
@@ -656,6 +662,7 @@ def main():
             'fr': 'espèce d\'amphibiens',
             #'it': 'specie di anfibio', or anfibi?
             'pt': 'espécie de anfíbio',
+            'he': 'מין של דו-חיים',
         },
         'species of arachnid': {
             'bn': 'আর‍্যাকনিডের প্রজাতি',
@@ -665,6 +672,7 @@ def main():
             'fr': 'espèce d\'araignées',
             'it': 'specie di ragno',
             'pt': 'espécie de aracnídeo',
+            'he': 'מין של עכביש',
         },
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
         #decidir que hacer
@@ -686,6 +694,7 @@ def main():
             'ru': 'вид насекомых',
             'sq': 'specie e insekteve',
             'ta': 'பூச்சி இனம்',
+            'he': 'מין של חרק',
         },
         'species of mollusc': {
             'bn': 'মলাস্কার প্রজাতি',
@@ -694,6 +703,7 @@ def main():
             'es': 'especie de molusco',
             'gl': 'especie de molusco',
             'pt': 'espécie de molusco',
+            'he': 'מין של רכיכה',
         },
         'species of plant': {
             'bg': 'вид растение',
@@ -703,6 +713,7 @@ def main():
             'es': 'especie de planta',
             'gl': 'especie de planta',
             'hy': 'բույսերի տեսակ',
+            'he': 'מין של צמח',
         },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
