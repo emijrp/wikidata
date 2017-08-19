@@ -148,14 +148,17 @@ def main():
             'es': 'familia de crustáceos',
         }, 
         'family of insects': {
+            'bn': 'কীটপতঙ্গের পরিবার',
             'en': 'family of insects',
             'es': 'familia de insectos',
         }, 
         'family of molluscs': {
+            'bn': 'মলাস্কার পরিবার',
             'en': 'family of molluscs',
             'es': 'familia de moluscos',
         }, 
         'family of plants': {
+            'bn': 'উদ্ভিদের পরিবার',
             'en': 'family of plants',
             'es': 'familia de plantas',
         }, 
@@ -640,11 +643,13 @@ def main():
             'uk': 'наукова стаття',
         }, 
         'species of alga': {
+            'bn': 'শৈবালের প্রজাতি',
             'en': 'species of alga',
             'es': 'especie de alga',
             'gl': 'especie de alga',
         },
         'species of amphibian': {
+            'bn': 'উভচর প্রাণীর প্রজাতি',
             'ca': 'espècie d\'amfibi',
             'en': 'species of amphibian',
             'es': 'especie de amfibio',
@@ -653,6 +658,7 @@ def main():
             'pt': 'espécie de anfíbio',
         },
         'species of arachnid': {
+            'bn': 'আর‍্যাকনিডের প্রজাতি',
             'ca': 'espècie d\'aràcnid',
             'en': 'species of arachnid',
             'es': 'especie de arácnido',
@@ -682,6 +688,7 @@ def main():
             'ta': 'பூச்சி இனம்',
         },
         'species of mollusc': {
+            'bn': 'মলাস্কার প্রজাতি',
             'ca': 'espècie de mol·lusc',
             'en': 'species of mollusc',
             'es': 'especie de molusco',
