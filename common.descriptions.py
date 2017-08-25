@@ -653,6 +653,7 @@ def main():
             'es': 'especie de alga',
             'gl': 'especie de alga',
             'he': 'מין של אצה',
+            'sq': 'lloj i algave',
         },
         'species of amphibian': {
             'bn': 'উভচর প্রাণীর প্রজাতি',
@@ -663,6 +664,7 @@ def main():
             #'it': 'specie di anfibio', or anfibi?
             'pt': 'espécie de anfíbio',
             'he': 'מין של דו-חיים',
+            'sq': 'lloj i amfibeve',
         },
         'species of arachnid': {
             'bn': 'আর‍্যাকনিডের প্রজাতি',
@@ -692,7 +694,7 @@ def main():
             'pt-br': 'espécie de inseto',
             'ro': 'specie de insecte',
             'ru': 'вид насекомых',
-            'sq': 'specie e insekteve',
+            'sq': 'lloj i insekteve',
             'ta': 'பூச்சி இனம்',
             'he': 'מין של חרק',
         },
@@ -704,6 +706,7 @@ def main():
             'gl': 'especie de molusco',
             'pt': 'espécie de molusco',
             'he': 'מין של רכיכה',
+            'sq': 'lloj i molusqeve',
         },
         'species of plant': {
             'bg': 'вид растение',
@@ -714,6 +717,7 @@ def main():
             'gl': 'especie de planta',
             'hy': 'բույսերի տեսակ',
             'he': 'מין של צמח',
+            'sq': 'lloj i bimëve',
         },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
