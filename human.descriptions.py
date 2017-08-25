@@ -2758,7 +2758,7 @@ def main():
             'fr': { 'male': 'entomologiste ~', 'female': 'entomologiste ~' },
             'gl': { 'male': 'entomólogo ~', 'female': 'entomóloga ~' },
             'he': { 'male': 'אנטומולוג ~', 'female': 'אנטומולוגית ~' },
-            'ro': { 'male': 'entomolo ~', 'female': 'entomologă ~' },
+            'ro': { 'male': 'entomolog ~', 'female': 'entomologă ~' },
         },
         '~ explorer': {
             'ar': { 'male': 'مستكشف ~', 'female': 'مستكشفة ~' },
@@ -3088,7 +3088,7 @@ def main():
             'fr': { 'male': 'sociologue ~', 'female': 'sociologue ~' },
             'gl': { 'male': 'sociólogo ~', 'female': 'socióloga ~' },
             'he': { 'male': 'סוציולוג ~', 'female': 'סוציולוגית ~' },
-            'ro': { 'male': 'sociolog ~', 'female': 'socioloagă ~' },
+            'ro': { 'male': 'sociolog ~', 'female': 'sociologă ~' },
         },
         '~ soldier': {
             'ar': { 'male': 'جندي ~', 'female': 'جندية ~' },
