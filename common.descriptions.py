@@ -48,7 +48,13 @@ def main():
     fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
         'chemical compound': {
             'nl': ['chemische stof'], #https://www.wikidata.org/w/index.php?title=Q27165025&type=revision&diff=486050731&oldid=466952438
-        }, 
+        },
+        'family name': {
+            'sq': ['mbiemri'], #because "mbiemri" = "the family name"
+        },
+        'species of insect': {
+            'sq': ['specie e insekteve'], #https://github.com/emijrp/wikidata/pull/47
+        },
         'village in China': {
             'bn': ['চীনের গ্রাম'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=prev&oldid=510797889
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
@@ -76,9 +82,6 @@ def main():
         },
         'Wikinews article': {
             'nl': ['Wikinews-artikel'], 
-        },
-        'family name': {
-            'sq': ['mbiemri'], #because "mbiemri" = "the family name"
         },
     }
     translations = {
