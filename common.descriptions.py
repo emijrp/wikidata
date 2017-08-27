@@ -78,6 +78,7 @@ def main():
         }, 
         'Wikimedia template': {
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
+            'sr': ['шаблон Википедија'], #WD:BN
             'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
         },
         'Wikinews article': {
@@ -151,24 +152,29 @@ def main():
             'en': 'family of crustaceans',
             'es': 'familia de crustáceos',
             'he': 'משפחה של סרטנאים',
+            'ro': 'familie de crustacee',
         }, 
         'family of insects': {
             'bn': 'কীটপতঙ্গের পরিবার',
             'en': 'family of insects',
             'es': 'familia de insectos',
+            'fr': 'famille d\'insectes',
             'he': 'משפחה של חרקים',
+            'ro': 'familie de insecte',
         }, 
         'family of molluscs': {
             'bn': 'মলাস্কার পরিবার',
             'en': 'family of molluscs',
             'es': 'familia de moluscos',
             'he': 'משפחה של רכיכות',
+            'ro': 'familie de moluște',
         }, 
         'family of plants': {
             'bn': 'উদ্ভিদের পরিবার',
             'en': 'family of plants',
             'es': 'familia de plantas',
             'he': 'משפחה של צמחים',
+            'ro': 'familie de plante',
         }, 
         'genus of algae': {
             'ar': 'جنس من الطحالب',
@@ -656,6 +662,7 @@ def main():
             'es': 'especie de alga',
             'gl': 'especie de alga',
             'he': 'מין של אצה',
+            'ro': 'specie de alge',
             'sq': 'lloj i algave',
         },
         'species of amphibian': {
@@ -667,6 +674,7 @@ def main():
             #'it': 'specie di anfibio', or anfibi?
             'pt': 'espécie de anfíbio',
             'he': 'מין של דו-חיים',
+            'ro': 'specie de amfibieni',
             'sq': 'lloj i amfibeve',
         },
         'species of arachnid': {
@@ -678,6 +686,7 @@ def main():
             'it': 'specie di ragno',
             'pt': 'espécie de aracnídeo',
             'he': 'מין של עכביש',
+            'ro': 'specie de arahnide',
         },
         'species of insect': { #las descripciones DE y FR tienen mayor precision y serian mas deseables
         #decidir que hacer
@@ -688,6 +697,7 @@ def main():
             'ca': "espècie d'insecte",
             'en': 'species of insect',
             'es': 'especie de insecto',
+            'fr': 'espèce d\'insectes',
             'gl': 'especie de insecto',
             'hy': 'միջատների տեսակ',
             'id': 'spesies serangga',
@@ -709,6 +719,8 @@ def main():
             'gl': 'especie de molusco',
             'pt': 'espécie de molusco',
             'he': 'מין של רכיכה',
+            'ro': 'specie de moluște',
+            'ru': 'вид моллюсков',
             'sq': 'lloj i molusqeve',
         },
         'species of plant': {
@@ -720,6 +732,8 @@ def main():
             'gl': 'especie de planta',
             'hy': 'բույսերի տեսակ',
             'he': 'מין של צמח',
+            'ro': 'specie de plante',
+            'ru': 'вид растений',
             'sq': 'lloj i bimëve',
         },
         'village in China': {
