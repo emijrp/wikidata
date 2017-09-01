@@ -17,6 +17,7 @@
 
 import bz2
 import json
+import sys
 import time
 
 import pywikibot
@@ -26,7 +27,7 @@ def main():
     p31 = {}
     c = 0
     t1 = time.time()
-    dumpdate = '20170807'
+    dumpdate = sys.argv[1]
     f = bz2.open('/public/dumps/public/wikidatawiki/entities/%s/wikidata-%s-all.json.bz2' % (dumpdate, dumpdate), 'r')
     for line in f:
         line = line.decode('utf-8')
