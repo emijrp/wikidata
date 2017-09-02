@@ -92,7 +92,7 @@ def main():
             'tr': ['şablon Vikipedi'],
             'uk': ['шаблон Вікіпедії'],
             'yo': ['àdàkọ Wikipedia'],
-            'yo': ['bản mẫu Wikipedia'],
+            'vi': ['bản mẫu Wikipedia'],
         },
         'Wikinews article': {
             'nl': ['Wikinews-artikel'], 
