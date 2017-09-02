@@ -43,7 +43,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['ro'] #, 'es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn']
+    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn', 'ro']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
@@ -3206,7 +3206,7 @@ def main():
                         'female': re.sub('~', natdic[translang]['female'], occupdic[translang]['female']), 
                     }
                 else:
-                    print('Missing %s: translation for %s. Skiping...' % (translang, natkey))
+                    print('Missing %s: translation for %s. Skiping...' % (translang.encode('utf-8'), natkey.encode('utf-8')))
     time.sleep(5)
     c2 = 1
     total2 = 0
