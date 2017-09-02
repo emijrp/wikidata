@@ -64,6 +64,7 @@ def main():
             'be': ['катэгарызацыя'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'be-tarask': ['Катэгорыя'],#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'es': ['categoría de Wikipedia'],
+            'mk': ['категорија на Википедија'],
             'uk': ['Категорії', 'категорія в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=User_talk%3AEmijrp&type=revision&diff=527336622&oldid=525302741
         }, 
         'Wikimedia disambiguation page': {
@@ -77,9 +78,21 @@ def main():
             'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
         }, 
         'Wikimedia template': {
+            'be': ['шаблон Вікіпедыя'],
+            'be-tarask': ['шаблён Вікіпэдыя'],
             'eu': ['Wikimediarako txantiloia'], #https://www.wikidata.org/w/index.php?title=Q11266439&type=revision&diff=469566880&oldid=469541605
-            'sr': ['шаблон Википедија'], #WD:BN
-            'tg': ['Шаблони Викимедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
+            'id': ['templat Wikipedia'],
+            'nb': ['Wikipedia mal'],
+            'nn': ['Wikipedia mal'],
+            'pl': ['szablon Wikipedii'],
+            'sq': ['Wikipedia stampa'],
+            'sv': ['Wikipedia mall'],
+            'sw': ['kigezo Wikipedia'],
+            'tg': ['Шаблони Викимедиа', 'шаблон Википедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
+            'tr': ['şablon Vikipedi'],
+            'uk': ['шаблон Вікіпедії'],
+            'yo': ['àdàkọ Wikipedia'],
+            'vi': ['bản mẫu Wikipedia'],
         },
         'Wikinews article': {
             'nl': ['Wikinews-artikel'], 
