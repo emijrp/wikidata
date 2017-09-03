@@ -35,7 +35,7 @@ def generateTranslations(pubdate=''):
         'ar': 'مقالة علمية',
         'ast': 'artículu científicu',
         'bg': 'научна статия',
-        #'bn': 'বৈজ্ঞানিক নিবন্ধ', #is plural?
+        'bn': 'বৈজ্ঞানিক নিবন্ধ',
         'ca': 'article científic',
         'cs': 'vědecký článek',
         'da': 'videnskabelig artikel',
