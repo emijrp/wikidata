@@ -105,8 +105,8 @@ def generateTranslations(pubdate=''):
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    querylimit = 50000
-    skip = 'Q26745512'
+    querylimit = 10000
+    skip = 'Q26745516'
     queries = [
     """
     SELECT ?item ?pubdate
