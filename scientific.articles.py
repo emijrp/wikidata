@@ -29,13 +29,14 @@ from wikidatafun import *
 
 def generateTranslations(pubdate=''):
     fixthiswhenfound = {
+        'bn': ['বৈজ্ঞানিক নিবন্ধ'],
         'es': ['artículo científico'], 
     }
     translations = {
         'ar': 'مقالة علمية',
         'ast': 'artículu científicu',
         'bg': 'научна статия',
-        'bn': 'বৈজ্ঞানিক নিবন্ধ',
+        'bn': '%s-এ প্রকাশিত বৈজ্ঞানিক নিবন্ধ' % (pubdate.year),
         'ca': 'article científic',
         'cs': 'vědecký článek',
         'da': 'videnskabelig artikel',
