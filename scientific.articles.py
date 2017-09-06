@@ -27,6 +27,13 @@ import pwb
 import pywikibot
 from wikidatafun import *
 
+def bnyear(year=''):
+    digits = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' }
+    year = str(year)
+    for k, v in digits.items():
+        year = re.sub(k, v, year)
+    return year
+
 def generateTranslations(pubdate=''):
     fixthiswhenfound = {
         'bn': ['বৈজ্ঞানিক নিবন্ধ'],
@@ -36,7 +43,7 @@ def generateTranslations(pubdate=''):
         'ar': 'مقالة علمية',
         'ast': 'artículu científicu',
         'bg': 'научна статия',
-        'bn': '%s-এ প্রকাশিত বৈজ্ঞানিক নিবন্ধ' % (pubdate.year),
+        'bn': '%s-এ প্রকাশিত বৈজ্ঞানিক নিবন্ধ' % (bnyear(pubdate.year)),
         'ca': 'article científic',
         'cs': 'vědecký článek',
         'da': 'videnskabelig artikel',
@@ -98,8 +105,8 @@ def generateTranslations(pubdate=''):
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    querylimit = 10000
-    skip = ''
+    querylimit = 50000
+    skip = 'Q26745512'
     queries = [
     """
     SELECT ?item ?pubdate
