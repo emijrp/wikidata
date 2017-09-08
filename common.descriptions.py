@@ -99,6 +99,64 @@ def main():
         },
     }
     translations = {
+        'asteroid': { #Q3863
+            'af': 'asteroïde',
+            'an': 'asteroide',
+            'ar': 'كويكب',
+            'ast': 'asteroide',
+            'az': 'asteroid',
+            'ba': 'Астероид',
+            'bar': 'Asteroid',
+            'be': 'астэроід',
+            'be-tarask': 'астэроід',
+            'bg': 'астероид',
+            'br': 'asteroidenn',
+            'bs': 'Asteroid',
+            'ca': 'asteroide',
+            'ce': 'Астероид',
+            'cs': 'asteroid',
+            'cv': 'астероид',
+            'cy': 'asteroid',
+            'da': 'asteroide',
+            'de': 'Asteroid',
+            'el': 'αστεροειδής',
+            'eml': 'Asteròid',
+            'en': 'asteroid',
+            'eo': 'asteroido',
+            'es': 'asteroide',
+            'et': 'asteroid',
+            'eu': 'asteroide',
+            'fa': 'سیارک',
+            'fi': 'asteroidi',
+            'fr': 'astéroïde',
+            'fy': 'asteroïde',
+            'ga': 'astaróideach',
+            'gl': 'asteroide',
+            'he': 'אסטרואיד',
+            'hi': 'क्षुद्रग्रह',
+            'hr': 'asteroidi',
+            'ht': 'astewoyid',
+            'hu': 'kisbolygó',
+            'hy': 'աստերոիդ',
+            'ia': 'asteroide',
+            'id': 'asteroid',
+            'ilo': 'asteroid',
+            'it': 'asteroide',
+            'ja': '小惑星',
+            'ko': '소행성',
+            'krc': 'Астероид',
+            'ksh': 'Asteroid',
+            'ku': 'asteroîd',
+            'ky': 'астероид',
+            'lb': 'Asteroid',
+            'lez': 'астероид',
+            'ru': 'астероид',
+            'sh': 'asteroid',
+            'sk': 'asteroid',
+            'sl': 'asteroid',
+            'sv': 'asteroid',
+            'zh': '小行星',
+        }, 
         'chemical compound': { #Q11173
             'af': 'chemiese verbinding', 
             'an': 'compuesto quimico', 
@@ -1265,6 +1323,20 @@ def main():
     repo = site.data_repository()
     querylimit = 10000
     queries = {
+        'asteroid': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q3863 ;
+                  wdt:P31 ?instance .
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 200000, querylimit)
+        ],
+        
         'chemical compound': [
         """
         SELECT ?item
@@ -1771,16 +1843,17 @@ def main():
     queries_list.sort()
     skip = ''
     topics = [ #uncomment topics you want to add descriptions to
+        'asteroid',
         #'chemical compound',
         
         #'family name',
         #'female given name',
         #'male given name',
         
-        'family of crustaceans',
-        'family of insects',
-        'family of molluscs',
-        'family of plants',
+        #'family of crustaceans',
+        #'family of insects',
+        #'family of molluscs',
+        #'family of plants',
         
         #'genus of algae',
         #'genus of amphibians',
@@ -1798,11 +1871,11 @@ def main():
         #'Hebrew calendar year',
         #'Islamic calendar year',
         
-        'species of alga',
-        'species of amphibian',
-        'species of arachnid',
+        #'species of alga',
+        #'species of amphibian',
+        #'species of arachnid',
         #'species of insect',
-        'species of mollusc',
+        #'species of mollusc',
         #'species of plant',
         
         #'Wikimedia disambiguation page', 
