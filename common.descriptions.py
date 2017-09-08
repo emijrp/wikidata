@@ -810,7 +810,9 @@ def main():
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
+            'as': 'চীনর এখন গাঁও',
             'bn': 'চীনের একটি গ্রাম',
+            'bpy': 'চীনর গাঙ আহান',
             'ca': 'poble de la Xina',
             'de': 'Dorf in China',
             'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
