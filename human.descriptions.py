@@ -44,7 +44,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn', 'ro']
+    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn', 'ro', 'sq']
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
@@ -191,7 +191,7 @@ def main():
             'gl': { 'male': 'australiano', 'female': 'australiana' },
             'he': { 'male': 'אוסטרלי', 'female': 'אוסטרלית' },
             'ro': { 'male': 'australian', 'female': 'australiană' },
-            'sq': { 'male': 'australian', 'female': 'australianase' },
+            'sq': { 'male': 'australian', 'female': 'australiane' },
         },
         'Austrian': {
             'ar': { 'male': 'نمساوي', 'female': 'نمساوية' },
@@ -422,7 +422,7 @@ def main():
             'gl': { 'male': 'británico', 'female': 'británica' },
             'he': { 'male': 'בריטי', 'female': 'בריטית' },
             'ro': { 'male': 'britanic', 'female': 'britanică' },
-            'sq': { 'male': 'britanik', 'female': 'britike' },
+            'sq': { 'male': 'britanik', 'female': 'britanike' },
         },
         'Bruneian': {
             'ar': { 'male': 'بروني', 'female': 'برونية' },
@@ -445,7 +445,7 @@ def main():
             'gl': { 'male': 'búlgaro', 'female': 'búlgara' },
             'he': { 'male': 'בולגרי', 'female': 'בולגרייה' },
             'ro': { 'male': 'bulgar', 'female': 'bulgară' },
-            'sq': { 'male': 'bullgare', 'female': 'bullgare' },
+            'sq': { 'male': 'bullgar', 'female': 'bullgare' },
         },
         'Burkinabe': {
             'ar': { 'male': 'بوركينابي', 'female': 'بوركينابية' },
@@ -2052,7 +2052,7 @@ def main():
             'gl': { 'male': 'senegalés', 'female': 'senegalesa' },
             'he': { 'male': 'סנגלי', 'female': 'סנגלית' },
             'ro': { 'male': 'senegalez', 'female': 'senegaleză' },
-            'sq': { 'male': 'snegalez', 'female': 'senegaleze' },
+            'sq': { 'male': 'senegalez', 'female': 'senegaleze' },
         },
         'Serbian': {
             'ar': { 'male': 'صربي', 'female': 'صربية' },
@@ -2253,7 +2253,7 @@ def main():
             'gl': { 'male': 'suizo', 'female': 'suiza' },
             'he': { 'male': 'שווייצרי', 'female': 'שווייצרית' },
             'ro': { 'male': 'elvețian', 'female': 'elvețiană' },
-            'sq': { 'male': 'zvicëran', 'female': 'zvicërane' },
+            'sq': { 'male': 'zviceran', 'female': 'zvicerane' },
         },
         'Syrian': {
             'ar': { 'male': 'سوري', 'female': 'سورية' },
@@ -2426,7 +2426,7 @@ def main():
             'gl': { 'male': 'británico', 'female': 'británica' },
             'he': { 'male': 'בריטי', 'female': 'בריטית' },
             'ro': { 'male': 'britanic', 'female': 'britanică' },
-            'sq': { 'male': 'britanik', 'female': 'britike' },
+            'sq': { 'male': 'britanik', 'female': 'britanike' },
         },
         'U.K.': {
             'ar': { 'male': 'من المملكة المتحدة', 'female': 'من المملكة المتحدة' },
@@ -2438,7 +2438,7 @@ def main():
             'gl': { 'male': 'británico', 'female': 'británica' },
             'he': { 'male': 'בריטי', 'female': 'בריטית' },
             'ro': { 'male': 'britanic', 'female': 'britanică' },
-            'sq': { 'male': 'britanik', 'female': 'britike' },
+            'sq': { 'male': 'britanik', 'female': 'britanike' },
         },
         'Ukrainian': {
             'ar': { 'male': 'أوكراني', 'female': 'أوكرانية' },
@@ -2613,7 +2613,7 @@ def main():
     #more occupations https://query.wikidata.org/#SELECT%20%3Foccupation%20%3FoccupationLabel%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20%3Foccupation.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20.%20%7D%0A%7D%0AGROUP%20by%20%3Foccupation%20%3FoccupationLabel%0AORDER%20BY%20DESC%28%3Fcount%29
     #translations https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20wd%3AQ28389.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22gl%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
     #https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142%20.%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22en%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
-    translationsOccupations = {
+        translationsOccupations = {
         '~ actor': {
             'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' },
             'bn': { 'male': '~ অভিনেতা', 'female': '~ অভিনেত্রী' },
@@ -2720,7 +2720,7 @@ def main():
             'gl': { 'male': 'atleta ~', 'female': 'atleta ~' },
             'he': { 'male': 'אתלט ~', 'female': 'אתלטית ~' },
             'ro': { 'male': 'atlet ~', 'female': 'atletă ~' },
-            'sq': { 'male': 'garues ~ i atletikës', 'female': 'garuese ~ e atletikës' },
+            'sq': { 'male': 'atlet ~', 'female': 'atlet ~' },
         },
         '~ basketball player': {
             'ar': { 'male': 'لاعب كرة سلة ~', 'female': 'لاعبة كرة سلة ~' },
@@ -2768,7 +2768,7 @@ def main():
             'gl': { 'male': 'empresario ~', 'female': 'empresaria ~' },
             'he': { 'male': 'איש עסקים ~', 'female': 'אשת עסקים ~' },
             'ro': { 'male': 'om de afaceri ~', 'female': 'femeie de afaceri ~' },
-            'sq': { 'male': 'biznesmene ~', 'female': 'biznesmene ~' },
+            'sq': { 'male': 'biznesmen ~', 'female': 'biznesmene ~' },
         },
         '~ catholic priest': {
             'ar': { 'male': 'قس كاثوليكي ~', 'female': 'قس كاثوليكي ~' },
@@ -2840,7 +2840,7 @@ def main():
             'gl': { 'male': 'historietista ~', 'female': 'historietista ~' },
             'he': { 'male': 'אמן קומיקס ~', 'female': 'אמנית קומיקס ~' },
             'ro': { 'male': 'autor de benzi desenate ~', 'female': 'autoare de benzi desenate ~' },
-            'sq': { 'male': 'artist ~ i komikeve', 'female': 'artiste ~ e komikeve' },
+            'sq': { 'male': 'artist komikësh ~', 'female': 'artiste komikësh ~' },
         },
         '~ composer': {
             'ar': { 'male': 'ملحن ~', 'female': 'ملحنة ~' },
@@ -2936,7 +2936,7 @@ def main():
             'gl': { 'male': 'esgrimista ~', 'female': 'esgrimista ~' },
             'he': { 'male': 'סייף ~', 'female': 'סייפת ~' },
             'ro': { 'male': 'scrimer ~', 'female': 'scrimeră ~' },
-            #'sq': { 'male': ' ~', 'female': ' ~' },
+            'sq': { 'male': 'skermist ~', 'female': 'skermiste ~' },
         },
         '~ film actor': {
             'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' },
@@ -2972,7 +2972,7 @@ def main():
             'gl': { 'male': 'produtor de cinema ~', 'female': 'produtora de cinema ~' },
             'he': { 'male': 'מפיק קולנוע ~', 'female': 'מפיקת קולנוע ~' },
             'ro': { 'male': 'producător de film ~', 'female': 'producătoare de film ~' },
-            'sq': { 'male': 'prodhues ~ i filmit', 'female': 'prodhuese ~ e filmit' },
+            'sq': { 'male': 'prodhues filmash ~', 'female': 'prodhuese filmash ~' },
         },
         '~ footballer': {
             'ar': { 'male': 'لاعب كرة قدم ~', 'female': 'لاعبة كرة قدم ~' },
@@ -3212,7 +3212,7 @@ def main():
             'gl': { 'male': 'rabino ~', 'female': 'rabina ~' },
             'he': { 'male': 'רב ~', 'female': 'רבנית ~' },
             'ro': { 'male': 'rabin ~', 'female': 'rabină ~' },
-            #'sq': { 'male': 'rabin ~', 'female': 'rabine ~' },
+            'sq': { 'male': 'rabin ~', 'female': 'rabine ~' },
         },
         '~ rugby union player': {
             'ar': { 'male': 'لاعب رغبي ~', 'female': 'لاعبة رغبي ~' },
@@ -3356,6 +3356,7 @@ def main():
             'fr': { 'male': 'skieur ~', 'female': 'skieuse ~' },
             'he': { 'male': 'גולש סקי ~', 'female': 'גולשת סקי ~' },
             'ro': { 'male': 'schior ~', 'female': 'schioară ~' },
+            'sq': { 'male': 'skiator ~', 'female': 'skiatore ~' },
         },
         '~ educator': {
             'bn': { 'male': '~ শিক্ষাবিদ', 'female': '~ শিক্ষাবিদ' },
@@ -3364,6 +3365,7 @@ def main():
             'fr': { 'male': 'éducateur ~', 'female': 'éducatrice ~' },
             'he': { 'male': 'מחנך ~', 'female': 'מחנכת ~' },
             'ro': { 'male': 'educator ~', 'female': 'educatoare ~' },
+            'sq': { 'male': 'edukator ~', 'female': 'edukatore ~' },
         },
         '~ translator': {
             'bn': { 'male': '~ অনুবাদক', 'female': '~ অনুবাদক' },
@@ -3372,6 +3374,7 @@ def main():
             'fr': { 'male': 'traducteur ~', 'female': 'traductrice ~' },
             'he': { 'male': 'מתרגם ~', 'female': 'מתרגמת ~' },
             'ro': { 'male': 'traducător ~', 'female': 'traducătoare ~' },
+            'sq': { 'male': 'përkthyes ~', 'female': 'përkthyese ~' },
         },
         '~ model': {
             'bn': { 'male': '~ মডেল', 'female': '~ মডেল' },
@@ -3380,6 +3383,7 @@ def main():
             'fr': { 'male': 'mannequin ~', 'female': 'mannequin ~' },
             'he': { 'male': 'דוגמן ~', 'female': 'דוגמנית ~' },
             'es': { 'male': 'model ~', 'female': 'model ~' },
+            'sq': { 'male': 'model ~', 'female': 'modele ~' },
         },
     """
     
