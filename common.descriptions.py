@@ -110,6 +110,7 @@ def main():
             'be': 'астэроід',
             'be-tarask': 'астэроід',
             'bg': 'астероид',
+            'bn': 'গ্রহাণু',
             'br': 'asteroidenn',
             'bs': 'Asteroid',
             'ca': 'asteroide',
