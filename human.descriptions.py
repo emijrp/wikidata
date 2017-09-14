@@ -3314,7 +3314,7 @@ def main():
             'ca': { 'male': 'jugador de rugbi ~', 'female': 'jugadora de rugbi ~' },
             'en': { 'male': '~ rugby union player', 'female': '~ rugby union player' },
             'es': { 'male': 'jugador de rugby ~', 'female': 'jugadora de rugby ~' },
-            'fr': { 'male': 'joueuse de rugby ~', 'female': 'joueuse de rugby ~' },
+            'fr': { 'male': 'joueur de rugby ~', 'female': 'joueuse de rugby ~' },
             'gl': { 'male': 'xogador de rugby ~', 'female': 'xogadora de rugby ~' },
             'he': { 'male': 'שחקן רוגבי יוניון ~', 'female': 'שחקנית רוגבי יוניון ~' },
             'ro': { 'male': 'rugbist ~', 'female': 'rugbistă ~' },
