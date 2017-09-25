@@ -2103,7 +2103,7 @@ def main():
         },
         'Saudi': {
             'ar': { 'male': 'سعودي', 'female': 'سعودية' },
-            'bn': { 'male': 'সৌদী', 'female': 'সৌদী' },
+            'bn': { 'male': 'সৌদি', 'female': 'সৌদি' },
             'ca': { 'male': 'saudita', 'female': 'saudita' },
             'en': { 'male': 'Saudi', 'female': 'Saudi' },
             'es': { 'male': 'saudita', 'female': 'saudita' },
@@ -2115,7 +2115,7 @@ def main():
         },
         'Saudi Arabian': {
             'ar': { 'male': 'سعودي', 'female': 'سعودية' },
-            'bn': { 'male': 'সৌদী আরবীয়', 'female': 'সৌদী আরবীয়' },
+            'bn': { 'male': 'সৌদি আরবীয়', 'female': 'সৌদি আরবীয়' },
             'ca': { 'male': 'saudita', 'female': 'saudita' },
             'en': { 'male': 'Saudi', 'female': 'Saudi' },
             'es': { 'male': 'saudita', 'female': 'saudita' },
