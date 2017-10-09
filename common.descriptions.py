@@ -279,7 +279,7 @@ def main():
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
-            'bn': 'আর‍্যাকনিডের গণ',
+            'bn': 'অ্যারাকনিডের গণ',
             'ca': "gènere d'aràcnids",
             'en': 'genus of arachnids',
             'es': 'género de arañas',
@@ -751,7 +751,7 @@ def main():
             'sq': 'lloj i amfibeve',
         },
         'species of arachnid': {
-            'bn': 'আর‍্যাকনিডের প্রজাতি',
+            'bn': 'অ্যারাকনিডের প্রজাতি',
             'ca': 'espècie d\'aràcnid',
             'en': 'species of arachnid',
             'es': 'especie de arácnido',
