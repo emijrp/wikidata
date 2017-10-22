@@ -68,6 +68,7 @@ def main():
             'uk': ['Категорії', 'категорія в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=User_talk%3AEmijrp&type=revision&diff=527336622&oldid=525302741
         }, 
         'Wikimedia disambiguation page': {
+            'el': ['σελίδα αποσαφήνισης'],#https://www.wikidata.org/w/index.php?title=Q29449981&diff=prev&oldid=567203989
             'es': ['desambiguación de Wikipedia'], 
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
             'id': ['halaman disambiguasi'], 
@@ -110,6 +111,7 @@ def main():
             'be': 'астэроід',
             'be-tarask': 'астэроід',
             'bg': 'астероид',
+            'bn': 'গ্রহাণু',
             'br': 'asteroidenn',
             'bs': 'Asteroid',
             'ca': 'asteroide',
@@ -277,7 +279,7 @@ def main():
         }, 
         'genus of arachnids': {
             'ar': 'جنس من العنكبوتيات',
-            'bn': 'আর‍্যাকনিডের গণ',
+            'bn': 'অ্যারাকনিডের গণ',
             'ca': "gènere d'aràcnids",
             'en': 'genus of arachnids',
             'es': 'género de arañas',
@@ -749,7 +751,7 @@ def main():
             'sq': 'lloj i amfibeve',
         },
         'species of arachnid': {
-            'bn': 'আর‍্যাকনিডের প্রজাতি',
+            'bn': 'অ্যারাকনিডের প্রজাতি',
             'ca': 'espècie d\'aràcnid',
             'en': 'species of arachnid',
             'es': 'especie de arácnido',
@@ -810,9 +812,9 @@ def main():
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
-            'as': 'চীনর এখন গাঁও',
+            'as': 'চীনৰ এখন গাওঁ',
             'bn': 'চীনের একটি গ্রাম',
-            'bpy': 'চীনর গাঙ আহান',
+            'bpy': 'চীনর আহান গাঙ',
             'ca': 'poble de la Xina',
             'de': 'Dorf in China',
             'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
@@ -821,18 +823,28 @@ def main():
             'es': 'aldea de la República Popular China',
             'fi': 'kylä Kiinassa',
             'fr': 'village chinois',
+            'gu': 'ચીનનું ગામ',
             'he': 'כפר ברפובליקה העממית של סין',
+            'hi': 'चीन का गाँव',
             'hy': 'գյուղ Չինաստանում',
             'id': 'desa di Tiongkok',
             'it': 'villaggio cinese',
+            'ja': '中国の村',
+            'kn': 'ಚೈನಾ ದೇಶದ ಗ್ರಾಮ',
+            'mr': 'चीनमधील गाव',
             'nb': 'landsby i Kina',
+            'ne': 'चीनका गाउँहरू',
             'nn': 'landsby i Kina',
             'nl': 'dorp in China',
             'oc': 'vilatge chinés',
+            'or': 'ଚୀନର ଗାଁ',
             'pt-br': 'vila chinesa',
+            'ur': 'چین کا گاؤں',
             'ro': 'sat din China',
             'ru': 'деревня КНР',
             'sq': 'fshat në Kinë',
+            'ta': 'சீனாவின் கிராமம்',
+            'te': 'చైనాలో గ్రామం',
         },
         'Wikimedia category': { #Q4167836
             'ace': 'kawan Wikimèdia',
@@ -941,7 +953,7 @@ def main():
             'de': 'Wikimedia-Begriffsklärungsseite',
             'de-at': 'Wikimedia-Begriffsklärungsseite',
             'de-ch': 'Wikimedia-Begriffsklärungsseite',
-            'el': 'σελίδα αποσαφήνισης',
+            'el': 'σελίδα αποσαφήνισης εγχειρημάτων Wikimedia',
             'en': 'Wikimedia disambiguation page',
             'en-ca': 'Wikimedia disambiguation page',
             'en-gb': 'Wikimedia disambiguation page',
