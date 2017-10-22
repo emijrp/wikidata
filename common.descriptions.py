@@ -1845,8 +1845,9 @@ def main():
     queries_list.sort()
     skip = ''
     topics = [ #uncomment topics you want to add descriptions to
-        'asteroid',
+        #'asteroid',
         #'chemical compound',
+        'encyclopedic article',
         
         #'family name',
         #'female given name',
