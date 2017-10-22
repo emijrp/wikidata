@@ -53,6 +53,7 @@ def generateTranslations(pubdate=''):
         'eo': 'scienca artikolo',
         'es': 'artículo científico publicado en %s' % (pubdate.year),
         'et': 'teaduslik artikkel',
+        'fa': 'مقالهٔ علمی', 
         'fi': 'tieteellinen artikkeli',
         'fr': 'article scientifique',
         'gl': 'artigo científico',
@@ -106,7 +107,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     querylimit = 10000
-    skip = 'Q26745516'
+    skip = 'Q36014642'
     queries = [
     """
     SELECT ?item ?pubdate
@@ -116,7 +117,7 @@ def main():
     }
     LIMIT %s
     OFFSET %s
-    """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
+    """ % (str(querylimit), str(offset)) for offset in range(0, 10000000, querylimit)
     ]
     
     for query in queries:
