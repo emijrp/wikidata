@@ -2536,7 +2536,7 @@ def main():
         },
         'Syrian': {
             'ar': { 'male': 'سوري', 'female': 'سورية' },
-            'bn': { 'male': 'সিরিয়', 'female': 'সিরিয়' },
+            'bn': { 'male': 'সিরীয়', 'female': 'সিরীয়' },
             'ca': { 'male': 'sirià', 'female': 'siriana' },
             'en': { 'male': 'Syrian', 'female': 'Syrian' },
             'es': { 'male': 'sirio', 'female': 'siria' },
