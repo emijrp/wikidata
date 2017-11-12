@@ -89,17 +89,17 @@ def generateTranslations(pubdate=''):
         'tr': 'bilimsel makale',
         'uk': 'наукова стаття',
         'vi': 'bài báo khoa học',
-        'wuu': '%s年论文' % (pubdate.year),
-        'yue': '%s年論文' % (pubdate.year),
-        'zh': '%s年论文' % (pubdate.year),
-        'zh-cn': '%s年论文' % (pubdate.year),
-        'zh-hans': '%s年论文' % (pubdate.year),
-        'zh-hant': '%s年論文' % (pubdate.year),
-        'zh-hk': '%s年論文' % (pubdate.year),
-        'zh-mo': '%s年論文' % (pubdate.year),
-        'zh-my': '%s年论文' % (pubdate.year),
-        'zh-sg': '%s年论文' % (pubdate.year),
-        'zh-tw': '%s年論文' % (pubdate.year),
+        'wuu': '%s年学术文章' % (pubdate.year),
+        'yue': '%s年學術文章' % (pubdate.year),
+        'zh': '%s年學術文章' % (pubdate.year),
+        'zh-cn': '%s年学术文章' % (pubdate.year),
+        'zh-hans': '%s年学术文章' % (pubdate.year),
+        'zh-hant': '%s年學術文章' % (pubdate.year),
+        'zh-hk': '%s年學術文章' % (pubdate.year),
+        'zh-mo': '%s年學術文章' % (pubdate.year),
+        'zh-my': '%s年学术文章' % (pubdate.year),
+        'zh-sg': '%s年学术文章' % (pubdate.year),
+        'zh-tw': '%s年學術文章' % (pubdate.year),
     }
     return fixthiswhenfound, translations
 
@@ -107,7 +107,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     querylimit = 10000
-    skip = 'Q36014642'
+    skip = 'Q36255158'
     queries = [
     """
     SELECT ?item ?pubdate
