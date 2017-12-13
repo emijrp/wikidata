@@ -3773,6 +3773,7 @@ def main():
             'et': { 'male': '~ viiuldaja', 'female': '~ viiuldaja' },
             'fr': { 'male': 'violoniste ~', 'female': 'violoniste ~' },
             'gl': { 'male': 'violinista ~', 'female': 'violinista ~' },
+            'he': { 'male': 'כנר ~', 'female': 'כנרית ~' },
         },
         '~ cellist': {
             'ca': { 'male': 'violoncel·lista ~', 'female': 'violoncel·lista ~' },
@@ -3781,6 +3782,19 @@ def main():
             'et': { 'male': '~ tšellist', 'female': '~ tšellist' },
             'fr': { 'male': 'violoncelliste ~', 'female': 'violoncelliste ~' },
             'gl': { 'male': 'violonchelista ~', 'female': 'violonchelista ~' },
+            'he': { 'male': 'צ\'לן ~', 'female': 'צ\'לנית ~' },
+        },
+        '~ bassist': {
+            'en': { 'male': '~ bassist', 'female': '~ bassist' },
+            'he': { 'male': 'בסיסט ~', 'female': 'בסיסטית ~' },
+        },
+        '~ geographer': {
+            'en': { 'male': '~ geographer', 'female': '~ geographer' },
+            'he': { 'male': 'גאוגרף ~', 'female': 'גאוגרפית ~' },
+        },
+        '~ theologian': {
+            'en': { 'male': '~ theologian', 'female': '~ theologian' },
+            'he': { 'male': 'תאולוג ~', 'female': 'תאולוגית ~' },
         },
     """
     
