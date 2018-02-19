@@ -44,10 +44,13 @@ def main():
                 'es': 'escritor alemán', 
                 'fr': 'écrivain allemand', 
                 'gl': 'escritor alemán', 
+                'he': 'סופר גרמני', 
                 'id': 'penulis laki-laki asal Jerman', 
                 'it': 'scrittore tedesco', 
                 'oc': 'escrivan alemand', 
-                'he': 'סופר גרמני', 
+                'sr': 'немачки писац', 
+                'sr-ec': 'немачки писац', 
+                'sr-el': 'немачки писац', 
             }, 
             'female': {
                 'an': 'escritora alemana', 
@@ -70,12 +73,18 @@ def main():
                 'es': 'pintor español', 
                 'he': 'צייר ספרדי', 
                 'id': 'pelukis laki-laki asal Spanyol'
+                'sr': 'шпански сликар',
+                'sr-ec': 'шпански сликар',
+                'sr-el': 'španski slikar',
             }, 
             'female': {
                 'bn': 'স্পেনীয় চিত্রকর',
                 'es': 'pintora española',  
                 'he': 'ציירת ספרדייה', 
                 'id': 'pelukis perempuan asal Spanyol'
+                'sr': 'шпанска сликарка',
+                'sr-ec': 'шпанска сликарка',
+                'sr-el': 'španska slikara',
             }, 
         }, 
         
@@ -85,9 +94,12 @@ def main():
                 'ca': 'polític espanyol', 
                 'es': 'político español', 
                 'fr': 'politicien espagnol', 
+                'he': 'פוליטיקאי ספרדי', 
                 'id': 'politisi laki-laki asal Spanyol'
                 'it': 'politico spagnolo', 
-                'he': 'פוליטיקאי ספרדי', 
+                'sr': 'шпански политичар',
+                'sr-ec': 'шпански политичар',
+                'sr-el': 'španski političar',
             }, 
             'female': {
                 'bn': 'স্পেনীয় রাজনীতিবিদ',
@@ -112,7 +124,10 @@ def main():
                 'id': 'penulis laki-laki asal Spanyol'
                 'it': 'scrittore spagnolo', 
                 'oc': 'escrivan espanhòl', 
-                'he': 'סופר ספרדי', 
+                'he': 'סופר ספרדי',
+                'sr': 'шпански писац',
+                'sr-ec': 'шпански писац',
+                'sr-el': 'španski pisac',
             }, 
             'female': {
                 'an': 'escritora espanyola', 
