@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2018 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -74,9 +74,11 @@ def main():
             'id': ['halaman disambiguasi'], 
             'tg': ['саҳифаи ибҳомзудоии Викимаълумот'], #https://www.wikidata.org/w/index.php?title=Topic:Ts4qkooukddjcuq9&topic_showPostId=ts4rax4ro9brqqgj#flow-post-ts4rax4ro9brqqgj
             'tt': ['Википедия:Күп мәгънәле мәкаләләр'],
+            'uk': ['сторінка значень в проекті Вікімедіа'],
         }, 
         'Wikimedia list article': {
             'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
+            'uk': ['сторінка-список в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=617531932&oldid=606446211
         }, 
         'Wikimedia template': {
             'be': ['шаблон Вікіпедыя'],
@@ -91,7 +93,7 @@ def main():
             'sw': ['kigezo Wikipedia'],
             'tg': ['Шаблони Викимедиа', 'шаблон Википедиа'], #https://www.wikidata.org/w/index.php?title=Q11266439&diff=prev&oldid=498153879
             'tr': ['şablon Vikipedi'],
-            'uk': ['шаблон Вікіпедії'],
+            'uk': ['шаблон Вікіпедії', 'шаблон проекту Вікімедіа'],
             'yo': ['àdàkọ Wikipedia'],
             'vi': ['bản mẫu Wikipedia'],
         },
@@ -1045,7 +1047,7 @@ def main():
             'tt': 'Мәгънәләр бите Викимедиа проектында',
             'tt-cyrl': 'Мәгънәләр бите Викимедиа проектында',
             'tt-latn': 'Mäğnälär bite Wikimedia proyektında',
-            'uk': 'сторінка значень в проекті Вікімедіа',
+            'uk': 'сторінка значень у проекті Вікімедіа',
             'vi': 'trang định hướng Wikimedia',
             'yo': 'ojúewé ìṣojútùú Wikimedia',
             'yue': '維基媒體搞清楚頁',
@@ -1121,7 +1123,7 @@ def main():
             'tg-latn': 'sahifai fehristī',
             'th': 'บทความรายชื่อวิกิมีเดีย',
             'tr': 'Vikimedya liste maddesi',
-            'uk': 'сторінка-список в проекті Вікімедіа',
+            'uk': 'сторінка-список у проекті Вікімедіа',
             'vi': 'bài viết danh sách Wikimedia',
             'yi': 'וויקימעדיע ליסטע',
             'yo': 'ojúewé àtojọ Wikimedia',
@@ -1222,7 +1224,7 @@ def main():
             'th': 'หน้าแม่แบบวิกิมีเดีย', 
             'tl': 'Padrong pang-Wikimedia', 
             'tr': 'Vikimedya şablonu',
-            'uk': 'шаблон проекту Вікімедіа', 
+            'uk': 'шаблон у проекті Вікімедіа', 
             'vi': 'bản mẫu Wikimedia', 
             'yo': 'àdàkọ Wikimedia',
             'yue': '維基媒體模',
