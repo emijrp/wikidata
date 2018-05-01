@@ -68,6 +68,7 @@ def main():
             'uk': ['Категорії', 'категорія в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=User_talk%3AEmijrp&type=revision&diff=527336622&oldid=525302741
         }, 
         'Wikimedia disambiguation page': {
+            'bn': ['উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা'],
             'el': ['σελίδα αποσαφήνισης'],#https://www.wikidata.org/w/index.php?title=Q29449981&diff=prev&oldid=567203989
             'es': ['desambiguación de Wikipedia'], 
             'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
@@ -982,7 +983,7 @@ def main():
             'an': 'pachina de desambigación',
             'ar': 'صفحة توضيح لويكيميديا',
             'bg': 'Уикимедия пояснителна страница',
-            'bn': 'উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা',
+            'bn': 'উইকিমিডিয়ার দ্ব্যর্থতা নিরসন পাতা',
             'bs': 'čvor stranica na Wikimediji',
             'ca': 'pàgina de desambiguació de Wikimedia',
             'ckb': 'پەڕەی ڕوونکردنەوەی ویکیمیدیا',
