@@ -51,8 +51,10 @@ def main():
     repo = site.data_repository()
     
     genders = {
-        'Q6581097': 'male', 
-        'Q6581072': 'female', 
+        'Q6581097': 'male', #male
+        'Q6581072': 'female', #female
+        'Q2449503': 'male', #transgender male
+        'Q1052281': 'female', #transgender female
     }
     genders_list = [[x, y] for x, y in genders.items()]
     genders_list.sort()
