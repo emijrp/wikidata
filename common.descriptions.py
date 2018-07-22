@@ -349,7 +349,7 @@ def main():
         }, 
         'genus of fungi': {
             'ar': 'جنس من الفطريات',
-            'bn': 'চত্রাকের গণ',
+            'bn': 'ছত্রাকের গণ',
             'en': 'genus of fungi',
             'es': 'género de hongos',
             'et': 'seente perekond',
