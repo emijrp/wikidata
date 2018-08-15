@@ -3792,7 +3792,7 @@ def main():
             'he': { 'male': 'בסיסט ~', 'female': 'בסיסטית ~' },
         },
         '~ geographer': {
-            'nn': { 'male': '~ ভূগোলবিদ', 'female': '~ ভূগোলবিদ' },
+            'bn': { 'male': '~ ভূগোলবিদ', 'female': '~ ভূগোলবিদ' },
             'en': { 'male': '~ geographer', 'female': '~ geographer' },
             'he': { 'male': 'גאוגרף ~', 'female': 'גאוגרפית ~' },
         },
