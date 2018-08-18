@@ -17,7 +17,7 @@
 
 # Translations authorship:
 # Arabic (ar): User:SR5
-# Bengali (bn): User:Aftabuzzaman
+# Bengali (bn): User:আফতাবুজ্জামান
 # Catalan (ca): User:Emijrp
 # Estonian (et): Wikimedia Eesti volunteers (User:Reosarevok, with help from User:Kruusamägi, User:ReelikaS, User:Nadosdelatsebenik)
 # French (fr): User:Pamputt
@@ -3767,6 +3767,7 @@ def main():
             'sq': { 'male': 'model ~', 'female': 'modele ~' },
         },
         '~ violinist': {
+            'bn': { 'male': '~ বেহালাবাদক', 'female': '~ বেহালাবাদক' },
             'ca': { 'male': 'violinista ~', 'female': 'violinista ~' },
             'en': { 'male': '~ violinist', 'female': '~ violinist' },
             'es': { 'male': 'violinista ~', 'female': 'violinista ~' },
@@ -3776,6 +3777,7 @@ def main():
             'he': { 'male': 'כנר ~', 'female': 'כנרית ~' },
         },
         '~ cellist': {
+            'bn': { 'male': '~ চেলোবাদক', 'female': '~ চেলোবাদক' },
             'ca': { 'male': 'violoncel·lista ~', 'female': 'violoncel·lista ~' },
             'en': { 'male': '~ cellist', 'female': '~ cellist' },
             'es': { 'male': 'violonchelista ~', 'female': 'violonchelista ~' },
@@ -3785,14 +3787,17 @@ def main():
             'he': { 'male': 'צ\'לן ~', 'female': 'צ\'לנית ~' },
         },
         '~ bassist': {
+            'bn': { 'male': '~ বেস গিটারবাদক', 'female': '~ বেস গিটারবাদক' },
             'en': { 'male': '~ bassist', 'female': '~ bassist' },
             'he': { 'male': 'בסיסט ~', 'female': 'בסיסטית ~' },
         },
         '~ geographer': {
+            'bn': { 'male': '~ ভূগোলবিদ', 'female': '~ ভূগোলবিদ' },
             'en': { 'male': '~ geographer', 'female': '~ geographer' },
             'he': { 'male': 'גאוגרף ~', 'female': 'גאוגרפית ~' },
         },
         '~ theologian': {
+            'bn': { 'male': '~ ধর্মতত্ত্ববিদ', 'female': '~ ধর্মতত্ত্ববিদ' },
             'en': { 'male': '~ theologian', 'female': '~ theologian' },
             'he': { 'male': 'תאולוג ~', 'female': 'תאולוגית ~' },
         },
