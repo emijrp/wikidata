@@ -3478,7 +3478,7 @@ def main():
         },
         '~ physician': {
             'ar': { 'male': 'طبيب ~', 'female': 'طبيبة ~' },
-            'bn': { 'male': '~ চিকিত্সক', 'female': '~ চিকিত্সক' },
+            'bn': { 'male': '~ চিকিৎসক', 'female': '~ চিকিৎসক' },
             'ca': { 'male': 'metge ~', 'female': 'metgessa ~' },
             'en': { 'male': '~ physician', 'female': '~ physician' },
             'es': { 'male': 'médico ~', 'female': 'médica ~' },
