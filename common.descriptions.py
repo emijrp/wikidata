@@ -996,6 +996,7 @@ def main():
             'bn': 'চীনের একটি গ্রাম',
             'bpy': 'চীনর আহান গাঙ',
             'ca': 'poble de la Xina',
+            'cy': 'pentref yn Tsieina',
             'de': 'Dorf in China',
             'el': 'οικισμός της Λαϊκής Δημοκρατίας της Κίνας',
             'en': 'village in China',
