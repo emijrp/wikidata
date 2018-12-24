@@ -261,7 +261,7 @@ def main():
             'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
             'cs': 'chemická sloučenina',
-            'cy': 'cyfansoddyn cemegol'
+            'cy': 'cyfansoddyn cemegol',
             'da': 'kemisk forbindelse',
             'de': 'chemische Verbindung',
             'de-ch': 'chemische Verbindung',
@@ -382,7 +382,7 @@ def main():
         }, 
         'family of plants': {
             'bn': 'উদ্ভিদের পরিবার',
-            'cy': 'teulu o blanhigion'
+            'cy': 'teulu o blanhigion',
             'en': 'family of plants',
             'es': 'familia de plantas',
             'et': 'taimesugukond',
@@ -1503,7 +1503,7 @@ def main():
             'bs': 'godina',
             'ca': 'any',
             'cs': 'rok',
-            'cy': 'blwyddyn'
+            'cy': 'blwyddyn',
             'da': 'år',
             'de': 'Jahr',
             'el': 'έτος',
