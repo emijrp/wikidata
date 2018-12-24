@@ -78,6 +78,8 @@ def main():
             'uk': ['сторінка значень в проекті Вікімедіа'],
         }, 
         'Wikimedia list article': {
+            'et': ['Vikipeedia:Loend', 'Vikipeedia loend'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=next&oldid=588159017
+            'id': ['Wikipedia:Daftar'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=745905758&oldid=745029653
             'tg': ['саҳифае, ки аз рӯйхат иборат аст'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=prev&oldid=498154491
             'uk': ['сторінка-список в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=Q13406463&diff=617531932&oldid=606446211
         }, 
@@ -203,32 +205,64 @@ def main():
             'sk': 'chemická zlúčenina',
             'sq': 'komponim kimik',
         }, 
+        'douar in Morocco': {
+            'de': 'douar in Marokko',
+            'en': 'douar in Morocco',
+            'es': 'douar de Marruecos',
+            'fr': 'douar marocain',
+            'nl': 'douar in Marokko',
+        }, 
         'encyclopedic article': {
             'ar': 'مقالة موسوعية',
+            'ast': 'artículu enciclopédicu',
+            'be': 'энцыклапедычны артыкул',
             'bn': 'বিশ্বকোষীয় নিবন্ধ',
             'ca': 'article enciclopèdic',
             'cs': 'encyklopedický článek',
             'da': 'encyklopædiartikel',
+            'de': 'enzyklopädischer Artikel',
+            'el': 'λήμμα εγκυκλοπαίδειας',
             'en': 'encyclopedic article',
             'eo': 'enciklopedia artikolo',
             'es': 'artículo de enciclopedia',
             'et': 'entsüklopeedia artikkel',
+            'eu': 'entziklopedia artikulu',
+            'fi': 'tietosanakirja-artikkeli',
             'fr': "article d'encyclopédie",
+            'frc': "article d'encyclopédie",
             'fy': 'ensyklopedysk artikel',
             'gl': 'artigo enciclopédico',
+            'he': 'ערך אנציקלופדי',
             'hy': 'հանրագիտարանային հոդված',
+            'hu': 'enciklopédia-szócikk',
             'id': 'artikel ensiklopedia',
             'io': 'enciklopediala artiklo',
+            'it': 'voce enciclopedica',
+            'ja': '百科事典の記事',
+            'ka': 'ენციკლოპედიური სტატია',
+            'lt': 'enciklopedinis straipsnis',
+            'lv': 'enciklopēdisks raksts',
+            'mk': 'енциклопедиска статија',
             'nb': 'encyklopedisk artikkel',
             'nl': 'encyclopedisch artikel',
             'nn': 'ensyklopedisk artikkel',
             'pl': 'artykuł w encyklopedii',
+            'pt-br': 'artigo enciclopédico',
             'ro': 'articol enciclopedic',
             'ru': 'энциклопедическая статья',
             'sl': 'enciklopedični članek',
             'sq': 'artikull enciklopedik',
+            'sr': 'енциклопедијски чланак',
+            'sr-ec': 'енциклопедијски чланак',
+            'sr-el': 'enciklopedijski članak',
             'sv': 'encyklopedisk artikel',
-            'he': 'ערך אנציקלופדי',
+            'tg': 'мақолаи энсиклопедӣ',
+            'tg-cyrl': 'мақолаи энсиклопедӣ',
+            'tt': 'энциклопедик мәкалә',
+            'tt-cyrl': 'энциклопедик мәкалә',
+            'uk': 'енциклопедична стаття',
+            'zh': '条目',
+            'zh-hans': '百科全书条目',
         }, 
         #more families https://query.wikidata.org/#SELECT %3FitemDescription (COUNT(%3Fitem) AS %3Fcount)%0AWHERE {%0A%09%3Fitem wdt%3AP31 wd%3AQ16521.%0A %3Fitem wdt%3AP105 wd%3AQ35409.%0A %23%3Fitem schema%3Adescription "family of insects"%40en.%0A OPTIONAL { %3Fitem schema%3Adescription %3FitemDescription. FILTER(LANG(%3FitemDescription) %3D "en"). }%0A%09FILTER (BOUND(%3FitemDescription))%0A}%0AGROUP BY %3FitemDescription%0AORDER BY DESC(%3Fcount)
         'family of crustaceans': {
@@ -1438,6 +1472,21 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(1, 250000, querylimit)
         ],
         
+        'douar in Morocco': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q23925393 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "douar in Morocco"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 50000, querylimit)
+        ],
+        
         'encyclopedic article': [
         """
         SELECT ?item
@@ -1450,7 +1499,7 @@ def main():
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 300000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(0, 500000, querylimit)
         ],
         
         'family name': [
@@ -1928,9 +1977,10 @@ def main():
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
     skip = ''
-    topics = [ #uncomment topics you want to add descriptions to
+    topics = [ #uncomment topics you want to run the bot on
         #'asteroid',
         #'chemical compound',
+        #'douar in Morocco',
         'encyclopedic article',
         
         #'family name',
@@ -1965,6 +2015,7 @@ def main():
         #'species of mollusc',
         #'species of plant',
         
+        #'Wikimedia category', 
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
         #'Wikimedia template', 
@@ -1972,6 +2023,8 @@ def main():
     for topic in queries_list:
         if not topic in topics:
             continue
+        c = 0
+        ctotal = 0
         for url in queries[topic]:
             url = url.strip()
             if not url.startswith('http'):
@@ -1989,8 +2042,10 @@ def main():
             if not qlist: #empty query result? maybe no more Q
                 break
             
+            ctotal += len(qlist)
             for q in qlist:
-                print('\n== %s [%s] ==' % (q, topic))
+                c += 1
+                print('\n== %s [%s] [%d of %d] ==' % (q, topic, c, ctotal))
                 if skip:
                     if q != skip:
                         print('Skiping...')
