@@ -261,6 +261,7 @@ def main():
             'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
             'cs': 'chemická sloučenina',
+            'cy': 'cyfansoddyn cemegol'
             'da': 'kemisk forbindelse',
             'de': 'chemische Verbindung',
             'de-ch': 'chemische Verbindung',
@@ -381,6 +382,7 @@ def main():
         }, 
         'family of plants': {
             'bn': 'উদ্ভিদের পরিবার',
+            'cy': 'teulu o blanhigion'
             'en': 'family of plants',
             'es': 'familia de plantas',
             'et': 'taimesugukond',
@@ -440,6 +442,7 @@ def main():
             'ar': 'جنس من الطيور',
             'bn': 'পাখির গণ',
             'ca': "gènere d'ocells",
+            'cy': 'genws o adar',
             'en': 'genus of birds',
             'es': 'género de aves',
             'et': 'linnuperekond',
@@ -548,6 +551,7 @@ def main():
             'ar': 'جنس من النباتات',
             'ca': 'gènere de plantes',
             'bn': 'উদ্ভিদের গণ',
+            'cy': 'genws o blanhigion',
             'en': 'genus of plants',
             'es': 'género de plantas',
             'et': 'taimeperekond',
@@ -841,6 +845,7 @@ def main():
             'ar': 'عدد طبيعي',
             'bn': 'প্রাকৃতিক সংখ্যা',
             'ca': 'nombre natural',
+            'cy': 'rhif naturiol',
             'en': 'natural number',
             'en-ca': 'natural number',
             'en-gb': 'natural number',
@@ -1498,6 +1503,7 @@ def main():
             'bs': 'godina',
             'ca': 'any',
             'cs': 'rok',
+            'cy': 'blwyddyn'
             'da': 'år',
             'de': 'Jahr',
             'el': 'έτος',
