@@ -3493,6 +3493,7 @@ def main():
             'ar': { 'male': 'فيزيائي ~', 'female': 'فيزيائية ~' },
             'bn': { 'male': '~ পদার্থবিজ্ঞানী', 'female': '~ পদার্থবিজ্ঞানী' },
             'ca': { 'male': 'físic ~', 'female': 'física ~' },
+            'cy': { 'male': 'ffisegwr', 'female': 'ffisegwraig' },
             'en': { 'male': '~ physicist', 'female': '~ physicist' },
             'es': { 'male': 'físico ~', 'female': 'física ~' },
             'et': { 'male': '~ füüsik', 'female': '~ füüsik' },
