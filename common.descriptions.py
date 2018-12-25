@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import sys
 import time
 import urllib.parse
 
@@ -43,6 +44,24 @@ from wikidatafun import *
 #genus
 #species
 #proteins https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3FitemDescription%20(COUNT(%3Fitem)%20AS%20%3Fcount)%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP279%20wd%3AQ8054.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22mammalian%20protein%20found%20in%20Mus%20musculus%22%40en.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22es%22).%20%20%7D%0A%09FILTER%20(BOUND(%3FitemDescription))%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC(%3Fcount)
+
+def genQuery(p31='', desc='', desclang=''):
+    if not p31 or not desc or not desclang:
+        print('Error genQuery', p31, desc, desclang)
+        sys.exit()
+    query = [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:%s ;
+                  wdt:P31 ?instance .
+            ?item schema:description "%s"@%s.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """ % (p31, desc, desclang) 
+    ]
+    return query
 
 def main():
     fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
@@ -876,6 +895,76 @@ def main():
             'sq': 'numër natyror',
             'uk': 'натуральне число',
         },
+        
+        'river in Afghanistan': {
+            'en': 'river in Afghanistan',
+            'es': 'río de Afganistán',
+        },
+        'river in Angola': {
+            'en': 'river in Angola',
+            'es': 'río de Angola',
+        },
+        'river in Australia': {
+            'en': 'river in Australia',
+            'es': 'río de Australia',
+        },
+        'river in Bolivia': {
+            'en': 'river in Bolivia',
+            'es': 'río de Bolivia',
+        },
+        'river in Brazil': {
+            'en': 'river in Brazil',
+            'es': 'río de Brasil',
+        },
+        'river in Fiji': {
+            'en': 'river in Fiji',
+            'es': 'río de Fiji',
+        },
+        'river in Germany': {
+            'en': 'river in Germany',
+            'es': 'río de Alemania',
+        },
+        'river in India': {
+            'en': 'river in India',
+            'es': 'río de la India',
+        },
+        'river in Indonesia': {
+            'en': 'river in Indonesia',
+            'es': 'río de Indonesia',
+        },
+        'river in New Zealand': {
+            'en': 'river in New Zealand',
+            'es': 'río de Nueva Zelanda',
+        },
+        'river in Pakistan': {
+            'en': 'river in Pakistan',
+            'es': 'río de Pakistán',
+        },
+        'river in Romania': {
+            'en': 'river in Romania',
+            'es': 'río de Rumanía',
+        },
+        'river in Russia': {
+            'en': 'river in Russia',
+            'es': 'río de Rusia',
+        },
+        'river in the Central African Republic': {
+            'en': 'river in the Central African Republic',
+            'es': 'río de República Centroafricana',
+        },
+        'river in the United States of America': {
+            'en': 'river in the United States of America',
+            'es': 'río de Estados Unidos',
+        },
+        'river in the Philippines': {
+            'en': 'river in the Philippines',
+            'es': 'río de Filipinas',
+        },
+        'river in Vietnam': {
+            'en': 'river in Vietnam',
+            'es': 'río de Vietnam',
+        },
+        
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
@@ -1920,10 +2009,28 @@ def main():
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
-        """        
+        """
         ], 
         
         #'natural number': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A'],
+        
+        'river in Afghanistan': genQuery(p31='Q4022', desc='river in Afghanistan', desclang='en'),
+        'river in Angola': genQuery(p31='Q4022', desc='river in Angola', desclang='en'),
+        'river in Australia': genQuery(p31='Q4022', desc='river in Australia', desclang='en'),
+        'river in Bolivia': genQuery(p31='Q4022', desc='river in Bolivia', desclang='en'),
+        'river in Brazil': genQuery(p31='Q4022', desc='river in Brazil', desclang='en'),
+        'river in Fiji': genQuery(p31='Q4022', desc='river in Fiji', desclang='en'),
+        'river in Germany': genQuery(p31='Q4022', desc='river in Germany', desclang='en'),
+        'river in India': genQuery(p31='Q4022', desc='river in India', desclang='en'),
+        'river in Indonesia': genQuery(p31='Q4022', desc='river in Indonesia', desclang='en'),
+        'river in New Zealand': genQuery(p31='Q4022', desc='river in New Zealand', desclang='en'),
+        'river in Pakistan': genQuery(p31='Q4022', desc='river in Pakistan', desclang='en'),
+        'river in Romania': genQuery(p31='Q4022', desc='river in Romania', desclang='en'),
+        'river in Russia': genQuery(p31='Q4022', desc='river in Russia', desclang='en'),
+        'river in the Central African Republic': genQuery(p31='Q4022', desc='river in the Central African Republic', desclang='en'),
+        'river in the Philippines': genQuery(p31='Q4022', desc='river in the Philippines', desclang='en'),
+        'river in the United States of America': genQuery(p31='Q4022', desc='river in the United States of America', desclang='en'),
+        'river in Vietnam': genQuery(p31='Q4022', desc='river in Vietnam', desclang='en'),
         
         #'scientific article': [''], # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
@@ -2156,8 +2263,10 @@ def main():
     if len(sys.argv) > 1:
         topicarg = sys.argv[1]
     for topic in queries_list:
+        topic_ = re.sub(' ', '-', topic.lower())
+        topicarg_ = re.sub(' ', '-', topicarg.lower())
         if topicarg:
-            if re.sub(' ', '-', topic.lower()) != re.sub(' ', '-', topicarg.lower()):
+            if topic_ != topicarg_ and not (topicarg_.endswith('-') and topic_.startswith(topicarg_)):
                 continue
         elif not topic in topics:
             continue
@@ -2221,6 +2330,7 @@ def main():
                 if addedlangs or fixedlangs:
                     data = { 'descriptions': descriptions }
                     addedlangs.sort()
+                    fixedlangs.sort()
                     summary = 'BOT - '
                     if addedlangs:
                         if fixedlangs:
@@ -2234,6 +2344,7 @@ def main():
                     print(summary)
                     try:
                         item.editEntity(data, summary=summary)
+                        #break
                     except:
                         print('Error while saving')
                         continue
