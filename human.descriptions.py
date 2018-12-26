@@ -45,7 +45,7 @@ def main():
     #https://wikitech.wikimedia.org/wiki/Help:Tool_Labs/Grid#Submitting_continuous_jobs_.28such_as_bots.29_with_.27jstart.27
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
-    targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn', 'ro', 'sq', 'et']
+    targetlangs = ['es', 'ca', 'cy', 'gl', 'he', 'ar', 'fr', 'bn', 'ro', 'sq', 'et']
 
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -198,6 +198,7 @@ def main():
             'ar': { 'male': 'أسترالي', 'female': 'أسترالية' },
             'bn': { 'male': 'অস্ট্রেলীয়', 'female': 'অস্ট্রেলীয়' },
             'ca': { 'male': 'australià', 'female': 'australiana' },
+            'cy': { 'male': 'Awstralaidd', 'female': 'Awstralaidd' },
             'en': { 'male': 'Australian', 'female': 'Australian' },
             'es': { 'male': 'australiano', 'female': 'australiana' },
             'et': { 'male': 'Austraalia', 'female': 'Austraalia' },
@@ -211,6 +212,7 @@ def main():
             'ar': { 'male': 'نمساوي', 'female': 'نمساوية' },
             'bn': { 'male': 'অস্ট্রীয়', 'female': 'অস্ট্রীয়' },
             'ca': { 'male': 'austríac', 'female': 'austríaca' },
+            'cy': { 'male': 'Awstriaidd', 'female': 'Awstriaidd' },
             'en': { 'male': 'Austrian', 'female': 'Austrian' },
             'es': { 'male': 'austríaco', 'female': 'austríaca' },
             'et': { 'male': 'Austria', 'female': 'Austria' },
@@ -1280,6 +1282,7 @@ def main():
             'ar': { 'male': 'إيطالي', 'female': 'إيطالية' },
             'bn': { 'male': 'ইতালীয়', 'female': 'ইতালীয়' },
             'ca': { 'male': 'italià', 'female': 'italiana' },
+            'cy': { 'male': 'Eidalaidd', 'female': 'Eidalaidd' },
             'en': { 'male': 'Italian', 'female': 'Italian' },
             'es': { 'male': 'italiano', 'female': 'italiana' },
             'et': { 'male': 'Itaalia', 'female': 'Itaalia' },
@@ -2360,6 +2363,7 @@ def main():
             'ar': { 'male': 'سنغافوري', 'female': 'سنغافورية' },
             'bn': { 'male': 'সিঙ্গাপুরীয়', 'female': 'সিঙ্গাপুরীয়' },
             'ca': { 'male': 'singapurès', 'female': 'singapuresa' },
+            'ca': { 'male': 'Singapôr', 'female': 'Singapôr' },
             'en': { 'male': 'Singapore', 'female': 'Singapore' },
             'es': { 'male': 'singapurense', 'female': 'singapurense' },
             'et': { 'male': 'Singapuri', 'female': 'Singapuri' },
@@ -2373,6 +2377,7 @@ def main():
             'ar': { 'male': 'سنغافوري', 'female': 'سنغافورية' },
             'bn': { 'male': 'সিঙ্গাপুরীয়', 'female': 'সিঙ্গাপুরীয়' },
             'ca': { 'male': 'singapurès', 'female': 'singapuresa' },
+            'cy': { 'male': 'Singaporaidd', 'female': 'Singaporaidd' },
             'en': { 'male': 'Singaporean', 'female': 'Singaporean' },
             'es': { 'male': 'singapurense', 'female': 'singapurense' },
             'et': { 'male': 'Singapuri', 'female': 'Singapuri' },
@@ -2386,6 +2391,7 @@ def main():
             'ar': { 'male': 'سلوفاكي', 'female': 'سلوفاكية' },
             'bn': { 'male': 'স্লোভাক', 'female': 'স্লোভাক' },
             'ca': { 'male': 'eslovac', 'female': 'eslovaca' },
+            'cy': { 'male': 'Slofacaidd', 'female': 'Slofacaidd' },
             'en': { 'male': 'Slovak', 'female': 'Slovak' },
             'es': { 'male': 'eslovaco', 'female': 'eslovaca' },
             'et': { 'male': 'Slovakkia', 'female': 'Slovakkia' },
@@ -2412,6 +2418,7 @@ def main():
             'ar': { 'male': 'سلوفيني', 'female': 'سلوفينية' },
             'bn': { 'male': 'স্লোভেনীয়', 'female': 'স্লোভেনীয়' },
             'ca': { 'male': 'eslovè', 'female': 'eslovena' },
+            'cy': { 'male': 'Slofenaidd', 'female': 'Slofenaidd' },
             'en': { 'male': 'Slovenian', 'female': 'Slovenian' },
             'es': { 'male': 'esloveno', 'female': 'eslovena' },
             'et': { 'male': 'Sloveenia', 'female': 'Sloveenia' },
@@ -2940,6 +2947,7 @@ def main():
             'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' },
             'bn': { 'male': '~ অভিনেতা', 'female': '~ অভিনেত্রী' },
             'ca': { 'male': 'actor ~', 'female': 'actriu ~' },
+            'cy': { 'male': 'actor ~', 'female': 'actores ~' },
             'en': { 'male': '~ actor', 'female': '~ actress' },
             'es': { 'male': 'actor ~', 'female': 'actriz ~' },
             'et': { 'male': '~ näitleja', 'female': '~ näitleja' },
@@ -2953,6 +2961,7 @@ def main():
             'ar': { 'male': 'مهندس معماري ~', 'female': 'مهندسة معمارية ~' },
             'bn': { 'male': '~ স্থপতি', 'female': '~ স্থপতি' },
             'ca': { 'male': 'arquitecte ~', 'female': 'arquitecta ~' },
+            'cy': { 'male': 'pensaer ~', 'female': 'pensaer ~' },
             'en': { 'male': '~ architect', 'female': '~ architect' },
             'es': { 'male': 'arquitecto ~', 'female': 'arquitecta ~' },
             'et': { 'male': '~ arhitekt', 'female': '~ arhitekt' },
@@ -2966,6 +2975,7 @@ def main():
             'ar': { 'male': 'مؤرخ فن ~', 'female': 'مؤرخة فن ~' },
             'bn': { 'male': '~ শিল্প ইতিহাসবিদ', 'female': '~ শিল্প ইতিহাসবিদ' },
             'ca': { 'male': "historiador de l'art ~", 'female': "historiadora de l'art ~" },
+            'cy': { 'male': 'hanesydd celf ~', 'female': 'hanesydd celf ~' },
             'en': { 'male': '~ art historian', 'female': '~ art historian' },
             'es': { 'male': 'historiador del arte ~', 'female': 'historiadora del arte ~' },
             'et': { 'male': '~ kunstiajaloolane', 'female': '~ kunstiajaloolane' },
