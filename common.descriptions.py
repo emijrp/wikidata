@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2018 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -277,6 +277,9 @@ def main():
             'an': 'compuesto quimico', 
             'ar': 'مركب كيميائي',
             'ast': 'compuestu químicu',
+            'be': 'хімічнае злучэнне',
+            'be-tarask': 'хімічнае злучэньне',
+            'bg': 'химично съединение',
             'bn': 'রাসায়নিক যৌগ',
             'ca': 'compost químic',
             'cs': 'chemická sloučenina',
@@ -284,6 +287,7 @@ def main():
             'da': 'kemisk forbindelse',
             'de': 'chemische Verbindung',
             'de-ch': 'chemische Verbindung',
+            'el': 'χημική ένωση',
             'en': 'chemical compound',
             'en-ca': 'chemical compound',
             'en-gb': 'chemical compound',
@@ -296,11 +300,14 @@ def main():
             'gl': 'composto químico',
             'he': 'תרכובת',
             'hy': 'քիմիական միացություն',
+            'ia': 'composito chimic',
             'id': 'senyawa kimia',
+            'io': 'kemiala kompozajo',
             'it': 'composto chimico',
             'la': 'compositum chemicum',
             'lb': 'chemesch Verbindung',
             'lv': 'ķīmisks savienojums',
+            'mk': 'хемиско соединение',
             'nb': 'kjemisk forbindelse',
             'nl': 'chemische verbinding',
             'nn': 'kjemisk sambinding',
@@ -309,8 +316,20 @@ def main():
             'pt': 'composto químico',
             'pt-br': 'composto químico',
             'ro': 'compus chimic',
+            'ru': 'химическое соединение',
+            'scn': 'cumpostu chìmicu',
             'sk': 'chemická zlúčenina',
             'sq': 'komponim kimik',
+            'uk': 'хімічна сполука',
+            'yue': '化合物',
+            'zh': '化合物',
+            'zh-cn': '化合物',
+            'zh-hans': '化合物',
+            'zh-hant': '化合物',
+            'zh-hk': '化合物',
+            'zh-mo': '化合物',
+            'zh-sg': '化合物',
+            'zh-tw': '化合物',
         }, 
         'douar in Morocco': {
             'de': 'douar in Marokko',
