@@ -331,14 +331,14 @@ def main():
             'zh-sg': '化合物',
             'zh-tw': '化合物',
         }, 
-        'douar in Morocco': {
+        'douar in Morocco': { #Q23925393
             'de': 'douar in Marokko',
             'en': 'douar in Morocco',
             'es': 'douar de Marruecos',
             'fr': 'douar marocain',
             'nl': 'douar in Marokko',
         }, 
-        'encyclopedic article': {
+        'encyclopedic article': { #Q17329259
             'ar': 'مقالة موسوعية',
             'ast': 'artículu enciclopédicu',
             'be': 'энцыклапедычны артыкул',
