@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -144,10 +144,14 @@ def main():
             print(page.title().encode('utf-8'), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
-            searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
+            #searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
+            #Special:itemDisambiguation was disabled https://phabricator.wikimedia.org/T195756
+            searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=en&format=xml' % (urllib.parse.quote(wtitle_))
             raw = getURL(searchitemurl)
+            print(searchitemurl.encode('utf-8'))
             
-            if 'Sorry, no item with that label was found' in raw:
+            #if 'Sorry, no item with that label was found' in raw: #Special:itemDisambiguation
+            if '<search />' in raw:
                 print('No useful item found. Creating a new one...')
                 #create item
                 newitemlabels = { lang: wtitle_ }
@@ -158,9 +162,8 @@ def main():
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
-                print(searchitemurl.encode('utf-8'))
                 #check birthdate and if it matches add interwiki 
-                m = re.findall(r'<li class="wikibase-disambiguation"><a title="(Q\d+)"', raw)
+                m = re.findall(r'id="(Q\d+)"', raw)
                 if len(m) > 3:
                     continue
                 for itemfoundq in m:
