@@ -48,7 +48,7 @@ def main():
                 #print(revision.comment)
                 m = re.findall(r"(?i)BOT - Adding ([0-9]+) alias", revision.comment)
                 aliases += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding ([0-9]+) claims", revision.comment)
+                m = re.findall(r"(?i)BOT - Adding ([0-9]+) claim", revision.comment)
                 claims += m and int(m[0]) or 0
                 m = re.findall(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)", revision.comment)
                 descriptions += m and int(m[0]) or 0
@@ -58,8 +58,8 @@ def main():
                 references += m and int(m[0]) or 0
                 m = re.findall(r"(?i)BOT - Adding ([0-9]+) sitelink", revision.comment)
                 sitelinks += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Creating item", revision.comment)
-                items += m and int(m[0]) or 0
+                m = re.findall(r"(?i)(BOT - Creating item)", revision.comment)
+                items += m and 1 or 0
                 edits += 1
             
             c += 1
