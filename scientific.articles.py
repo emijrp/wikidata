@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -36,8 +36,12 @@ def bnyear(year=''):
 
 def generateTranslations(pubdate=''):
     fixthiswhenfound = {
-        'bn': ['বৈজ্ঞানিক নিবন্ধ'],
+        'bn': ['বৈজ্ঞানিক নিবন্ধ'], 
+        'da': ['videnskabelig artikel'], 
         'es': ['artículo científico'], 
+        'fr': ['article scientifique'], 
+        'pt': ['artigo científico'], 
+        'pt-br': ['artigo científico'], 
     }
     translations = {
         'ar': 'مقالة علمية',
@@ -46,7 +50,7 @@ def generateTranslations(pubdate=''):
         'bn': '%s-এ প্রকাশিত বৈজ্ঞানিক নিবন্ধ' % (bnyear(pubdate.year)),
         'ca': 'article científic',
         'cs': 'vědecký článek',
-        'da': 'videnskabelig artikel',
+        'da': 'videnskabelig artikel (udgivet %s)' % (pubdate.year),
         'de': 'wissenschaftlicher Artikel',
         'el': 'επιστημονικό άρθρο',
         #'en': 'scientific article',
@@ -55,7 +59,7 @@ def generateTranslations(pubdate=''):
         'et': 'teaduslik artikkel',
         'fa': 'مقالهٔ علمی', 
         'fi': 'tieteellinen artikkeli',
-        'fr': 'article scientifique',
+        'fr': 'article scientifique (publié %s)' % (pubdate.year),
         'gl': 'artigo científico',
         'he': 'מאמר מדעי',
         'hu': 'tudományos cikk',
@@ -72,8 +76,8 @@ def generateTranslations(pubdate=''):
         'nn': 'vitskapeleg artikkel',
         'oc': 'article scientific',
         'pl': 'artykuł naukowy',
-        'pt': 'artigo científico',
-        'pt-br': 'artigo científico',
+        'pt': 'artigo científico (publicado na %s)' % (pubdate.year),
+        'pt-br': 'artigo científico (publicado na %s)' % (pubdate.year),
         'ro': 'articol științific',
         'ru': 'научная статья',
         'sk': 'vedecký článok',
@@ -107,7 +111,8 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     querylimit = 10000
-    skip = 'Q36255158'
+    skip = ''
+    #old query
     queries = [
     """
     SELECT ?item ?pubdate
@@ -117,10 +122,28 @@ def main():
     }
     LIMIT %s
     OFFSET %s
-    """ % (str(querylimit), str(offset)) for offset in range(0, 10000000, querylimit)
+    """ % (str(querylimit), str(offset)) for offset in range(10000000, 20000000, querylimit)
+    ]
+    #random query
+    queries = [
+    """
+    SELECT ?item ?pubdate
+    WHERE {
+        SERVICE bd:sample {
+            ?item wdt:P31 wd:Q13442814 .
+            bd:serviceParam bd:sample.limit %s .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+        }
+    ?item wdt:P577 ?pubdate.
+    ?item schema:description "scientific article"@en.
+    OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ca").  }
+    FILTER (!BOUND(?itemDescription))
+    }
+    """ % (str(querylimit+i)) for i in range(1, 2000)
     ]
     
     for query in queries:
+        time.sleep(1)
         url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
         url = '%s&format=json' % (url)
         print("Loading...", url)
@@ -185,6 +208,7 @@ def main():
                 except:
                     print('Error while saving')
                     continue
+                #time.sleep(1)
     print("Finished successfully")
 
 if __name__ == '__main__':
