@@ -65,6 +65,15 @@ def addDateClaim(repo='', item='', claim='', date=''):
         item.addClaim(claim, summary='BOT - Adding 1 claim')
         addImportedFrom(repo=repo, claim=claim)
 
+def addOccupationsClaim(repo='', item='', occupations=[]):
+    if repo and item and occupations:
+        for occupation in occupations:
+            claim = pywikibot.Claim(repo, 'P106')
+            target = pywikibot.ItemPage(repo, occupation.title())
+            claim.setTarget(target)
+            item.addClaim(claim, summary='BOT - Adding 1 claim')
+            addImportedFrom(repo=repo, claim=claim)
+
 def authorIsNewbie(page=''):
     if page:
         hist = page.getVersionHistory(reverse=True, total=1)
@@ -98,6 +107,29 @@ def calculateDeathDate(page=''):
     if m:
         return m[0]
     return ''
+
+def calculateOccupations(site='', page=''):
+    occupations = []
+    cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
+    for cat in cats:
+        cat = cat.strip()
+        catpage = pywikibot.Page(site, 'Category:%s' % (cat))
+        catitem = ''
+        try:
+            catitem = pywikibot.ItemPage.fromPage(catpage)
+        except:
+            pass
+        if not catitem:
+            continue
+        catclaims = catitem.claims
+        if catclaims:
+            if 'P4224' in catitem.claims:
+                for p4224 in catitem.claims['P4224']:
+                    if 'P106' in p4224.qualifiers:
+                        qualifier = p4224.qualifiers['P106']
+                        occupations.append(qualifier[0].getTarget())
+    occupations = list(set(occupations))
+    return occupations
 
 def pageCategories(page=''):
     return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
@@ -138,6 +170,7 @@ def main():
         gender = calculateGender(page=page)
         birthdate = calculateBirthDate(page=page)
         deathdate = calculateDeathDate(page=page)
+        occupations = calculateOccupations(site=wikisite, page=page)
         item = ''
         try:
             item = pywikibot.ItemPage.fromPage(page)
@@ -151,10 +184,11 @@ def main():
             except:
                 print('Error while retrieving item, skiping...')
                 continue
-            p31 = ''
-            p21 = ''
-            p569 = ''
-            p570 = ''
+            p31 = '' #instanceof
+            p21 = '' #gender
+            p569 = '' #birthdate
+            p570 = '' #deathdate
+            p106 = '' #occupations
             claims = item.claims
             if claims:
                 if 'P31' in item.claims:
@@ -165,6 +199,8 @@ def main():
                     p569 = item.claims['P569'][0].getTarget()
                 if 'P570' in item.claims:
                     p570 = item.claims['P570'][0].getTarget()
+                if 'P106' in item.claims:
+                    p106 = item.claims['P106'][0].getTarget()
             print(page.title().encode('utf-8'), item, gender, p31, p21)
             if not p31:
                 addHumanClaim(repo=repo, item=item)
@@ -174,6 +210,8 @@ def main():
                 addBirthDateClaim(repo=repo, item=item, date=birthdate)
             if not p570 and deathdate:
                 addDeathDateClaim(repo=repo, item=item, date=deathdate)
+            if not p106 and occupations:
+                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
         else:
             print('Page without item')
             #search for a valid item, otherwise create
@@ -205,9 +243,10 @@ def main():
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
                 addBirthDateClaim(repo=repo, item=item, date=birthdate)
                 addDeathDateClaim(repo=repo, item=item, date=deathdate)
+                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
-                #check birthdate and if it matches add interwiki 
+                #check birthdate and if it matches, then add data
                 m = re.findall(r'id="(Q\d+)"', raw)
                 if len(m) > 5:
                     continue
@@ -221,15 +260,21 @@ def main():
                         if birthyear and re.search(r'(?i)\[\[ *Category *\: *%s births *\]\]' % (birthyear), page.text):
                             print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
                             print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
-                            itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                            try:
+                                itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                            except:
+                                print("Error adding sitelink")
+                                break
                             if not 'P31' in itemfound.claims:
                                 addHumanClaim(repo=repo, item=itemfound)
-                            if not 'P21' in itemfound.claims:
+                            if not 'P21' in itemfound.claims and gender:
                                 addGenderClaim(repo=repo, item=itemfound, gender=gender)
-                            if not 'P569' in itemfound.claims:
+                            if not 'P569' in itemfound.claims and birthdate:
                                 addBirthDateClaim(repo=repo, item=item, date=birthdate)
-                            if not 'P570' in itemfound.claims:
+                            if not 'P570' in itemfound.claims and deathdate:
                                 addDeathDateClaim(repo=repo, item=item, date=deathdate)
+                            if not 'P106' in itemfound.claims and occupations:
+                                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
                             break
     
 if __name__ == "__main__":
