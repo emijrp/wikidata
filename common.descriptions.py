@@ -390,6 +390,36 @@ def main():
             'zh': '条目',
             'zh-hans': '百科全书条目',
         }, 
+        'extrasolar planet': {
+            'af': 'eksoplaneet',
+            'ast': 'planeta estrasolar',
+            'az': 'ekzoplanet',
+            'be': 'Экзапланета',
+            'be-tarask': 'Экзаплянэта',
+            'bg': 'Екзопланета',
+            'bn': 'বহির্গ্রহ',
+            'br': 'Ezplanedenn',
+            'bs': 'vansolarna planeta',
+            'ca': 'planeta extrasolar',
+            'cs': 'exoplaneta',
+            'cv': 'Экзопланета',
+            'de': 'extrasolarer Planet',
+            'en': 'extrasolar planet',
+            'en-ca': 'extrasolar planet',
+            'en-gb': 'extrasolar planet',
+            'es': 'planeta extrasolar',
+            'fi': 'eksoplaneetta',
+            'fr': 'exoplanète',
+            'gl': 'planeta extrasolar',
+            'it': 'pianeta extrasolare',
+            'nb': 'eksoplanet',
+            'nl': 'exoplaneet',
+            'pt': 'exoplaneta',
+            'pt-br': 'exoplaneta',
+            'wuu': '太阳系外行星',
+            'yue': '太陽系外行星',
+            'zh': '太陽系外行星',
+        },
         #more families https://query.wikidata.org/#SELECT %3FitemDescription (COUNT(%3Fitem) AS %3Fcount)%0AWHERE {%0A%09%3Fitem wdt%3AP31 wd%3AQ16521.%0A %3Fitem wdt%3AP105 wd%3AQ35409.%0A %23%3Fitem schema%3Adescription "family of insects"%40en.%0A OPTIONAL { %3Fitem schema%3Adescription %3FitemDescription. FILTER(LANG(%3FitemDescription) %3D "en"). }%0A%09FILTER (BOUND(%3FitemDescription))%0A}%0AGROUP BY %3FitemDescription%0AORDER BY DESC(%3Fcount)
         'family of crustaceans': {
             'en': 'family of crustaceans',
@@ -1740,6 +1770,21 @@ def main():
         LIMIT %s
         OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(0, 500000, querylimit)
+        ],
+        
+        'extrasolar planet': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q44559 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "extrasolar planet"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 10000, querylimit)
         ],
         
         'family name': [
