@@ -118,13 +118,15 @@ def calculateOccupations(site='', page=''):
         try:
             catitem = pywikibot.ItemPage.fromPage(catpage)
         except:
-            pass
+            continue
         if not catitem:
             continue
         catclaims = catitem.claims
         if catclaims:
             if 'P4224' in catitem.claims:
                 for p4224 in catitem.claims['P4224']:
+                    if p4224.getTarget().title() != 'Q5':
+                        continue
                     if 'P106' in p4224.qualifiers:
                         qualifier = p4224.qualifiers['P106']
                         occupations.append(qualifier[0].getTarget())
