@@ -47,6 +47,24 @@ def addGenderClaim(repo='', item='', gender=''):
         item.addClaim(claim, summary='BOT - Adding 1 claim')
         addImportedFrom(repo=repo, claim=claim)
 
+def addBirthDateClaim(repo='', item='', date=''):
+    return addDateClaim(repo=repo, item=item, claim='P569', date=date)
+
+def addDeathDateClaim(repo='', item='', date=''):
+    return addDateClaim(repo=repo, item=item, claim='P570', date=date)
+
+def addDateClaim(repo='', item='', claim='', date=''):
+    if repo and item and claim and date:
+        claim = pywikibot.Claim(repo, claim)
+        if len(date.split('-')) == 3:
+            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0], month=date.split('-')[1], day=date.split('-')[2]))
+        elif len(date.split('-')) == 2:
+            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0], month=date.split('-')[1]))
+        elif len(date.split('-')) == 1:
+            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0]))
+        item.addClaim(claim, summary='BOT - Adding 1 claim')
+        addImportedFrom(repo=repo, claim=claim)
+
 def authorIsNewbie(page=''):
     if page:
         hist = page.getVersionHistory(reverse=True, total=1)
@@ -67,6 +85,18 @@ def calculateGender(page=''):
        (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
        (malepoints >= 2 and malepoints > femalepoints*3):
         return 'male'
+    return ''
+
+def calculateBirthDate(page=''):
+    m = re.findall(r'Category:(\d+) births', page.text)
+    if m:
+        return m[0]
+    return ''
+
+def calculateDeathDate(page=''):
+    m = re.findall(r'Category:(\d+) deaths', page.text)
+    if m:
+        return m[0]
     return ''
 
 def pageCategories(page=''):
@@ -106,6 +136,8 @@ def main():
             continue
         print('\n==', page.title().encode('utf-8'), '==')
         gender = calculateGender(page=page)
+        birthdate = calculateBirthDate(page=page)
+        deathdate = calculateDeathDate(page=page)
         item = ''
         try:
             item = pywikibot.ItemPage.fromPage(page)
@@ -113,6 +145,7 @@ def main():
             pass
         if item:
             print('Page has item')
+            print('https://www.wikidata.org/wiki/%s' % (item.title()))
             try:
                 item.get()
             except:
@@ -120,17 +153,27 @@ def main():
                 continue
             p31 = ''
             p21 = ''
+            p569 = ''
+            p570 = ''
             claims = item.claims
             if claims:
                 if 'P31' in item.claims:
                     p31 = item.claims['P31'][0].getTarget()
                 if 'P21' in item.claims:
                     p21 = item.claims['P21'][0].getTarget()
+                if 'P569' in item.claims:
+                    p569 = item.claims['P569'][0].getTarget()
+                if 'P570' in item.claims:
+                    p570 = item.claims['P570'][0].getTarget()
             print(page.title().encode('utf-8'), item, gender, p31, p21)
             if not p31:
                 addHumanClaim(repo=repo, item=item)
-            if not p21:
+            if not p21 and gender:
                 addGenderClaim(repo=repo, item=item, gender=gender)
+            if not p569 and birthdate:
+                addBirthDateClaim(repo=repo, item=item, date=birthdate)
+            if not p570 and deathdate:
+                addDeathDateClaim(repo=repo, item=item, date=deathdate)
         else:
             print('Page without item')
             #search for a valid item, otherwise create
@@ -160,11 +203,13 @@ def main():
                 newitem.get()
                 addHumanClaim(repo=repo, item=newitem)
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
+                addBirthDateClaim(repo=repo, item=item, date=birthdate)
+                addDeathDateClaim(repo=repo, item=item, date=deathdate)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
                 #check birthdate and if it matches add interwiki 
                 m = re.findall(r'id="(Q\d+)"', raw)
-                if len(m) > 3:
+                if len(m) > 5:
                     continue
                 for itemfoundq in m:
                     itemfound = pywikibot.ItemPage(repo, itemfoundq)
@@ -181,6 +226,10 @@ def main():
                                 addHumanClaim(repo=repo, item=itemfound)
                             if not 'P21' in itemfound.claims:
                                 addGenderClaim(repo=repo, item=itemfound, gender=gender)
+                            if not 'P569' in itemfound.claims:
+                                addBirthDateClaim(repo=repo, item=item, date=birthdate)
+                            if not 'P570' in itemfound.claims:
+                                addDeathDateClaim(repo=repo, item=item, date=deathdate)
                             break
     
 if __name__ == "__main__":
