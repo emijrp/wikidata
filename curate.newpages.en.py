@@ -79,7 +79,7 @@ def authorIsNewbie(page=''):
         hist = page.getVersionHistory(reverse=True, total=1)
         if hist:
             editcount = getUserEditCount(user=hist[0].user, site='en.wikipedia.org')
-            if editcount >= 1000:
+            if editcount >= 200:
                 return False
     return True
 
@@ -109,6 +109,9 @@ def calculateDeathDate(page=''):
     return ''
 
 def calculateOccupations(site='', page=''):
+    ignoreoccupations = [
+        'Q2066131', #sportpeople, too general
+    ]
     occupations = []
     cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
     for cat in cats:
@@ -129,7 +132,9 @@ def calculateOccupations(site='', page=''):
                         continue
                     if 'P106' in p4224.qualifiers:
                         qualifier = p4224.qualifiers['P106']
-                        occupations.append(qualifier[0].getTarget())
+                        occ = qualifier[0].getTarget()
+                        if not occ.title() in ignoreoccupations:
+                            occupations.append(occ)
     occupations = list(set(occupations))
     return occupations
 
@@ -243,9 +248,9 @@ def main():
                 newitem.get()
                 addHumanClaim(repo=repo, item=newitem)
                 addGenderClaim(repo=repo, item=newitem, gender=gender)
-                addBirthDateClaim(repo=repo, item=item, date=birthdate)
-                addDeathDateClaim(repo=repo, item=item, date=deathdate)
-                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
+                addBirthDateClaim(repo=repo, item=newitem, date=birthdate)
+                addDeathDateClaim(repo=repo, item=newitem, date=deathdate)
+                addOccupationsClaim(repo=repo, item=newitem, occupations=occupations)
                 newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
             else:
                 #check birthdate and if it matches, then add data
@@ -272,11 +277,11 @@ def main():
                             if not 'P21' in itemfound.claims and gender:
                                 addGenderClaim(repo=repo, item=itemfound, gender=gender)
                             if not 'P569' in itemfound.claims and birthdate:
-                                addBirthDateClaim(repo=repo, item=item, date=birthdate)
+                                addBirthDateClaim(repo=repo, item=itemfound, date=birthdate)
                             if not 'P570' in itemfound.claims and deathdate:
-                                addDeathDateClaim(repo=repo, item=item, date=deathdate)
+                                addDeathDateClaim(repo=repo, item=itemfound, date=deathdate)
                             if not 'P106' in itemfound.claims and occupations:
-                                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
+                                addOccupationsClaim(repo=repo, item=itemfound, occupations=occupations)
                             break
     
 if __name__ == "__main__":
