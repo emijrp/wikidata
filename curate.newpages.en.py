@@ -50,12 +50,14 @@ def addGenderClaim(repo='', item='', gender=''):
         addImportedFrom(repo=repo, claim=claim)
 
 def addBirthDateClaim(repo='', item='', date=''):
-    print("Adding birth date")
-    return addDateClaim(repo=repo, item=item, claim='P569', date=date)
+    if repo and item and date:
+        print("Adding birth date: %s" % (date))
+        return addDateClaim(repo=repo, item=item, claim='P569', date=date)
 
 def addDeathDateClaim(repo='', item='', date=''):
-    print("Adding death date")
-    return addDateClaim(repo=repo, item=item, claim='P570', date=date)
+    if repo and item and date:
+        print("Adding death date: %s" % (date))
+        return addDateClaim(repo=repo, item=item, claim='P570', date=date)
 
 def addDateClaim(repo='', item='', claim='', date=''):
     if repo and item and claim and date:
@@ -89,28 +91,31 @@ def authorIsNewbie(page=''):
     return True
 
 def calculateGender(page=''):
-    femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
-    malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
-    if re.search(r'(?i)\b(Category *:[^\]]*?female|Category *:[^\]]*?women|Category *:[^\]]*?actresses)\b', page.text) or \
-       (len(page.text) <= 2000 and femalepoints >= 1 and malepoints == 0) or \
-       (femalepoints >= 2 and femalepoints > malepoints*3):
-        return 'female'
-    elif re.search(r'(?i)\b(Category *:[^\]]*? male|Category *:[^\]]*? men)\b', page.text) or \
-       (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
-       (malepoints >= 2 and malepoints > femalepoints*3):
-        return 'male'
+    if page:
+        femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
+        malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
+        if re.search(r'(?i)\b(Category *:[^\]]*?female|Category *:[^\]]*?women|Category *:[^\]]*?actresses)\b', page.text) or \
+           (len(page.text) <= 2000 and femalepoints >= 1 and malepoints == 0) or \
+           (femalepoints >= 2 and femalepoints > malepoints*3):
+            return 'female'
+        elif re.search(r'(?i)\b(Category *:[^\]]*? male|Category *:[^\]]*? men)\b', page.text) or \
+           (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
+           (malepoints >= 2 and malepoints > femalepoints*3):
+            return 'male'
     return ''
 
 def calculateBirthDate(page=''):
-    m = re.findall(r'Category:(\d+) births', page.text)
-    if m:
-        return m[0]
+    if page:
+        m = re.findall(r'Category\s*:\s*(\d+) births', page.text)
+        if m:
+            return m[0]
     return ''
 
 def calculateDeathDate(page=''):
-    m = re.findall(r'Category:(\d+) deaths', page.text)
-    if m:
-        return m[0]
+    if page:
+        m = re.findall(r'Category\s*:\s*(\d+) deaths', page.text)
+        if m:
+            return m[0]
     return ''
 
 def calculateOccupations(wikisite='', page=''):
@@ -118,29 +123,30 @@ def calculateOccupations(wikisite='', page=''):
         'Q2066131', #sportpeople, too general
     ]
     occupations = []
-    cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
-    for cat in cats:
-        cat = cat.strip()
-        catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat))
-        catitem = ''
-        try:
-            catitem = pywikibot.ItemPage.fromPage(catpage)
-        except:
-            continue
-        if not catitem:
-            continue
-        catitem.get()
-        if catitem.claims:
-            if 'P4224' in catitem.claims:
-                for p4224 in catitem.claims['P4224']:
-                    if p4224.getTarget().title() != 'Q5':
-                        continue
-                    if 'P106' in p4224.qualifiers:
-                        qualifier = p4224.qualifiers['P106']
-                        occ = qualifier[0].getTarget()
-                        if not occ.title() in ignoreoccupations:
-                            occupations.append(occ)
-    occupations = list(set(occupations))
+    if wikisite and page:
+        cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
+        for cat in cats:
+            cat = cat.strip()
+            catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat))
+            catitem = ''
+            try:
+                catitem = pywikibot.ItemPage.fromPage(catpage)
+            except:
+                continue
+            if not catitem:
+                continue
+            catitem.get()
+            if catitem.claims:
+                if 'P4224' in catitem.claims:
+                    for p4224 in catitem.claims['P4224']:
+                        if p4224.getTarget().title() != 'Q5':
+                            continue
+                        if 'P106' in p4224.qualifiers:
+                            qualifier = p4224.qualifiers['P106']
+                            occ = qualifier[0].getTarget()
+                            if not occ.title() in ignoreoccupations:
+                                occupations.append(occ)
+        occupations = list(set(occupations))
     return occupations
 
 def pageCategories(page=''):
@@ -200,7 +206,7 @@ def main():
             continue
         if not pageIsBiography(page=page):
             continue
-        print('\n==', page.title().encode('utf-8'), '==')
+        print('\n==', page.title(), '==')
         gender = calculateGender(page=page)
         item = ''
         try:
@@ -221,14 +227,14 @@ def main():
                    (not len(list(page.getReferences(namespaces=[0])))):
                     continue
             
-            print(page.title().encode('utf-8'), 'need item', gender)
+            print(page.title(), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
             #searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
             #Special:itemDisambiguation was disabled https://phabricator.wikimedia.org/T195756
             searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=en&format=xml' % (urllib.parse.quote(wtitle_))
             raw = getURL(searchitemurl)
-            print(searchitemurl.encode('utf-8'))
+            print(searchitemurl)
             
             #if 'Sorry, no item with that label was found' in raw: #Special:itemDisambiguation
             if '<search />' in raw:
