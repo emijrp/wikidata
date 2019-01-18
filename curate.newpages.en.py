@@ -74,7 +74,7 @@ def addDateClaim(repo='', item='', claim='', date=''):
 def addOccupationsClaim(repo='', item='', occupations=[]):
     if repo and item and occupations:
         for occupation in occupations:
-            print("Adding occupation: %s" % (occupation.title()))
+            print("Adding occupation: %s" % (occupation.title().encode('utf-8')))
             claim = pywikibot.Claim(repo, 'P106')
             target = pywikibot.ItemPage(repo, occupation.title())
             claim.setTarget(target)
@@ -206,7 +206,7 @@ def main():
             continue
         if not pageIsBiography(page=page):
             continue
-        print('\n==', page.title(), '==')
+        print('\n==', page.title().encode('utf-8'), '==')
         gender = calculateGender(page=page)
         item = ''
         try:
@@ -227,14 +227,14 @@ def main():
                    (not len(list(page.getReferences(namespaces=[0])))):
                     continue
             
-            print(page.title(), 'need item', gender)
+            print(page.title().encode('utf-8'), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
             #searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
             #Special:itemDisambiguation was disabled https://phabricator.wikimedia.org/T195756
             searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=en&format=xml' % (urllib.parse.quote(wtitle_))
             raw = getURL(searchitemurl)
-            print(searchitemurl)
+            print(searchitemurl.encode('utf-8'))
             
             #if 'Sorry, no item with that label was found' in raw: #Special:itemDisambiguation
             if '<search />' in raw:
