@@ -72,7 +72,7 @@ def addDateClaim(repo='', item='', claim='', date=''):
 def addOccupationsClaim(repo='', item='', occupations=[]):
     if repo and item and occupations:
         for occupation in occupations:
-            print("Adding occupation: %" % (occupation.title()))
+            print("Adding occupation: %s" % (occupation.title()))
             claim = pywikibot.Claim(repo, 'P106')
             target = pywikibot.ItemPage(repo, occupation.title())
             claim.setTarget(target)
@@ -129,8 +129,8 @@ def calculateOccupations(wikisite='', page=''):
             continue
         if not catitem:
             continue
-        catclaims = catitem.claims
-        if catclaims:
+        catitem.get()
+        if catitem.claims:
             if 'P4224' in catitem.claims:
                 for p4224 in catitem.claims['P4224']:
                     if p4224.getTarget().title() != 'Q5':
@@ -169,7 +169,11 @@ def addBiographyClaims(repo='', wikisite='', item='', page=''):
         birthdate = calculateBirthDate(page=page)
         deathdate = calculateDeathDate(page=page)
         occupations = calculateOccupations(wikisite=wikisite, page=page)
-        
+        try:
+            item.get()
+        except:
+            print('Error while retrieving item, skiping...')
+            return ''
         if not 'P31' in item.claims:
             addHumanClaim(repo=repo, item=item)
         if not 'P21' in item.claims and gender:
@@ -206,11 +210,6 @@ def main():
         if item:
             print('Page has item')
             print('https://www.wikidata.org/wiki/%s' % (item.title()))
-            try:
-                item.get()
-            except:
-                print('Error while retrieving item, skiping...')
-                continue
             addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page)
         else:
             print('Page without item')
