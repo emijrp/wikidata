@@ -32,6 +32,7 @@ def addImportedFrom(repo='', claim=''):
 
 def addHumanClaim(repo='', item=''):
     if repo and item:
+        print("Adding claim: human")
         claim = pywikibot.Claim(repo, 'P31')
         target = pywikibot.ItemPage(repo, 'Q5')
         claim.setTarget(target)
@@ -41,6 +42,7 @@ def addHumanClaim(repo='', item=''):
 def addGenderClaim(repo='', item='', gender=''):
     gender2q = { 'female': 'Q6581072', 'male': 'Q6581097' }
     if repo and item and gender and gender in gender2q.keys():
+        print("Adding gender: %s" % (gender))
         claim = pywikibot.Claim(repo, 'P21')
         target = pywikibot.ItemPage(repo, gender2q[gender])
         claim.setTarget(target)
@@ -48,9 +50,11 @@ def addGenderClaim(repo='', item='', gender=''):
         addImportedFrom(repo=repo, claim=claim)
 
 def addBirthDateClaim(repo='', item='', date=''):
+    print("Adding birth date")
     return addDateClaim(repo=repo, item=item, claim='P569', date=date)
 
 def addDeathDateClaim(repo='', item='', date=''):
+    print("Adding death date")
     return addDateClaim(repo=repo, item=item, claim='P570', date=date)
 
 def addDateClaim(repo='', item='', claim='', date=''):
@@ -68,6 +72,7 @@ def addDateClaim(repo='', item='', claim='', date=''):
 def addOccupationsClaim(repo='', item='', occupations=[]):
     if repo and item and occupations:
         for occupation in occupations:
+            print("Adding occupation: %" % (occupation.title()))
             claim = pywikibot.Claim(repo, 'P106')
             target = pywikibot.ItemPage(repo, occupation.title())
             claim.setTarget(target)
@@ -191,33 +196,15 @@ def main():
             except:
                 print('Error while retrieving item, skiping...')
                 continue
-            p31 = '' #instanceof
-            p21 = '' #gender
-            p569 = '' #birthdate
-            p570 = '' #deathdate
-            p106 = '' #occupations
-            claims = item.claims
-            if claims:
-                if 'P31' in item.claims:
-                    p31 = item.claims['P31'][0].getTarget()
-                if 'P21' in item.claims:
-                    p21 = item.claims['P21'][0].getTarget()
-                if 'P569' in item.claims:
-                    p569 = item.claims['P569'][0].getTarget()
-                if 'P570' in item.claims:
-                    p570 = item.claims['P570'][0].getTarget()
-                if 'P106' in item.claims:
-                    p106 = item.claims['P106'][0].getTarget()
-            print(page.title().encode('utf-8'), item, gender, p31, p21)
-            if not p31:
+            if not 'P31' in item.claims:
                 addHumanClaim(repo=repo, item=item)
-            if not p21 and gender:
+            if not 'P21' in item.claims and gender:
                 addGenderClaim(repo=repo, item=item, gender=gender)
-            if not p569 and birthdate:
+            if not 'P569' in item.claims and birthdate:
                 addBirthDateClaim(repo=repo, item=item, date=birthdate)
-            if not p570 and deathdate:
+            if not 'P570' in item.claims and deathdate:
                 addDeathDateClaim(repo=repo, item=item, date=deathdate)
-            if not p106 and occupations:
+            if not 'P106' in item.claims and occupations:
                 addOccupationsClaim(repo=repo, item=item, occupations=occupations)
         else:
             print('Page without item')
