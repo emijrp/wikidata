@@ -113,7 +113,7 @@ def calculateDeathDate(page=''):
         return m[0]
     return ''
 
-def calculateOccupations(site='', page=''):
+def calculateOccupations(wikisite='', page=''):
     ignoreoccupations = [
         'Q2066131', #sportpeople, too general
     ]
@@ -121,7 +121,7 @@ def calculateOccupations(site='', page=''):
     cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
     for cat in cats:
         cat = cat.strip()
-        catpage = pywikibot.Page(site, 'Category:%s' % (cat))
+        catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat))
         catitem = ''
         try:
             catitem = pywikibot.ItemPage.fromPage(catpage)
@@ -163,6 +163,24 @@ def pageIsRubbish(page=''):
         return True
     return False
 
+def addBiographyClaims(repo='', wikisite='', item='', page=''):
+    if repo and wikisite and item and page:
+        gender = calculateGender(page=page)
+        birthdate = calculateBirthDate(page=page)
+        deathdate = calculateDeathDate(page=page)
+        occupations = calculateOccupations(wikisite=wikisite, page=page)
+        
+        if not 'P31' in item.claims:
+            addHumanClaim(repo=repo, item=item)
+        if not 'P21' in item.claims and gender:
+            addGenderClaim(repo=repo, item=item, gender=gender)
+        if not 'P569' in item.claims and birthdate:
+            addBirthDateClaim(repo=repo, item=item, date=birthdate)
+        if not 'P570' in item.claims and deathdate:
+            addDeathDateClaim(repo=repo, item=item, date=deathdate)
+        if not 'P106' in item.claims and occupations:
+            addOccupationsClaim(repo=repo, item=item, occupations=occupations)
+
 def main():
     lang = 'en'
     wikisite = pywikibot.Site(lang, 'wikipedia')
@@ -180,9 +198,6 @@ def main():
             continue
         print('\n==', page.title().encode('utf-8'), '==')
         gender = calculateGender(page=page)
-        birthdate = calculateBirthDate(page=page)
-        deathdate = calculateDeathDate(page=page)
-        occupations = calculateOccupations(site=wikisite, page=page)
         item = ''
         try:
             item = pywikibot.ItemPage.fromPage(page)
@@ -196,16 +211,7 @@ def main():
             except:
                 print('Error while retrieving item, skiping...')
                 continue
-            if not 'P31' in item.claims:
-                addHumanClaim(repo=repo, item=item)
-            if not 'P21' in item.claims and gender:
-                addGenderClaim(repo=repo, item=item, gender=gender)
-            if not 'P569' in item.claims and birthdate:
-                addBirthDateClaim(repo=repo, item=item, date=birthdate)
-            if not 'P570' in item.claims and deathdate:
-                addDeathDateClaim(repo=repo, item=item, date=deathdate)
-            if not 'P106' in item.claims and occupations:
-                addOccupationsClaim(repo=repo, item=item, occupations=occupations)
+            addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page)
         else:
             print('Page without item')
             #search for a valid item, otherwise create
@@ -233,12 +239,12 @@ def main():
                 newitem = pywikibot.ItemPage(repo)
                 newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s): %s %s" % (lang, wtitle, wtitle, lang, 'human', gender))
                 newitem.get()
-                addHumanClaim(repo=repo, item=newitem)
-                addGenderClaim(repo=repo, item=newitem, gender=gender)
-                addBirthDateClaim(repo=repo, item=newitem, date=birthdate)
-                addDeathDateClaim(repo=repo, item=newitem, date=deathdate)
-                addOccupationsClaim(repo=repo, item=newitem, occupations=occupations)
-                newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                try:
+                    newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                except:
+                    print("Error adding sitelink. Skiping.")
+                    break
+                addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page)
             else:
                 #check birthdate and if it matches, then add data
                 m = re.findall(r'id="(Q\d+)"', raw)
@@ -257,19 +263,10 @@ def main():
                             try:
                                 itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
                             except:
-                                print("Error adding sitelink")
+                                print("Error adding sitelink. Skiping.")
                                 break
-                            if not 'P31' in itemfound.claims:
-                                addHumanClaim(repo=repo, item=itemfound)
-                            if not 'P21' in itemfound.claims and gender:
-                                addGenderClaim(repo=repo, item=itemfound, gender=gender)
-                            if not 'P569' in itemfound.claims and birthdate:
-                                addBirthDateClaim(repo=repo, item=itemfound, date=birthdate)
-                            if not 'P570' in itemfound.claims and deathdate:
-                                addDeathDateClaim(repo=repo, item=itemfound, date=deathdate)
-                            if not 'P106' in itemfound.claims and occupations:
-                                addOccupationsClaim(repo=repo, item=itemfound, occupations=occupations)
+                            addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
                             break
-    
+
 if __name__ == "__main__":
     main()
