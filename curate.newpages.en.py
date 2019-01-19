@@ -106,14 +106,14 @@ def calculateGender(page=''):
 
 def calculateBirthDate(page=''):
     if page:
-        m = re.findall(r'Category\s*:\s*(\d+) births', page.text)
+        m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) births\s*[\|\]]', page.text)
         if m:
             return m[0]
     return ''
 
 def calculateDeathDate(page=''):
     if page:
-        m = re.findall(r'Category\s*:\s*(\d+) deaths', page.text)
+        m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) deaths\s*[\|\]]', page.text)
         if m:
             return m[0]
     return ''
@@ -232,14 +232,59 @@ def main():
             print(page.title().encode('utf-8'), 'need item', gender)
             wtitle = page.title()
             wtitle_ = wtitle.split('(')[0].strip()
-            #searchitemurl = 'https://www.wikidata.org/wiki/Special:ItemDisambiguation?language=&label=%s' % (urllib.parse.quote(wtitle_))
-            #Special:itemDisambiguation was disabled https://phabricator.wikimedia.org/T195756
             searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=en&format=xml' % (urllib.parse.quote(wtitle_))
             raw = getURL(searchitemurl)
             print(searchitemurl.encode('utf-8'))
             
-            #if 'Sorry, no item with that label was found' in raw: #Special:itemDisambiguation
-            if '<search />' in raw:
+            #check birthdate and if it matches, then add data
+            numcandidates = '' #do not set to zero
+            if not '<search />' in raw:
+                m = re.findall(r'id="(Q\d+)"', raw)
+                numcandidates = len(m)
+                print("Found %s candidates" % (numcandidates))
+                if numcandidates > 5: #too many candidates, skiping
+                    print("Too many, skiping")
+                    continue
+                for itemfoundq in m:
+                    itemfound = pywikibot.ItemPage(repo, itemfoundq)
+                    itemfound.get()
+                    if ('%swiki' % (lang)) in itemfound.sitelinks:
+                        print("Candidate %s has sitelink, skiping" % (itemfoundq))
+                        numcandidates -= 1
+                        continue
+                    pagebirthyear = calculateBirthDate(page=page)
+                    pagebirthyear = pagebirthyear and int(pagebirthyear.split('-')[0]) or ''
+                    if not pagebirthyear:
+                        print("Page doesnt have birthdate, skiping")
+                        break #break, dont continue. Without birthdate we cant decide correctly
+                    if 'P569' in itemfound.claims and itemfound.claims['P569'][0].getTarget().precision in [9, 10, 11]:
+                        #https://www.wikidata.org/wiki/Help:Dates#Precision
+                        itemfoundbirthyear = int(itemfound.claims['P569'][0].getTarget().year)
+                        print("candidate birthdate = %s, page birthdate = %s" % (itemfoundbirthyear, pagebirthyear))
+                        mindatelen = 4
+                        if len(str(itemfoundbirthyear)) != mindatelen or len(str(pagebirthyear)) != mindatelen:
+                            print("%s birthdate length != %s" % (itemfoundq, mindatelen))
+                            continue
+                        #reduce candidates if birthyear are different
+                        minyeardiff = 3
+                        if itemfoundbirthyear >= pagebirthyear + minyeardiff or itemfoundbirthyear <= pagebirthyear - minyeardiff:
+                            print("Candidate %s birthdate out of range, skiping" % (itemfoundq))
+                            numcandidates -= 1
+                            continue
+                        #but only assume it is the same person if birthyears match
+                        if itemfoundbirthyear == pagebirthyear:
+                            print('%s birthyear found in candidate %s. Category:%s births found in page. OK!' % (itemfoundbirthyear, itemfoundq, itemfoundbirthyear))
+                            print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
+                            try:
+                                itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                            except:
+                                print("Error adding sitelink. Skiping.")
+                                break
+                            addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
+                            break
+            
+            #no item found, or no candidates are useful
+            if '<search />' in raw or (numcandidates == 0):
                 print('No useful item found. Creating a new one...')
                 #create item
                 newitemlabels = { lang: wtitle_ }
@@ -252,28 +297,6 @@ def main():
                     print("Error adding sitelink. Skiping.")
                     break
                 addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page)
-            else:
-                #check birthdate and if it matches, then add data
-                m = re.findall(r'id="(Q\d+)"', raw)
-                if len(m) > 5:
-                    continue
-                for itemfoundq in m:
-                    itemfound = pywikibot.ItemPage(repo, itemfoundq)
-                    itemfound.get()
-                    if ('%swiki' % (lang)) in itemfound.sitelinks:
-                        continue
-                    if 'P569' in itemfound.claims:
-                        birthyear = itemfound.claims['P569'][0].getTarget().year
-                        if birthyear and re.search(r'(?i)\[\[ *Category *\: *%s births *\]\]' % (birthyear), page.text):
-                            print('%s birthyear found in item. Category:%s births found in page' % (birthyear, birthyear))
-                            print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
-                            try:
-                                itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
-                            except:
-                                print("Error adding sitelink. Skiping.")
-                                break
-                            addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
-                            break
 
 if __name__ == "__main__":
     main()
