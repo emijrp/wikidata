@@ -165,7 +165,7 @@ def pageIsBiography(page=''):
     return False
 
 def pageIsRubbish(page=''):
-    if re.search(r'\{\{ *db|AfD|\{\{ *[Aa]rticle for deletion|\{\{ *[Nn]otability', page.text):
+    if re.search(r'(?im)\{\{\s*(db|AfD|Article for deletion|Notability)', page.text):
         return True
     return False
 
@@ -200,6 +200,8 @@ def main():
     if len(sys.argv) >= 2:
         total = int(sys.argv[1])
     gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=total)
+    #cat = pywikibot.Category(wikisite, 'Category:Articles without Wikidata item')
+    #gen = pagegenerators.CategorizedPageGenerator(cat, recurse=False)
     pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
     for page in pre:
         if page.isRedirectPage():
