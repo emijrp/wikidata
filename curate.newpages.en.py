@@ -81,11 +81,11 @@ def addOccupationsClaim(repo='', item='', occupations=[]):
             item.addClaim(claim, summary='BOT - Adding 1 claim')
             addImportedFrom(repo=repo, claim=claim)
 
-def authorIsNewbie(page=''):
+def authorIsNewbie(page='', lang=''):
     if page:
         hist = page.getVersionHistory(reverse=True, total=1)
         if hist:
-            editcount = getUserEditCount(user=hist[0].user, site='en.wikipedia.org')
+            editcount = getUserEditCount(user=hist[0].user, site='%s.wikipedia.org' % (lang))
             if editcount >= 200:
                 return False
     return True
@@ -94,11 +94,11 @@ def calculateGender(page=''):
     if page:
         femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
         malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
-        if re.search(r'(?i)\b(Category *:[^\]]*?female|Category *:[^\]]*?women|Category *:[^\]]*?actresses)\b', page.text) or \
+        if re.search(r'(?im)\b(Category\s*:[^\]]*?female|Category\s*:[^\]]*?women|Category\s*:[^\]]*?actresses)\b', page.text) or \
            (len(page.text) <= 2000 and femalepoints >= 1 and malepoints == 0) or \
            (femalepoints >= 2 and femalepoints > malepoints*3):
             return 'female'
-        elif re.search(r'(?i)\b(Category *:[^\]]*? male|Category *:[^\]]*? men)\b', page.text) or \
+        elif re.search(r'(?im)\b(Category\s*:[^\]]*? male|Category\s*:[^\]]*? men)\b', page.text) or \
            (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
            (malepoints >= 2 and malepoints > femalepoints*3):
             return 'male'
@@ -149,23 +149,26 @@ def calculateOccupations(wikisite='', page=''):
         occupations = list(set(occupations))
     return occupations
 
-def pageCategories(page=''):
-    return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
+def pageCategories(page='', lang=''):
+    if lang == 'en':
+        return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
+    return 0
 
 def pageReferences(page=''):
     return len(re.findall(r'(?i)</ref>', page.text))
 
-def pageIsBiography(page=''):
-    if re.search('(?im)Category:\d+ animal (births|deaths)', page.text):
-        return False
-    elif not page.title().startswith('List'):
-        if len(page.title().split(' ')) <= 5:
-            if re.search(r'(?im)(\'{3} \(born \d|Category:\d+ (births|deaths)|Category:Living people|birth_date *=|birth_place *=|death_date *=|death_place *=|== *Biography *==|Category:People from)', page.text):
-                return True
+def pageIsBiography(page='', lang=''):
+    if lang == 'en':
+        if re.search('(?im)Category\s*:\s*\d+ animal (births|deaths)', page.text):
+            return False
+        elif not page.title().startswith('List ') and not page.title().startswith('Lists '):
+            if len(page.title().split(' ')) <= 5:
+                if re.search(r'(?im)(\'{3} \(born \d|Category\s*:\s*\d+ (births|deaths)|Category\s*:\s*Living people|birth_date\s*=|birth_place\s*=|death_date\s*=|death_place\s*=|==\s*Biography\s*==|Category\s*:\s*People from)', page.text):
+                    return True
     return False
 
-def pageIsRubbish(page=''):
-    if re.search(r'(?im)\{\{\s*(db|AfD|Article for deletion|Notability)', page.text):
+def pageIsRubbish(page='', lang=''):
+    if lang == 'en' and re.search(r'(?im)\{\{\s*(db|AfD|Article for deletion|Notability)', page.text):
         return True
     return False
 
@@ -192,111 +195,114 @@ def addBiographyClaims(repo='', wikisite='', item='', page=''):
             addOccupationsClaim(repo=repo, item=item, occupations=occupations)
 
 def main():
-    lang = 'en'
-    wikisite = pywikibot.Site(lang, 'wikipedia')
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    total = 100
-    if len(sys.argv) >= 2:
-        total = int(sys.argv[1])
-    gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=total)
-    #cat = pywikibot.Category(wikisite, 'Category:Articles without Wikidata item')
-    #gen = pagegenerators.CategorizedPageGenerator(cat, recurse=False)
-    pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
-    for page in pre:
-        if page.isRedirectPage():
-            continue
-        if not pageIsBiography(page=page):
-            continue
-        print('\n==', page.title().encode('utf-8'), '==')
-        gender = calculateGender(page=page)
-        item = ''
-        try:
-            item = pywikibot.ItemPage.fromPage(page)
-        except:
-            pass
-        if item:
-            print('Page has item')
-            print('https://www.wikidata.org/wiki/%s' % (item.title()))
-            addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page)
-        else:
-            print('Page without item')
-            #search for a valid item, otherwise create
-            if authorIsNewbie(page=page):
-                if pageIsRubbish(page=page) or \
-                   (not pageCategories(page=page)) or \
-                   (not pageReferences(page=page)) or \
-                   (not len(list(page.getReferences(namespaces=[0])))):
-                    continue
-            
-            print(page.title().encode('utf-8'), 'need item', gender)
-            wtitle = page.title()
-            wtitle_ = wtitle.split('(')[0].strip()
-            searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=en&format=xml' % (urllib.parse.quote(wtitle_))
-            raw = getURL(searchitemurl)
-            print(searchitemurl.encode('utf-8'))
-            
-            #check birthdate and if it matches, then add data
-            numcandidates = '' #do not set to zero
-            if not '<search />' in raw:
-                m = re.findall(r'id="(Q\d+)"', raw)
-                numcandidates = len(m)
-                print("Found %s candidates" % (numcandidates))
-                if numcandidates > 5: #too many candidates, skiping
-                    print("Too many, skiping")
-                    continue
-                for itemfoundq in m:
-                    itemfound = pywikibot.ItemPage(repo, itemfoundq)
-                    itemfound.get()
-                    if ('%swiki' % (lang)) in itemfound.sitelinks:
-                        print("Candidate %s has sitelink, skiping" % (itemfoundq))
-                        numcandidates -= 1
+    langs = ['en']
+    for lang in langs:
+        wikisite = pywikibot.Site(lang, 'wikipedia')
+        total = 100
+        if len(sys.argv) >= 2:
+            total = int(sys.argv[1])
+        gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=total)
+        #cat = pywikibot.Category(wikisite, 'Category:Articles without Wikidata item')
+        #gen = pagegenerators.CategorizedPageGenerator(cat, recurse=False)
+        pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
+        for page in pre:
+            if page.isRedirectPage():
+                continue
+            if not pageIsBiography(page=page, lang=lang):
+                continue
+            print('\n==', page.title().encode('utf-8'), '==')
+            gender = calculateGender(page=page)
+            item = ''
+            try:
+                item = pywikibot.ItemPage.fromPage(page)
+            except:
+                pass
+            if item:
+                print('Page has item')
+                print('https://www.wikidata.org/wiki/%s' % (item.title()))
+                addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page)
+            else:
+                print('Page without item')
+                #search for a valid item, otherwise create
+                if authorIsNewbie(page=page, lang=lang):
+                    print("Newbie author, checking quality...")
+                    if pageIsRubbish(page=page, lang=lang) or \
+                       (not pageCategories(page=page, lang=lang)) or \
+                       (not pageReferences(page=page)) or \
+                       (not len(list(page.getReferences(namespaces=[0])))):
+                        print("Page didnt pass minimum quality, skiping")
                         continue
-                    pagebirthyear = calculateBirthDate(page=page)
-                    pagebirthyear = pagebirthyear and int(pagebirthyear.split('-')[0]) or ''
-                    if not pagebirthyear:
-                        print("Page doesnt have birthdate, skiping")
-                        break #break, dont continue. Without birthdate we cant decide correctly
-                    if 'P569' in itemfound.claims and itemfound.claims['P569'][0].getTarget().precision in [9, 10, 11]:
-                        #https://www.wikidata.org/wiki/Help:Dates#Precision
-                        itemfoundbirthyear = int(itemfound.claims['P569'][0].getTarget().year)
-                        print("candidate birthdate = %s, page birthdate = %s" % (itemfoundbirthyear, pagebirthyear))
-                        mindatelen = 4
-                        if len(str(itemfoundbirthyear)) != mindatelen or len(str(pagebirthyear)) != mindatelen:
-                            print("%s birthdate length != %s" % (itemfoundq, mindatelen))
-                            continue
-                        #reduce candidates if birthyear are different
-                        minyeardiff = 3
-                        if itemfoundbirthyear >= pagebirthyear + minyeardiff or itemfoundbirthyear <= pagebirthyear - minyeardiff:
-                            print("Candidate %s birthdate out of range, skiping" % (itemfoundq))
+                
+                print(page.title().encode('utf-8'), 'need item', gender)
+                wtitle = page.title()
+                wtitle_ = wtitle.split('(')[0].strip()
+                searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=%s&format=xml' % (urllib.parse.quote(wtitle_), lang)
+                raw = getURL(searchitemurl)
+                print(searchitemurl.encode('utf-8'))
+                
+                #check birthdate and if it matches, then add data
+                numcandidates = '' #do not set to zero
+                if not '<search />' in raw:
+                    m = re.findall(r'id="(Q\d+)"', raw)
+                    numcandidates = len(m)
+                    print("Found %s candidates" % (numcandidates))
+                    if numcandidates > 5: #too many candidates, skiping
+                        print("Too many, skiping")
+                        continue
+                    for itemfoundq in m:
+                        itemfound = pywikibot.ItemPage(repo, itemfoundq)
+                        itemfound.get()
+                        if ('%swiki' % (lang)) in itemfound.sitelinks:
+                            print("Candidate %s has sitelink, skiping" % (itemfoundq))
                             numcandidates -= 1
                             continue
-                        #but only assume it is the same person if birthyears match
-                        if itemfoundbirthyear == pagebirthyear:
-                            print('%s birthyear found in candidate %s. Category:%s births found in page. OK!' % (itemfoundbirthyear, itemfoundq, itemfoundbirthyear))
-                            print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
-                            try:
-                                itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
-                            except:
-                                print("Error adding sitelink. Skiping.")
+                        pagebirthyear = calculateBirthDate(page=page)
+                        pagebirthyear = pagebirthyear and int(pagebirthyear.split('-')[0]) or ''
+                        if not pagebirthyear:
+                            print("Page doesnt have birthdate, skiping")
+                            break #break, dont continue. Without birthdate we cant decide correctly
+                        if 'P569' in itemfound.claims and itemfound.claims['P569'][0].getTarget().precision in [9, 10, 11]:
+                            #https://www.wikidata.org/wiki/Help:Dates#Precision
+                            itemfoundbirthyear = int(itemfound.claims['P569'][0].getTarget().year)
+                            print("candidate birthdate = %s, page birthdate = %s" % (itemfoundbirthyear, pagebirthyear))
+                            mindatelen = 4
+                            if len(str(itemfoundbirthyear)) != mindatelen or len(str(pagebirthyear)) != mindatelen:
+                                print("%s birthdate length != %s" % (itemfoundq, mindatelen))
+                                continue
+                            #reduce candidates if birthyear are different
+                            minyeardiff = 3
+                            if itemfoundbirthyear >= pagebirthyear + minyeardiff or itemfoundbirthyear <= pagebirthyear - minyeardiff:
+                                print("Candidate %s birthdate out of range, skiping" % (itemfoundq))
+                                numcandidates -= 1
+                                continue
+                            #but only assume it is the same person if birthyears match
+                            if itemfoundbirthyear == pagebirthyear:
+                                print('%s birthyear found in candidate %s. Category:%s births found in page. OK!' % (itemfoundbirthyear, itemfoundq, itemfoundbirthyear))
+                                print('Adding sitelink %s:%s' % (lang, page.title().encode('utf-8')))
+                                try:
+                                    itemfound.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                                except:
+                                    print("Error adding sitelink. Skiping.")
+                                    break
+                                addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
                                 break
-                            addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
-                            break
-            
-            #no item found, or no candidates are useful
-            if '<search />' in raw or (numcandidates == 0):
-                print('No useful item found. Creating a new one...')
-                #create item
-                newitemlabels = { lang: wtitle_ }
-                newitem = pywikibot.ItemPage(repo)
-                newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s): %s %s" % (lang, wtitle, wtitle, lang, 'human', gender))
-                newitem.get()
-                try:
-                    newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
-                except:
-                    print("Error adding sitelink. Skiping.")
-                    break
-                addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page)
+                
+                #no item found, or no candidates are useful
+                if '<search />' in raw or (numcandidates == 0):
+                    print('No useful item found. Creating a new one...')
+                    #create item
+                    newitemlabels = { lang: wtitle_ }
+                    newitem = pywikibot.ItemPage(repo)
+                    newitem.editLabels(labels=newitemlabels, summary="BOT - Creating item for [[:%s:%s|%s]] (%s): %s %s" % (lang, wtitle, wtitle, lang, 'human', gender))
+                    newitem.get()
+                    try:
+                        newitem.setSitelink(page, summary='BOT - Adding 1 sitelink: [[:%s:%s|%s]] (%s)' % (lang, page.title(), page.title(), lang))
+                    except:
+                        print("Error adding sitelink. Skiping.")
+                        break
+                    addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page)
 
 if __name__ == "__main__":
     main()
