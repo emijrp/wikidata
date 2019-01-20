@@ -96,7 +96,7 @@ def calculateGender(page='', lang=''):
     if lang == 'en':
         femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
         malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
-        if re.search(r'(?im)\b(Category\s*:[^\]]*?female|Category\s*:[^\]]*?women|Category\s*:[^\]]*?actresses)\b', page.text) or \
+        if re.search(r'(?im)\b(Category\s*:[^\]\|]*?female|Category\s*:[^\]\|]*?women|Category\s*:[^\]\|]*?actresses)\b', page.text) or \
            (len(page.text) <= 2000 and femalepoints >= 1 and malepoints == 0) or \
            (femalepoints >= 2 and femalepoints > malepoints*3):
             return 'female'
@@ -104,6 +104,13 @@ def calculateGender(page='', lang=''):
            (len(page.text) <= 2000 and malepoints >= 1 and femalepoints == 0) or \
            (malepoints >= 2 and malepoints > femalepoints*3):
             return 'male'
+    elif lang == 'de':
+        if re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Frau\s*[^\]\|]', page.text):
+            return 'female'
+        elif re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Mann\s*[^\]\|]', page.text):
+            return 'male'
+    elif lang == 'fr':
+        return '' #todo: ne nee
     return ''
 
 def calculateBirthDate(page='', lang=''):
@@ -111,6 +118,10 @@ def calculateBirthDate(page='', lang=''):
         return ''
     if lang == 'en':
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) births\s*[\|\]]', page.text)
+        if m:
+            return m[0]
+    elif lang == 'de':
+        m = re.findall(r'(?im)\[\[\s*(?:Kategorie|Category)\s*:\s*Geboren (\d+)\s*[\|\]]', page.text)
         if m:
             return m[0]
     elif lang == 'fr':
@@ -124,6 +135,10 @@ def calculateDeathDate(page='', lang=''):
         return ''
     if lang == 'en':
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) deaths\s*[\|\]]', page.text)
+        if m:
+            return m[0]
+    elif lang == 'de':
+        m = re.findall(r'(?im)\[\[\s*(?:Kategorie|Category)\s*:\s*Gestorben (\d+)\s*[\|\]]', page.text)
         if m:
             return m[0]
     elif lang == 'fr':
@@ -140,6 +155,8 @@ def calculateOccupations(wikisite='', page='', lang=''):
     if wikisite and page:
         if lang == 'en' or lang == '':
             cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
+        elif lang == 'de':
+            cats = re.findall(r'(?i)\[\[\s*(?:Kategorie|Category)\s*\:([^\[\]\|]+?)[\]\|]', page.text)
         elif lang == 'fr':
             cats = re.findall(r'(?i)\[\[\s*(?:Catégorie|Category)\s*\:([^\[\]\|]+?)[\]\|]', page.text)
         for cat in cats:
@@ -168,9 +185,11 @@ def calculateOccupations(wikisite='', page='', lang=''):
 
 def pageCategories(page='', lang=''):
     if lang == 'en':
-        return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
+        return len(re.findall(r'(?im)\[\[\s*Category\s*\:', page.text))
+    elif lang == 'de':
+        return len(re.findall(r'(?im)\[\[\s*(?:Kategorie|Category)\s*\:', page.text))
     elif lang == 'fr':
-        return len(re.findall(r'(?i)\[\[\s*(?:Catégorie|Category)\s*\:', page.text))
+        return len(re.findall(r'(?im)\[\[\s*(?:Catégorie|Category)\s*\:', page.text))
     return 0
 
 def pageReferences(page='', lang=''):
@@ -184,10 +203,17 @@ def pageIsBiography(page='', lang=''):
             if len(page.title().split(' ')) <= 5:
                 if re.search(r'(?im)(\'{3} \(born \d|Category\s*:\s*\d+ (births|deaths)|Category\s*:\s*Living people|birth_date\s*=|birth_place\s*=|death_date\s*=|death_place\s*=|Category\s*:\s*People from)', page.text):
                     return True
+    elif lang == 'de':
+        if re.search('(?im)(Catégorie|Category)\s*:\s*Individueller', page.text):
+            return False
+        elif not page.title().startswith('Liste '):
+            if len(page.title().split(' ')) <= 5:
+                if re.search(r'(?im)((Kategorie|Category)\s*:\s*(Geboren|Gestorben) \d+)', page.text):
+                    return True
     elif lang == 'fr':
         if re.search('(?im)(Catégorie|Category)\s*:\s*Animal (né|mort)', page.text):
             return False
-        elif not page.title().startswith('List ') and not page.title().startswith('Lists '):
+        elif not page.title().startswith('Liste ') and not page.title().startswith('Listes '):
             if len(page.title().split(' ')) <= 5:
                 if re.search(r'(?im)((Catégorie|Category)\s*:\s*(Naissance|Décès) en)', page.text):
                     return True
@@ -196,7 +222,9 @@ def pageIsBiography(page='', lang=''):
 def pageIsRubbish(page='', lang=''):
     if lang == 'en' and re.search(r'(?im)\{\{\s*(db|AfD|Article for deletion|Notability)', page.text):
         return True
-    if lang == 'fr' and re.search(r'(?im)\{\{\s*(Suppression|Admissibilit[ée])', page.text):
+    elif lang == 'de' and re.search(r'(?im)\{\{\s*(Löschen|db|SLA|Speedy)', page.text):
+        return True
+    elif lang == 'fr' and re.search(r'(?im)\{\{\s*(Suppression|À supprimer|Admissibilit[ée]|Avertissement)', page.text):
         return True
     return False
 
@@ -225,7 +253,7 @@ def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
 def main():
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    langs = ['en', 'fr']
+    langs = ['en', 'fr', 'de']
     for lang in langs:
         wikisite = pywikibot.Site(lang, 'wikipedia')
         total = 100
