@@ -90,8 +90,10 @@ def authorIsNewbie(page='', lang=''):
                 return False
     return True
 
-def calculateGender(page=''):
-    if page:
+def calculateGender(page='', lang=''):
+    if not page:
+        return ''
+    if lang == 'en':
         femalepoints = len(re.findall(r'(?i)\b(she|her|hers)\b', page.text))
         malepoints = len(re.findall(r'(?i)\b(he|his|him)\b', page.text))
         if re.search(r'(?im)\b(Category\s*:[^\]]*?female|Category\s*:[^\]]*?women|Category\s*:[^\]]*?actresses)\b', page.text) or \
@@ -104,27 +106,32 @@ def calculateGender(page=''):
             return 'male'
     return ''
 
-def calculateBirthDate(page=''):
-    if page:
+def calculateBirthDate(page='', lang=''):
+    if not page:
+        return ''
+    if lang == 'en':
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) births\s*[\|\]]', page.text)
         if m:
             return m[0]
     return ''
 
-def calculateDeathDate(page=''):
-    if page:
+def calculateDeathDate(page='', lang=''):
+    if not page:
+        return ''
+    if lang == 'en':
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) deaths\s*[\|\]]', page.text)
         if m:
             return m[0]
     return ''
 
-def calculateOccupations(wikisite='', page=''):
+def calculateOccupations(wikisite='', page='', lang=''):
     ignoreoccupations = [
         'Q2066131', #sportpeople, too general
     ]
     occupations = []
     if wikisite and page:
-        cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
+        if lang == 'en' or lang == '':
+            cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
         for cat in cats:
             cat = cat.strip()
             catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat))
@@ -154,7 +161,7 @@ def pageCategories(page='', lang=''):
         return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
     return 0
 
-def pageReferences(page=''):
+def pageReferences(page='', lang=''):
     return len(re.findall(r'(?i)</ref>', page.text))
 
 def pageIsBiography(page='', lang=''):
@@ -172,12 +179,12 @@ def pageIsRubbish(page='', lang=''):
         return True
     return False
 
-def addBiographyClaims(repo='', wikisite='', item='', page=''):
+def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
     if repo and wikisite and item and page:
-        gender = calculateGender(page=page)
-        birthdate = calculateBirthDate(page=page)
-        deathdate = calculateDeathDate(page=page)
-        occupations = calculateOccupations(wikisite=wikisite, page=page)
+        gender = calculateGender(page=page, lang=lang)
+        birthdate = calculateBirthDate(page=page, lang=lang)
+        deathdate = calculateDeathDate(page=page, lang=lang)
+        occupations = calculateOccupations(wikisite=wikisite, page=page, lang=lang)
         try:
             item.get()
         except:
@@ -213,7 +220,7 @@ def main():
             if not pageIsBiography(page=page, lang=lang):
                 continue
             print('\n==', page.title().encode('utf-8'), '==')
-            gender = calculateGender(page=page)
+            gender = calculateGender(page=page, lang=lang)
             item = ''
             try:
                 item = pywikibot.ItemPage.fromPage(page)
@@ -222,7 +229,7 @@ def main():
             if item:
                 print('Page has item')
                 print('https://www.wikidata.org/wiki/%s' % (item.title()))
-                addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page)
+                addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page, lang=lang)
             else:
                 print('Page without item')
                 #search for a valid item, otherwise create
@@ -258,7 +265,7 @@ def main():
                             print("Candidate %s has sitelink, skiping" % (itemfoundq))
                             numcandidates -= 1
                             continue
-                        pagebirthyear = calculateBirthDate(page=page)
+                        pagebirthyear = calculateBirthDate(page=page, lang=lang)
                         pagebirthyear = pagebirthyear and int(pagebirthyear.split('-')[0]) or ''
                         if not pagebirthyear:
                             print("Page doesnt have birthdate, skiping")
@@ -286,7 +293,7 @@ def main():
                                 except:
                                     print("Error adding sitelink. Skiping.")
                                     break
-                                addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page)
+                                addBiographyClaims(repo=repo, wikisite=wikisite, item=itemfound, page=page, lang=lang)
                                 break
                 
                 #no item found, or no candidates are useful
@@ -302,7 +309,7 @@ def main():
                     except:
                         print("Error adding sitelink. Skiping.")
                         break
-                    addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page)
+                    addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page, lang=lang)
 
 if __name__ == "__main__":
     main()
