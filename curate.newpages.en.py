@@ -24,43 +24,45 @@ from pywikibot import pagegenerators
 
 from wikidatafun import *
 
-def addImportedFrom(repo='', claim=''):
-    importedfrom = pywikibot.Claim(repo, 'P143') #imported from
-    importedwp = pywikibot.ItemPage(repo, 'Q328') #enwp
-    importedfrom.setTarget(importedwp)
-    claim.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[Q328]]')
+def addImportedFrom(repo='', claim='', lang=''):
+    langs = { 'en': 'Q328', 'fr': 'Q8447', 'de': 'Q48183', }
+    if repo and claim and lang and lang in langs.keys():
+        importedfrom = pywikibot.Claim(repo, 'P143') #imported from
+        importedwp = pywikibot.ItemPage(repo, langs[lang])
+        importedfrom.setTarget(importedwp)
+        claim.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[Q328]]')
 
-def addHumanClaim(repo='', item=''):
-    if repo and item:
+def addHumanClaim(repo='', item='', lang=''):
+    if repo and item and lang:
         print("Adding claim: human")
         claim = pywikibot.Claim(repo, 'P31')
         target = pywikibot.ItemPage(repo, 'Q5')
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
-        addImportedFrom(repo=repo, claim=claim)
+        addImportedFrom(repo=repo, claim=claim, lang=lang)
 
-def addGenderClaim(repo='', item='', gender=''):
+def addGenderClaim(repo='', item='', gender='', lang=''):
     gender2q = { 'female': 'Q6581072', 'male': 'Q6581097' }
-    if repo and item and gender and gender in gender2q.keys():
+    if repo and item and gender and gender in gender2q.keys() and lang:
         print("Adding gender: %s" % (gender))
         claim = pywikibot.Claim(repo, 'P21')
         target = pywikibot.ItemPage(repo, gender2q[gender])
         claim.setTarget(target)
         item.addClaim(claim, summary='BOT - Adding 1 claim')
-        addImportedFrom(repo=repo, claim=claim)
+        addImportedFrom(repo=repo, claim=claim, lang=lang)
 
-def addBirthDateClaim(repo='', item='', date=''):
-    if repo and item and date:
+def addBirthDateClaim(repo='', item='', date='', lang=''):
+    if repo and item and date and lang:
         print("Adding birth date: %s" % (date))
-        return addDateClaim(repo=repo, item=item, claim='P569', date=date)
+        return addDateClaim(repo=repo, item=item, claim='P569', date=date, lang=lang)
 
-def addDeathDateClaim(repo='', item='', date=''):
-    if repo and item and date:
+def addDeathDateClaim(repo='', item='', date='', lang=''):
+    if repo and item and date and lang:
         print("Adding death date: %s" % (date))
-        return addDateClaim(repo=repo, item=item, claim='P570', date=date)
+        return addDateClaim(repo=repo, item=item, claim='P570', date=date, lang=lang)
 
-def addDateClaim(repo='', item='', claim='', date=''):
-    if repo and item and claim and date:
+def addDateClaim(repo='', item='', claim='', date='', lang=''):
+    if repo and item and claim and date and lang:
         claim = pywikibot.Claim(repo, claim)
         if len(date.split('-')) == 3:
             claim.setTarget(pywikibot.WbTime(year=date.split('-')[0], month=date.split('-')[1], day=date.split('-')[2]))
@@ -69,17 +71,17 @@ def addDateClaim(repo='', item='', claim='', date=''):
         elif len(date.split('-')) == 1:
             claim.setTarget(pywikibot.WbTime(year=date.split('-')[0]))
         item.addClaim(claim, summary='BOT - Adding 1 claim')
-        addImportedFrom(repo=repo, claim=claim)
+        addImportedFrom(repo=repo, claim=claim, lang=lang)
 
-def addOccupationsClaim(repo='', item='', occupations=[]):
-    if repo and item and occupations:
+def addOccupationsClaim(repo='', item='', occupations=[], lang=''):
+    if repo and item and occupations and lang:
         for occupation in occupations:
             print("Adding occupation: %s" % (occupation.title().encode('utf-8')))
             claim = pywikibot.Claim(repo, 'P106')
             target = pywikibot.ItemPage(repo, occupation.title())
             claim.setTarget(target)
             item.addClaim(claim, summary='BOT - Adding 1 claim')
-            addImportedFrom(repo=repo, claim=claim)
+            addImportedFrom(repo=repo, claim=claim, lang=lang)
 
 def authorIsNewbie(page='', lang=''):
     if page:
@@ -240,15 +242,15 @@ def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
             print('Error while retrieving item, skiping...')
             return ''
         if not 'P31' in item.claims:
-            addHumanClaim(repo=repo, item=item)
+            addHumanClaim(repo=repo, item=item, lang=lang)
         if not 'P21' in item.claims and gender:
-            addGenderClaim(repo=repo, item=item, gender=gender)
+            addGenderClaim(repo=repo, item=item, gender=gender, lang=lang)
         if not 'P569' in item.claims and birthdate:
-            addBirthDateClaim(repo=repo, item=item, date=birthdate)
+            addBirthDateClaim(repo=repo, item=item, date=birthdate, lang=lang)
         if not 'P570' in item.claims and deathdate:
-            addDeathDateClaim(repo=repo, item=item, date=deathdate)
+            addDeathDateClaim(repo=repo, item=item, date=deathdate, lang=lang)
         if not 'P106' in item.claims and occupations:
-            addOccupationsClaim(repo=repo, item=item, occupations=occupations)
+            addOccupationsClaim(repo=repo, item=item, occupations=occupations, lang=lang)
 
 def main():
     wdsite = pywikibot.Site('wikidata', 'wikidata')
