@@ -105,9 +105,9 @@ def calculateGender(page='', lang=''):
            (malepoints >= 2 and malepoints > femalepoints*3):
             return 'male'
     elif lang == 'de':
-        if re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Frau\s*[^\]\|]', page.text):
+        if re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Frau\s*[\]\|]', page.text):
             return 'female'
-        elif re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Mann\s*[^\]\|]', page.text):
+        elif re.findall(r'(?im)\b(Category|Kategorie)\s*:\s*Mann\s*[\]\|]', page.text):
             return 'male'
     elif lang == 'fr':
         return '' #todo: ne nee
