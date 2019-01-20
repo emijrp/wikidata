@@ -113,6 +113,10 @@ def calculateBirthDate(page='', lang=''):
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) births\s*[\|\]]', page.text)
         if m:
             return m[0]
+    elif lang == 'fr':
+        m = re.findall(r'(?im)\[\[\s*(?:Catégorie|Category)\s*:\s*Naissance en (?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)? ?(\d+)\s*[\|\]]', page.text)
+        if m:
+            return m[0]
     return ''
 
 def calculateDeathDate(page='', lang=''):
@@ -120,6 +124,10 @@ def calculateDeathDate(page='', lang=''):
         return ''
     if lang == 'en':
         m = re.findall(r'(?im)\[\[\s*Category\s*:\s*(\d+) deaths\s*[\|\]]', page.text)
+        if m:
+            return m[0]
+    elif lang == 'fr':
+        m = re.findall(r'(?im)\[\[\s*(?:Catégorie|Category)\s*:\s*Décès en (?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)? ?(\d+)\s*[\|\]]', page.text)
         if m:
             return m[0]
     return ''
@@ -132,9 +140,11 @@ def calculateOccupations(wikisite='', page='', lang=''):
     if wikisite and page:
         if lang == 'en' or lang == '':
             cats = re.findall(r'(?i)\[\[\s*Category\s*\:([^\[\]\|]+?)[\]\|]', page.text)
+        elif lang == 'fr':
+            cats = re.findall(r'(?i)\[\[\s*(?:Catégorie|Category)\s*\:([^\[\]\|]+?)[\]\|]', page.text)
         for cat in cats:
             cat = cat.strip()
-            catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat))
+            catpage = pywikibot.Page(wikisite, 'Category:%s' % (cat)) #Category: works for any lang
             catitem = ''
             try:
                 catitem = pywikibot.ItemPage.fromPage(catpage)
@@ -159,6 +169,8 @@ def calculateOccupations(wikisite='', page='', lang=''):
 def pageCategories(page='', lang=''):
     if lang == 'en':
         return len(re.findall(r'(?i)\[\[\s*Category\s*\:', page.text))
+    elif lang == 'fr':
+        return len(re.findall(r'(?i)\[\[\s*(?:Catégorie|Category)\s*\:', page.text))
     return 0
 
 def pageReferences(page='', lang=''):
@@ -170,17 +182,26 @@ def pageIsBiography(page='', lang=''):
             return False
         elif not page.title().startswith('List ') and not page.title().startswith('Lists '):
             if len(page.title().split(' ')) <= 5:
-                if re.search(r'(?im)(\'{3} \(born \d|Category\s*:\s*\d+ (births|deaths)|Category\s*:\s*Living people|birth_date\s*=|birth_place\s*=|death_date\s*=|death_place\s*=|==\s*Biography\s*==|Category\s*:\s*People from)', page.text):
+                if re.search(r'(?im)(\'{3} \(born \d|Category\s*:\s*\d+ (births|deaths)|Category\s*:\s*Living people|birth_date\s*=|birth_place\s*=|death_date\s*=|death_place\s*=|Category\s*:\s*People from)', page.text):
+                    return True
+    elif lang == 'fr':
+        if re.search('(?im)(Catégorie|Category)\s*:\s*Animal (né|mort)', page.text):
+            return False
+        elif not page.title().startswith('List ') and not page.title().startswith('Lists '):
+            if len(page.title().split(' ')) <= 5:
+                if re.search(r'(?im)((Catégorie|Category)\s*:\s*(Naissance|Décès) en)', page.text):
                     return True
     return False
 
 def pageIsRubbish(page='', lang=''):
     if lang == 'en' and re.search(r'(?im)\{\{\s*(db|AfD|Article for deletion|Notability)', page.text):
         return True
+    if lang == 'fr' and re.search(r'(?im)\{\{\s*(Suppression|Admissibilit[ée])', page.text):
+        return True
     return False
 
 def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
-    if repo and wikisite and item and page:
+    if repo and wikisite and item and page and lang:
         gender = calculateGender(page=page, lang=lang)
         birthdate = calculateBirthDate(page=page, lang=lang)
         deathdate = calculateDeathDate(page=page, lang=lang)
@@ -204,7 +225,7 @@ def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
 def main():
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    langs = ['en']
+    langs = ['en', 'fr']
     for lang in langs:
         wikisite = pywikibot.Site(lang, 'wikipedia')
         total = 100
@@ -237,7 +258,7 @@ def main():
                     print("Newbie author, checking quality...")
                     if pageIsRubbish(page=page, lang=lang) or \
                        (not pageCategories(page=page, lang=lang)) or \
-                       (not pageReferences(page=page)) or \
+                       (not pageReferences(page=page, lang=lang)) or \
                        (not len(list(page.getReferences(namespaces=[0])))):
                         print("Page didnt pass minimum quality, skiping")
                         continue
