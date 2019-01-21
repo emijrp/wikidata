@@ -18,6 +18,7 @@
 import datetime
 import dateutil.parser
 import os
+import random
 import re
 import sys
 import time
@@ -136,10 +137,11 @@ def main():
         }
     ?item wdt:P577 ?pubdate.
     ?item schema:description "scientific article"@en.
-    OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ca").  }
+    OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").  }
     FILTER (!BOUND(?itemDescription))
     }
-    """ % (str(querylimit+i)) for i in range(1, 2000)
+    #random%s
+    """ % (str(querylimit+i), random.choice(list(generateTranslations(pubdate=datetime.datetime.strptime('2099-01-01', '%Y-%m-%d'))[1].keys())), random.randint(1,1000000)) for i in range(1, 10000)
     ]
     
     for query in queries:
