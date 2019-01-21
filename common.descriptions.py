@@ -2096,7 +2096,7 @@ def main():
         'river in the United States of America': genQuery(p31='Q4022', desc='river in the United States of America', desclang='en'),
         'river in Vietnam': genQuery(p31='Q4022', desc='river in Vietnam', desclang='en'),
         
-        #'scientific article': [''], # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
+        #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
         'species of alga': [
         """
