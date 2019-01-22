@@ -156,14 +156,14 @@ def main():
             year = ''
             titleprev = ''
             titlenext = ''
-            if re.findall(r'(?m)^Category:(\d{4}) ', page.title()):
-                year = int(re.findall(r'(?m)^Category:(\d{4}) ', page.title())[0])
-                titleprev = re.sub(r'(Category:)%s ' % (year), r'\1%s ' % (year-1), page.title())
-                titlenext = re.sub(r'(Category:)%s ' % (year), r'\1%s ' % (year+1), page.title())
+            if re.findall(r'(?m)^Category:(\d{4}) [^\d]+$', page.title()):
+                year = int(re.findall(r'(?m)^Category:(\d{4}) [^\d]+$', page.title())[0])
+                titleprev = re.sub(r'(?m)^(Category):%s ([^\d]+)$' % (year), r'\1:%s \2' % (year-1), page.title())
+                titlenext = re.sub(r'(?m)^(Category):%s ([^\d]+)$' % (year), r'\1:%s \2' % (year+1), page.title())
             elif re.findall(r'(?m)^Category:[^\d]+ in (\d{4})$', page.title()):
                 year = int(re.findall(r'(?m)^Category:[^\d]+ in (\d{4})$', page.title())[0])
-                titleprev = re.sub(r'(?m)^(Category:[^\d]+ in) %s$' % (year), r'\1 %s' % (year-1), page.title())
-                titlenext = re.sub(r'(?m)^(Category:[^\d]+ in) %s$' % (year), r'\1 %s' % (year+1), page.title())
+                titleprev = re.sub(r'(?m)^(Category):([^\d]+ in) %s$' % (year), r'\1:\2 %s' % (year-1), page.title())
+                titlenext = re.sub(r'(?m)^(Category):([^\d]+ in) %s$' % (year), r'\1:\2 %s' % (year+1), page.title())
             else:
                 continue
             if not year or len(str(year)) != 4:
