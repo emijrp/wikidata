@@ -147,30 +147,40 @@ def main():
                     print("Page doest have item")
     
     if method == 'all' or method == 'method2':
-        cat = pywikibot.Category(wikisite, 'Category:Year by category — used with year parameter(s) equals year in page title')
-        gen = pagegenerators.SubCategoriesPageGenerator(cat)
+        #cat = pywikibot.Category(wikisite, 'Category:Year by category — used with year parameter(s) equals year in page title')
+        cat = pywikibot.Category(wikisite, 'Category:YearParamUsageCheck tracking categories')
+        #gen = pagegenerators.SubCategoriesPageGenerator(cat)
+        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=2)
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             year = ''
-            try:
-                year = int(re.findall(r'Category:(\d{4}) ', page.title())[0])
-            except:
-                print("Couldnt parse correct year from page name")
+            titleprev = ''
+            titlenext = ''
+            if re.findall(r'(?m)^Category:(\d{4}) ', page.title()):
+                year = int(re.findall(r'(?m)^Category:(\d{4}) ', page.title())[0])
+                titleprev = re.sub(r'(Category:)%s ' % (year), r'\1%s ' % (year-1), page.title())
+                titlenext = re.sub(r'(Category:)%s ' % (year), r'\1%s ' % (year+1), page.title())
+            elif re.findall(r'(?m)^Category:[^\d]+ in (\d{4})$', page.title()):
+                year = int(re.findall(r'(?m)^Category:[^\d]+ in (\d{4})$', page.title())[0])
+                titleprev = re.sub(r'(?m)^(Category:[^\d]+ in) %s$' % (year), r'\1 %s' % (year-1), page.title())
+                titlenext = re.sub(r'(?m)^(Category:[^\d]+ in) %s$' % (year), r'\1 %s' % (year+1), page.title())
+            else:
                 continue
-            if not year:
+            if not year or len(str(year)) != 4:
                 print("Couldnt parse correct year from page name")
                 continue
             print(year)
-            titleprev = re.sub('Category:%s ' % (year), 'Category:%s ' % (year-1), page.title())
-            titlenext = re.sub('Category:%s ' % (year), 'Category:%s ' % (year+1), page.title())
             item = ''
             try:
                 item = pywikibot.ItemPage.fromPage(page)
             except:
                 print("No wikidata item for this page")
                 continue
-            if item and titleprev and titlenext:
-                core(repo=repo, item=item, page=page, lang=lang, wikisite=wikisite, titleprev=titleprev, titlenext=titlenext)
+            if item:
+                if titleprev and titlenext:
+                    core(repo=repo, item=item, page=page, lang=lang, wikisite=wikisite, titleprev=titleprev, titlenext=titlenext)
+                else:
+                    print("Not titleprev or titlenext")
             else:
                 print("Page doest have item")
 
