@@ -64,7 +64,11 @@ def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenex
                 if not pageprev.exists() or pageprev.isRedirectPage():
                     print("Pageprev doesnt exist or is redirect: %s" % (pageprev.title()))
                 else:
-                    itemprev = pywikibot.ItemPage.fromPage(pageprev)
+                    itemprev = ''
+                    try:
+                        itemprev = pywikibot.ItemPage.fromPage(pageprev)
+                    except:
+                        print("No wikidata item for pageprev")
                     if itemprev:
                         print('Pageprev: %s (%s)' % (pageprev.title(), itemprev.title()))
                         addPrevClaim(repo=repo, item=item, itemprev=itemprev, lang=lang)
@@ -77,7 +81,11 @@ def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenex
                 if not pagenext.exists() or pagenext.isRedirectPage():
                     print("Pagenext doesnt exist or is redirect: %s" % (pagenext.title()))
                 else:
-                    itemnext = pywikibot.ItemPage.fromPage(pagenext)
+                    itemnext = ''
+                    try:
+                        itemnext = pywikibot.ItemPage.fromPage(pagenext)
+                    except:
+                        print("No wikidata item for pagenext")
                     if itemnext:
                         print('Pagenext: %s (%s)' % (pagenext.title(), itemnext.title()))
                         addNextClaim(repo=repo, item=item, itemnext=itemnext, lang=lang)
@@ -155,6 +163,7 @@ def main():
             print(year)
             titleprev = re.sub('Category:%s ' % (year), 'Category:%s ' % (year-1), page.title())
             titlenext = re.sub('Category:%s ' % (year), 'Category:%s ' % (year+1), page.title())
+            item = ''
             try:
                 item = pywikibot.ItemPage.fromPage(page)
             except:
