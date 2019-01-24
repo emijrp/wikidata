@@ -43,7 +43,6 @@ def generateTranslations(pubdate=''):
         'fr': ['article scientifique'], 
         'pt': ['artigo científico'], 
         'pt-br': ['artigo científico'],
-        'ur': ['سائنسی مضمون'],
     }
     translations = {
         'ar': 'مقالة علمية',
