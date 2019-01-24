@@ -51,6 +51,7 @@ def main():
                 'sr': 'немачки писац', 
                 'sr-ec': 'немачки писац', 
                 'sr-el': 'немачки писац', 
+                'ur': 'جرمن مصنف',
             }, 
             'female': {
                 'an': 'escritora alemana', 
@@ -64,6 +65,7 @@ def main():
                 'it': 'scrittrice tedesca', 
                 'oc': 'escrivana alemanda', 
                 'he': 'סופרת גרמנייה', 
+                'ur': 'جرمن مصنفہ',
             }, 
         }, 
         
@@ -76,6 +78,7 @@ def main():
                 'sr': 'шпански сликар',
                 'sr-ec': 'шпански сликар',
                 'sr-el': 'španski slikar',
+                'ur': 'ہسپانوی پینٹر',
             }, 
             'female': {
                 'bn': 'স্পেনীয় চিত্রকর',
@@ -85,6 +88,7 @@ def main():
                 'sr': 'шпанска сликарка',
                 'sr-ec': 'шпанска сликарка',
                 'sr-el': 'španska slikara',
+                'ur': 'ہسپانوی پینٹر',
             }, 
         }, 
         
@@ -100,6 +104,7 @@ def main():
                 'sr': 'шпански политичар',
                 'sr-ec': 'шпански политичар',
                 'sr-el': 'španski političar',
+                'ur': 'ہسپانوی سیاست دان',
             }, 
             'female': {
                 'bn': 'স্পেনীয় রাজনীতিবিদ',
@@ -108,7 +113,8 @@ def main():
                 'fr': 'femme politique espagnole', 
                 'id': 'politisi perempuan asal Spanyol'
                 'it': 'politica spagnola',   
-                'he': 'פוליטיקאית ספרדייה', 
+                'he': 'פוליטיקאית ספרדייה',
+                'ur': 'ہسپانوی سیاست دان',
             }, 
         }, 
         
@@ -128,6 +134,7 @@ def main():
                 'sr': 'шпански писац',
                 'sr-ec': 'шпански писац',
                 'sr-el': 'španski pisac',
+                'ur': 'ہسپانوی مصنف',
             }, 
             'female': {
                 'an': 'escritora espanyola', 
@@ -140,7 +147,8 @@ def main():
                 'id': 'penulis perempuan asal Spanyol'
                 'it': 'scrittrice spagnola', 
                 'oc': 'escrivana espanhòla',  
-                'he': 'סופרת ספרדייה', 
+                'he': 'סופרת ספרדייה',
+                'ur': 'ہسپانوی مصنفہ',
             }, 
         }, 
     }
