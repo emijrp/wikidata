@@ -56,13 +56,13 @@ def addNextClaim(repo='', item='', itemnext='', lang=''):
 
 def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenext=''):
     if repo and item and page and lang and wikisite and titleprev and titlenext:
-        print('Page: %s (%s)' % (page.title(), item.title()))
+        print('Page: %s (%s)' % (page.title().encode('utf-8'), item.title()))
         item.get()
         if titleprev:
             if not 'P155' in item.claims:
                 pageprev = pywikibot.Page(wikisite, titleprev)
                 if not pageprev.exists() or pageprev.isRedirectPage():
-                    print("Pageprev doesnt exist or is redirect: %s" % (pageprev.title()))
+                    print("Pageprev doesnt exist or is redirect: %s" % (pageprev.title().encode('utf-8')))
                 else:
                     itemprev = ''
                     try:
@@ -70,7 +70,7 @@ def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenex
                     except:
                         print("No wikidata item for pageprev")
                     if itemprev:
-                        print('Pageprev: %s (%s)' % (pageprev.title(), itemprev.title()))
+                        print('Pageprev: %s (%s)' % (pageprev.title().encode('utf-8'), itemprev.title()))
                         addPrevClaim(repo=repo, item=item, itemprev=itemprev, lang=lang)
             else:
                 print("Item has P155 (prev)")
@@ -79,7 +79,7 @@ def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenex
             if not 'P156' in item.claims:
                 pagenext = pywikibot.Page(wikisite, titlenext)
                 if not pagenext.exists() or pagenext.isRedirectPage():
-                    print("Pagenext doesnt exist or is redirect: %s" % (pagenext.title()))
+                    print("Pagenext doesnt exist or is redirect: %s" % (pagenext.title().encode('utf-8')))
                 else:
                     itemnext = ''
                     try:
@@ -87,7 +87,7 @@ def core(repo='', item='', page='', lang='', wikisite='', titleprev='', titlenex
                     except:
                         print("No wikidata item for pagenext")
                     if itemnext:
-                        print('Pagenext: %s (%s)' % (pagenext.title(), itemnext.title()))
+                        print('Pagenext: %s (%s)' % (pagenext.title().encode('utf-8'), itemnext.title()))
                         addNextClaim(repo=repo, item=item, itemnext=itemnext, lang=lang)
             else:
                 print("Item has P156 (next)")
@@ -138,7 +138,7 @@ def main():
                 print('\n==', title.encode('utf-8'), '==')
                 page = pywikibot.Page(wikisite, title)
                 if not page.exists() or page.isRedirectPage():
-                    print("Page doesnt exist or is redirect: %s" % (page.title()))
+                    print("Page doesnt exist or is redirect: %s" % (page.title().encode('utf-8')))
                     continue
                 item = pywikibot.ItemPage.fromPage(page)
                 if item:
@@ -150,7 +150,7 @@ def main():
         #cat = pywikibot.Category(wikisite, 'Category:Year by category — used with year parameter(s) equals year in page title')
         cat = pywikibot.Category(wikisite, 'Category:YearParamUsageCheck tracking categories')
         #gen = pagegenerators.SubCategoriesPageGenerator(cat)
-        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=2)
+        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=4)
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             year = ''
@@ -165,6 +165,7 @@ def main():
                 titleprev = re.sub(r'(?m)^(Category):([^\d]+ in) %s$' % (year), r'\1:\2 %s' % (year-1), page.title())
                 titlenext = re.sub(r'(?m)^(Category):([^\d]+ in) %s$' % (year), r'\1:\2 %s' % (year+1), page.title())
             else:
+                print("Not a yearly category")
                 continue
             if not year or len(str(year)) != 4:
                 print("Couldnt parse correct year from page name")
@@ -183,6 +184,40 @@ def main():
                     print("Not titleprev or titlenext")
             else:
                 print("Page doest have item")
+    
+    if method == 'all' or method == 'method3':
+        for year in range(1000, 2050):
+            prefix = '%s in ' % (year)
+            prefixprev = '%s in ' % (year-1)
+            prefixnext = '%s in ' % (year+1)
+            gen = pagegenerators.PrefixingPageGenerator(prefix, namespace=0, includeredirects=False, site=wikisite, total=None, content=False)
+            for page in gen:
+                if not page.title().startswith(prefix):
+                    break
+                if ' in science' in page.title():
+                    continue
+                print('\n==', page.title().encode('utf-8'), '==')
+                titleprev = ''
+                titlenext = ''
+                if re.findall(r'(?m)^%s([^\d]+)$' % (prefix), page.title()):
+                    titleprev = re.sub(r'(?m)^%s([^\d]+)$' % (prefix), r'%s\1' % (prefixprev), page.title())
+                    titlenext = re.sub(r'(?m)^%s([^\d]+)$' % (prefix), r'%s\1' % (prefixnext), page.title())
+                else:
+                    print("Not a yearly page")
+                    continue
+                item = ''
+                try:
+                    item = pywikibot.ItemPage.fromPage(page)
+                except:
+                    print("No wikidata item for this page")
+                    continue
+                if item:
+                    if titleprev and titlenext:
+                        core(repo=repo, item=item, page=page, lang=lang, wikisite=wikisite, titleprev=titleprev, titlenext=titlenext)
+                    else:
+                        print("Not titleprev or titlenext")
+                else:
+                    print("Page doest have item")
 
 if __name__ == "__main__":
     main()
