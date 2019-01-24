@@ -42,7 +42,8 @@ def generateTranslations(pubdate=''):
         'es': ['artículo científico'], 
         'fr': ['article scientifique'], 
         'pt': ['artigo científico'], 
-        'pt-br': ['artigo científico'], 
+        'pt-br': ['artigo científico'],
+        'ur': ['سائنسی مضمون'],
     }
     translations = {
         'ar': 'مقالة علمية',
@@ -93,6 +94,7 @@ def generateTranslations(pubdate=''):
         'tl': 'artikulong pang-agham',
         'tr': 'bilimsel makale',
         'uk': 'наукова стаття',
+        'ur': 'سائنسی مضمون',
         'vi': 'bài báo khoa học',
         'wuu': '%s年学术文章' % (pubdate.year),
         'yue': '%s年學術文章' % (pubdate.year),
