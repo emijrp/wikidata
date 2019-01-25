@@ -67,25 +67,80 @@ def genQueriesByCountry(p31='', desc='', desclang=''):
     queries = {}
     queries[desc.replace('~', 'Afghanistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Afghanistan'), desclang=desclang)
     queries[desc.replace('~', 'Angola')] = genQuery(p31=p31, desc=desc.replace('~', 'Angola'), desclang=desclang)
+    queries[desc.replace('~', 'Armenia')] = genQuery(p31=p31, desc=desc.replace('~', 'Armenia'), desclang=desclang)
     queries[desc.replace('~', 'Australia')] = genQuery(p31=p31, desc=desc.replace('~', 'Australia'), desclang=desclang)
+    queries[desc.replace('~', 'Bangladesh')] = genQuery(p31=p31, desc=desc.replace('~', 'Bangladesh'), desclang=desclang)
+    queries[desc.replace('~', 'Belarus')] = genQuery(p31=p31, desc=desc.replace('~', 'Belarus'), desclang=desclang)
+    queries[desc.replace('~', 'Belgium')] = genQuery(p31=p31, desc=desc.replace('~', 'Belgium'), desclang=desclang)
+    queries[desc.replace('~', 'Benin')] = genQuery(p31=p31, desc=desc.replace('~', 'Benin'), desclang=desclang)
     queries[desc.replace('~', 'Bolivia')] = genQuery(p31=p31, desc=desc.replace('~', 'Bolivia'), desclang=desclang)
+    queries[desc.replace('~', 'Bosnia and Herzegovina')] = genQuery(p31=p31, desc=desc.replace('~', 'Bosnia and Herzegovina'), desclang=desclang)
+    queries[desc.replace('~', 'Botswana')] = genQuery(p31=p31, desc=desc.replace('~', 'Botswana'), desclang=desclang)
     queries[desc.replace('~', 'Brazil')] = genQuery(p31=p31, desc=desc.replace('~', 'Brazil'), desclang=desclang)
+    queries[desc.replace('~', 'Brunei')] = genQuery(p31=p31, desc=desc.replace('~', 'Brunei'), desclang=desclang)
+    queries[desc.replace('~', 'Bulgaria')] = genQuery(p31=p31, desc=desc.replace('~', 'Bulgaria'), desclang=desclang)
+    queries[desc.replace('~', 'Burkina Faso')] = genQuery(p31=p31, desc=desc.replace('~', 'Burkina Faso'), desclang=desclang)
+    queries[desc.replace('~', 'Canada')] = genQuery(p31=p31, desc=desc.replace('~', 'Canada'), desclang=desclang)
+    queries[desc.replace('~', 'Chile')] = genQuery(p31=p31, desc=desc.replace('~', 'Chile'), desclang=desclang)
+    queries[desc.replace('~', 'Colombia')] = genQuery(p31=p31, desc=desc.replace('~', 'Colombia'), desclang=desclang)
+    queries[desc.replace('~', 'Croatia')] = genQuery(p31=p31, desc=desc.replace('~', 'Croatia'), desclang=desclang)
+    queries[desc.replace('~', 'Cuba')] = genQuery(p31=p31, desc=desc.replace('~', 'Cuba'), desclang=desclang)
+    queries[desc.replace('~', 'Cyprus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cyprus'), desclang=desclang)
+    queries[desc.replace('~', 'Democratic Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Democratic Republic of the Congo'), desclang=desclang)
+    queries[desc.replace('~', 'Equatorial Guinea')] = genQuery(p31=p31, desc=desc.replace('~', 'Equatorial Guinea'), desclang=desclang)
+    queries[desc.replace('~', 'Ethiopia')] = genQuery(p31=p31, desc=desc.replace('~', 'Ethiopia'), desclang=desclang)
     queries[desc.replace('~', 'Fiji')] = genQuery(p31=p31, desc=desc.replace('~', 'Fiji'), desclang=desclang)
+    queries[desc.replace('~', 'Gabon')] = genQuery(p31=p31, desc=desc.replace('~', 'Gabon'), desclang=desclang)
     queries[desc.replace('~', 'Germany')] = genQuery(p31=p31, desc=desc.replace('~', 'Germany'), desclang=desclang)
+    queries[desc.replace('~', 'Ghana')] = genQuery(p31=p31, desc=desc.replace('~', 'Ghana'), desclang=desclang)
+    queries[desc.replace('~', 'Guyana')] = genQuery(p31=p31, desc=desc.replace('~', 'Guyana'), desclang=desclang)
     queries[desc.replace('~', 'India')] = genQuery(p31=p31, desc=desc.replace('~', 'India'), desclang=desclang)
     queries[desc.replace('~', 'Indonesia')] = genQuery(p31=p31, desc=desc.replace('~', 'Indonesia'), desclang=desclang)
+    queries[desc.replace('~', 'Iran')] = genQuery(p31=p31, desc=desc.replace('~', 'Iran'), desclang=desclang)
+    queries[desc.replace('~', 'Japan')] = genQuery(p31=p31, desc=desc.replace('~', 'Japan'), desclang=desclang)
+    queries[desc.replace('~', 'Latvia')] = genQuery(p31=p31, desc=desc.replace('~', 'Latvia'), desclang=desclang)
+    queries[desc.replace('~', 'Lebanon')] = genQuery(p31=p31, desc=desc.replace('~', 'Lebanon'), desclang=desclang)
+    queries[desc.replace('~', 'Lithuania')] = genQuery(p31=p31, desc=desc.replace('~', 'Lithuania'), desclang=desclang)
+    queries[desc.replace('~', 'Malaysia')] = genQuery(p31=p31, desc=desc.replace('~', 'Malaysia'), desclang=desclang)
+    queries[desc.replace('~', 'Mexico')] = genQuery(p31=p31, desc=desc.replace('~', 'Mexico'), desclang=desclang)
+    queries[desc.replace('~', 'Mozambique')] = genQuery(p31=p31, desc=desc.replace('~', 'Mozambique'), desclang=desclang)
     queries[desc.replace('~', 'New Zealand')] = genQuery(p31=p31, desc=desc.replace('~', 'New Zealand'), desclang=desclang)
+    queries[desc.replace('~', 'North Korea')] = genQuery(p31=p31, desc=desc.replace('~', 'North Korea'), desclang=desclang)
+    queries[desc.replace('~', 'Norway')] = genQuery(p31=p31, desc=desc.replace('~', 'Norway'), desclang=desclang)
     queries[desc.replace('~', 'Pakistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Pakistan'), desclang=desclang)
+    queries[desc.replace('~', "People's Republic of China")] = genQuery(p31=p31, desc=desc.replace('~', "People's Republic of China"), desclang=desclang)
+    queries[desc.replace('~', 'Poland')] = genQuery(p31=p31, desc=desc.replace('~', 'Poland'), desclang=desclang)
+    queries[desc.replace('~', 'Portugal')] = genQuery(p31=p31, desc=desc.replace('~', 'Portugal'), desclang=desclang)
+    queries[desc.replace('~', 'Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Republic of the Congo'), desclang=desclang)
     queries[desc.replace('~', 'Romania')] = genQuery(p31=p31, desc=desc.replace('~', 'Romania'), desclang=desclang)
     queries[desc.replace('~', 'Russia')] = genQuery(p31=p31, desc=desc.replace('~', 'Russia'), desclang=desclang)
+    queries[desc.replace('~', 'Serbia')] = genQuery(p31=p31, desc=desc.replace('~', 'Serbia'), desclang=desclang)
+    queries[desc.replace('~', 'Sierra Leone')] = genQuery(p31=p31, desc=desc.replace('~', 'Sierra Leone'), desclang=desclang)
+    queries[desc.replace('~', 'Slovakia')] = genQuery(p31=p31, desc=desc.replace('~', 'Slovakia'), desclang=desclang)
+    queries[desc.replace('~', 'South Africa')] = genQuery(p31=p31, desc=desc.replace('~', 'South Africa'), desclang=desclang)
+    queries[desc.replace('~', 'South Sudan')] = genQuery(p31=p31, desc=desc.replace('~', 'South Sudan'), desclang=desclang)
+    queries[desc.replace('~', 'Spain')] = genQuery(p31=p31, desc=desc.replace('~', 'Spain'), desclang=desclang)
+    queries[desc.replace('~', 'Sweden')] = genQuery(p31=p31, desc=desc.replace('~', 'Sweden'), desclang=desclang)
+    queries[desc.replace('~', 'Taiwan')] = genQuery(p31=p31, desc=desc.replace('~', 'Taiwan'), desclang=desclang)
+    queries[desc.replace('~', 'Turkey')] = genQuery(p31=p31, desc=desc.replace('~', 'Turkey'), desclang=desclang)
     queries[desc.replace('~', 'the Central African Republic')] = genQuery(p31=p31, desc=desc.replace('~', 'the Central African Republic'), desclang=desclang)
     queries[desc.replace('~', 'the Philippines')] = genQuery(p31=p31, desc=desc.replace('~', 'the Philippines'), desclang=desclang)
-    queries[desc.replace('~', 'the United States of America')] = genQuery(p31=p31, desc=desc.replace('~', 'the United States of America'), desclang=desclang)
+    queries[desc.replace('~', 'the United Kingdom')] = genQuery(p31=p31, desc=desc.replace('~', 'the United Kingdom'), desclang=desclang)
+    queries[desc.replace('~', 'United States of America')] = genQuery(p31=p31, desc=desc.replace('~', 'United States of America'), desclang=desclang)
+    queries[desc.replace('~', 'Ukraine')] = genQuery(p31=p31, desc=desc.replace('~', 'Ukraine'), desclang=desclang)
+    queries[desc.replace('~', 'Uganda')] = genQuery(p31=p31, desc=desc.replace('~', 'Uganda'), desclang=desclang)
+    queries[desc.replace('~', 'Uruguay')] = genQuery(p31=p31, desc=desc.replace('~', 'Uruguay'), desclang=desclang)
+    queries[desc.replace('~', 'Venezuela')] = genQuery(p31=p31, desc=desc.replace('~', 'Venezuela'), desclang=desclang)
     queries[desc.replace('~', 'Vietnam')] = genQuery(p31=p31, desc=desc.replace('~', 'Vietnam'), desclang=desclang)
+    queries[desc.replace('~', 'Zambia')] = genQuery(p31=p31, desc=desc.replace('~', 'Zambia'), desclang=desclang)
     return queries
 
 def genTranslationsByCountryCore(desc='', desclang=''):
     translations = {
+        'hill in ~': { 
+            'en': 'hill in ~', 
+            'es': 'colina de ~', 
+        }, 
         'mountain in ~': { 
             'en': 'mountain in ~', 
             'es': 'montaña de ~', 
@@ -93,6 +148,10 @@ def genTranslationsByCountryCore(desc='', desclang=''):
         'river in ~': { 
             'en': 'river in ~', 
             'es': 'río de ~', 
+        }, 
+        'valley in ~': { 
+            'en': 'valley in ~', 
+            'es': 'valle de ~', 
         }, 
     }
     return translations[desc][desclang]
@@ -1952,8 +2011,10 @@ def main():
         },
     }
     autotranslations = []
+    autotranslations.append(genTranslationsByCountry(desc='hill in ~'))
     autotranslations.append(genTranslationsByCountry(desc='mountain in ~'))
     autotranslations.append(genTranslationsByCountry(desc='river in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='valley in ~'))
     for autotranslation in autotranslations:
         for k, v in autotranslation.items():
             translations[k] = v
@@ -2509,8 +2570,10 @@ def main():
         
     }
     autoqueries = []
+    autoqueries.append(genQueriesByCountry(p31='Q54050', desc='hill in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q8502', desc='mountain in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q4022', desc='river in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q39816', desc='valley in ~', desclang='en'))
     for autoquery in autoqueries:
         for k, v in autoquery.items():
             queries[k] = v
