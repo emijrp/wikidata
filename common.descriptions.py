@@ -63,6 +63,112 @@ def genQuery(p31='', desc='', desclang=''):
     ]
     return query
 
+def genQueriesByCountry(p31='', desc='', desclang=''):
+    queries = {}
+    queries[desc.replace('~', 'Afghanistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Afghanistan'), desclang=desclang)
+    queries[desc.replace('~', 'Angola')] = genQuery(p31=p31, desc=desc.replace('~', 'Angola'), desclang=desclang)
+    queries[desc.replace('~', 'Australia')] = genQuery(p31=p31, desc=desc.replace('~', 'Australia'), desclang=desclang)
+    queries[desc.replace('~', 'Bolivia')] = genQuery(p31=p31, desc=desc.replace('~', 'Bolivia'), desclang=desclang)
+    queries[desc.replace('~', 'Brazil')] = genQuery(p31=p31, desc=desc.replace('~', 'Brazil'), desclang=desclang)
+    queries[desc.replace('~', 'Fiji')] = genQuery(p31=p31, desc=desc.replace('~', 'Fiji'), desclang=desclang)
+    queries[desc.replace('~', 'Germany')] = genQuery(p31=p31, desc=desc.replace('~', 'Germany'), desclang=desclang)
+    queries[desc.replace('~', 'India')] = genQuery(p31=p31, desc=desc.replace('~', 'India'), desclang=desclang)
+    queries[desc.replace('~', 'Indonesia')] = genQuery(p31=p31, desc=desc.replace('~', 'Indonesia'), desclang=desclang)
+    queries[desc.replace('~', 'New Zealand')] = genQuery(p31=p31, desc=desc.replace('~', 'New Zealand'), desclang=desclang)
+    queries[desc.replace('~', 'Pakistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Pakistan'), desclang=desclang)
+    queries[desc.replace('~', 'Romania')] = genQuery(p31=p31, desc=desc.replace('~', 'Romania'), desclang=desclang)
+    queries[desc.replace('~', 'Russia')] = genQuery(p31=p31, desc=desc.replace('~', 'Russia'), desclang=desclang)
+    queries[desc.replace('~', 'the Central African Republic')] = genQuery(p31=p31, desc=desc.replace('~', 'the Central African Republic'), desclang=desclang)
+    queries[desc.replace('~', 'the Philippines')] = genQuery(p31=p31, desc=desc.replace('~', 'the Philippines'), desclang=desclang)
+    queries[desc.replace('~', 'the United States of America')] = genQuery(p31=p31, desc=desc.replace('~', 'the United States of America'), desclang=desclang)
+    queries[desc.replace('~', 'Vietnam')] = genQuery(p31=p31, desc=desc.replace('~', 'Vietnam'), desclang=desclang)
+    return queries
+
+def genTranslationsByCountryCore(desc='', desclang=''):
+    translations = {
+        'mountain in ~': { 
+            'en': 'mountain in ~', 
+            'es': 'montaña de ~', 
+        }, 
+        'river in ~': { 
+            'en': 'river in ~', 
+            'es': 'río de ~', 
+        }, 
+    }
+    return translations[desc][desclang]
+
+def genTranslationsByCountry(desc=''):
+    translations = {}
+    translations[desc.replace('~', 'Afghanistan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Afghanistan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Afganistán'), 
+    }
+    translations[desc.replace('~', 'Angola')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Angola'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Angola'), 
+    }
+    translations[desc.replace('~', 'Australia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'), 
+    }
+    translations[desc.replace('~', 'Bolivia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'), 
+    }
+    translations[desc.replace('~', 'Brazil')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'), 
+    }
+    translations[desc.replace('~', 'Fiji')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'), 
+    }
+    translations[desc.replace('~', 'Germany')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Alemania'), 
+    }
+    translations[desc.replace('~', 'India')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'), 
+    }
+    translations[desc.replace('~', 'India')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'), 
+    }
+    translations[desc.replace('~', 'New Zealand')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'), 
+    }
+    translations[desc.replace('~', 'Pakistan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'), 
+    }
+    translations[desc.replace('~', 'Romania')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rumanía'), 
+    }
+    translations[desc.replace('~', 'Russia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'), 
+    }
+    translations[desc.replace('~', 'the Central African Republic')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'), 
+    }
+    translations[desc.replace('~', 'the United States of America')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United States of America'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'), 
+    }
+    translations[desc.replace('~', 'the Philippines')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
+    }
+    translations[desc.replace('~', 'Vietnam')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Vietnam'), 
+    }
+    return translations
+
 def main():
     fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
         'chemical compound': {
@@ -945,75 +1051,7 @@ def main():
             'uk': 'натуральне число',
         },
         
-        'river in Afghanistan': {
-            'en': 'river in Afghanistan',
-            'es': 'río de Afganistán',
-        },
-        'river in Angola': {
-            'en': 'river in Angola',
-            'es': 'río de Angola',
-        },
-        'river in Australia': {
-            'en': 'river in Australia',
-            'es': 'río de Australia',
-        },
-        'river in Bolivia': {
-            'en': 'river in Bolivia',
-            'es': 'río de Bolivia',
-        },
-        'river in Brazil': {
-            'en': 'river in Brazil',
-            'es': 'río de Brasil',
-        },
-        'river in Fiji': {
-            'en': 'river in Fiji',
-            'es': 'río de Fiji',
-        },
-        'river in Germany': {
-            'en': 'river in Germany',
-            'es': 'río de Alemania',
-        },
-        'river in India': {
-            'en': 'river in India',
-            'es': 'río de la India',
-        },
-        'river in Indonesia': {
-            'en': 'river in Indonesia',
-            'es': 'río de Indonesia',
-        },
-        'river in New Zealand': {
-            'en': 'river in New Zealand',
-            'es': 'río de Nueva Zelanda',
-        },
-        'river in Pakistan': {
-            'en': 'river in Pakistan',
-            'es': 'río de Pakistán',
-        },
-        'river in Romania': {
-            'en': 'river in Romania',
-            'es': 'río de Rumanía',
-        },
-        'river in Russia': {
-            'en': 'river in Russia',
-            'es': 'río de Rusia',
-        },
-        'river in the Central African Republic': {
-            'en': 'river in the Central African Republic',
-            'es': 'río de República Centroafricana',
-        },
-        'river in the United States of America': {
-            'en': 'river in the United States of America',
-            'es': 'río de Estados Unidos',
-        },
-        'river in the Philippines': {
-            'en': 'river in the Philippines',
-            'es': 'río de Filipinas',
-        },
-        'river in Vietnam': {
-            'en': 'river in Vietnam',
-            'es': 'río de Vietnam',
-        },
-        
+        """
         'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
             'ar': 'مقالة علمية',
             'ast': 'artículu científicu',
@@ -1039,7 +1077,7 @@ def main():
             'ru': 'научная статья',
             'sq': 'artikull shkencor',
             'uk': 'наукова стаття',
-        }, 
+        }, """
         'species of alga': {
             'bn': 'শৈবালের প্রজাতি',
             'en': 'species of alga',
@@ -1709,6 +1747,13 @@ def main():
             'zh-hant': '年份',
         },
     }
+    autotranslations = []
+    autotranslations.append(genTranslationsByCountry(desc='mountain in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='river in ~'))
+    for autotranslation in autotranslations:
+        for k, v in autotranslation.items():
+            translations[k] = v
+    
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     querylimit = 10000
@@ -2078,24 +2123,6 @@ def main():
         
         #'natural number': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A'],
         
-        'river in Afghanistan': genQuery(p31='Q4022', desc='river in Afghanistan', desclang='en'),
-        'river in Angola': genQuery(p31='Q4022', desc='river in Angola', desclang='en'),
-        'river in Australia': genQuery(p31='Q4022', desc='river in Australia', desclang='en'),
-        'river in Bolivia': genQuery(p31='Q4022', desc='river in Bolivia', desclang='en'),
-        'river in Brazil': genQuery(p31='Q4022', desc='river in Brazil', desclang='en'),
-        'river in Fiji': genQuery(p31='Q4022', desc='river in Fiji', desclang='en'),
-        'river in Germany': genQuery(p31='Q4022', desc='river in Germany', desclang='en'),
-        'river in India': genQuery(p31='Q4022', desc='river in India', desclang='en'),
-        'river in Indonesia': genQuery(p31='Q4022', desc='river in Indonesia', desclang='en'),
-        'river in New Zealand': genQuery(p31='Q4022', desc='river in New Zealand', desclang='en'),
-        'river in Pakistan': genQuery(p31='Q4022', desc='river in Pakistan', desclang='en'),
-        'river in Romania': genQuery(p31='Q4022', desc='river in Romania', desclang='en'),
-        'river in Russia': genQuery(p31='Q4022', desc='river in Russia', desclang='en'),
-        'river in the Central African Republic': genQuery(p31='Q4022', desc='river in the Central African Republic', desclang='en'),
-        'river in the Philippines': genQuery(p31='Q4022', desc='river in the Philippines', desclang='en'),
-        'river in the United States of America': genQuery(p31='Q4022', desc='river in the United States of America', desclang='en'),
-        'river in Vietnam': genQuery(p31='Q4022', desc='river in Vietnam', desclang='en'),
-        
         #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
         'species of alga': [
@@ -2277,6 +2304,13 @@ def main():
         ],
         
     }
+    autoqueries = []
+    autoqueries.append(genQueriesByCountry(p31='Q8502', desc='mountain in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q4022', desc='river in ~', desclang='en'))
+    for autoquery in autoqueries:
+        for k, v in autoquery.items():
+            queries[k] = v
+    
     queries_list = [x for x in queries.keys()]
     queries_list.sort()
     skip = ''
