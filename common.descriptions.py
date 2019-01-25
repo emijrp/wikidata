@@ -111,17 +111,53 @@ def genTranslationsByCountry(desc=''):
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'), 
     }
+    translations[desc.replace('~', 'Bangladesh')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bangladesh'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bangladesh'), 
+    }
+    translations[desc.replace('~', 'Belgium')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belgium'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bélgica'), 
+    }
+    translations[desc.replace('~', 'Benin')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Benin'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Benín'), 
+    }
     translations[desc.replace('~', 'Bolivia')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'), 
+    }
+    translations[desc.replace('~', 'Bosnia and Herzegovina')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bosnia and Herzegovina'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bosnia y Herzegovina'), 
     }
     translations[desc.replace('~', 'Brazil')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'), 
     }
+    translations[desc.replace('~', 'Canada')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Canada'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Canadá'), 
+    }
+    translations[desc.replace('~', 'Chile')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Chile'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chile'), 
+    }
+    translations[desc.replace('~', 'Colombia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Colombia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Colombia'), 
+    }
+    translations[desc.replace('~', 'Ethiopia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ethiopia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Etiopía'), 
+    }
     translations[desc.replace('~', 'Fiji')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'), 
+    }
+    translations[desc.replace('~', 'Gabon')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Gabon'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Gabón'), 
     }
     translations[desc.replace('~', 'Germany')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'), 
@@ -131,17 +167,37 @@ def genTranslationsByCountry(desc=''):
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'), 
     }
-    translations[desc.replace('~', 'India')] = {
+    translations[desc.replace('~', 'Indonesia')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'), 
+    }
+    translations[desc.replace('~', 'Japan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Japan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Japón'), 
+    }
+    translations[desc.replace('~', 'Malaysia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Malaysia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Malasia'), 
+    }
+    translations[desc.replace('~', 'Mozambique')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mozambique'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Mozambique'), 
     }
     translations[desc.replace('~', 'New Zealand')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'), 
     }
+    translations[desc.replace('~', 'Norway')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Norway'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Noruega'), 
+    }
     translations[desc.replace('~', 'Pakistan')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'), 
+    }
+    translations[desc.replace('~', 'Republic of the Congo')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Republic of the Congo'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República del Congo'), 
     }
     translations[desc.replace('~', 'Romania')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'), 
@@ -151,17 +207,33 @@ def genTranslationsByCountry(desc=''):
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'), 
     }
+    translations[desc.replace('~', 'Spain')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Spain'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'España'), 
+    }
+    translations[desc.replace('~', 'Sweden')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sweden'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Suecia'), 
+    }
+    translations[desc.replace('~', 'Turkey')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Turkey'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Turquía'), 
+    }
     translations[desc.replace('~', 'the Central African Republic')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'), 
+    }
+    translations[desc.replace('~', 'the Philippines')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
     }
     translations[desc.replace('~', 'the United States of America')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United States of America'), 
         'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'), 
     }
-    translations[desc.replace('~', 'the Philippines')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
+    translations[desc.replace('~', 'Ukraine')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ukraine'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ucrania'), 
     }
     translations[desc.replace('~', 'Vietnam')] = {
         'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'), 
