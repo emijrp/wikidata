@@ -137,21 +137,93 @@ def genQueriesByCountry(p31='', desc='', desclang=''):
 
 def genTranslationsByCountryCore(desc='', desclang=''):
     translations = {
+        'bay in ~': { 
+            'en': 'bay in ~', 
+            'es': 'bahía de ~', 
+        }, 
+        'bight in ~': { 
+            'en': 'bight in ~', 
+            'es': 'ancón de ~', 
+        }, 
+        'cape in ~': { 
+            'en': 'cape in ~', 
+            'es': 'cabo de ~', 
+        }, 
+        'cave in ~': { 
+            'en': 'cave in ~', 
+            'es': 'cueva de ~', 
+        }, 
+        'dune in ~': { 
+            'en': 'dune in ~', 
+            'es': 'duna de ~', 
+        }, 
+        'glacier in ~': { 
+            'en': 'glacier in ~', 
+            'es': 'glaciar de ~', 
+        }, 
         'hill in ~': { 
             'en': 'hill in ~', 
             'es': 'colina de ~', 
+        }, 
+        'island in ~': { 
+            'en': 'island in ~', 
+            'es': 'isla de ~', 
+        }, 
+        'lagoon in ~': { 
+            'en': 'lagoon in ~', 
+            'es': 'laguna de ~', 
+        }, 
+        'lake in ~': { 
+            'en': 'lake in ~', 
+            'es': 'lago de ~', 
+        }, 
+        'mine in ~': { 
+            'en': 'mine in ~', 
+            'es': 'mina de ~', 
         }, 
         'mountain in ~': { 
             'en': 'mountain in ~', 
             'es': 'montaña de ~', 
         }, 
+        'plain in ~': { 
+            'en': 'plain in ~', 
+            'es': 'llanura de ~', 
+        }, 
+        'reef in ~': { 
+            'en': 'reef in ~', 
+            'es': 'arrecife de ~', 
+        }, 
+        'reservoir in ~': { 
+            'en': 'reservoir in ~', 
+            'es': 'embalse de ~', 
+        }, 
         'river in ~': { 
             'en': 'river in ~', 
             'es': 'río de ~', 
         }, 
+        'road in ~': { 
+            'en': 'road in ~', 
+            'es': 'carretera de ~', 
+        }, 
+        'spring in ~': { 
+            'en': 'spring in ~', 
+            'es': 'manantial de ~', 
+        }, 
+        'stream in ~': { 
+            'en': 'stream in ~', 
+            'es': 'arroyo de ~', 
+        }, 
+        'swamp in ~': { 
+            'en': 'swamp in ~', 
+            'es': 'pantano de ~', 
+        }, 
         'valley in ~': { 
             'en': 'valley in ~', 
             'es': 'valle de ~', 
+        }, 
+        'watercourse in ~': { 
+            'en': 'watercourse in ~', 
+            'es': 'curso de agua de ~', 
         }, 
     }
     return translations[desc][desclang]
@@ -758,6 +830,10 @@ def main():
             'uk': 'енциклопедична стаття',
             'zh': '条目',
             'zh-hans': '百科全书条目',
+        }, 
+        'entry in Dictionary of National Biography': {
+            'en': 'entry in Dictionary of National Biography',
+            'es': 'entrada del Dictionary of National Biography',
         }, 
         'extrasolar planet': {
             'af': 'eksoplaneet',
@@ -2011,10 +2087,28 @@ def main():
         },
     }
     autotranslations = []
+    autotranslations.append(genTranslationsByCountry(desc='bay in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='bight in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='cape in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='cave in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='dune in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='glacier in ~'))
     autotranslations.append(genTranslationsByCountry(desc='hill in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='island in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='lagoon in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='lake in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='mine in ~'))
     autotranslations.append(genTranslationsByCountry(desc='mountain in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='plain in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='reef in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='reservoir in ~'))
     autotranslations.append(genTranslationsByCountry(desc='river in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='road in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='spring in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='stream in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='swamp in ~'))
     autotranslations.append(genTranslationsByCountry(desc='valley in ~'))
+    autotranslations.append(genTranslationsByCountry(desc='watercourse in ~'))
     for autotranslation in autotranslations:
         for k, v in autotranslation.items():
             translations[k] = v
@@ -2080,6 +2174,21 @@ def main():
         LIMIT %s
         OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(0, 500000, querylimit)
+        ],
+        
+        'entry in Dictionary of National Biography': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q19389637 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "entry in Dictionary of National Biography"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 50000, querylimit)
         ],
         
         'extrasolar planet': [
@@ -2570,10 +2679,28 @@ def main():
         
     }
     autoqueries = []
+    autoqueries.append(genQueriesByCountry(p31='Q39594', desc='bay in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q17018380', desc='bight in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q185113', desc='cape in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q35509', desc='cave in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q25391', desc='dune in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q35666', desc='glacier in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q54050', desc='hill in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q23442', desc='island in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q187223', desc='lagoon in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q23397', desc='lake in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q820477', desc='mine in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q8502', desc='mountain in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q160091', desc='plain in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q184358', desc='reef in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q131681', desc='reservoir in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q4022', desc='river in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q34442', desc='road in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q124714', desc='spring in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q47521', desc='stream in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q166735', desc='swamp in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q39816', desc='valley in ~', desclang='en'))
+    autoqueries.append(genQueriesByCountry(p31='Q355304', desc='watercourse in ~', desclang='en'))
     for autoquery in autoqueries:
         for k, v in autoquery.items():
             queries[k] = v
