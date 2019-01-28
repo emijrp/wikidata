@@ -30,7 +30,7 @@ def addImportedFrom(repo='', claim='', lang=''):
         importedfrom = pywikibot.Claim(repo, 'P143') #imported from
         importedwp = pywikibot.ItemPage(repo, langs[lang])
         importedfrom.setTarget(importedwp)
-        claim.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[Q328]]')
+        claim.addSource(importedfrom, summary='BOT - Adding 1 reference: [[Property:P143]]: [[%s]]' % (langs[lang]))
 
 def addHumanClaim(repo='', item='', lang=''):
     if repo and item and lang:
