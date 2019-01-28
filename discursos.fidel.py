@@ -41,7 +41,7 @@ def addReference(repo='', claim='', ref=''):
 
 def addClaim(repo='', item='', claim='', value='', valuelang='', ref=''):
     if repo and item and claim and value:
-        print("Adding claim", claim, "value", value)
+        print("Adding claim", claim, "value", value.encode('utf-8'))
         claimx = pywikibot.Claim(repo, claim)
         if re.search(r'\d\d\d\d-\d\d-\d\d', value):
             target = pywikibot.WbTime(year=int(value.split('-')[0]), month=int(value.split('-')[1]), day=int(value.split('-')[2]))
@@ -63,10 +63,11 @@ def main():
     raw = urllib.request.urlopen(url).read()
     raw = raw.decode('latin-1')
     raw = re.sub(r'(?im)\n', ' ', raw)
-    discursos = re.findall(r'(?im)(Discurso pronunciado [^<>]+).*?(\d\d\d\d/esp/[^"]+?\.html)"', raw)
+    discursos = re.findall(r'(?im)(Discurso\s+pronun[^<>]+).*?(\d\d\d\d/esp/[^"]+?\.html)"', raw)
     for discurso in discursos:
         titulo = re.sub(r'(?im)\s+', ' ', discurso[0]).strip().strip('(').strip().strip('.')
         titulo = unquote(s=titulo)
+        titulo = titulo.strip().strip('.').strip()
         titulo = titulo[:250]
         enlace = discurso[1].strip()
         fecha = re.findall(r'(?im)(\d\d)(\d\d)(\d\d)', enlace.split('/')[2])[0]
@@ -75,9 +76,9 @@ def main():
             fecha = '19' + fecha
         else:
             fecha = '20' + fecha
-        if fecha[:4] != '1959':
+        if fecha[:4] != sys.argv[1]:
             continue
-        print(titulo, enlace, fecha)
+        print(titulo.encode('utf-8'), enlace, fecha)
         
         searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=es&format=xml' % (urllib.parse.quote(titulo))
         raw = getURL(searchitemurl)
