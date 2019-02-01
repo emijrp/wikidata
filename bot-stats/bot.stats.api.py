@@ -57,8 +57,11 @@ def main():
     uccontinue = True
     uccontinue_name = 'uccontinue'
     total = 0
+    edits = []
     while uccontinue:
-        edits = []
+        if len(edits) > 10000:
+            saveEdits(nick=nick, path=path, edits=edits)
+            edits = []
         if uccontinue == True:
             json_data = urllib.request.urlopen(api+apiquery)
         else:
@@ -83,10 +86,11 @@ def main():
                 uccontinue = data['continue'][uccontinue_name]
             else:
                 uccontinue = ''
-        saveEdits(nick=nick, path=path, edits=edits)
         print('%s edits' % (total))
         #if total >= 20000:
         #    break
+    saveEdits(nick=nick, path=path, edits=edits)
+    edits = []
     
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
     if os.path.exists('%s/%s-edits.csv' % (path, nick)):
