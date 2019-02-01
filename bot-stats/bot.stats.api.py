@@ -59,13 +59,21 @@ def main():
     total = 0
     edits = []
     while uccontinue:
-        if len(edits) > 10000:
+        if len(edits) >= 10000:
             saveEdits(nick=nick, path=path, edits=edits)
             edits = []
         if uccontinue == True:
             json_data = urllib.request.urlopen(api+apiquery)
         else:
-            json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
+            try:
+                json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
+            except:
+                time.sleep(10)
+                try:
+                    json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
+                except:
+                    uccontinue = ''
+                    break
         data = json.loads(json_data.readall().decode('utf-8'))
         for edit in data['query']['usercontribs']:
             if edit['revid'] == lasteditid:
@@ -87,9 +95,9 @@ def main():
             else:
                 uccontinue = ''
         print('%s edits' % (total))
-        #if total >= 20000:
-        #    break
-    saveEdits(nick=nick, path=path, edits=edits)
+    print('%s edits. Finished' % (total))
+    if edits:
+        saveEdits(nick=nick, path=path, edits=edits)
     edits = []
     
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
@@ -113,7 +121,8 @@ def main():
                 m = re.findall(r"(?i)BOT - Creating item", comment)
                 stats['items'] += m and 1 or 0
                 stats['edits'] += 1
-    
+                if stats['edits'] % 1000 == 0:
+                    print('%s edits analysed' % (stats['edits']))
     output = """{| class="wikitable sortable plainlinks" style="text-align: center;"
 |-
 | '''Edits''' || [[Special:Contributions/Emijrpbot|{{formatnum:%s}}]]
