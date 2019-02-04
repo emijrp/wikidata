@@ -515,6 +515,9 @@ def main():
         'species of insect': {
             'sq': ['specie e insekteve'], #https://github.com/emijrp/wikidata/pull/47
         },
+        'television series': {
+            'es': ['television series'], #https://www.wikidata.org/w/index.php?title=Q1043980&oldid=837349507
+        },
         'village in China': {
             'bn': ['চীনের গ্রাম'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=prev&oldid=510797889
             'fi': ['kiinalainen kylä'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=468197059&oldid=463649230
@@ -903,6 +906,16 @@ def main():
             'io': 'familio di planti',
             'ro': 'familie de plante',
         }, 
+        'galaxy': {
+            'ast': 'galaxa',
+            'ca': 'galàxia',
+            'en': 'galaxia',
+            'eo': 'galaksio',
+            'es': 'galaxy',
+            'fr': 'galaxie',
+            'gl': 'galaxia',
+            'pt': 'galáxia',
+        },
         'genus of algae': {
             'ar': 'جنس من الطحالب',
             'bn': 'শৈবালের গণ',
@@ -1389,34 +1402,6 @@ def main():
             'sq': 'numër natyror',
             'uk': 'натуральне число',
         },
-        
-        """
-        'scientific article': { # hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
-            'ar': 'مقالة علمية',
-            'ast': 'artículu científicu',
-            'bn': 'বৈজ্ঞানিক নিবন্ধ',
-            'ca': 'article científic',
-            'en': 'scientific article',
-            'eo': 'scienca artikolo',
-            'es': 'artículo científico',
-            'et': 'teaduslik artikkel',
-            'fr': 'article scientifique',
-            'fy': 'wittenskiplik artikel',
-            'he': 'מאמר מדעי',
-            'gl': 'artigo científico',
-            'id': 'artikel ilmiah',
-            'io': 'ciencala artiklo',
-            'it': 'articolo scientifico',
-            'nb': 'vitenskapelig artikkel',
-            'nl': 'wetenschappelijk artikel',
-            'nn': 'vitskapeleg artikkel',
-            'pt': 'artigo científico',
-            'pt-br': 'artigo científico',
-            'ro': 'articol științific',
-            'ru': 'научная статья',
-            'sq': 'artikull shkencor',
-            'uk': 'наукова стаття',
-        }, """
         'species of alga': {
             'bn': 'শৈবালের প্রজাতি',
             'en': 'species of alga',
@@ -1508,6 +1493,15 @@ def main():
             'ro': 'specie de plante',
             'ru': 'вид растений',
             'sq': 'lloj i bimëve',
+        },
+        'television series': {
+            'ca': 'sèrie de televisió',
+            'en': 'television series',
+            'eo': 'televida serio',
+            'es': 'serie de televisión',
+            'fr': 'série télévisée',
+            'hu': 'televíziós sorozat',
+            'it': 'serie televisiva',
         },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
@@ -2290,6 +2284,19 @@ def main():
         """
         ], 
         
+        'galaxy': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q318 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "galaxy"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
         'genus of algae': [
         """
         SELECT ?item
@@ -2585,6 +2592,21 @@ def main():
         LIMIT %s
         OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(0, 600000, querylimit)    
+        ], 
+        
+        'television series': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q5398426 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "television series"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 100000, querylimit)    
         ], 
         
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
