@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import random
 import re
 import sys
 import time
@@ -2615,12 +2616,17 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q4167836.
-            ?item schema:description "Wikimedia category"@en.
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q4167836 .
+                bd:serviceParam bd:sample.limit %s .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+        ?item schema:description "Wikimedia category"@en.
+        OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").  }
+        FILTER (!BOUND(?itemDescription))
         }
-        LIMIT %s
-        OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 5000000, querylimit)
+        #random%s
+        """ % (str(querylimit+i), random.choice(list(translations['Wikimedia category'].keys())), random.randint(1,1000000)) for i in range(1, 10000)
         ],
         
         'Wikimedia disambiguation page': [
