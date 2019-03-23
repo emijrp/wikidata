@@ -2930,6 +2930,10 @@ def main():
     #translations https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5.%0A%20%20%20%20%3Fitem%20wdt%3AP106%20wd%3AQ28389.%0A%20%20%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22gl%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
     #https://query.wikidata.org/#SELECT%20%3FitemDescription%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%0A%20%20%20%20%3Fitem%20wdt%3AP27%20wd%3AQ142%20.%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER%28LANG%28%3FitemDescription%29%20%3D%20%22en%22%29.%20%20%7D%0A%09FILTER%20%28BOUND%28%3FitemDescription%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescription%0AORDER%20BY%20DESC%28%3Fcount%29
     translationsOccupations = {
+        '~ academic': {
+            'en': { 'male': '~ academic', 'female': '~ academic' },
+            'es': { 'male': 'académico ~', 'female': 'académica ~' },
+        },
         '~ actor': {
             'ar': { 'male': 'ممثل ~', 'female': 'ممثلة ~' },
             'bn': { 'male': '~ অভিনেতা', 'female': '~ অভিনেত্রী' },
@@ -2942,6 +2946,18 @@ def main():
             'he': { 'male': 'שחקן ~', 'female': 'שחקנית ~' },
             'ro': { 'male': 'actor ~', 'female': 'actriță ~' },
             'sq': { 'male': 'aktor ~', 'female': 'aktore ~' },
+        },
+        '~ alpine skier': {
+            'en': { 'male': '~ alpine skier', 'female': '~ alpine skier' },
+            'es': { 'male': 'esquiador alpino ~', 'female': 'esquiadora alpina ~' },
+        },
+        '~ anthropologist': {
+            'en': { 'male': '~ anthropologist', 'female': '~ anthropologist' },
+            'es': { 'male': 'antropólogo ~', 'female': 'antropóloga ~' },
+        },
+        '~ archaeologist': {
+            'en': { 'male': '~ archaeologist', 'female': '~ archaeologist' },
+            'es': { 'male': 'arqueólogo ~', 'female': 'arqueóloga ~' },
         },
         '~ architect': {
             'ar': { 'male': 'مهندس معماري ~', 'female': 'مهندسة معمارية ~' },
@@ -3047,6 +3063,10 @@ def main():
             'ro': { 'male': 'atlet ~', 'female': 'atletă ~' },
             'sq': { 'male': 'atlet ~', 'female': 'atlet ~' },
         },
+        '~ basketball coach': {
+            'en': { 'male': '~ basketball coach', 'female': '~ basketball coach' },
+            'es': { 'male': 'entrenador de baloncesto ~', 'female': 'entrenadora de baloncesto ~' },
+        },
         '~ basketball player': {
             'ar': { 'male': 'لاعب كرة سلة ~', 'female': 'لاعبة كرة سلة ~' },
             'bn': { 'male': '~ বাস্কেটবল খেলোয়াড়', 'female': '~ বাস্কেটবল খেলোয়াড়' },
@@ -3059,6 +3079,31 @@ def main():
             'he': { 'male': 'שחקן כדורסל ~', 'female': 'שחקנית כדורסל ~' },
             'ro': { 'male': 'baschetbalist ~', 'female': 'baschetbalistă ~' },
             'sq': { 'male': 'basketbollist ~', 'female': 'basketbolliste ~' },
+        },
+        '~ biathlete': {
+            'en': { 'male': '~ biathlete', 'female': '~ biathlete' },
+            'es': { 'male': 'biatleta ~', 'female': 'biatleta ~' },
+        },
+        '~ bicycle racer': { #it should be the same as cyclist
+            'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' },
+            'bn': { 'male': '~ বাইসাইকেল প্রতিযোগী', 'female': '~ বাইসাইকেল প্রতিযোগী' },
+            'ca': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
+            'en': { 'male': '~ bicycle racer', 'female': '~ bicycle racer' },
+            'es': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
+            'et': { 'male': '~ jalgrattur', 'female': '~ jalgrattur' },
+            'fr': { 'male': 'cycliste ~', 'female': 'cycliste ~' },
+            'gl': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
+            'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' },
+            'ro': { 'male': 'ciclist ~', 'female': 'ciclistă ~' },
+            'sq': { 'male': 'çiklist ~', 'female': 'çikliste ~' },
+        },
+        '~ biologist': {
+            'en': { 'male': '~ biologist', 'female': '~ biologist' },
+            'es': { 'male': 'biólogo ~', 'female': 'bióloga ~' },
+        },
+        '~ bishop': {
+            'en': { 'male': '~ bishop', 'female': '~ bishop' },
+            'es': { 'male': 'obispo ~', 'female': 'obispo ~' },
         },
         '~ botanist': {
             'ar': { 'male': 'عالم نبات ~', 'female': 'عالمة نبات ~' },
@@ -3073,18 +3118,9 @@ def main():
             'ro': { 'male': 'botanist ~', 'female': 'botanistă ~' },
             'sq': { 'male': 'botanist ~', 'female': 'botaniste ~' },
         },
-        '~ bicycle racer': { #it should be the same as cyclist
-            'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' },
-            'bn': { 'male': '~ বাইসাইকেল প্রতিযোগী', 'female': '~ বাইসাইকেল প্রতিযোগী' },
-            'ca': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
-            'en': { 'male': '~ bicycle racer', 'female': '~ bicycle racer' },
-            'es': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
-            'et': { 'male': '~ jalgrattur', 'female': '~ jalgrattur' },
-            'fr': { 'male': 'cycliste ~', 'female': 'cycliste ~' },
-            'gl': { 'male': 'ciclista ~', 'female': 'ciclista ~' },
-            'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' },
-            'ro': { 'male': 'ciclist ~', 'female': 'ciclistă ~' },
-            'sq': { 'male': 'çiklist ~', 'female': 'çikliste ~' },
+        '~ boxer': {
+            'en': { 'male': '~ boxer', 'female': '~ boxer' },
+            'es': { 'male': 'boxeador ~', 'female': 'boxeadora ~' },
         },
         '~ businessperson': {
             'ar': { 'male': 'رجل أعمال ~', 'female': 'سيدة أعمال ~' },
@@ -3124,6 +3160,14 @@ def main():
             'he': { 'male': 'כומר קתולי ~', 'female': 'כומרה קתולית ~' },
             'ro': { 'male': 'preot catolic ~', 'female': 'preot catolic ~' },
             'sq': { 'male': 'prift katolik ~', 'female': 'priftëreshë katolike ~' },
+        },
+        '~ caricaturist': {
+            'en': { 'male': '~ caricaturist', 'female': '~ caricaturist' },
+            'es': { 'male': 'caricaturista ~', 'female': 'caricaturista ~' },
+        },
+        '~ chef': {
+            'en': { 'male': '~ chef', 'female': '~ chef' },
+            'es': { 'male': 'chef ~', 'female': 'chef ~' },
         },
         '~ chemist': {
             'ar': { 'male': 'كيميائي ~', 'female': 'كيميائية ~' },
@@ -3242,6 +3286,10 @@ def main():
             'ro': { 'male': 'inginer ~', 'female': 'ingineră ~' },
             'sq': { 'male': 'inxhinier ~', 'female': 'inxhiniere ~' },
         },
+        '~ engraver': {
+            'en': { 'male': '~ engraver', 'female': '~ engraver' },
+            'es': { 'male': 'grabador ~', 'female': 'grabadora ~' },
+        },
         '~ entomologist': {
             'ar': { 'male': 'عالم حشرات ~', 'female': 'عالمة حشرات ~' },
             'bn': { 'male': '~ পতঙ্গবিশারদ', 'female': '~ পতঙ্গবিশারদ' },
@@ -3254,6 +3302,10 @@ def main():
             'he': { 'male': 'אנטומולוג ~', 'female': 'אנטומולוגית ~' },
             'ro': { 'male': 'entomolog ~', 'female': 'entomologă ~' },
             'sq': { 'male': 'entomolog ~', 'female': 'entomologe ~' },
+        },
+        '~ Esperantist': {
+            'en': { 'male': '~ Esperantist', 'female': '~ Esperantist' },
+            'es': { 'male': 'esperantista ~', 'female': 'esperantista ~' },
         },
         '~ explorer': {
             'ar': { 'male': 'مستكشف ~', 'female': 'مستكشفة ~' },
@@ -3294,6 +3346,10 @@ def main():
             'ro': { 'male': 'actor ~', 'female': 'actriță ~' },
             'sq': { 'male': 'aktor ~', 'female': 'aktore ~' },
         },
+        '~ film critic': {
+            'en': { 'male': '~ film critic', 'female': '~ film critic' },
+            'es': { 'male': 'crítico de cine ~', 'female': 'crítica de cine ~' },
+        },
         '~ film director': {
             'ar': { 'male': 'مخرج أفلام ~', 'female': 'مخرجة أفلام ~' },
             'bn': { 'male': '~ চলচ্চিত্র পরিচালক', 'female': '~ চলচ্চিত্র পরিচালিকা' },
@@ -3320,6 +3376,10 @@ def main():
             'ro': { 'male': 'producător de film ~', 'female': 'producătoare de film ~' },
             'sq': { 'male': 'prodhues filmash ~', 'female': 'prodhuese filmash ~' },
         },
+        '~ flying ace': {
+            'en': { 'male': '~ flying ace', 'female': '~ flying ace' },
+            'es': { 'male': 'as de la aviación ~', 'female': 'as de la aviación ~' },
+        },
         '~ footballer': {
             'ar': { 'male': 'لاعب كرة قدم ~', 'female': 'لاعبة كرة قدم ~' },
             'bn': { 'male': '~ ফুটবলার', 'female': '~ ফুটবলার' },
@@ -3332,6 +3392,18 @@ def main():
             'he': { 'male': 'כדורגלן ~', 'female': 'כדורגלנית ~' },
             'ro': { 'male': 'fotbalist ~', 'female': 'fotbalistă ~' },
             'sq': { 'male': 'futbollist ~', 'female': 'futbolliste ~' },
+        },
+        '~ geologist': {
+            'en': { 'male': '~ geologist', 'female': '~ geologist' },
+            'es': { 'male': 'geólogo ~', 'female': 'geóloga ~' },
+        },
+        '~ geographer': {
+            'en': { 'male': '~ geographer', 'female': '~ geographer' },
+            'es': { 'male': 'geógrafo ~', 'female': 'geógrafa ~' },
+        },
+        '~ guitarist': {
+            'en': { 'male': '~ guitarist', 'female': '~ guitarist' },
+            'es': { 'male': 'guitarrista ~', 'female': 'guitarrista ~' },
         },
         '~ historian': {
             'ar': { 'male': 'مؤرخ ~', 'female': 'مؤرخة ~' },
@@ -3372,6 +3444,10 @@ def main():
             'ro': { 'male': 'jurnalist ~', 'female': 'jurnalistă ~' },
             'sq': { 'male': 'gazetar ~', 'female': 'gazetare ~' },
         },
+        '~ judoka': {
+            'en': { 'male': '~ judoka', 'female': '~ judoka' },
+            'es': { 'male': 'yudoca ~', 'female': 'yudoca ~' },
+        },
         '~ jurist': {
             'ar': { 'male': 'حقوقي ~', 'female': 'حقوقية ~' },
             'bn': { 'male': '~ বিচারক', 'female': '~ বিচারক' },
@@ -3398,6 +3474,18 @@ def main():
             'ro': { 'male': 'avocat ~', 'female': 'avocată ~' },
             'sq': { 'male': 'avokat ~', 'female': 'avokate ~' },
         },
+        '~ librarian': {
+            'en': { 'male': '~ librarian', 'female': '~ librarian' },
+            'es': { 'male': 'bibliotecario ~', 'female': 'bibliotecaria ~' },
+        },
+        '~ linguist': {
+            'en': { 'male': '~ linguist', 'female': '~ linguist' },
+            'es': { 'male': 'lingüista ~', 'female': 'lingüista ~' },
+        },
+        '~ literary critic': {
+            'en': { 'male': '~ literary critic', 'female': '~ literary critic' },
+            'es': { 'male': 'crítico literario ~', 'female': 'crítica literaria ~' },
+        },
         '~ mathematician': {
             'ar': { 'male': 'رياضياتي ~', 'female': 'رياضياتية ~' },
             'bn': { 'male': '~ গণিতবিদ', 'female': '~ গণিতবিদ' },
@@ -3410,6 +3498,14 @@ def main():
             'he': { 'male': 'מתמטיקאי ~', 'female': 'מתמטיקאית ~' },
             'ro': { 'male': 'matematician ~', 'female': 'matematiciană ~' },
             'sq': { 'male': 'matematikan ~', 'female': 'matematikane ~' },
+        },
+        '~ missionary': {
+            'en': { 'male': '~ missionary', 'female': '~ missionary' },
+            'es': { 'male': 'misionero ~', 'female': 'misionera ~' },
+        },
+        '~ motorcycle racer': {
+            'en': { 'male': '~ motorcycle racer', 'female': '~ motorcycle racer' },
+            'es': { 'male': 'piloto de motociclismo ~', 'female': 'piloto de motociclismo ~' },
         },
         '~ musician': {
             'ar': { 'male': 'موسيقي ~', 'female': 'موسيقية ~' },
@@ -3424,6 +3520,10 @@ def main():
             'ro': { 'male': 'muzician ~', 'female': 'muziciană ~' },
             'sq': { 'male': 'muzikant ~', 'female': 'muzikante ~' },
         },
+        '~ musicologist': {
+            'en': { 'male': '~ musicologist', 'female': '~ musicologist' },
+            'es': { 'male': 'musicólogo ~', 'female': 'musicóloga ~' },
+        },
         '~ novelist': {
             'ar': { 'male': 'روائي ~', 'female': 'روائية ~' },
             'bn': { 'male': '~ ঔপন্যাসিক', 'female': '~ ঔপন্যাসিক' },
@@ -3436,6 +3536,14 @@ def main():
             'he': { 'male': 'מחבר רומנים ~', 'female': 'מחברת רומנים ~' },
             'ro': { 'male': 'romancier ~', 'female': 'romancieră ~' },
             'sq': { 'male': 'novelist ~', 'female': 'noveliste ~' },
+        },
+        '~ oncologist': {
+            'en': { 'male': '~ oncologist', 'female': '~ oncologist' },
+            'es': { 'male': 'oncólogo ~', 'female': 'oncóloga ~' },
+        },
+        '~ opera singer': {
+            'en': { 'male': '~ opera singer', 'female': '~ opera singer' },
+            'es': { 'male': 'cantante de ópera ~', 'female': 'cantante de ópera ~' },
         },
         '~ painter': {
             'ar': { 'male': 'رسام ~', 'female': 'رسامة ~' },
@@ -3541,6 +3649,10 @@ def main():
             'ro': { 'male': 'poet ~', 'female': 'poetă ~' },
             'sq': { 'male': 'poet ~', 'female': 'poete ~' },
         },
+        '~ political scientist': {
+            'en': { 'male': '~ political scientist', 'female': '~ political scientist' },
+            'es': { 'male': 'politólogo ~', 'female': 'politóloga ~' },
+        },
         '~ politician': {
             'ar': { 'male': 'سياسي ~', 'female': 'سياسية ~' },
             'bn': { 'male': '~ রাজনীতিবিদ', 'female': '~ রাজনীতিবিদ' },
@@ -3553,6 +3665,10 @@ def main():
             'he': { 'male': 'פוליטיקאי ~', 'female': 'פוליטיקאית ~' },
             'ro': { 'male': 'politician ~', 'female': 'politiciană ~' },
             'sq': { 'male': 'politikan ~', 'female': 'politikane ~' },
+        },
+        '~ psychiatrist': {
+            'en': { 'male': '~ psychiatrist', 'female': '~ psychiatrist' },
+            'es': { 'male': 'psiquiatra ~', 'female': 'psiquiatra ~' },
         },
         '~ publisher': {
             'ar': { 'male': 'ناشر ~', 'female': 'ناشرة ~' },
@@ -3580,6 +3696,22 @@ def main():
             'ro': { 'male': 'rabin ~', 'female': 'rabină ~' },
             'sq': { 'male': 'rabin ~', 'female': 'rabine ~' },
         },
+        '~ racing driver': {
+            'en': { 'male': '~ racing driver', 'female': '~ racing driver' },
+            'es': { 'male': 'piloto de automovilismo ~', 'female': 'piloto de automovilismo ~' },
+        },
+        '~ rally driver': {
+            'en': { 'male': '~ rally driver', 'female': '~ rally driver' },
+            'es': { 'male': 'piloto de rally ~', 'female': 'piloto de rally ~' },
+        },
+        '~ rapper': {
+            'en': { 'male': '~ rapper', 'female': '~ rapper' },
+            'es': { 'male': 'rapero ~', 'female': 'rapera ~' },
+        },
+        '~ rower': {
+            'en': { 'male': '~ rower', 'female': '~ rower' },
+            'es': { 'male': 'remero ~', 'female': 'remera ~' },
+        },
         '~ rugby union player': {
             'ar': { 'male': 'لاعب رغبي ~', 'female': 'لاعبة رغبي ~' },
             'bn': { 'male': '~ রাগবি ইউনিয়ন খেলোয়াড়', 'female': '~ রাগবি ইউনিয়ন খেলোয়াড়' },
@@ -3592,6 +3724,10 @@ def main():
             'he': { 'male': 'שחקן רוגבי יוניון ~', 'female': 'שחקנית רוגבי יוניון ~' },
             'ro': { 'male': 'rugbist ~', 'female': 'rugbistă ~' },
             'sq': { 'male': 'lojtar rugby ~', 'female': 'lojtare rugby ~' },
+        },
+        '~ scientist': {
+            'en': { 'male': '~ scientist', 'female': '~ scientist' },
+            'es': { 'male': 'científico ~', 'female': 'científica ~' },
         },
         '~ screenwriter': {
             'ar': { 'male': 'كاتب سيناريو ~', 'female': 'كاتبة سيناريو ~' },
@@ -3632,6 +3768,14 @@ def main():
             'ro': { 'male': 'cântăreț ~', 'female': 'cântăreață ~' },
             'sq': { 'male': 'këngëtar ~', 'female': 'këngëtare ~' },
         },
+        '~ singer-songwriter': {
+            'en': { 'male': '~ singer-songwriter', 'female': '~ singer-songwriter' },
+            'es': { 'male': 'cantautor ~', 'female': 'cantautora ~' },
+        },
+        '~ ski jumper': {
+            'en': { 'male': '~ ski jumper', 'female': '~ ski jumper' },
+            'es': { 'male': 'saltador de esquí ~', 'female': 'saltadora de esquí ~' },
+        },
         '~ sociologist': {
             'ar': { 'male': 'عالم اجتماع ~', 'female': 'عالمة اجتماع ~' },
             'bn': { 'male': '~ সমাজবিজ্ঞানী', 'female': '~ সমাজবিজ্ঞানী' },
@@ -3658,6 +3802,10 @@ def main():
             'ro': { 'male': 'soldat ~', 'female': 'femeie soldat ~' },
             'sq': { 'male': 'ushtar ~', 'female': 'ushtare ~' },
         },
+        '~ speleologist': {
+            'en': { 'male': '~ speleologist', 'female': '~ speleologist' },
+            'es': { 'male': 'espeleólogo ~', 'female': 'espeleóloga ~' },
+        },
         '~ sport cyclist': { #it should be the same as cyclist
             'ar': { 'male': 'دراج ~', 'female': 'دراجة ~' },
             'bn': { 'male': '~ সাইক্লিস্ট', 'female': '~ সাইক্লিস্ট' },
@@ -3670,6 +3818,14 @@ def main():
             'he': { 'male': 'רוכב אופניים ~', 'female': 'רוכבת אופניים ~' },
             'ro': { 'male': 'ciclist ~', 'female': 'ciclistă ~' },
             'sq': { 'male': 'çiklist ~', 'female': 'çikliste ~' },
+        },
+        '~ spy': {
+            'en': { 'male': '~ spy', 'female': '~ spy' },
+            'es': { 'male': 'espía ~', 'female': 'espía ~' },
+        },
+        '~ surgeon': {
+            'en': { 'male': '~ surgeon', 'female': '~ surgeon' },
+            'es': { 'male': 'cirujano ~', 'female': 'cirujana ~' },
         },
         '~ swimmer': {
             'ar': { 'male': 'سباح ~', 'female': 'سباحة ~' },
@@ -3697,6 +3853,22 @@ def main():
             'ro': { 'male': 'jucător de tenis ~', 'female': 'jucătoare de tenis ~' },
             'sq': { 'male': 'lojtar tenisi ~', 'female': 'lojtare tenisi ~' },
         },
+        '~ theatre director': {
+            'en': { 'male': '~ theatre director', 'female': '~ theatre director' },
+            'es': { 'male': 'director de teatro ~', 'female': 'directora de teatro ~' },
+        },
+        '~ theologian': {
+            'en': { 'male': '~ theologian', 'female': '~ theologian' },
+            'es': { 'male': 'teólogo ~', 'female': 'teóloga ~' },
+        },
+        '~ trade unionist': {
+            'en': { 'male': '~ trade unionist', 'female': '~ trade unionist' },
+            'es': { 'male': 'sindicalista ~', 'female': 'sindicalista ~' },
+        },
+        '~ troubadour': {
+            'en': { 'male': '~ troubadour', 'female': '~ troubadour' },
+            'es': { 'male': 'trovador ~', 'female': 'trovadora ~' },
+        },
         '~ university teacher': {
             'ar': { 'male': "أستاذ جامعي ~", 'female': "أستاذة جامعية ~" },
             'bn': { 'male': '~ বিশ্ববিদ্যালয়ের শিক্ষক', 'female': '~ বিশ্ববিদ্যালয়ের শিক্ষিকা' },
@@ -3722,6 +3894,10 @@ def main():
             'he': { 'male': 'סופר ~', 'female': 'סופרת ~' },
             'ro': { 'male': 'scriitor ~', 'female': 'scriitoare ~' },
             'sq': { 'male': 'shkrimtar ~', 'female': 'shkrimtare ~' },
+        },
+        '~ zoologist': {
+            'en': { 'male': '~ zoologist', 'female': '~ zoologist' },
+            'es': { 'male': 'zoólogo ~', 'female': 'zoóloga ~' },
         },
     }
     """
