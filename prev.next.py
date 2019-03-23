@@ -148,9 +148,10 @@ def main():
     
     if method == 'all' or method == 'method2':
         #cat = pywikibot.Category(wikisite, 'Category:Year by category — used with year parameter(s) equals year in page title')
-        cat = pywikibot.Category(wikisite, 'Category:YearParamUsageCheck tracking categories')
+        #cat = pywikibot.Category(wikisite, 'Category:YearParamUsageCheck tracking categories')
+        cat = pywikibot.Category(wikisite, 'Category:Categories by year')
         #gen = pagegenerators.SubCategoriesPageGenerator(cat)
-        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=4)
+        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             year = ''
