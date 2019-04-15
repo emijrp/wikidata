@@ -30,15 +30,15 @@ def removeAccents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
 
-def getURL(url=''):
+def getURL(url='', retry=True):
     raw = ''
-    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0' })
+    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
     try:
         raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
     except:
         sleep = 10 # seconds
-        maxsleep = 100
-        while sleep <= maxsleep:
+        maxsleep = 900
+        while retry and sleep <= maxsleep:
             print('Error while retrieving: %s' % (url))
             print('Retry in %s seconds...' % (sleep))
             time.sleep(sleep)
