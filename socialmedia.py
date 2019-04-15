@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import random
 import re
 import sys
 import urllib.parse
@@ -47,16 +48,15 @@ def youtubeIsDuplicate(canonical=''):
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    skip = ''
+    skip = 'Q130780'
     queries = [
     """
-    SELECT ?item ?website
+    SELECT DISTINCT ?item ?website
     WHERE {
-        ?item wdt:P31 wd:Q5.
-        ?item wdt:P106 wd:Q177220.
-        ?item wdt:P856 ?website.
-        OPTIONAL { ?item wdt:P2397 ?youtube. }
-        FILTER(!BOUND(?youtube)).
+      ?item wdt:P31 wd:Q5.
+      ?item wdt:P856 ?website.
+      OPTIONAL { ?item wdt:P2397 ?youtube. }
+      FILTER(!BOUND(?youtube)).
     }
     """
     ]
@@ -92,22 +92,24 @@ def main():
             
             #youtube
             if not 'P2397' in item.claims:
-                m = re.findall(r"(?im)https?://www\.youtube\.com/(?:user|channel)/[^/\'\"\.<>\?\n\r ]+", html)
+                m = re.findall(r"(?im)https?://www\.youtube\.com/(?:user|channel)/[^/\'\"\.<>\?\&\n\r ]+", html)
                 m = list(set(m))
                 if m and len(m) == 1:
                     print(m)
                     youtube = m[0]
                     html2 = getURL(url=youtube, retry=False)
-                    youtubecanonical = re.findall(r'<meta property="og:url" content="https://www.youtube.com/channel/([^/\'\"\.<>\?\n\r ]+)">', html2)[0]
-                    print(youtubecanonical)
-                    if not youtubeIsDuplicate(canonical=youtubecanonical):
-                        youtubetitle = re.findall(r'<meta property="og:title" content="([^<>\n\r]+?)">', html2)[0]
-                        youtubeclaim = pywikibot.Claim(repo, 'P2397')
-                        youtubeclaim.setTarget(youtubecanonical)
-                        item.addClaim(youtubeclaim, summary='BOT - Adding 1 claim: %s https://www.youtube.com/channel/%s' % (youtubetitle, youtubecanonical))
-                        youtuberefclaim = pywikibot.Claim(repo, 'P854') # dirección web de la referencia (P854) 
-                        youtuberefclaim.setTarget(website)
-                        youtubeclaim.addSource(youtuberefclaim, summary='BOT - Adding 1 reference')
+                    if 'property="og:url"' in html2:
+                        youtubecanonical = re.findall(r'(?im)<meta property="og:url" content="https://www.youtube.com/channel/([^/\'\"\.<>\?\&\n\r ]+)">', html2)[0]
+                        if youtubecanonical and not youtubeIsDuplicate(canonical=youtubecanonical):
+                            print(youtubecanonical)
+                            youtubetitle = re.findall(r'(?im)<meta property="og:title" content="([^<>\n\r]+?)">', html2)[0]
+                            if 'en' in item.labels and re.search(item.labels['en'].lower().replace(' ', ''), youtubetitle.lower().replace(' ', '')):
+                                youtubeclaim = pywikibot.Claim(repo, 'P2397')
+                                youtubeclaim.setTarget(youtubecanonical)
+                                item.addClaim(youtubeclaim, summary='BOT - Adding 1 claim: %s https://www.youtube.com/channel/%s' % (youtubetitle, youtubecanonical))
+                                youtuberefclaim = pywikibot.Claim(repo, 'P854') # dirección web de la referencia (P854) 
+                                youtuberefclaim.setTarget(website)
+                                youtubeclaim.addSource(youtuberefclaim, summary='BOT - Adding 1 reference')
 
 if __name__ == '__main__':
     main()
