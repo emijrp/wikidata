@@ -65,11 +65,11 @@ def addDateClaim(repo='', item='', claim='', date='', lang=''):
     if repo and item and claim and date and lang:
         claim = pywikibot.Claim(repo, claim)
         if len(date.split('-')) == 3:
-            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0], month=date.split('-')[1], day=date.split('-')[2]))
+            claim.setTarget(pywikibot.WbTime(year=int(date.split('-')[0]), month=int(date.split('-')[1]), day=int(date.split('-')[2])))
         elif len(date.split('-')) == 2:
-            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0], month=date.split('-')[1]))
+            claim.setTarget(pywikibot.WbTime(year=int(date.split('-')[0]), month=int(date.split('-')[1])))
         elif len(date.split('-')) == 1:
-            claim.setTarget(pywikibot.WbTime(year=date.split('-')[0]))
+            claim.setTarget(pywikibot.WbTime(year=int(date.split('-')[0])))
         item.addClaim(claim, summary='BOT - Adding 1 claim')
         addImportedFrom(repo=repo, claim=claim, lang=lang)
 
@@ -85,9 +85,10 @@ def addOccupationsClaim(repo='', item='', occupations=[], lang=''):
 
 def authorIsNewbie(page='', lang=''):
     if page:
-        hist = page.getVersionHistory(reverse=True, total=1)
+        #hist = page.getVersionHistory(reverse=True, total=1)
+        hist = page.revisions(reverse=True, total=1)
         if hist:
-            editcount = getUserEditCount(user=hist[0].user, site='%s.wikipedia.org' % (lang))
+            editcount = getUserEditCount(user=[h.user for h in hist][0], site='%s.wikipedia.org' % (lang))
             if editcount >= 200:
                 return False
     return True
@@ -255,7 +256,8 @@ def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
 def main():
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    langs = ['en', 'fr', 'de']
+    #langs = ['en', 'fr', 'de']
+    langs = ['en']
     for lang in langs:
         wikisite = pywikibot.Site(lang, 'wikipedia')
         total = 100
