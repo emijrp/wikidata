@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2019 emijrp <emijrp@gmail.com>
+# Copyright (C) 2019-2021 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -45,8 +45,9 @@ def saveEdits(nick='', path='', edits=''):
             csvwriter.writerows(edits)
 
 def main():
-    path = '/data/project/emijrpbot/bots'
+    path = '/data/project/emijrpbot/wikidata'
     nick = 'Emijrpbot'
+    nick_ = re.sub(' ', '_', nick)
     #load saved edits
     lasteditid = loadLastEditId(nick=nick, path=path)
     print('%d last edit id' % (lasteditid))
@@ -74,7 +75,7 @@ def main():
                 except:
                     uccontinue = ''
                     break
-        data = json.loads(json_data.readall().decode('utf-8'))
+        data = json.loads(json_data.read().decode('utf-8'))
         for edit in data['query']['usercontribs']:
             if edit['revid'] == lasteditid:
                 uccontinue = ''
@@ -137,12 +138,12 @@ def main():
 |-
 | '''[[Help:Sitelinks|Sitelinks]]''' || {{formatnum:%s}}
 |-
-| '''[[Help:Items|Items]]''' || [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username=Emijrpbot {{formatnum:%s}}]
+| '''[[Help:Items|Items]]''' || [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username=%s {{formatnum:%s}}]
 |-
 | '''[[Help:Sources|References]]''' || {{formatnum:%s}}
 |-
 | colspan=2 | <small>Last update: %s</small>
-|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], stats['items'], stats['references'], datetime.datetime.now().strftime('%Y-%m-%d'))
+|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], nick_, stats['items'], stats['references'], datetime.datetime.now().strftime('%Y-%m-%d'))
     
     print(output)
     site = pywikibot.Site('wikidata', 'wikidata')
