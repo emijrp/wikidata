@@ -377,7 +377,7 @@ def main():
         },
         'Bhutanese': {
             'ar': { 'male': 'بوتاني', 'female': 'بوتانية' },
-            'bn': { 'male': 'ভুটানী', 'female': 'ভুটানী' },
+            'bn': { 'male': 'ভুটানি', 'female': 'ভুটানি' },
             'ca': { 'male': 'bhutanès', 'female': 'bhutanesa' },
             'en': { 'male': 'Bhutanese', 'female': 'Bhutanese' },
             'es': { 'male': 'butanés', 'female': 'butanesa' },
@@ -1222,7 +1222,7 @@ def main():
         },
         'Iranian': {
             'ar': { 'male': 'إيراني', 'female': 'إيرانية' },
-            'bn': { 'male': 'ইরানী', 'female': 'ইরানী' },
+            'bn': { 'male': 'ইরানি', 'female': 'ইরানি' },
             'ca': { 'male': 'iranià', 'female': 'iraniana' },
             'en': { 'male': 'Iranian', 'female': 'Iranian' },
             'es': { 'male': 'iraní', 'female': 'iraní' },
@@ -1235,7 +1235,7 @@ def main():
         },
         'Iraqi': {
             'ar': { 'male': 'عراقي', 'female': 'عراقية' },
-            'bn': { 'male': 'ইরাকী', 'female': 'ইরাকী' },
+            'bn': { 'male': 'ইরাকি', 'female': 'ইরাকি' },
             'ca': { 'male': 'iraquià', 'female': 'iraquiana' },
             'en': { 'male': 'Iraqi', 'female': 'Iraqi' },
             'es': { 'male': 'iraquí', 'female': 'iraquí' },
@@ -1885,7 +1885,7 @@ def main():
         },
         'Nepalese': {
             'ar': { 'male': 'نيبالي', 'female': 'نيبالية' },
-            'bn': { 'male': 'নেপালী', 'female': 'নেপালী' },
+            'bn': { 'male': 'নেপালি', 'female': 'নেপালি' },
             'ca': { 'male': 'nepalès', 'female': 'nepalesa' },
             'en': { 'male': 'Nepalese', 'female': 'Nepalese' },
             'es': { 'male': 'nepalés', 'female': 'nepalesa' },
@@ -1898,7 +1898,7 @@ def main():
         },
         'Nepali': {
             'ar': { 'male': 'نيبالي', 'female': 'نيبالية' },
-            'bn': { 'male': 'নেপালী', 'female': 'নেপালী' },
+            'bn': { 'male': 'নেপালি', 'female': 'নেপালি' },
             'ca': { 'male': 'nepalès', 'female': 'nepalesa' },
             'en': { 'male': 'Nepali', 'female': 'Nepali' },
             'es': { 'male': 'nepalés', 'female': 'nepalesa' },
@@ -2015,7 +2015,7 @@ def main():
         },
         'Pakistani': {
             'ar': { 'male': 'باكستاني', 'female': 'باكستانية' },
-            'bn': { 'male': 'পাকিস্তানী', 'female': 'পাকিস্তানী' },
+            'bn': { 'male': 'পাকিস্তানি', 'female': 'পাকিস্তানি' },
             'ca': { 'male': 'pakistanès', 'female': 'pakistanesa' },
             'en': { 'male': 'Pakistani', 'female': 'Pakistani' },
             'es': { 'male': 'pakistaní', 'female': 'pakistaní' },
@@ -2288,7 +2288,7 @@ def main():
         },
         'Saudi Arabian': {
             'ar': { 'male': 'سعودي', 'female': 'سعودية' },
-            'bn': { 'male': 'সৌদি আরবীয়', 'female': 'সৌদি আরবীয়' },
+            'bn': { 'male': 'সৌদি', 'female': 'সৌদি' },
             'ca': { 'male': 'saudita', 'female': 'saudita' },
             'en': { 'male': 'Saudi', 'female': 'Saudi' },
             'es': { 'male': 'saudita', 'female': 'saudita' },
