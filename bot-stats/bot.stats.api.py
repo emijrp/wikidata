@@ -204,7 +204,7 @@ def main():
 |-
 ! colspan=4 | <small>Last update: {lastupdate}</small>
 |}}""".format(**formatdict)
-    summary = "BOT - Updating stats: Edits ({diffedits}+), Labels ({difflabels}+), Descriptions ({diffdescriptions}+), Aliases ({diffaliases}+), Claims ({diffclaims}+), Sitelinks ({diffsitelinks}+), Items ({diffitems}+), References ({diffreferences}+)".format(**formatdict)
+    summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
     print(output)
     statspage.text = output
     statspage.save(summary)
