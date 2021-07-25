@@ -24,7 +24,6 @@ import sys
 import time
 import urllib.parse
 
-import pwb
 import pywikibot
 from wikidatafun import *
 
