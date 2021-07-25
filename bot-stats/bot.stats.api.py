@@ -172,35 +172,35 @@ def main():
 |-
 | '''Edits''' || data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
 | data-sort-value={diffedits} | +{{{{formatnum:{diffedits}}}}}
-| data-sort-value={topdayeditsvalue} | {{{{formatnum:{topdayeditsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayeditsday}&limit=100&title=Special:Contributions {topdayeditsday}])
+| data-sort-value={topdayeditsvalue} | +{{{{formatnum:{topdayeditsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayeditsday}&limit=100&title=Special:Contributions {topdayeditsday}])
 |-
 | '''[[Help:Label|Labels]]''' || data-sort-value={labels} | {{{{formatnum:{labels}}}}}
 | data-sort-value={difflabels} | +{{{{formatnum:{difflabels}}}}}
-| data-sort-value={topdaylabelsvalue} | {{{{formatnum:{topdaylabelsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaylabelsday}&limit=100&title=Special:Contributions {topdaylabelsday}])
+| data-sort-value={topdaylabelsvalue} | +{{{{formatnum:{topdaylabelsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaylabelsday}&limit=100&title=Special:Contributions {topdaylabelsday}])
 |-
 | '''[[Help:Description|Descriptions]]''' || data-sort-value={descriptions} | {{{{formatnum:{descriptions}}}}}
 | data-sort-value={diffdescriptions} | +{{{{formatnum:{diffdescriptions}}}}}
-| data-sort-value={topdaydescriptionsvalue} | {{{{formatnum:{topdaydescriptionsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaydescriptionsday}&limit=100&title=Special:Contributions {topdaydescriptionsday}])
+| data-sort-value={topdaydescriptionsvalue} | +{{{{formatnum:{topdaydescriptionsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaydescriptionsday}&limit=100&title=Special:Contributions {topdaydescriptionsday}])
 |-
 | '''[[Help:Aliases|Aliases]]''' || data-sort-value={aliases} | {{{{formatnum:{aliases}}}}}
 | data-sort-value={diffaliases} | +{{{{formatnum:{diffaliases}}}}}
-| data-sort-value={topdayaliasesvalue} | {{{{formatnum:{topdayaliasesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayaliasesday}&limit=100&title=Special:Contributions {topdayaliasesday}])
+| data-sort-value={topdayaliasesvalue} | +{{{{formatnum:{topdayaliasesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayaliasesday}&limit=100&title=Special:Contributions {topdayaliasesday}])
 |-
 | '''[[Help:Statements|Claims]]''' || data-sort-value={claims} | {{{{formatnum:{claims}}}}}
 | data-sort-value={diffclaims} | +{{{{formatnum:{diffclaims}}}}}
-| data-sort-value={topdayclaimsvalue} | {{{{formatnum:{topdayclaimsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayclaimsday}&limit=100&title=Special:Contributions {topdayclaimsday}])
+| data-sort-value={topdayclaimsvalue} | +{{{{formatnum:{topdayclaimsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayclaimsday}&limit=100&title=Special:Contributions {topdayclaimsday}])
 |-
 | '''[[Help:Sitelinks|Sitelinks]]''' || data-sort-value={sitelinks} | {{{{formatnum:{sitelinks}}}}}
 | data-sort-value={diffsitelinks} | +{{{{formatnum:{diffsitelinks}}}}}
-| data-sort-value={topdaysitelinksvalue} | {{{{formatnum:{topdaysitelinksvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaysitelinksday}&limit=100&title=Special:Contributions {topdaysitelinksday}])
+| data-sort-value={topdaysitelinksvalue} | +{{{{formatnum:{topdaysitelinksvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaysitelinksday}&limit=100&title=Special:Contributions {topdaysitelinksday}])
 |-
 | '''[[Help:Items|Items]]''' || data-sort-value={items} | [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username={nick_} {{{{formatnum:{items}}}}}]
 | data-sort-value={diffitems} | +{{{{formatnum:{diffitems}}}}}
-| data-sort-value={topdayitemsvalue} | {{{{formatnum:{topdayitemsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayitemsday}&limit=100&title=Special:Contributions {topdayitemsday}])
+| data-sort-value={topdayitemsvalue} | +{{{{formatnum:{topdayitemsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayitemsday}&limit=100&title=Special:Contributions {topdayitemsday}])
 |-
 | '''[[Help:Sources|References]]''' || data-sort-value={references} | {{{{formatnum:{references}}}}}
 | data-sort-value={diffreferences} | +{{{{formatnum:{diffreferences}}}}}
-| data-sort-value={topdayreferencesvalue} | {{{{formatnum:{topdayreferencesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayreferencesday}&limit=100&title=Special:Contributions {topdayreferencesday}])
+| data-sort-value={topdayreferencesvalue} | +{{{{formatnum:{topdayreferencesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayreferencesday}&limit=100&title=Special:Contributions {topdayreferencesday}])
 |-
 ! colspan=4 | <small>Last update: {lastupdate}</small>
 |}}""".format(**formatdict)
