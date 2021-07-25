@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -100,6 +100,9 @@ def main():
                 if 'es' in labels:
                     continue
                 if not 'en' in labels:
+                    continue
+                
+                if '[' in labels['en'] or ']' in labels['en'] or '(' in labels['en'] or ')' in labels['en']:
                     continue
                 
                 labels['es'] = labels['en']
