@@ -44,6 +44,11 @@ def saveEdits(nick='', path='', edits=''):
             csvwriter = csv.writer(csvfile, delimiter=',', quotechar ='"')
             csvwriter.writerows(edits)
 
+def calculatetopday(days={}):
+    dayslist = [[v, k] for k, v in days.items()]
+    dayslist.sort(reverse=True)
+    return [dayslist[0][1], daylist[0][0]]
+
 def main():
     path = '/data/project/emijrpbot/wikidata'
     nick = 'Emijrpbot'
@@ -102,54 +107,114 @@ def main():
     edits = []
     
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
+    statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {} }
+    statsprev = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
+    site = pywikibot.Site('wikidata', 'wikidata')
+    statspage = pywikibot.Page(site, 'User:Emijrpbot/stats')
+    for statsprop in statsprev.keys():
+        statsprev[statsprop] = int(re.findall(r"(?im)%s[^\n\{]+?{{formatnum:(\d+)}}" % (statsprop), statspage.text)[0])
+    
+    #848135050,2019-02-01T10:14:31Z,"/* wbeditentity-update:0| */ BOT - Adding descriptions (57 languages): ar, ast, bg, bn, ca, cs, da, de, el, eo, es, et, fa, fi, fr, gl, he, hu, hy, it, ja, ka, ko, lt, nan, nb, nn, oc, pl, pt, pt-br, ro, ru, sk, sq, sr, sr-ec, sr-el, sv, tg, tg-cyrl, th, tl, tr, ur, vi, wuu, yue, zh, zh-cn, zh-hans, zh-hant, zh-hk, zh-mo, zh-my, zh-sg, zh-tw"
+    regexps = {
+        'aliases': re.compile(r"(?i)BOT - Adding ([0-9]+) alias"), 
+        'claims': re.compile(r"(?i)BOT - Adding ([0-9]+) claim"), 
+        'descriptions': re.compile(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)"), 
+        'labels': re.compile(r"(?i)BOT - Adding labels? \(([0-9]+) languages?\)"), 
+        'references': re.compile(r"(?i)BOT - Adding ([0-9]+) reference"), 
+        'sitelinks': re.compile(r"(?i)BOT - Adding ([0-9]+) sitelink"), 
+        'items': re.compile(r"(?i)BOT - Creating item"), 
+    }
     if os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
             for row in csvreader:
-                comment = row[2]
-                m = re.findall(r"(?i)BOT - Adding ([0-9]+) alias", comment)
-                stats['aliases'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding ([0-9]+) claim", comment)
-                stats['claims'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)", comment)
-                stats['descriptions'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding labels? \(([0-9]+) languages?\)", comment)
-                stats['labels'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding ([0-9]+) reference", comment)
-                stats['references'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Adding ([0-9]+) sitelink", comment)
-                stats['sitelinks'] += m and int(m[0]) or 0
-                m = re.findall(r"(?i)BOT - Creating item", comment)
-                stats['items'] += m and 1 or 0
                 stats['edits'] += 1
+                revid = row[0]
+                timestamp = row[1]
+                comment = row[2]
+                
+                day = timestamp.split('T')[0]
+                for statsbydayprop in statsbyday.keys():
+                    if not day in statsbyday[statsbydayprop]:
+                        statsbyday[statsbydayprop][day] = 0
+                
+                for regexpname, regexp in regexps.items():
+                    m = regexp.findall(comment)
+                    if regexpname == 'items':
+                        stats[regexpname] += m and 1 or 0
+                        statsbyday[regexpname][day] += m and 1 or 0
+                    else:
+                        stats[regexpname] += m and int(m[0]) or 0
+                        statsbyday[regexpname][day] += m and int(m[0]) or 0
+                
                 if stats['edits'] % 1000 == 0:
                     print('%s edits analysed' % (stats['edits']))
-    output = """{| class="wikitable sortable plainlinks" style="text-align: center;"
-|-
-| '''Edits''' || [[Special:Contributions/Emijrpbot|{{formatnum:%s}}]]
-|-
-| '''[[Help:Label|Labels]]''' || {{formatnum:%s}}
-|-
-| '''[[Help:Description|Descriptions]]''' || {{formatnum:%s}}
-|-
-| '''[[Help:Aliases|Aliases]]''' || {{formatnum:%s}}
-|-
-| '''[[Help:Statements|Claims]]''' || {{formatnum:%s}}
-|-
-| '''[[Help:Sitelinks|Sitelinks]]''' || {{formatnum:%s}}
-|-
-| '''[[Help:Items|Items]]''' || [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username=%s {{formatnum:%s}}]
-|-
-| '''[[Help:Sources|References]]''' || {{formatnum:%s}}
-|-
-| colspan=2 | <small>Last update: %s</small>
-|}""" % (stats['edits'], stats['labels'], stats['descriptions'], stats['aliases'], stats['claims'], stats['sitelinks'], nick_, stats['items'], stats['references'], datetime.datetime.now().strftime('%Y-%m-%d'))
     
+    formatdict = {}
+    for k, v in stats.items():
+        formatdict[k] = v
+        formatdict['diff'+k] = v - statsprev[k]
+        topday = calculatetopday(days=statsbyday[k])
+        formatdict['topday'+k+'day'] = topday[0]
+        formatdict['topday'+k+'value'] = topday[1]
+    formatdict['nick'] = nick
+    formatdict['nick_'] = nick_
+    formatdict['lastupdate'] = datetime.datetime.now().strftime('%Y-%m-%d')
+        
+    output = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
+! colspan=4 | Statistics for {nick}
+|-
+! Data
+! Total added
+! Added today
+! Top day
+|-
+| '''Edits'''
+| data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
+| data-sort-value={diffedits} | {diffedits}+
+| data-sort-value={topdayeditsvalue} | {topdayeditsvalue} ({topdayeditsday})
+|-
+| '''[[Help:Label|Labels]]'''
+| data-sort-value={labels} | {{{{formatnum:{labels}}}}}
+| data-sort-value={difflabels} | {difflabels}+
+| data-sort-value={topdaylabelsvalue} | {topdaylabelsvalue} ({topdaylabelsday})
+|-
+| '''[[Help:Description|Descriptions]]'''
+| data-sort-value={descriptions} | {{{{formatnum:{descriptions}}}}}
+| data-sort-value={diffdescriptions} | {diffdescriptions}+
+| data-sort-value={topdaydescriptionsvalue} | {topdaydescriptionsvalue} ({topdaydescriptionsday})
+|-
+| '''[[Help:Aliases|Aliases]]'''
+| data-sort-value={aliases} | {{{{formatnum:{aliases}}}}}
+| data-sort-value={diffaliases} | {diffaliases}+
+| data-sort-value={topdayaliasesvalue} | {topdayaliasesvalue} ({topdayaliasesday})
+|-
+| '''[[Help:Statements|Claims]]'''
+| data-sort-value={claims} | {{{{formatnum:{claims}}}}}
+| data-sort-value={diffclaims} | {diffclaims}+
+| data-sort-value={topdayclaimsvalue} | {topdayclaimsvalue} ({topdayclaimsday})
+|-
+| '''[[Help:Sitelinks|Sitelinks]]'''
+| data-sort-value={sitelinks} | {{{{formatnum:{sitelinks}}}}}
+| data-sort-value={diffsitelinks} | {diffsitelinks}+
+| data-sort-value={topdaysitelinksvalue} | {topdaysitelinksvalue} ({topdaysitelinksday})
+|-
+| '''[[Help:Items|Items]]'''
+| data-sort-value={items} | [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username={nick_} {{{{formatnum:{items}}}}}]
+| data-sort-value={diffitems} | {diffitems}+
+| data-sort-value={topdayitemsvalue} | {topdayitemsvalue ({topdayitemsday})
+|-
+| '''[[Help:Sources|References]]'''
+| data-sort-value={references} | {{{{formatnum:{references}}}}}
+| data-sort-value={diffreferences} | {diffreferences}+
+| data-sort-value={topdayreferencesvalue} | {topdayreferencesvalue} ({topdayreferencesday})
+|-
+! colspan=4 | <small>Last update: {lastupdate}</small>
+|}}""".format(**formatdict)
+    summary = "BOT - Updating stats: Edits ({diffedits}+), Labels ({difflabels}+), Descriptions ({diffdescriptions}+), Aliases ({diffaliases}+), Claims ({diffclaims}+), Sitelinks ({diffsitelinks}+), Items ({diffitems}+), References ({diffreferences}+)".format(**formatdict)
     print(output)
-    site = pywikibot.Site('wikidata', 'wikidata')
-    page = pywikibot.Page(site, 'User:Emijrpbot/stats')
-    page.text = output
-    page.save('BOT - Updating stats')
+    statspage.text = output
+    statspage.save(summary)
 
 if __name__ == "__main__":
     main()
