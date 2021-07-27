@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -19,17 +19,49 @@ import datetime
 import re
 import time
 
-import pwb
 import pywikibot
 from wikidatafun import *
 
-def getQueryCount(p='', q=''):
+def getQueryCount(p='', q='', site=''):
+    #for tests
+    #if not q in ["Q166118", "Q7075", "Q33506"]:
+    #    return 0 #fix
+    
+    #useful when big query breaks, returning static values
+    #https://www.wikidata.org/wiki/Wikidata:Statistics/Wikipedia#Type_of_content
+    if p == "P31":
+        if q == "Q5": #humans
+            if site == "en.wikipedia.org":
+                return "1325136"
+            elif site == "commons.wikimedia.org":
+                return "699787" #https://commons.wikimedia.org/wiki/Category:People_by_name
+        elif q == "Q16521": #taxon
+            if site == "en.wikipedia.org":
+                return "315294" 
+    
     if p and p.startswith('P') and \
        q and q.startswith('Q'):
         try:
-            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20%23%20%3FitemLabel%0AWHERE%20{%0A%20%20%3Fitem%20wdt%3A'+p+'%2Fwdt%3AP279*%20wd%3A'+q+'.%0A}%0A'
+            query = ""
+            if site:
+                query = """
+                    SELECT (COUNT(DISTINCT ?item) AS ?count)
+                    WHERE {
+                      ?item wdt:%s/wdt:P279* wd:%s.
+                      ?sitelink schema:about ?item .
+                      ?sitelink schema:isPartOf <https://%s/>.
+                    }
+                    """ % (p, q, site)
+            else:
+                query = """
+                    SELECT (COUNT(DISTINCT ?item) AS ?count)
+                    WHERE {
+                      ?item wdt:%s/wdt:P279* wd:%s.
+                    }
+                    """ % (p, q)
+            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
-            sparql = getURL(url=url)
+            sparql = getURL(url=url, retry=False) #or change to True but low timeout
             json1 = loadSPARQL(sparql=sparql)
             return json1['results']['bindings'][0]['count']['value']
         except:
@@ -69,6 +101,8 @@ def main():
         summarydic = {}
         sections = []
         newlines = []
+        newtotalenwiki = 0
+        newtotalcommons = 0
         newtotalwikidata = 0
         newtotalestimate = 0
         anchors = []
@@ -76,8 +110,8 @@ def main():
         sectionlevel = 0
         sectionparent = ''
         anchor_r = r'(?i)(\{\{anchor\|([^\{\}]*?)\}\})'
-        row_r = r'({{User:Emijrp/AHKrow\|(P\d+)=([^\|\}]*?)\|wikidata=(\d*)\|estimate=(\d*))'
-        rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|wikidata=(\d*)\|estimate=(\d*))'
+        row_r = r'({{User:Emijrp/AHKrow\|(P\d+)=([^\|\}]*?)\|enwiki=(\d*)\|commons=(\d*)\|wikidata=(\d*)\|estimate=(\d*))'
+        rowtotal_r = r'({{User:Emijrp/AHKrowtotal\|enwiki=(\d*)\|commons=(\d*)\|wikidata=(\d*)\|estimate=(\d*))'
         for line in lines:
             newline = line
             
@@ -102,26 +136,37 @@ def main():
             if re.search(row_r, newline):
                 m = re.findall(row_r, newline)
                 for i in m:
-                    row, p, q, wikidata, estimate = i
+                    row, p, q, enwiki, commons, wikidata, estimate = i
+                    newrow = row
+                    newenwiki = getQueryCount(p=p, q=q, site="en.wikipedia.org")
+                    newrow = newrow.replace('enwiki=%s' % (enwiki), 'enwiki=%s' % (newenwiki))
+                    newcommons = getQueryCount(p=p, q=q, site="commons.wikimedia.org")
+                    newrow = newrow.replace('commons=%s' % (commons), 'commons=%s' % (newcommons))
                     newwikidata = getQueryCount(p=p, q=q)
-                    newrow = row.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata))
+                    newrow = newrow.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata))
                     newline = newline.replace(row, newrow)
                     if not 'exclude=yes' in newline: #don't use newrow as row_r doesn't parse this param
+                        newtotalenwiki += newenwiki and int(newenwiki) or 0
+                        newtotalcommons += newcommons and int(newcommons) or 0
                         newtotalwikidata += newwikidata and int(newwikidata) or 0
                         newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or 0)
             
             #update row total
             m = re.findall(rowtotal_r, newline)
             for i in m:
-                totalrow, totalwikidata, totalestimate = i
+                totalrow, totalenwiki, totalcommons, totalwikidata, totalestimate = i
                 newtotalrow = totalrow
+                newtotalrow = newtotalrow.replace('enwiki=%s' % (totalenwiki), 'enwiki=%s' % (newtotalenwiki))
+                newtotalrow = newtotalrow.replace('commons=%s' % (totalcommons), 'commons=%s' % (newtotalcommons))
                 newtotalrow = newtotalrow.replace('wikidata=%s' % (totalwikidata), 'wikidata=%s' % (newtotalwikidata))
                 newtotalrow = newtotalrow.replace('estimate=%s' % (totalestimate), 'estimate=%s' % (newtotalestimate))
                 newline = newline.replace(totalrow, newtotalrow)
                 if sectionlevel > minsectionlevel:
                     sections.append([sectiontitle, sectionlevel])
-                summarydic[sectiontitle] = { 'parent': sectionparent, 'wikidata': newtotalwikidata, 'estimate': newtotalestimate, 'anchors': anchors }
+                summarydic[sectiontitle] = { 'parent': sectionparent, 'enwiki': newtotalenwiki, 'commons': newtotalcommons, 'wikidata': newtotalwikidata, 'estimate': newtotalestimate, 'anchors': anchors }
                 #reset
+                newtotalenwiki = 0
+                newtotalcommons = 0
                 newtotalwikidata = 0
                 newtotalestimate = 0
                 anchors = []
@@ -132,6 +177,8 @@ def main():
         
         #update summary
         summaryrows = []
+        summarytotalenwiki = 0
+        summarytotalcommons = 0
         summarytotalwikidata = 0
         summarytotalestimate = 0
         for sectiontitle, sectionlevel in sections:
@@ -147,9 +194,11 @@ def main():
                         anchors = '[[#%s|See table]]' % (sectiontitle)
                     summaryrow = """| [[#%s|%s]]
 | <li>[[#%s|%s]]
-{{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
+{{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
-|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+                    summarytotalenwiki += summarydic[sectiontitle]['enwiki']
+                    summarytotalcommons += summarydic[sectiontitle]['commons']
                     summarytotalwikidata += summarydic[sectiontitle]['wikidata']
                     summarytotalestimate += summarydic[sectiontitle]['estimate']
                 elif rowspan > 1:
@@ -160,22 +209,19 @@ def main():
                 if not anchors:
                     anchors = '[[#%s|See table]]' % (sectiontitle)
                 summaryrow = """| <li>[[#%s|%s]]
-{{User:Emijrp/AHKsummaryrow|wikidata=%s|estimate=%s}}
+{{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
-|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+                summarytotalenwiki += summarydic[sectiontitle]['enwiki']
+                summarytotalcommons += summarydic[sectiontitle]['commons']
                 summarytotalwikidata += summarydic[sectiontitle]['wikidata']
                 summarytotalestimate += summarydic[sectiontitle]['estimate']
             else:
                 continue
             if summaryrow:
                 summaryrows.append(summaryrow)
-        summarytotal = "{{User:Emijrp/AHKsummarytotal|wikidata=%s|estimate=%s}}" % (summarytotalwikidata, summarytotalestimate)
-        summary = """<!-- summary -->{| class="wikitable sortable plainlinks"
-! width="100px" | Topic
-! width="150px" | Subtopic
-! Wikidata
-! Estimate
-! Shortcuts
+        summarytotal = "{{User:Emijrp/AHKsummarytotal|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}" % (summarytotalenwiki, summarytotalcommons, summarytotalwikidata, summarytotalestimate)
+        summary = """<!-- summary -->{{User:Emijrp/AHKheader|id=summary table|column2 name=Subtopic}}
 |-
 %s
 %s
