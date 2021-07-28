@@ -123,6 +123,7 @@ def main():
     if len(sys.argv) > 1:
         method = sys.argv[1]
     
+    targetlangs = ["es", "ast", "ca", "gl", "ext", "eu", "oc"]
     if method == 'all' or method == 'method1':
         #method 1
         random.shuffle(constellations)
@@ -166,19 +167,28 @@ def main():
                     continue
                 
                 labels = item.labels
-                if 'es' in labels:
-                    continue
                 if not 'en' in labels:
                     continue
-                
                 if item.claims:
+                    if not 'P528' in item.claims:
+                        print("P528 not found")
+                        continue
                     if 'P528' in item.claims:
                         if not labels['en'] in [claim.getTarget() for claim in item.claims['P528']]:
                             print("Label (en) not found in claim P528")
                             continue
                 
-                labels['es'] = labels['en']
-                summary = 'BOT - Adding labels (1 languages): es'
+                addedlangs = []
+                for targetlang in targetlangs:
+                    if not targetlang in labels:
+                        labels[targetlang] = labels['en']
+                        addedlangs.append(targetlang)
+                
+                if len(addedlangs) < 1:
+                    continue
+                addedlangs.sort()
+                
+                summary = 'BOT - Adding labels (%d languages): %s' % (len(addedlangs), ', '.join(addedlangs))
                 data = { 'labels': labels }
                 print(summary)
                 
