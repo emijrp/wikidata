@@ -24,20 +24,8 @@ from wikidatafun import *
 
 def getQueryCount(p='', q='', site=''):
     #for tests
-    #if not q in ["Q166118", "Q7075", "Q33506"]:
-    #    return 0 #fix
-    
-    #useful when big query breaks, returning static values
-    #https://www.wikidata.org/wiki/Wikidata:Statistics/Wikipedia#Type_of_content
-    if p == "P31":
-        if q == "Q5": #humans
-            if site == "en.wikipedia.org":
-                return "1325136"
-            elif site == "commons.wikimedia.org":
-                return "699787" #https://commons.wikimedia.org/wiki/Category:People_by_name
-        elif q == "Q16521": #taxon
-            if site == "en.wikipedia.org":
-                return "315294" 
+    #if not q in ["Q5"]:#["Q166118", "Q7075", "Q33506"]:
+    #    return ''
     
     if p and p.startswith('P') and \
        q and q.startswith('Q'):
@@ -61,11 +49,30 @@ def getQueryCount(p='', q='', site=''):
                     """ % (p, q)
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
-            sparql = getURL(url=url, retry=False) #or change to True but low timeout
+            sparql = getURL(url=url, retry=False, timeout=120)
             json1 = loadSPARQL(sparql=sparql)
             return json1['results']['bindings'][0]['count']['value']
         except:
-            return ''
+            pass
+    
+    #useful when big query breaks, returning static values
+    #https://www.wikidata.org/wiki/Wikidata:Statistics/Wikipedia#Type_of_content
+    if p == "P31":
+        if q == "Q5": #humans
+            if site == "en.wikipedia.org":
+                return "1325136"
+            elif site == "commons.wikimedia.org":
+                return "699787" #https://commons.wikimedia.org/wiki/Category:People_by_name
+            elif site == "":
+                return "9224491"
+        elif q == "Q16521": #taxon
+            if site == "en.wikipedia.org":
+                return "315294"
+        elif q == "Q13442814": #scholarly article
+            if site == "":
+                return "22574314"
+    
+    #finally when no data is available, return empty string, and bot will keep the current value in the row
     return ''
 
 def main():
@@ -139,17 +146,17 @@ def main():
                     row, p, q, enwiki, commons, wikidata, estimate = i
                     newrow = row
                     newenwiki = getQueryCount(p=p, q=q, site="en.wikipedia.org")
-                    newrow = newrow.replace('enwiki=%s' % (enwiki), 'enwiki=%s' % (newenwiki))
+                    newrow = newenwiki != '' and newrow.replace('enwiki=%s' % (enwiki), 'enwiki=%s' % (newenwiki)) or newrow
                     newcommons = getQueryCount(p=p, q=q, site="commons.wikimedia.org")
-                    newrow = newrow.replace('commons=%s' % (commons), 'commons=%s' % (newcommons))
+                    newrow = newcommons != '' and newrow.replace('commons=%s' % (commons), 'commons=%s' % (newcommons)) or newrow
                     newwikidata = getQueryCount(p=p, q=q)
-                    newrow = newrow.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata))
+                    newrow = newwikidata != '' and newrow.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata)) or newrow
                     newline = newline.replace(row, newrow)
                     if not 'exclude=yes' in newline: #don't use newrow as row_r doesn't parse this param
-                        newtotalenwiki += newenwiki and int(newenwiki) or 0
-                        newtotalcommons += newcommons and int(newcommons) or 0
-                        newtotalwikidata += newwikidata and int(newwikidata) or 0
-                        newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or 0)
+                        newtotalenwiki += newenwiki and int(newenwiki) or (enwiki and int(enwiki) or 0)
+                        newtotalcommons += newcommons and int(newcommons) or (commons and int(commons) or 0)
+                        newtotalwikidata += newwikidata and int(newwikidata) or (wikidata and int(wikidata) or 0)
+                        newtotalestimate += estimate and int(estimate) or (newwikidata and int(newwikidata) or (wikidata and int(wikidata) or 0))
             
             #update row total
             m = re.findall(rowtotal_r, newline)
