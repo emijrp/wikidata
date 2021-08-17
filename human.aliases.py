@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import random
 import re
 import time
 
@@ -28,68 +29,73 @@ def main():
     
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    wikisite = pywikibot.Site('en', 'wikipedia')
-    cat = pywikibot.Category(wikisite, 'Category:1901 births')
-    gen = pagegenerators.CategorizedPageGenerator(cat, recurse=False)
-    pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
-    targetlang = 'en'
-    for page in pre:
-        if page.isRedirectPage():
-            continue
-        print('\n==', page.title().encode('utf-8'), '==')
-        item = ''
-        try:
-            item = pywikibot.ItemPage.fromPage(page)
-        except:
-            pass
-        if item:
-            print('Page has item')
-            print('https://www.wikidata.org/wiki/%s' % (item.title()))
-            
-            m = re.findall(r"(?im)^\'\'\'([A-Za-z \-]+?)\'\'\'", page.text)
-            print(m)
-            if len(m) < 1:
-                print('No encontramos candidatos, saltamos')
+    wikisite = pywikibot.Site('en', 'wikipedia'
+    
+    years = range(1750, 1980)
+    random.shuffle(years)
+    for year in years:
+        cat = pywikibot.Category(wikisite, 'Category:%s births' % (year))
+        gen = pagegenerators.CategorizedPageGenerator(cat, recurse=False)
+        pre = pagegenerators.PreloadingGenerator(gen, groupsize=50)
+        targetlang = 'en'
+        for page in pre:
+            if page.isRedirectPage():
                 continue
-            elif len(m) > 1:
-                print('Ambiguo, saltamos')
-                continue
-            aliascandidate = m[0]
-            if not ' ' in aliascandidate or len(aliascandidate) < 10: #https://www.wikidata.org/w/index.php?title=Q542337&type=revision&diff=1482744856&oldid=1400873196
-                print('Alias muy corto o unipalabra, saltamos')
-                continue
-            if sum([len(x) > 2 and x in aliascandidate.lower() and 1 or 0 for x in page.title().lower().split()]) < 1:
-                # at least 1 word in title must be in alias candidate
-                print('No se encontro ninguna palabra del titulo en el alias, saltamos')
-                continue
-            
-            aliases = item.aliases
-            labels = item.labels
-            if aliascandidate.lower().strip() == labels[targetlang].lower().strip():
-                print('Es igual que el label, saltamos')
-                continue
-            if targetlang in aliases and aliascandidate.lower().strip() in [x.lower().strip() for x in aliases[targetlang]]:
-                print('Ya esta en los aliases, saltamos')
-                continue
-            
-            print(aliases)
-            if not targetlang in aliases:
-                aliases[targetlang] = [aliascandidate]
-            else:
-                aliases[targetlang].append(aliascandidate)
-            print(aliases)
-            print(aliases[targetlang])
-            
-            data = { 'aliases': aliases }
-            summary = "BOT - Adding 1 aliases (%s): %s" % (targetlang, aliascandidate)
-            print(summary.encode('utf-8'))
+            print('\n==', page.title().encode('utf-8'), '==')
+            item = ''
             try:
-                item.editEntity(data, summary=summary)
+                item = pywikibot.ItemPage.fromPage(page)
             except:
-                print('Error while saving')
-                continue
-        else:
-            print('Page without item')
+                pass
+            if item:
+                print('Page has item')
+                print('https://www.wikidata.org/wiki/%s' % (item.title()))
+                
+                m = re.findall(r"(?im)^\'\'\'([A-Za-z \-]+?)\'\'\'", page.text)
+                print(m)
+                if len(m) < 1:
+                    print('No encontramos candidatos, saltamos')
+                    continue
+                elif len(m) > 1:
+                    print('Ambiguo, saltamos')
+                    continue
+                aliascandidate = m[0]
+                if not ' ' in aliascandidate or len(aliascandidate) < 10: #https://www.wikidata.org/w/index.php?title=Q542337&type=revision&diff=1482744856&oldid=1400873196
+                    print('Alias muy corto o unipalabra, saltamos')
+                    continue
+                if sum([len(x) > 2 and x in aliascandidate.lower() and 1 or 0 for x in page.title().lower().split()]) < 1:
+                    # at least 1 word in title must be in alias candidate
+                    print('No se encontro ninguna palabra del titulo en el alias, saltamos')
+                    continue
+                
+                aliases = item.aliases
+                labels = item.labels
+                if aliascandidate.lower().strip() == labels[targetlang].lower().strip():
+                    print('Es igual que el label, saltamos')
+                    continue
+                if targetlang in aliases and aliascandidate.lower().strip() in [x.lower().strip() for x in aliases[targetlang]]:
+                    print('Ya esta en los aliases, saltamos')
+                    continue
+                
+                print(aliases)
+                if not targetlang in aliases:
+                    aliases[targetlang] = [aliascandidate]
+                else:
+                    aliases[targetlang].append(aliascandidate)
+                print(aliases)
+                print(aliases[targetlang])
+                
+                data = { 'aliases': aliases }
+                summary = "BOT - Adding 1 aliases (%s): %s" % (targetlang, aliascandidate)
+                print(summary.encode('utf-8'))
+                try:
+                    item.editEntity(data, summary=summary)
+                except:
+                    print('Error while saving')
+                    continue
+            else:
+                print('Page without item')
+    
     print("Finished successfully")
         
 if __name__ == "__main__":
