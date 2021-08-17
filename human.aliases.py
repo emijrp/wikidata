@@ -29,7 +29,7 @@ def main():
     
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    wikisite = pywikibot.Site('en', 'wikipedia'
+    wikisite = pywikibot.Site('en', 'wikipedia')
     
     years = range(1750, 1980)
     random.shuffle(years)
