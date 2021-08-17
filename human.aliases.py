@@ -31,7 +31,7 @@ def main():
     repo = wdsite.data_repository()
     wikisite = pywikibot.Site('en', 'wikipedia')
     
-    years = range(1750, 1980)
+    years = list(range(1750, 1980))
     random.shuffle(years)
     for year in years:
         cat = pywikibot.Category(wikisite, 'Category:%s births' % (year))
