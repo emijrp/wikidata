@@ -19,8 +19,11 @@ import re
 import time
 import urllib
 
+import reverse_geocoder as rg
 import pywikibot
 from pywikibot import pagegenerators
+
+cc2country = { 'ES': 'Spain' }
 
 def addMetadata(newtext='', pagelink=''):
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
@@ -75,7 +78,22 @@ def addMetadata(newtext='', pagelink=''):
         print(location)
         lat = location[0][0]
         lon = location[0][1]
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s}}' % (lat, lon), newtext)
+        city = ''
+        country = ''
+        results = rg.search((float(lat), float(lon)))
+        print(results)
+        if results and len(results) == 1 and 'cc' in results[0] and 'name' in results[0]:
+            country = results[0]['cc']
+            country = country in cc2country and cc2country[country] or ''
+            city = results[0]['name']
+            if country and city:
+                print(country, city)
+                newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s|country=%s|city=%s}}' % (lat, lon, country, city), newtext)
+            else:
+                print('Error in country or city')
+        else:
+            print('Error doing reverse geocoding')
+            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s}}' % (lat, lon), newtext)
     else:
         print("{{Location}} no encontrado")
     #else:
