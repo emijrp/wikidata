@@ -23,56 +23,63 @@ import pywikibot
 from pywikibot import pagegenerators
 
 def addMetadata(newtext='', pagelink=''):
-    #corregir resolución de hora https://commons.wikimedia.org/w/index.php?title=File:Los_Afligidos_en_calle_Palacios_(8829545996).jpg&diff=prev&oldid=572429235
-    #images taken in night, in january, in 06:00
-    
+    newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
-    m = re.findall(r'(?im)^\|\s*date\s*=\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
+    m = re.findall(r'(?im)^\|\s*date\s*=\s*(?:\{\{according ?to ?exif ?data\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
     if m:
         print(m)
-        if re.search(r'(?im){{User:Emijrp/credit[^\{\}\|]*?\|date=', newtext):
-            newtext = re.sub(r'(?P<group1>{{User:Emijrp/credit[^\{\}\|]*?\|date=)[^\{\}\|]*?(?P<group2>[\|\}])', r'\g<group1>%s\g<group2>' % (m[0][0]), newtext)
-        else:
-            newtext = re.sub(r'{{User:Emijrp/credit', r'{{User:Emijrp/credit|date=%s' % (m[0][0]), newtext)
+        newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|date=%s}}' % (m[0][0]), newtext)
     
     #camera
-    if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?device=', newtext):
-        req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-        raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
-        #<tr class="exif-model"><th>Modelo de cámara</th><td>X-3,C-60Z       </td></tr>
-        model = re.findall(r'(?im)<tr class="exif-model"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
-        if model:
-            model = model[0]
-            model = re.sub(r'(?im)<a[^<>]*?>', r'', model)
-            model = re.sub(r'(?im)</a>', r'', model).strip()
-            print(model)
-            newtext = re.sub(r'({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
-        else:
-            print("Modelo no encontrado en exif")        
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?device=', newtext):
+    req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+    raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
+    #<tr class="exif-model"><th>Modelo de cámara</th><td>X-3,C-60Z       </td></tr>
+    model = re.findall(r'(?im)<tr class="exif-model"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    if model:
+        model = model[0]
+        model = re.sub(r'(?im)<a[^<>]*?>', r'', model)
+        model = re.sub(r'(?im)</a>', r'', model).strip()
+        print(model)
+        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
     else:
-        print("La plantilla credit ya tiene un modelo de camara")
+        print("Modelo no encontrado en exif")        
+    #else:
+    #    print("La plantilla credit ya tiene un modelo de camara")
     
     #exposuretime
     #https://commons.wikimedia.org/wiki/Category:Photographs_by_exposure_time
-    if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?exposuretime=', newtext):
-        req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-        raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
-        #<tr class="exif-exposuretime"><th>Tiempo de exposición</th><td>1/333 seg (0,003003003003003)</td></tr>
-        exposuretime = re.findall(r'(?im)<tr class="exif-exposuretime"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?exposuretime=', newtext):
+    req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+    raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
+    #<tr class="exif-exposuretime"><th>Tiempo de exposición</th><td>1/333 seg (0,003003003003003)</td></tr>
+    exposuretime = re.findall(r'(?im)<tr class="exif-exposuretime"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    if exposuretime:
+        exposuretime = exposuretime[0].split('s')[0].strip()
+        exposuretime = re.sub(r'&#160;', r'', exposuretime)
+        exposuretime = re.sub(r',', r'', exposuretime)
+        print(exposuretime)
         if exposuretime:
-            exposuretime = exposuretime[0].split('s')[0].strip()
-            exposuretime = re.sub(r'&#160;', r'', exposuretime)
-            exposuretime = re.sub(r',', r'', exposuretime)
-            print(exposuretime)
-            if exposuretime:
-                newtext = re.sub(r'({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|exposuretime=%s}}' % (exposuretime), newtext)
-        else:
-            print("Tiempo de exposicion no encontrado en exif")        
+            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|exposure-time=%s}}' % (exposuretime), newtext)
     else:
-        print("La plantilla credit ya tiene un tiempo de exposicion")
+        print("Tiempo de exposicion no encontrado en exif")        
+    #else:
+    #    print("La plantilla credit ya tiene un tiempo de exposicion")
     
-    #country
-    #lo suyo seria por ciudad, pero es complicado sacar esa info
+    #location (coordinates) https://commons.wikimedia.org/wiki/Template:Location
+    #puede estar en coordenadas decimales o grados/minutos/segundos, parsear solo las {{Location|1=|2=}} para evitar lios
+    #country, city, se puede hacer con github reverse-geocoder tirando de las coordenadas metidas con toolforge locator-tool
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?location=', newtext):
+    location = re.findall(r'(?im)\{\{\s*Location\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
+    if location:
+        print(location)
+        lat = location[0][0]
+        lon = location[0][1]
+        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s}}' % (lat, lon), newtext)
+    else:
+        print("{{Location}} no encontrado")
+    #else:
+    #    print("La plantilla credit ya tiene location")
     
     return newtext
 
@@ -89,7 +96,8 @@ def replaceSource(newtext=''):
     return newtext
 
 def creditByWhatlinkshere():
-    skip = 'File:Museo de Historia de Madrid en junio de 2021 46.jpg'
+    skip = ''
+    #skip = 'File:Museo de Historia de Madrid en junio de 2021 46.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
