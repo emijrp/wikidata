@@ -24,6 +24,28 @@ import pywikibot
 from pywikibot import pagegenerators
 
 cc2country = { 'ES': 'Spain' }
+fixcities = {
+    '40.40021,-3.69618,Arganzuela': 'Madrid',
+    '40.43893,-3.61537,San Blas': 'Madrid',
+    '40.38897,-3.74569,Latina': 'Madrid',
+    '40.38866,-3.70035,Usera': 'Madrid',
+    '40.42972,-3.67975,Salamanca': 'Madrid',
+    '40.43404,-3.70379,Chamberi': 'Madrid',
+    '40.39094,-3.7242,Carabanchel': 'Madrid',
+    '40.41831,-3.70275,City Center': 'Madrid',
+    '40.41317,-3.68307,Retiro': 'Madrid',
+}
+def getCountry(result={}):
+    country = result['cc']
+    country = country in cc2country and cc2country[country] or ''
+    return country
+
+def getCity(result={}):
+    city = result['name']
+    key = '%s,%s,%s' % (result['lat'], result['lon'], result['name'])
+    if key in fixcities:
+        city = fixcities[key]
+    return city
 
 def addMetadata(newtext='', pagelink=''):
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
@@ -53,8 +75,6 @@ def addMetadata(newtext='', pagelink=''):
     #exposuretime
     #https://commons.wikimedia.org/wiki/Category:Photographs_by_exposure_time
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?exposuretime=', newtext):
-    req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-    raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
     #<tr class="exif-exposuretime"><th>Tiempo de exposición</th><td>1/333 seg (0,003003003003003)</td></tr>
     exposuretime = re.findall(r'(?im)<tr class="exif-exposuretime"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
     if exposuretime:
@@ -69,9 +89,40 @@ def addMetadata(newtext='', pagelink=''):
     #else:
     #    print("La plantilla credit ya tiene un tiempo de exposicion")
     
+    #iso
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?iso=', newtext):
+    #<tr class="exif-isospeedratings"><th>Calificación de velocidad ISO</th><td>3200</td></tr>
+    iso = re.findall(r'(?im)<tr class="exif-isospeedratings"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    if iso:
+        iso = iso[0].strip()
+        print(iso)
+        if iso:
+            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|iso=%s}}' % (iso), newtext)
+    else:
+        print("ISO no encontrado en exif")        
+    #else:
+    #    print("La plantilla credit ya tiene un ISO")
+    
+    #focal length
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?focal-length=', newtext):
+    #<tr class="exif-focallength"><th>Longitud focal de la lente</th><td>34 mm</td></tr>
+    focallength = re.findall(r'(?im)<tr class="exif-focallength"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    if focallength:
+        focallength = focallength[0].strip()
+        focallength = re.sub(r' mm', r'', focallength)
+        focallength = focallength.strip()
+        print(focallength)
+        if focallength:
+            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|focal-length=%s}}' % (focallength), newtext)
+    else:
+        print("Focal length no encontrado en exif")        
+    #else:
+    #    print("La plantilla credit ya tiene un focal length")
+    
     #location (coordinates) https://commons.wikimedia.org/wiki/Template:Location
     #puede estar en coordenadas decimales o grados/minutos/segundos, parsear solo las {{Location|1=|2=}} para evitar lios
     #country, city, se puede hacer con github reverse-geocoder tirando de las coordenadas metidas con toolforge locator-tool
+    #https://github.com/thampiman/reverse-geocoder
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?location=', newtext):
     location = re.findall(r'(?im)\{\{\s*Location\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
     if location:
@@ -83,12 +134,21 @@ def addMetadata(newtext='', pagelink=''):
         results = rg.search((float(lat), float(lon)))
         print(results)
         if results and len(results) == 1 and 'cc' in results[0] and 'name' in results[0]:
-            country = results[0]['cc']
-            country = country in cc2country and cc2country[country] or ''
-            city = results[0]['name']
+            """
+            [{'name': 'Mountain View', 
+            'cc': 'US', 
+            'lat': '37.38605',
+            'lon': '-122.08385', 
+            'admin1': 'California', 
+            'admin2': 'Santa Clara County'}]
+            """
+            country = getCountry(result=results[0])
+            city = getCity(result=results[0])
             if country and city:
                 print(country, city)
                 newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s|country=%s|city=%s}}' % (lat, lon, country, city), newtext)
+                with open('commons-credit.geo', 'a') as f:
+                    f.write('%s,%s,%s,%s,%s,%s,%s\n' % (results[0]['lat'], results[0]['lon'], results[0]['cc'], results[0]['admin1'], results[0]['admin2'], results[0]['name'], pagelink))
             else:
                 print('Error in country or city')
         else:
