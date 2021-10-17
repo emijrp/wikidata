@@ -25,6 +25,8 @@ from pywikibot import pagegenerators
 
 cc2country = { 'ES': 'Spain' }
 fixcities = {
+    '41.38022,2.17319,Ciutat Vella': 'Barcelona',
+    
     '40.40021,-3.69618,Arganzuela': 'Madrid',
     '40.43893,-3.61537,San Blas': 'Madrid',
     '40.38897,-3.74569,Latina': 'Madrid',
@@ -48,6 +50,9 @@ def getCity(result={}):
     return city
 
 def addMetadata(newtext='', pagelink=''):
+    if not re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+        return newtext
+    
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
     m = re.findall(r'(?im)^\|\s*date\s*=\s*(?:\{\{according ?to ?exif ?data\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
@@ -95,6 +100,7 @@ def addMetadata(newtext='', pagelink=''):
     iso = re.findall(r'(?im)<tr class="exif-isospeedratings"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
     if iso:
         iso = iso[0].strip()
+        iso = re.sub(r',', r'', iso)
         print(iso)
         if iso:
             newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|iso=%s}}' % (iso), newtext)
@@ -175,7 +181,7 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     skip = ''
-    #skip = 'File:Museo de Historia de Madrid en junio de 2021 46.jpg'
+    skip = 'File:Oficina de Turismo de Cuenca (29384932970).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
