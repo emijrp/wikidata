@@ -26,6 +26,7 @@ from pywikibot import pagegenerators
 cc2country = { 'ES': 'Spain' }
 fixcities = {
     '41.38022,2.17319,Ciutat Vella': 'Barcelona',
+    '41.37263,2.1546,Sants-Montjuic': 'Barcelona',
     
     '40.40021,-3.69618,Arganzuela': 'Madrid',
     '40.43893,-3.61537,San Blas': 'Madrid',
@@ -36,7 +37,11 @@ fixcities = {
     '40.39094,-3.7242,Carabanchel': 'Madrid',
     '40.41831,-3.70275,City Center': 'Madrid',
     '40.41317,-3.68307,Retiro': 'Madrid',
+    '40.41667,-3.65,Moratalaz': 'Madrid',
+    '40.43547,-3.7317,Moncloa-Aravaca': 'Madrid',
 }
+cachedlocations = {}
+
 def getCountry(result={}):
     country = result['cc']
     country = country in cc2country and cc2country[country] or ''
@@ -50,7 +55,11 @@ def getCity(result={}):
     return city
 
 def addMetadata(newtext='', pagelink=''):
-    if not re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+    #esto solo analiza las q le haya puesto coordenadas, comentar cuando quiera que recorra todas mis fotos
+    if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+        if re.search(r'(?im)\|location-longitude=', newtext):
+            return newtext
+    else:
         return newtext
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
@@ -135,9 +144,16 @@ def addMetadata(newtext='', pagelink=''):
         print(location)
         lat = location[0][0]
         lon = location[0][1]
+        latlon = '%s,%s' % (lat, lon)
         city = ''
         country = ''
-        results = rg.search((float(lat), float(lon)))
+        results = ''
+        if latlon in cachedlocations:
+            results = cachedlocations[latlon]
+            print('Loaded cached location')
+        else:
+            results = rg.search((float(lat), float(lon)))
+            cachedlocations[latlon] = results
         print(results)
         if results and len(results) == 1 and 'cc' in results[0] and 'name' in results[0]:
             """
@@ -165,6 +181,36 @@ def addMetadata(newtext='', pagelink=''):
     #else:
     #    print("La plantilla credit ya tiene location")
     
+    #subjects
+    #|subjects=museum si contiene la palabra museo en alguna parte (o solo el título?)
+    subjects = {
+        'animals': ['zoo', 'zoobotanico', 'zoologico', ], 
+        'astronomy': ['astronomy', 'astronomia', ], 
+        'buildings': ['edificio', ], 
+        'buildings-lighthouses': ['faro', ], 
+        'buildings-religion': ['iglesia', 'catedral', 'concatedral', 'ermita', 'parroquia', 'edificios religiosos', 'mezquita', ], 
+        'events-carnival': ['carnaval', 'carrusel de coros', 'chirigota', ], 
+        'events-culture': ['charla', 'conferencia', 'debate', 'exposicion', 'teatro', 'concierto', 'jornadas', 'mesa redonda', 'presentacion', ], 
+        'events-demonstrations': ['manifestacion', 'marcha contra', '19jmani', ], 
+        'events-disasters': ['temporal', 'tornado', 'accidente', 'humo', 'incendio', ], 
+        'events-religion': ['semana santa', 'lunes santo', 'martes santo', 'miercoles santo', 'jueves santo', 'viernes santo', 'sabado santo', 'domingo de resureccion', ], 
+        'events-sports': ['futbol', 'triatlon', ], 
+        'events-other': ['dia de', 'dia del', 'dia de la', 'dia local', 'dia nacional', 'dia internacional', 'festividad', 'fiesta', 'feria', 'homenaje', ], 
+        'libraries': ['biblioteca', 'library', 'libraries', ], 
+        'maps': ['plano', 'mapa', ], 
+        'memoria-historica': ['memoria historica', 'memoria democratica', 'represion franquista', 'memorial republicano', 'bandera republicana', '13 rosas', 'trece rosas', 'guerra civil espanola', ], 
+        'monuments': ['alcazar', 'castillo', 'casa', 'torreon', ], 
+        'museums': ['museo', 'museum', ], 
+        'nature-gardens': ['jardin', 'jardines', 'orchidarium', 'arbol', ], 
+        'streets': ['calle', 'callejeando', 'avenida', 'plaza', ], 
+        'transport-aviation': ['avion' ,'helicoptero', ], 
+        'transport-road': ['autobus', 'carretera', 'coche', ], 
+        'transport-ship': ['barco', 'catamaran', 'crucero', 'vaporcito', ], 
+        'views': ['vista', 'vistas', 'mirador', 'miradores', ], 
+        'water-rivers': ['rio', 'arroyo', 'afluente', ], 
+        'water-sea': ['mar', 'oceano', 'playa', ], 
+        'water-body': ['embalse', 'pantano', 'laguna', ], 
+    }
     return newtext
 
 def replaceAuthor(newtext=''):
@@ -181,7 +227,7 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     skip = ''
-    skip = 'File:Oficina de Turismo de Cuenca (29384932970).jpg'
+    skip = 'File:Música y Poesía por la Memoria (28609360877).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
