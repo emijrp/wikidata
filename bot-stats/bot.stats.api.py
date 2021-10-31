@@ -109,8 +109,10 @@ def main():
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
     statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {} }
     statsprev = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
+    statsbylang = {}
     site = pywikibot.Site('wikidata', 'wikidata')
     statspage = pywikibot.Page(site, 'User:Emijrpbot/stats')
+    statsbylangpage = pywikibot.Page(site, 'User:Emijrpbot/statsbylang')
     for statsprop in statsprev.keys():
         statsprev[statsprop] = int(re.findall(r"(?im)%s[^\n\{]+?{{formatnum:(\d+)}}" % (statsprop), statspage.text)[0])
     
@@ -137,6 +139,16 @@ def main():
                     if not day in statsbyday[statsbydayprop]:
                         statsbyday[statsbydayprop][day] = 0
                 
+                langsincomment = []
+                if 'languages):' in comment:
+                    langsincomment = comment.split('languages):')[1].split(' / Fixing')[0]
+                    langsincomment = langsincomment.split(', ')
+                langsincomment2 = []
+                for langincomment in langsincomment:
+                    langincomment = langincomment.strip(' ').strip("'").strip(' ').strip('.').strip(' ').strip('.')
+                    langsincomment2.append(langincomment)
+                langsincomment = langsincomment2
+                
                 for regexpname, regexp in regexps.items():
                     m = regexp.findall(comment)
                     if regexpname == 'items':
@@ -145,11 +157,19 @@ def main():
                     else:
                         stats[regexpname] += m and int(m[0]) or 0
                         statsbyday[regexpname][day] += m and int(m[0]) or 0
+                    if m and regexpname in ['aliases', 'descriptions', 'labels']:
+                        for langincomment in langsincomment:
+                            if langincomment in statsbylang:
+                                statsbylang[langincomment][regexpname] += 1
+                            else:
+                                statsbylang[langincomment] = { 'aliases': 0, 'descriptions': 0, 'labels': 0 }
+                                statsbylang[langincomment][regexpname] = 1
                 
                 stats['edits'] += 1
                 statsbyday['edits'][day] += 1
                 if stats['edits'] % 1000 == 0:
                     print('%s edits analysed' % (stats['edits']))
+                    #break
     
     formatdict = {}
     for k, v in stats.items():
@@ -163,51 +183,102 @@ def main():
     formatdict['lastupdate'] = datetime.datetime.now().strftime('%Y-%m-%d')
     
     output = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
-! colspan=4 | Statistics for [[User:{nick}|{nick}]]
+! colspan=5 | Statistics for [[User:{nick}|{nick}]] by data
 |-
-! Data
-! Total added
-! Added today
-! Top day
+! rowspan=2 | Data
+! colspan=2 | Values added
+! colspan=2 | TOP days
 |-
-| '''Edits''' || data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
-| data-sort-value={diffedits} | +{{{{formatnum:{diffedits}}}}}
-| data-sort-value={topdayeditsvalue} | +{{{{formatnum:{topdayeditsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayeditsday}&limit=100&title=Special:Contributions {topdayeditsday}])
+! Total
+! Today
+! Values added
+! Date
 |-
 | '''[[Help:Label|Labels]]''' || data-sort-value={labels} | {{{{formatnum:{labels}}}}}
 | data-sort-value={difflabels} | +{{{{formatnum:{difflabels}}}}}
-| data-sort-value={topdaylabelsvalue} | +{{{{formatnum:{topdaylabelsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaylabelsday}&limit=100&title=Special:Contributions {topdaylabelsday}])
+| data-sort-value={topdaylabelsvalue} | +{{{{formatnum:{topdaylabelsvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdaylabelsday}&limit=100&title=Special:Contributions {topdaylabelsday}]
 |-
 | '''[[Help:Description|Descriptions]]''' || data-sort-value={descriptions} | {{{{formatnum:{descriptions}}}}}
 | data-sort-value={diffdescriptions} | +{{{{formatnum:{diffdescriptions}}}}}
-| data-sort-value={topdaydescriptionsvalue} | +{{{{formatnum:{topdaydescriptionsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaydescriptionsday}&limit=100&title=Special:Contributions {topdaydescriptionsday}])
+| data-sort-value={topdaydescriptionsvalue} | +{{{{formatnum:{topdaydescriptionsvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdaydescriptionsday}&limit=100&title=Special:Contributions {topdaydescriptionsday}]
 |-
 | '''[[Help:Aliases|Aliases]]''' || data-sort-value={aliases} | {{{{formatnum:{aliases}}}}}
 | data-sort-value={diffaliases} | +{{{{formatnum:{diffaliases}}}}}
-| data-sort-value={topdayaliasesvalue} | +{{{{formatnum:{topdayaliasesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayaliasesday}&limit=100&title=Special:Contributions {topdayaliasesday}])
+| data-sort-value={topdayaliasesvalue} | +{{{{formatnum:{topdayaliasesvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayaliasesday}&limit=100&title=Special:Contributions {topdayaliasesday}]
 |-
 | '''[[Help:Statements|Claims]]''' || data-sort-value={claims} | {{{{formatnum:{claims}}}}}
 | data-sort-value={diffclaims} | +{{{{formatnum:{diffclaims}}}}}
-| data-sort-value={topdayclaimsvalue} | +{{{{formatnum:{topdayclaimsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayclaimsday}&limit=100&title=Special:Contributions {topdayclaimsday}])
+| data-sort-value={topdayclaimsvalue} | +{{{{formatnum:{topdayclaimsvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayclaimsday}&limit=100&title=Special:Contributions {topdayclaimsday}]
 |-
 | '''[[Help:Sitelinks|Sitelinks]]''' || data-sort-value={sitelinks} | {{{{formatnum:{sitelinks}}}}}
 | data-sort-value={diffsitelinks} | +{{{{formatnum:{diffsitelinks}}}}}
-| data-sort-value={topdaysitelinksvalue} | +{{{{formatnum:{topdaysitelinksvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdaysitelinksday}&limit=100&title=Special:Contributions {topdaysitelinksday}])
+| data-sort-value={topdaysitelinksvalue} | +{{{{formatnum:{topdaysitelinksvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdaysitelinksday}&limit=100&title=Special:Contributions {topdaysitelinksday}]
 |-
 | '''[[Help:Items|Items]]''' || data-sort-value={items} | [https://www.wikidata.org/w/index.php?title=Special:NewPages&namespace=0&username={nick_} {{{{formatnum:{items}}}}}]
 | data-sort-value={diffitems} | +{{{{formatnum:{diffitems}}}}}
-| data-sort-value={topdayitemsvalue} | +{{{{formatnum:{topdayitemsvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayitemsday}&limit=100&title=Special:Contributions {topdayitemsday}])
+| data-sort-value={topdayitemsvalue} | +{{{{formatnum:{topdayitemsvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=1&start=&end={topdayitemsday}&limit=100&title=Special:Contributions {topdayitemsday}]
 |-
 | '''[[Help:Sources|References]]''' || data-sort-value={references} | {{{{formatnum:{references}}}}}
 | data-sort-value={diffreferences} | +{{{{formatnum:{diffreferences}}}}}
-| data-sort-value={topdayreferencesvalue} | +{{{{formatnum:{topdayreferencesvalue}}}}} ([https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayreferencesday}&limit=100&title=Special:Contributions {topdayreferencesday}])
+| data-sort-value={topdayreferencesvalue} | +{{{{formatnum:{topdayreferencesvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayreferencesday}&limit=100&title=Special:Contributions {topdayreferencesday}]
 |-
-! colspan=4 | <small>Last update: {lastupdate}</small>
+! '''Edits''' !! data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
+! data-sort-value={diffedits} | +{{{{formatnum:{diffedits}}}}}
+! data-sort-value={topdayeditsvalue} | +{{{{formatnum:{topdayeditsvalue}}}}}
+! [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayeditsday}&limit=100&title=Special:Contributions {topdayeditsday}]
+|-
+! colspan=5 | Last update: {lastupdate}
 |}}""".format(**formatdict)
     summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
     print(output)
     statspage.text = output
     statspage.save(summary)
+    
+    statsbylanglist = []
+    for lang, langprops in statsbylang.items():
+        langtotal = langprops['labels'] + langprops['descriptions'] + langprops['aliases']
+        langstats = [langtotal, lang, langprops['labels'], langprops['descriptions'], langprops['aliases']]
+        statsbylanglist.append(langstats)
+    statsbylanglist.sort(reverse=True)
+    
+    statsbylangtable = ''
+    for langtotal, lang, langlabels, langdescriptions, langaliases in statsbylanglist:
+        formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
+        statsbylangtable += """
+| data-sort-value={lang} | [[:{lang}:|{{{{#language:{lang}|en}}}}]] ({lang})
+| data-sort-value={langlabels} | {{{{formatnum:{langlabels}}}}}
+| data-sort-value={langdescriptions} | {{{{formatnum:{langdescriptions}}}}}
+| data-sort-value={langaliases} | {{{{formatnum:{langaliases}}}}}
+| data-sort-value={langtotal} | {{{{formatnum:{langtotal}}}}}
+|-""".format(**formatdictlang)
+    
+    formatdictbylang = {}
+    formatdictbylang['nick'] = formatdict['nick']
+    formatdictbylang['nick_'] = formatdict['nick_']
+    formatdictbylang['lastupdate'] = formatdict['lastupdate']
+    formatdictbylang['statsbylangtable'] = statsbylangtable
+    outputbylang = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
+! colspan=5 | Statistics for [[User:{nick}|{nick}]] by language
+|-
+! Language
+! [[Help:Label|Labels]]
+! [[Help:Description|Descriptions]]
+! [[Help:Aliases|Aliases]]
+! Total
+|-{statsbylangtable}
+! colspan=5 | Last update: {lastupdate}
+|}}""".format(**formatdictbylang)
+    summarybylang = "BOT - Updating stats by language"
+    print(outputbylang)
+    statsbylangpage.text = outputbylang
+    statsbylangpage.save(summarybylang)
 
 if __name__ == "__main__":
     main()
