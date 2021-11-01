@@ -107,7 +107,7 @@ def main():
     edits = []
     
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
-    statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {} }
+    statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {}, 'total': {} }
     statsprev = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
     statsbylang = {}
     site = pywikibot.Site('wikidata', 'wikidata')
@@ -157,9 +157,11 @@ def main():
                     if regexpname == 'items':
                         stats[regexpname] += m and 1 or 0
                         statsbyday[regexpname][day] += m and 1 or 0
+                        statsbyday['total'][day] += m and 1 or 0
                     else:
                         stats[regexpname] += m and int(m[0]) or 0
                         statsbyday[regexpname][day] += m and int(m[0]) or 0
+                        statsbyday['total'][day] += m and int(m[0]) or 0
                     if m and regexpname in ['aliases', 'descriptions', 'labels']:
                         for langincomment in langsincomment:
                             if not langincomment in statsbylang:
@@ -170,7 +172,7 @@ def main():
                 statsbyday['edits'][day] += 1
                 if stats['edits'] % 100000 == 0:
                     print('%s edits analysed' % (stats['edits']))
-                    break
+                    #break
     
     formatdict = { 'total': 0, 'difftotal': 0 }
     for k, v in stats.items():
@@ -182,6 +184,9 @@ def main():
         topday = calculateTopDay(days=statsbyday[k])
         formatdict['topday'+k+'day'] = topday[0]
         formatdict['topday'+k+'value'] = topday[1]
+    topday = calculateTopDay(days=statsbyday['total'])
+    formatdict['topdaytotalday'] = topday[0]
+    formatdict['topdaytotalvalue'] = topday[1]
     formatdict['nick'] = nick
     formatdict['nick_'] = nick_
     formatdict['lastupdate'] = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -235,8 +240,8 @@ def main():
 |-
 ! '''Total''' !! data-sort-value={total} | {{{{formatnum:{total}}}}}
 ! data-sort-value={difftotal} | +{{{{formatnum:{difftotal}}}}}
-! data-sort-value=0 | -
-! -
+! data-sort-value={topdaytotalvalue} | +{{{{formatnum:{topdaytotalvalue}}}}}
+! [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdaytotalday}&limit=100&title=Special:Contributions {topdaytotalday}]
 |-
 ! '''Edits''' !! data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
 ! data-sort-value={diffedits} | +{{{{formatnum:{diffedits}}}}}
@@ -258,7 +263,10 @@ def main():
     statsbylanglist.sort(reverse=True)
     
     statsbylangtable = ''
-    formatdictbylang = { 'subtotallabels': 0, 'subtotaldescriptions': 0, 'subtotalaliases': 0, 'subtotaltotal': 0, }
+    formatdictbylang = {
+        'labels': formatdict['labels'], 'descriptions': formatdict['descriptions'], 'aliases': formatdict['aliases'], 'total': formatdict['total'], 
+        'subtotallabels': 0, 'subtotaldescriptions': 0, 'subtotalaliases': 0, 'subtotaltotal': 0, 
+    }
     for langtotal, lang, langlabels, langdescriptions, langaliases in statsbylanglist:
         formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'lang_': lang.split('-')[0], 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
         formatdictbylang['subtotallabels'] += langlabels
