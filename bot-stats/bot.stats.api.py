@@ -258,7 +258,7 @@ def main():
     statsbylanglist.sort(reverse=True)
     
     statsbylangtable = ''
-    formatdictbylang = {}
+    formatdictbylang = { 'subtotallabels': 0, 'subtotaldescriptions': 0, 'subtotalaliases': 0, 'subtotaltotal': 0, }
     for langtotal, lang, langlabels, langdescriptions, langaliases in statsbylanglist:
         formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'lang_': lang.split('-')[0], 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
         formatdictbylang['subtotallabels'] += langlabels
