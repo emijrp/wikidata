@@ -141,12 +141,13 @@ def main():
                 
                 langsincomment = []
                 if 'languages):' in comment:
-                    langsincomment = comment.split('languages):')[1].split(' / Fixing')[0]
-                    langsincomment = langsincomment.split(', ')
+                    langsincomment = comment.split('languages):')[1].split('/')[0]
+                    langsincomment = langsincomment.split(',')
                 langsincomment2 = []
                 for langincomment in langsincomment:
-                    langincomment = langincomment.strip(' ').strip("'").strip(' ').strip('.').strip(' ').strip('.')
-                    langsincomment2.append(langincomment)
+                    langincomment = langincomment.strip(' ')
+                    if not '.' in langincomment: #evitar idiomas cortados por el límite del resumen en-c...
+                        langsincomment2.append(langincomment)
                 langsincomment = langsincomment2
                 
                 for regexpname, regexp in regexps.items():
@@ -158,6 +159,11 @@ def main():
                         stats[regexpname] += m and int(m[0]) or 0
                         statsbyday[regexpname][day] += m and int(m[0]) or 0
                     if m and regexpname in ['aliases', 'descriptions', 'labels']:
+                        if not langsincomment and regexp == 'aliases':
+                            #si en algun momento añado más de 1 alias por edición, habría que recalcular/corregir esto y el +=1 de abajo
+                            n = re.findall(r'(?im)Adding 1 aliases \(([a-z\-]+?)\)', comment)
+                            if n:
+                                langsincomment = [n[0][1]] 
                         for langincomment in langsincomment:
                             if langincomment in statsbylang:
                                 statsbylang[langincomment][regexpname] += 1
@@ -250,9 +256,9 @@ def main():
     
     statsbylangtable = ''
     for langtotal, lang, langlabels, langdescriptions, langaliases in statsbylanglist:
-        formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
+        formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'lang_': lang.split('-')[0], 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
         statsbylangtable += """
-| data-sort-value={lang} | [[:{lang}:|{{{{#language:{lang}|en}}}}]] ({lang})
+| data-sort-value={lang} | [[:{lang_}:|{{{{#language:{lang}|en}}}}]] ({lang})
 | data-sort-value={langlabels} | {{{{formatnum:{langlabels}}}}}
 | data-sort-value={langdescriptions} | {{{{formatnum:{langdescriptions}}}}}
 | data-sort-value={langaliases} | {{{{formatnum:{langaliases}}}}}
