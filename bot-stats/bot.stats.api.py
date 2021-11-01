@@ -168,14 +168,17 @@ def main():
                 
                 stats['edits'] += 1
                 statsbyday['edits'][day] += 1
-                if stats['edits'] % 1000 == 0:
+                if stats['edits'] % 100000 == 0:
                     print('%s edits analysed' % (stats['edits']))
-                    #break
+                    break
     
-    formatdict = {}
+    formatdict = { 'total': 0, 'difftotal': 0 }
     for k, v in stats.items():
         formatdict[k] = v
+        if k in ['aliases', 'claims', 'descriptions', 'items', 'labels', 'references', 'sitelinks']:
+            formatdict['total'] += v
         formatdict['diff'+k] = v - statsprev[k]
+        formatdict['difftotal'] += formatdict['diff'+k]
         topday = calculateTopDay(days=statsbyday[k])
         formatdict['topday'+k+'day'] = topday[0]
         formatdict['topday'+k+'value'] = topday[1]
@@ -230,6 +233,11 @@ def main():
 | data-sort-value={topdayreferencesvalue} | +{{{{formatnum:{topdayreferencesvalue}}}}}
 | [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayreferencesday}&limit=100&title=Special:Contributions {topdayreferencesday}]
 |-
+! '''Total''' !! data-sort-value={total} | {{{{formatnum:{total}}}}}
+! data-sort-value={difftotal} | +{{{{formatnum:{difftotal}}}}}
+! data-sort-value=0 | -
+! -
+|-
 ! '''Edits''' !! data-sort-value={edits} | [[Special:Contributions/Emijrpbot|{{{{formatnum:{edits}}}}}]]
 ! data-sort-value={diffedits} | +{{{{formatnum:{diffedits}}}}}
 ! data-sort-value={topdayeditsvalue} | +{{{{formatnum:{topdayeditsvalue}}}}}
@@ -250,8 +258,13 @@ def main():
     statsbylanglist.sort(reverse=True)
     
     statsbylangtable = ''
+    formatdictbylang = {}
     for langtotal, lang, langlabels, langdescriptions, langaliases in statsbylanglist:
         formatdictlang = { 'langlabels': langlabels, 'lang': lang, 'lang_': lang.split('-')[0], 'langdescriptions': langdescriptions, 'langaliases': langaliases, 'langtotal': langtotal }
+        formatdictbylang['subtotallabels'] += langlabels
+        formatdictbylang['subtotaldescriptions'] += langdescriptions
+        formatdictbylang['subtotalaliases'] += langaliases
+        formatdictbylang['subtotaltotal'] += langtotal
         statsbylangtable += """
 | data-sort-value={lang} | [[:{lang_}:|{{{{#language:{lang}|en}}}}]] ({lang})
 | data-sort-value={langlabels} | {{{{formatnum:{langlabels}}}}}
@@ -260,7 +273,6 @@ def main():
 | data-sort-value={langtotal} | {{{{formatnum:{langtotal}}}}}
 |-""".format(**formatdictlang)
     
-    formatdictbylang = {}
     formatdictbylang['nick'] = formatdict['nick']
     formatdictbylang['nick_'] = formatdict['nick_']
     formatdictbylang['lastupdate'] = formatdict['lastupdate']
@@ -274,6 +286,16 @@ def main():
 ! [[Help:Aliases|Aliases]]
 ! Total
 |-{statsbylangtable}
+! '''Subtotal''' !! data-sort-value={subtotallabels} | {{{{formatnum:{subtotallabels}}}}}
+! data-sort-value={subtotaldescriptions} | {{{{formatnum:{subtotaldescriptions}}}}}
+! data-sort-value={subtotalaliases} | {{{{formatnum:{subtotalaliases}}}}}
+! data-sort-value={subtotaltotal} | {{{{formatnum:{subtotaltotal}}}}}
+|-
+! '''Total''' !! data-sort-value={labels} | {{{{formatnum:{labels}}}}}
+! data-sort-value={descriptions} | {{{{formatnum:{descriptions}}}}}
+! data-sort-value={aliases} | {{{{formatnum:{aliases}}}}}
+! data-sort-value={total} | {{{{formatnum:{total}}}}}
+|-
 ! colspan=5 | Last update: {lastupdate}
 |}}""".format(**formatdictbylang)
     summarybylang = "BOT - Updating stats by language"
