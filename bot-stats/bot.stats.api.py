@@ -143,9 +143,11 @@ def main():
                 if 'languages):' in comment:
                     langsincomment = comment.split('languages):')[1].split('/')[0]
                     langsincomment = langsincomment.split(',')
+                elif 'aliases (' in comment:
+                    langsincomment = [comment.split('aliases (')[1].split(')')[0]]
                 langsincomment2 = []
                 for langincomment in langsincomment:
-                    langincomment = langincomment.strip(' ')
+                    langincomment = langincomment.strip(' ').strip("'").strip(' ').strip("'")
                     if not '.' in langincomment: #evitar idiomas cortados por el límite del resumen en-c...
                         langsincomment2.append(langincomment)
                 langsincomment = langsincomment2
@@ -159,17 +161,10 @@ def main():
                         stats[regexpname] += m and int(m[0]) or 0
                         statsbyday[regexpname][day] += m and int(m[0]) or 0
                     if m and regexpname in ['aliases', 'descriptions', 'labels']:
-                        if not langsincomment and regexp == 'aliases':
-                            #si en algun momento añado más de 1 alias por edición, habría que recalcular/corregir esto y el +=1 de abajo
-                            n = re.findall(r'(?im)Adding 1 aliases \(([a-z\-]+?)\)', comment)
-                            if n:
-                                langsincomment = [n[0][1]] 
                         for langincomment in langsincomment:
-                            if langincomment in statsbylang:
-                                statsbylang[langincomment][regexpname] += 1
-                            else:
+                            if not langincomment in statsbylang:
                                 statsbylang[langincomment] = { 'aliases': 0, 'descriptions': 0, 'labels': 0 }
-                                statsbylang[langincomment][regexpname] = 1
+                            statsbylang[langincomment][regexpname] += 1
                 
                 stats['edits'] += 1
                 statsbyday['edits'][day] += 1
@@ -273,7 +268,7 @@ def main():
     outputbylang = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
 ! colspan=5 | Statistics for [[User:{nick}|{nick}]] by language
 |-
-! Language
+! width=120px | Language
 ! [[Help:Label|Labels]]
 ! [[Help:Description|Descriptions]]
 ! [[Help:Aliases|Aliases]]
