@@ -27,6 +27,8 @@ import urllib.request
 
 import pywikibot
 
+diffs2langs = {}
+
 def loadLastEditId(nick='', path=''):
     lasteditid = 0
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
@@ -48,6 +50,29 @@ def calculateTopDay(days={}):
     dayslist = [[v, k] for k, v in days.items()]
     dayslist.sort(reverse=True)
     return [dayslist[0][1], dayslist[0][0]]
+
+def getLanguagesFromDiff(revid='', comment=''):
+    #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521460418
+    #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521456307 tt-latn, ur / Fixing descriptions (1 languages): uk
+    global diffs2langs
+    
+    nlangs = re.findall(r'(?im)\((\d+?) languages\)', comment)
+    nlangs = m and m[0] or 0
+    langsfromdiff = []
+    if revid and comment:
+        if comment in diffs2langs:
+            langsfromdiff = diffs2langs[comment]
+        else:
+            diffurl = 'https://www.wikidata.org/w/index.php?oldid=%s&diff=prev' % (revid)
+            raw = urllib.request.urlopen(diffurl)
+            m = re.findall(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">', raw)
+            for lang in m:
+                lang = lang.strip()
+                if len(lang) >= 2 and not '.' in lang:
+                    langsfromdiff.append(lang)
+            if nlangs and len(langsfromdiff) == nlangs:
+                diffs2langs[comment] = langsfromdiff
+    return langsfromdiff
 
 def main():
     path = '/data/project/emijrpbot/wikidata'
@@ -143,6 +168,10 @@ def main():
                 if 'languages):' in comment:
                     langsincomment = comment.split('languages):')[1].split('/')[0]
                     langsincomment = langsincomment.split(',')
+                    if '...' in comment:
+                        langsfromdiff = getLanguagesFromDiff(revid=revid, comment=comment)
+                        if len(langsfromdiff) > 0:
+                            langsincomment = langsfromdiff
                 elif 'aliases (' in comment:
                     langsincomment = [comment.split('aliases (')[1].split(')')[0]]
                 langsincomment2 = []
@@ -166,7 +195,12 @@ def main():
                         for langincomment in langsincomment:
                             if not langincomment in statsbylang:
                                 statsbylang[langincomment] = { 'aliases': 0, 'descriptions': 0, 'labels': 0 }
-                            statsbylang[langincomment][regexpname] += 1
+                            if regexpname == 'aliases':
+                                naliases = re.findall(r'(?im) (\d+?) aliases', comment)
+                                naliases = naliases and int(naliases[0]) or 1
+                                statsbylang[langincomment][regexpname] += naliases
+                            else:
+                                statsbylang[langincomment][regexpname] += 1
                 
                 stats['edits'] += 1
                 statsbyday['edits'][day] += 1
