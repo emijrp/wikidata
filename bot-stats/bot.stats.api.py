@@ -28,6 +28,16 @@ import urllib.request
 import pywikibot
 
 diffs2langs = {}
+regexps = {
+    'aliases': re.compile(r"(?i)BOT - Adding ([0-9]+) alias"), 
+    'claims': re.compile(r"(?i)BOT - Adding ([0-9]+) claim"), 
+    'descriptions': re.compile(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)"), 
+    'labels': re.compile(r"(?i)BOT - Adding labels? \(([0-9]+) languages?\)"), 
+    'references': re.compile(r"(?i)BOT - Adding ([0-9]+) reference"), 
+    'sitelinks': re.compile(r"(?i)BOT - Adding ([0-9]+) sitelink"), 
+    'items': re.compile(r"(?i)BOT - Creating item"), 
+    'difflangs': re.compile(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">'), 
+}
 
 def loadLastEditId(nick='', path=''):
     lasteditid = 0
@@ -55,6 +65,7 @@ def getLanguagesFromDiff(revid='', comment=''):
     #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521460418
     #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521456307 tt-latn, ur / Fixing descriptions (1 languages): uk
     global diffs2langs
+    global regexps
     
     langsfromdiff = []
     if revid and comment:
@@ -65,7 +76,7 @@ def getLanguagesFromDiff(revid='', comment=''):
         else:
             diffurl = 'https://www.wikidata.org/w/index.php?oldid=%s&diff=prev' % (revid)
             raw = urllib.request.urlopen(diffurl).read().decode('utf-8')
-            m = re.findall(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">', raw)
+            m = regexp['difflangs'].findall(raw)
             for lang in m:
                 lang = lang.strip()
                 if len(lang) >= 2 and not '.' in lang:
@@ -75,6 +86,8 @@ def getLanguagesFromDiff(revid='', comment=''):
     return langsfromdiff
 
 def main():
+    global regexps
+    
     path = '/data/project/emijrpbot/wikidata'
     nick = 'Emijrpbot'
     nick_ = re.sub(' ', '_', nick)
@@ -142,15 +155,6 @@ def main():
         statsprev[statsprop] = int(re.findall(r"(?im)%s[^\n\{]+?{{formatnum:(\d+)}}" % (statsprop), statspage.text)[0])
     
     #848135050,2019-02-01T10:14:31Z,"/* wbeditentity-update:0| */ BOT - Adding descriptions (57 languages): ar, ast, bg, bn, ca, cs, da, de, el, eo, es, et, fa, fi, fr, gl, he, hu, hy, it, ja, ka, ko, lt, nan, nb, nn, oc, pl, pt, pt-br, ro, ru, sk, sq, sr, sr-ec, sr-el, sv, tg, tg-cyrl, th, tl, tr, ur, vi, wuu, yue, zh, zh-cn, zh-hans, zh-hant, zh-hk, zh-mo, zh-my, zh-sg, zh-tw"
-    regexps = {
-        'aliases': re.compile(r"(?i)BOT - Adding ([0-9]+) alias"), 
-        'claims': re.compile(r"(?i)BOT - Adding ([0-9]+) claim"), 
-        'descriptions': re.compile(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)"), 
-        'labels': re.compile(r"(?i)BOT - Adding labels? \(([0-9]+) languages?\)"), 
-        'references': re.compile(r"(?i)BOT - Adding ([0-9]+) reference"), 
-        'sitelinks': re.compile(r"(?i)BOT - Adding ([0-9]+) sitelink"), 
-        'items': re.compile(r"(?i)BOT - Creating item"), 
-    }
     if os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -168,10 +172,11 @@ def main():
                 if 'languages):' in comment:
                     langsincomment = comment.split('languages):')[1].split('/')[0]
                     langsincomment = langsincomment.split(',')
-                    if '...' in comment:
-                        langsfromdiff = getLanguagesFromDiff(revid=revid, comment=comment)
-                        if len(langsfromdiff) > 0:
-                            langsincomment = langsfromdiff
+                    #comentado hasta que optimice lo del diff
+                    #if '...' in comment:
+                    #    langsfromdiff = getLanguagesFromDiff(revid=revid, comment=comment)
+                    #    if len(langsfromdiff) > 0:
+                    #        langsincomment = langsfromdiff
                 elif 'aliases (' in comment:
                     langsincomment = [comment.split('aliases (')[1].split(')')[0]]
                 langsincomment2 = []
