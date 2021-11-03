@@ -56,15 +56,15 @@ def getLanguagesFromDiff(revid='', comment=''):
     #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521456307 tt-latn, ur / Fixing descriptions (1 languages): uk
     global diffs2langs
     
-    nlangs = re.findall(r'(?im)\((\d+?) languages\)', comment)
-    nlangs = m and m[0] or 0
     langsfromdiff = []
     if revid and comment:
+        nlangs = re.findall(r'(?im)\((\d+?) languages\)', comment)
+        nlangs = nlangs and nlangs[0] or 0
         if comment in diffs2langs:
             langsfromdiff = diffs2langs[comment]
         else:
             diffurl = 'https://www.wikidata.org/w/index.php?oldid=%s&diff=prev' % (revid)
-            raw = urllib.request.urlopen(diffurl)
+            raw = urllib.request.urlopen(diffurl).read().decode('utf-8')
             m = re.findall(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">', raw)
             for lang in m:
                 lang = lang.strip()
