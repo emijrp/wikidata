@@ -56,11 +56,11 @@ def getCity(result={}):
 
 def addMetadata(newtext='', pagelink=''):
     #esto solo analiza las q le haya puesto coordenadas, comentar cuando quiera que recorra todas mis fotos
-    if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
-        if re.search(r'(?im)\|location-longitude=', newtext):
-            return newtext
-    else:
-        return newtext
+    #if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+    #    if re.search(r'(?im)\|location-longitude=', newtext):
+    #        return newtext
+    #else:
+    #    return newtext
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
@@ -80,6 +80,9 @@ def addMetadata(newtext='', pagelink=''):
         model = re.sub(r'(?im)<a[^<>]*?>', r'', model)
         model = re.sub(r'(?im)</a>', r'', model).strip()
         print(model)
+        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
+    elif re.search(r'(?im)microscope', pagelink) and re.search(r'(?im)data-file-width="640" data-file-height="480"', raw):
+        model = 'Jiusion Digital Microscope'
         newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
     else:
         print("Modelo no encontrado en exif")        
@@ -227,7 +230,8 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     skip = ''
-    skip = 'File:Música y Poesía por la Memoria (28609360877).jpg'
+    skip = 'File:Capitel toscano - Palacio de Purullena (37097044270) (cropped).jpg'
+    #skip = 'File:Música y Poesía por la Memoria (28609360877).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
