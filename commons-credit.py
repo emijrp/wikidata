@@ -140,7 +140,8 @@ def addMetadata(newtext='', pagelink=''):
     #fnumber
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?f-number=', newtext):
     #<tr class="exif-fnumber"><th>Número F</th><td>f/1,8</td></tr>
-    fnumber = re.findall(r'(?im)<tr class="exif-fnumber"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    fnumber = re.findall(r'(?im)<tr class="exif-fnumber"><th>.*?</th><td>(.*?)</td></tr>', raw)
+    #en el raw html inglés sale <th><a href="https://en.wikipedia.org/wiki/F-number" class="extiw" title="wikipedia:F-number">F-number</a></th>
     if fnumber:
         fnumber = fnumber[0].strip()
         #fnumber = re.sub(r'f/', r'', fnumber) #le dejamos la f mejor, y no hace falta quitar ',' porque no las hay, mantenemos los '.' decimales
