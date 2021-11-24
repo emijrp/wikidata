@@ -95,7 +95,7 @@ def addMetadata(newtext='', pagelink=''):
     #<tr class="exif-exposuretime"><th>Tiempo de exposición</th><td>1/333 seg (0,003003003003003)</td></tr>
     exposuretime = re.findall(r'(?im)<tr class="exif-exposuretime"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
     if exposuretime:
-        exposuretime = exposuretime[0].split('s')[0].strip()
+        exposuretime = exposuretime[0].split('s')[0].strip() #le quitamos la unidad seg para poder hacer calculos en la plantilla
         exposuretime = re.sub(r'&#160;', r'', exposuretime)
         exposuretime = re.sub(r',', r'', exposuretime)
         print(exposuretime)
@@ -127,7 +127,7 @@ def addMetadata(newtext='', pagelink=''):
     focallength = re.findall(r'(?im)<tr class="exif-focallength"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
     if focallength:
         focallength = focallength[0].strip()
-        focallength = re.sub(r' mm', r'', focallength)
+        focallength = re.sub(r' mm', r'', focallength) # le quitamos el mm para poder hacer calculos en la plantilla
         focallength = focallength.strip()
         print(focallength)
         if focallength:
@@ -136,6 +136,22 @@ def addMetadata(newtext='', pagelink=''):
         print("Focal length no encontrado en exif")        
     #else:
     #    print("La plantilla credit ya tiene un focal length")
+    
+    #fnumber
+    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?f-number=', newtext):
+    #<tr class="exif-fnumber"><th>Número F</th><td>f/1,8</td></tr>
+    fnumber = re.findall(r'(?im)<tr class="exif-fnumber"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
+    if fnumber:
+        fnumber = fnumber[0].strip()
+        #fnumber = re.sub(r'f/', r'', fnumber) #le dejamos la f mejor, y no hace falta quitar ',' porque no las hay, mantenemos los '.' decimales
+        fnumber = fnumber.strip()
+        print(fnumber)
+        if fnumber:
+            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|f-number=%s}}' % (fnumber), newtext)
+    else:
+        print("f-number no encontrado en exif")        
+    #else:
+    #    print("La plantilla credit ya tiene un f-number")
     
     #location (coordinates) https://commons.wikimedia.org/wiki/Template:Location
     #puede estar en coordenadas decimales o grados/minutos/segundos, parsear solo las {{Location|1=|2=}} para evitar lios
@@ -230,7 +246,7 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     skip = ''
-    skip = 'File:Capitel toscano - Palacio de Purullena (37097044270) (cropped).jpg'
+    #skip = 'File:Capitel toscano - Palacio de Purullena (37097044270) (cropped).jpg'
     #skip = 'File:Música y Poesía por la Memoria (28609360877).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
