@@ -191,7 +191,7 @@ def main():
 == Institutions ==
 %s
 
-{{Template:User:Emijrp}}""" % (total, len(devices_list), len(years_list), len(cities_list), len(institutions_list), usage, yearsx, yearsy, monthsx, monthsy, devicesx, devicesy, catstable, citiestable, institutionstable)
+{{Template:User:Emijrp}}""" % (total, len(devices_list), len(cities_list), len(years_list), len(institutions_list), usage, yearsx, yearsy, monthsx, monthsy, devicesx, devicesy, catstable, citiestable, institutionstable)
     if newtext != page.text:
         pywikibot.showDiff(page.text, newtext)
         page.text = newtext
