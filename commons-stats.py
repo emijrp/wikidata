@@ -30,33 +30,19 @@ from pywikibot import pagegenerators
 
 cities2catname = {
     "Alcala de Henares": "Alcalá de Henares", 
-    "Aranjuez": "Aranjuez",
     "Avila": "Ávila", 
-    "Barcelona": "Barcelona", 
     "Benalup Casas Viejas": "Benalup-Casas Viejas", 
-    "Burgos": "Burgos", 
     "Caceres": "Cáceres", 
     "Cadiz": "Cádiz", 
-    "Chipiona": "Chipiona", 
+    "Cordoba": "Córdoba", 
     "El Puerto de Santa Maria": "El Puerto de Santa María", 
-    "Espera": "Espera", 
-    "Estepona": "Estepona", 
-    "Guadalajara": "Guadalajara", 
     "Jerez": "Jerez de la Frontera", 
-    "Madrid": "Madrid", 
     "Malaga": "Málaga", 
     "Medina Sidonia": "Medina-Sidonia", 
-    "Puerto Real": "Puerto Real", 
-    "Rota": "Rota", 
-    "Salamanca": "Salamanca", 
     "Sanlucar de Barrameda": "Sanlúcar de Barrameda", 
-    "Segovia": "Segovia", 
-    "Sevilla": "Sevilla", 
-    "Seville": "Sevilla", 
-    "Toledo": "Toledo", 
-    "Valladolid": "Valladolid", 
+    "Sevilla": "Seville", 
     "Vejer": "Vejer de la Frontera", 
-    "Vejer de la Frontera": "Vejer de la Frontera", 
+    "Villar de Domingo Garcia": "Villar de Domingo García", 
 }
 monthnum2monthname = { '01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December' }
 categories = {}
@@ -69,28 +55,16 @@ def main():
     commons = pywikibot.Site('commons', 'commons')
     category = pywikibot.Category(commons, 'Files by User:Emijrp')
     gen = pagegenerators.CategorizedPageGenerator(category)
-    c = 0
+    total = 0
     for page in gen:
-        c += 1
         print('==', page.title(), '==')
         wtext = page.text
-        
-        #categories
-        m = re.findall(r'(?im)\[\[\s*Category\s*\:\s*([^\[\]\|]*?)\s*[\|\]]', wtext)
-        for category in m:
-            if len(category) > 1:
-                category = category[0].upper() + category[1:]
-            else:
-                category = category.upper()
-            if category in categories.keys():
-                categories[category] += 1
-            else:
-                categories[category] = 1
         
         #params in credit template
         m = re.findall(r'(?im){{User:Emijrp/credit([^\{\}]*?)}}', wtext)
         if not m:
             continue
+        total += 1
         params = m[0].split('|')
         for param in params:
             print(param)
@@ -123,13 +97,29 @@ def main():
             else:
                 pass
         
-        if c > 500: #test
+        #categories
+        m = re.findall(r'(?im)\[\[\s*Category\s*\:\s*([^\[\]\|]*?)\s*[\|\]]', wtext)
+        for category in m:
+            if len(category) > 1:
+                category = category[0].upper() + category[1:]
+            else:
+                category = category.upper()
+            if category in categories.keys():
+                categories[category] += 1
+            else:
+                categories[category] = 1
+        
+        if total >= 50000: #test
             break
     
     categories_list = []
+    institutions_list = []
     for k, v in categories.items():
         categories_list.append([v, k])
+        if k.startswith('Collections of the '):
+            institutions_list.append(k.split('Collections of the ')[1])
     categories_list.sort(reverse=True)
+    institutions_list.sort()
     catstable = ""
     c = 1
     for freq, category in categories_list[:100]:
@@ -137,6 +127,7 @@ def main():
             break
         catstable += "\n|-\n| %s || [[:Category:%s|%s]] || %s" % (c, category, category, freq)
         c += 1
+    institutionstable = ", ".join(["{{[[Institution:%s|%s]]}}" % (institution, institution) for institution in institutions_list])
     
     cities_list = []
     for k, v in cities.items():
@@ -175,7 +166,7 @@ def main():
     
     page = pywikibot.Page(commons, "User:Emijrp/Statistics")
     newtext = """
-'''Statistics''' for [[:Category:Files by User:Emijrp]].
+'''Statistics''' for '''%s files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|%s different devices]] in [[#Cities|%s cities]] spanning [[#By year|%s years]]. Among the visited places, there are over [[#Institutions|%s cultural institutions]].
 %s
 == Files ==
 === By year ===
@@ -188,15 +179,19 @@ def main():
 == Most frequent ==
 {| style="text-align: center;"
 | valign=top |
-{| class="wikitable sortable" width="400px"
+{| id="Categories" class="wikitable sortable" width="400px"
 ! # !! Category !! Files%s
 |}
 | valign=top |
-{| class="wikitable sortable" width="400px"
+{| id="Cities" class="wikitable sortable" width="400px"
 ! # !! City !! Files%s
 |}
 |}
-""" % (usage, yearsx, yearsy, monthsx, monthsy, devicesx, devicesy, catstable, citiestable)
+
+== Institutions ==
+%s
+
+{{Template:User:Emijrp}}""" % (total, len(devices_list), len(years_list), len(cities_list), len(institutions_list), usage, yearsx, yearsy, monthsx, monthsy, devicesx, devicesy, catstable, citiestable, institutionstable)
     if newtext != page.text:
         pywikibot.showDiff(page.text, newtext)
         page.text = newtext
