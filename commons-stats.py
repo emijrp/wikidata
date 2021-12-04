@@ -43,6 +43,7 @@ cities2catname = {
     "Sevilla": "Seville", 
     "Vejer": "Vejer de la Frontera", 
     "Villar de Domingo Garcia": "Villar de Domingo García", 
+    "Unknown": "other places", 
 }
 devices2catname = {
     "X-3,C-60Z": "Olympus X-3 / C-60Z", 
@@ -52,6 +53,7 @@ devices2catname = {
     "LG-X220": "mobile phones", #"LG K5", 
     "OPPO A9 2020": "mobile phones", #"Oppo A9 2020", 
     "Jiusion Digital Microscope": "microscopes", 
+    "Unknown": "unknown",
 }
 monthnum2monthname = { '01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December' }
 categories = {}
@@ -76,8 +78,8 @@ def main():
         total += 1
         params = m[0].split('|')
         date = ""
-        device = ""
-        city = ""
+        device = "Unknown"
+        city = "Unknown"
         for param in params:
             if '=' not in param:
                 continue
@@ -96,23 +98,27 @@ def main():
         
         if date:
             year = date.split('-')[0]
-            if year in years.keys():
-                years[year] += 1
+            if year in years:
+                years[year]["total"] += 1
+                if city in years[year]:
+                    years[year][city] += 1
+                else:
+                    years[year][city] = 1
             else:
-                years[year] = 1
+                years[year] = { "total": 1, city: 1 }
             month = date.split('-')[1]
-            if month in months.keys():
+            if month in months:
                 months[month] += 1
             else:
                 months[month] = 1
         if device:
             device = device in devices2catname.keys() and devices2catname[device] or device
-            if device in devices.keys():
+            if device in devices:
                 devices[device] += 1
             else:
                 devices[device] = 1
         if city:
-            if city in cities.keys():
+            if city in cities:
                 cities[city] += 1
             else:
                 cities[city] = 1
@@ -129,7 +135,7 @@ def main():
             else:
                 categories[category] = 1
         
-        if total >= 500: #test
+        if total >= 50000: #test
             break
     
     categories_list = []
@@ -155,9 +161,7 @@ def main():
             break
         catstable += "\n|-\n| %s || [[:Category:%s|%s]] || %s" % (c, category, category, freq)
         c += 1
-    catstable = """{| id="Categories" class="wikitable sortable" width="400px"
-! # !! Category !! Files%s
-|}""" % (catstable)
+    catstable = """{| id="Categories" class="wikitable sortable" width="400px"\n! # !! Category !! Files%s\n|}""" % (catstable)
     institutionstable = ", ".join(["{{[[Institution:%s|%s]]}}" % (institution, institution) for institution in institutions_list])
     
     cities_list = []
@@ -170,16 +174,22 @@ def main():
         city_ = city in cities2catname and cities2catname[city] or city
         citiestable += "\n|-\n| %s || [[:Category:Images of %s by User:Emijrp|%s]] ([[:en:%s|en]]) || %s" % (c, city_, city_, city_, freq)
         c += 1
-    citiestable = """{| id="Cities" class="wikitable sortable" width="400px"
-! # !! City !! Files%s
-|}""" % (citiestable)
+    citiestable = """{| id="Cities" class="wikitable sortable" width="400px"\n! # !! City !! Files%s\n|}""" % (citiestable)
     
     years_list = []
     for k, v in years.items():
-        years_list.append([k, v])
+        years_list.append([k, v["total"]])
     years_list.sort()
     yearsx = [str(k) for k, v in years_list]
     yearsy = [str(v) for k, v in years_list]
+    yearscities = []
+    for k, v in years_list:
+        yearcities = []
+        for city in years[k].keys():
+            if city != 'total':
+                yearcities.append([city, years[k][city]])
+        yearcities.sort()
+        yearscities.append(', '.join(["[[:Category:Images of %s by User:Emijrp|%s]] (%s)" % (x in cities2catname and cities2catname[x] or x, x in cities2catname and cities2catname[x] or x, y) for x, y in yearcities]))
     
     months_list = []
     for k, v in months.items():
@@ -199,9 +209,9 @@ def main():
     lastupdate = datetime.datetime.now().strftime('%Y-%m-%d')
     #https://glamtools.toolforge.org/glamorous.php?doit=1&category=Files+by+User%3AEmijrp&use_globalusage=1&ns0=1&format=xml
     usage = """"""
-    filesbyyeargraph = "{{Graph:Chart|width=800|height=200|xAxisTitle=Year|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(yearsx), ','.join(yearsy))
-    filesbyyeartable = """{| class="wikitable sortable" style="text-align: center;"\n! Year !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s" % (yearsx[i], yearsx[i], yearsy[i], yearsy[i]) for i in range(len(yearsx))]))
-    filesbymonthgraph = "{{Graph:Chart|width=800|height=200|xAxisTitle=Month|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(monthsx), ','.join(monthsy))
+    filesbyyeargraph = "{{Graph:Chart|width=800|height=300|xAxisTitle=Year|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(yearsx), ','.join(yearsy))
+    filesbyyeartable = """{| class="wikitable sortable" style="text-align: center;"\n! Year !! Files !! Cities\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s || %s" % (yearsx[i], yearsx[i], yearsy[i], yearsy[i], yearscities[i]) for i in range(len(yearsx))]))
+    filesbymonthgraph = "{{Graph:Chart|width=800|height=300|xAxisTitle=Month|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(monthsx), ','.join(monthsy))
     filesbymonthtable = """{| class="wikitable sortable" style="text-align: center;"\n! Month !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s" % (monthsx[i], monthsx[i], monthsy[i], monthsy[i]) for i in range(len(monthsx))]))
     filesbydevicegraph = "{{Graph:Chart|width=100|height=100|type=pie|legend=Legend|x=%s|y1=%s|showValues=}}" % (','.join(devicesx), ','.join(devicesy))
     filesbydevicetable = """{| class="wikitable sortable" style="text-align: center;"\n! Device !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken with %s|%s]] || data-sort-value=%s | %s" % (devicesx[i], devicesx[i], devicesy[i], devicesy[i]) for i in range(len(devicesx))]))
