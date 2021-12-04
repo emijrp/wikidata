@@ -135,24 +135,30 @@ def main():
             else:
                 categories[category] = 1
         
-        if total >= 50000: #test
+        if total >= 500: #test
             break
     
     categories_list = []
     institutions_list = []
     for k, v in categories.items():
+        if not k:
+            continue
         categories_list.append([v, k])
-        if k.startswith('Collections of the '):
-            institutions_list.append(k.split('Collections of the ')[1])
-        elif k.startswith('Interior of the '):
-            institutions_list.append(k.split('Interior of the ')[1])
-        elif k.startswith('Exterior of the '):
-            institutions_list.append(k.split('Exterior of the ')[1])
-        elif k.startswith('Archivo ') or k.startswith('Biblioteca ') or k.startswith('Centro Cultural ') or k.startswith('Museo ') or k.startswith('Museum '):
-            institutions_list.append(k)
-        else:
-            pass
+        k_ = k[0].upper() + k[1:]
+        k_ = re.sub(r"(?im)\,.*", k).strip()
+        if not re.search(r"(?im)(cathedral|church|chapel|basílica|catedral|iglesia|capilla|ermita)", k_):
+            if k_.startswith('Collections of the '):
+                institutions_list.append(k.split('Collections of the ')[1])
+            elif k_.startswith('Interior of the '):
+                institutions_list.append(k.split('Interior of the ')[1])
+            elif k_.startswith('Exterior of the '):
+                institutions_list.append(k.split('Exterior of the ')[1])
+            elif k_.startswith('Archivo ') or k_.startswith('Biblioteca ') or k_.startswith('Centro Cultural ') or k_.startswith('Museo ') or k_.startswith('Museum '):
+                institutions_list.append(k_)
+            else:
+                pass
     categories_list.sort(reverse=True)
+    institutions_list = list(set(institutions_list))
     institutions_list.sort()
     catstable = ""
     c = 1
