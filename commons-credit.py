@@ -28,6 +28,8 @@ fixcities = {
     '41.38022,2.17319,Ciutat Vella': 'Barcelona',
     '41.37263,2.1546,Sants-Montjuic': 'Barcelona',
     
+    '37.85,-4.9,Villarrubia': 'Córdoba',
+    
     '40.40021,-3.69618,Arganzuela': 'Madrid',
     '40.43893,-3.61537,San Blas': 'Madrid',
     '40.38897,-3.74569,Latina': 'Madrid',
@@ -64,15 +66,20 @@ def addMetadata(newtext='', pagelink=''):
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
-    m = re.findall(r'(?im)^\|\s*date\s*=\s*(?:\{\{according ?to ?exif ?data\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
+    m = re.findall(r'(?im)^\|\s*date\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
     if m:
         print(m)
         newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|date=%s}}' % (m[0][0]), newtext)
     
     #camera
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?device=', newtext):
-    req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-    raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
+    try:
+        req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+        raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
+    except:
+        time.sleep(60)
+        req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+        raw = urllib.request.urlopen(req).read().strip().decode('utf-8')
     #<tr class="exif-model"><th>Modelo de cámara</th><td>X-3,C-60Z       </td></tr>
     model = re.findall(r'(?im)<tr class="exif-model"><th>[^<>]*?</th><td>(.*?)</td></tr>', raw)
     if model:
@@ -159,7 +166,7 @@ def addMetadata(newtext='', pagelink=''):
     #country, city, se puede hacer con github reverse-geocoder tirando de las coordenadas metidas con toolforge locator-tool
     #https://github.com/thampiman/reverse-geocoder
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?location=', newtext):
-    location = re.findall(r'(?im)\{\{\s*Location\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
+    location = re.findall(r'(?im)\{\{\s*Location ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
     if location:
         print(location)
         lat = location[0][0]
@@ -205,7 +212,7 @@ def addMetadata(newtext='', pagelink=''):
     #|subjects=museum si contiene la palabra museo en alguna parte (o solo el título?)
     subjects = {
         'animals': ['zoo', 'zoobotanico', 'zoologico', ], 
-        'astronomy': ['astronomy', 'astronomia', ], 
+        'astronomy': ['astronomy', 'astronomia', "iridium"], 
         'buildings': ['edificio', ], 
         'buildings-lighthouses': ['faro', ], 
         'buildings-religion': ['iglesia', 'catedral', 'concatedral', 'ermita', 'parroquia', 'edificios religiosos', 'mezquita', ], 
@@ -247,8 +254,7 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     skip = ''
-    #skip = 'File:Capitel toscano - Palacio de Purullena (37097044270) (cropped).jpg'
-    #skip = 'File:Música y Poesía por la Memoria (28609360877).jpg'
+    skip = 'File:Aranjuez en noviembre de 2021 35.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
@@ -273,6 +279,7 @@ def creditByCategory():
     commons = pywikibot.Site('commons', 'commons')
     category = pywikibot.Category(commons, '15-O Demonstrations, Cádiz')
     category = pywikibot.Category(commons, 'Paseo reflexivo Cádiz 21 de mayo de 2011')
+    category = pywikibot.Category(commons, 'Playa de El Buzo')
     gen = pagegenerators.CategorizedPageGenerator(category)
     for page in gen:
         print('==', page.title(), '==')

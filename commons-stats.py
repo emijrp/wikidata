@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import re
 import time
 import urllib
@@ -26,7 +27,6 @@ from pywikibot import pagegenerators
 #ciudades a las que he ido, q año, cuantos dias distintos
 #mayor numero de fotos en un día, en una ciudad, etc
 #en que categorias estan mis fotos (Collections of museum of...)
-#volcar todo eso en una pagina resumen User:Emijrp/Statistics
 
 cities2catname = {
     "Alcala de Henares": "Alcalá de Henares", 
@@ -43,6 +43,15 @@ cities2catname = {
     "Sevilla": "Seville", 
     "Vejer": "Vejer de la Frontera", 
     "Villar de Domingo Garcia": "Villar de Domingo García", 
+}
+devices2catname = {
+    "X-3,C-60Z": "Olympus X-3 / C-60Z", 
+    "u5000": "Olympus u5000", 
+    "NIKON D3100": "NIKON D3100", #"Nikon D3100", 
+    "TASSVE": "mobile phones", #"Samsung Galaxy Mini", 
+    "LG-X220": "mobile phones", #"LG K5", 
+    "OPPO A9 2020": "mobile phones", #"Oppo A9 2020", 
+    "Jiusion Digital Microscope": "microscopes", 
 }
 monthnum2monthname = { '01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December' }
 categories = {}
@@ -66,36 +75,47 @@ def main():
             continue
         total += 1
         params = m[0].split('|')
+        date = ""
+        device = ""
+        city = ""
         for param in params:
-            print(param)
             if '=' not in param:
                 continue
-            key = param.split('=')[0]
+            print(param)
+            key = param.split('=')[0].lower()
             value = param.split('=')[1]
             #print(key, value)
             if key == "date":
-                year = value.split('-')[0]
-                if year in years.keys():
-                    years[year] += 1
-                else:
-                    years[year] = 1
-                month = value.split('-')[1]
-                if month in months.keys():
-                    months[month] += 1
-                else:
-                    months[month] = 1
+                date = value
             elif key == "device":
-                if value in devices.keys():
-                    devices[value] += 1
-                else:
-                    devices[value] = 1
+                device = value
             elif key == "city":
-                if value in cities.keys():
-                    cities[value] += 1
-                else:
-                    cities[value] = 1
+                city = value
             else:
                 pass
+        
+        if date:
+            year = date.split('-')[0]
+            if year in years.keys():
+                years[year] += 1
+            else:
+                years[year] = 1
+            month = date.split('-')[1]
+            if month in months.keys():
+                months[month] += 1
+            else:
+                months[month] = 1
+        if device:
+            device = device in devices2catname.keys() and devices2catname[device] or device
+            if device in devices.keys():
+                devices[device] += 1
+            else:
+                devices[device] = 1
+        if city:
+            if city in cities.keys():
+                cities[city] += 1
+            else:
+                cities[city] = 1
         
         #categories
         m = re.findall(r'(?im)\[\[\s*Category\s*\:\s*([^\[\]\|]*?)\s*[\|\]]', wtext)
@@ -109,7 +129,7 @@ def main():
             else:
                 categories[category] = 1
         
-        if total >= 50000: #test
+        if total >= 500: #test
             break
     
     categories_list = []
@@ -118,6 +138,14 @@ def main():
         categories_list.append([v, k])
         if k.startswith('Collections of the '):
             institutions_list.append(k.split('Collections of the ')[1])
+        elif k.startswith('Interior of the '):
+            institutions_list.append(k.split('Interior of the ')[1])
+        elif k.startswith('Exterior of the '):
+            institutions_list.append(k.split('Exterior of the ')[1])
+        elif k.startswith('Archivo ') or k.startswith('Biblioteca ') or k.startswith('Centro Cultural ') or k.startswith('Museo ') or k.startswith('Museum '):
+            institutions_list.append(k)
+        else:
+            pass
     categories_list.sort(reverse=True)
     institutions_list.sort()
     catstable = ""
@@ -127,6 +155,9 @@ def main():
             break
         catstable += "\n|-\n| %s || [[:Category:%s|%s]] || %s" % (c, category, category, freq)
         c += 1
+    catstable = """{| id="Categories" class="wikitable sortable" width="400px"
+! # !! Category !! Files%s
+|}""" % (catstable)
     institutionstable = ", ".join(["{{[[Institution:%s|%s]]}}" % (institution, institution) for institution in institutions_list])
     
     cities_list = []
@@ -139,59 +170,72 @@ def main():
         city_ = city in cities2catname and cities2catname[city] or city
         citiestable += "\n|-\n| %s || [[:Category:Images of %s by User:Emijrp|%s]] ([[:en:%s|en]]) || %s" % (c, city_, city_, city_, freq)
         c += 1
+    citiestable = """{| id="Cities" class="wikitable sortable" width="400px"
+! # !! City !! Files%s
+|}""" % (citiestable)
     
     years_list = []
     for k, v in years.items():
         years_list.append([k, v])
     years_list.sort()
-    yearsx = ','.join([str(k) for k, v in years_list])
-    yearsy = ','.join([str(v) for k, v in years_list])
+    yearsx = [str(k) for k, v in years_list]
+    yearsy = [str(v) for k, v in years_list]
     
     months_list = []
     for k, v in months.items():
         months_list.append([k, v])
     months_list.sort()
-    monthsx = ','.join([monthnum2monthname[str(k)] for k, v in months_list])
-    monthsy = ','.join([str(v) for k, v in months_list])
+    monthsx = [monthnum2monthname[str(k)] for k, v in months_list]
+    monthsy = [str(v) for k, v in months_list]
     
     devices_list = []
     for k, v in devices.items():
         devices_list.append([k, v])
     devices_list.sort()
-    devicesx = ','.join([str(k) for k, v in devices_list])
-    devicesy = ','.join([str(v) for k, v in devices_list])
-    
-    #https://glamtools.toolforge.org/glamorous.php?doit=1&category=Files+by+User%3AEmijrp&use_globalusage=1&ns0=1&format=xml
-    usage = """"""
+    devicesx = [str(k) for k, v in devices_list]
+    devicesy = [str(v) for k, v in devices_list]
     
     page = pywikibot.Page(commons, "User:Emijrp/Statistics")
-    newtext = """
-'''Statistics''' for '''%s files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|%s different devices]] in [[#Cities|%s cities]] spanning [[#By year|%s years]]. Among the visited places, there are over [[#Institutions|%s cultural institutions]].
-%s
+    lastupdate = datetime.datetime.now().strftime('%Y-%m-%d')
+    #https://glamtools.toolforge.org/glamorous.php?doit=1&category=Files+by+User%3AEmijrp&use_globalusage=1&ns0=1&format=xml
+    usage = """"""
+    filesbyyeargraph = "{{Graph:Chart|width=800|height=200|xAxisTitle=Year|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(yearsx), ','.join(yearsy))
+    filesbyyeartable = """{| class="wikitable sortable"\n! Year !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s" % (yearsx[i], yearsx[i], yearsy[i], yearsy[i]) for i in range(len(yearsx))]))
+    filesbymonthgraph = "{{Graph:Chart|width=800|height=200|xAxisTitle=Month|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(monthsx), ','.join(monthsy))
+    filesbymonthtable = """{| class="wikitable sortable"\n! Month !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s" % (monthsx[i], monthsx[i], monthsy[i], monthsy[i]) for i in range(len(monthsx))]))
+    filesbydevicegraph = "{{Graph:Chart|width=100|height=100|type=pie|legend=Legend|x=%s|y1=%s|showValues=}}" % (','.join(devicesx), ','.join(devicesy))
+    filesbydevicetable = """{| class="wikitable sortable"\n! Device !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken with %s|%s]] || data-sort-value=%s | %s" % (devicesx[i], devicesx[i], devicesy[i], devicesy[i]) for i in range(len(devicesx))]))
+    formatdict = { "total": total, "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
+    newtext = """'''Statistics''' for '''{{{{formatnum:{total}}}}} files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|{totaldevices} different devices]] in [[#Cities|{totalcities} cities]] spanning [[#By year|{totalyears} years]]. Among the visited places, there are over [[#Institutions|{totalinstitutions} cultural institutions]].
+\nLast update: {lastupdate}.
+{usage}
 == Files ==
 === By year ===
-{{Graph:Chart|width=800|height=200|xAxisTitle=Year|yAxisTitle=Files|type=rect|x=%s|y=%s}}
+{{|
+| valign=top | \n{filesbyyeargraph}
+| valign=top | \n{filesbyyeartable}
+|}}
 === By month ===
-{{Graph:Chart|width=800|height=200|xAxisTitle=Month|yAxisTitle=Files|type=rect|x=%s|y=%s}}
+{{|
+| valign=top | \n{filesbymonthgraph}
+| valign=top | \n{filesbymonthtable}
+|}}
 === By device ===
-{{Graph:Chart|width=100|height=100|type=pie|legend=Legend|x=%s|y1=%s|showValues=}}
+{{|
+| valign=top | \n{filesbydevicegraph}
+| valign=top | \n{filesbydevicetable}
+|}}
 
 == Most frequent ==
-{| style="text-align: center;"
-| valign=top |
-{| id="Categories" class="wikitable sortable" width="400px"
-! # !! Category !! Files%s
-|}
-| valign=top |
-{| id="Cities" class="wikitable sortable" width="400px"
-! # !! City !! Files%s
-|}
-|}
+{{| style="text-align: center;"
+| valign=top | \n{catstable}
+| valign=top | \n{citiestable}
+|}}
 
 == Institutions ==
-%s
+{institutionstable}
 
-{{Template:User:Emijrp}}""" % (total, len(devices_list), len(cities_list), len(years_list), len(institutions_list), usage, yearsx, yearsy, monthsx, monthsy, devicesx, devicesy, catstable, citiestable, institutionstable)
+{{{{Template:User:Emijrp}}}}""".format(**formatdict)
     if newtext != page.text:
         pywikibot.showDiff(page.text, newtext)
         page.text = newtext
