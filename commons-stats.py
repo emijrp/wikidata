@@ -59,6 +59,7 @@ monthnum2monthname = { '01': 'January', '02': 'February', '03': 'March', '04': '
 categories = {}
 cities = {}
 devices = {}
+days = {}
 months = {}
 years = {}
 
@@ -111,6 +112,11 @@ def main():
                 months[month] += 1
             else:
                 months[month] = 1
+            day = date.split(' ')[0]
+            if day in days:
+                days[day] += 1
+            else:
+                days[day] = 1
         if device:
             device = device in devices2catname.keys() and devices2catname[device] or device
             if device in devices:
@@ -135,7 +141,7 @@ def main():
             else:
                 categories[category] = 1
         
-        if total >= 500: #test
+        if total >= 50000: #test
             break
     
     categories_list = []
@@ -145,8 +151,8 @@ def main():
             continue
         categories_list.append([v, k])
         k_ = k[0].upper() + k[1:]
-        k_ = re.sub(r"(?im)\,.*", k).strip()
-        if not re.search(r"(?im)(cathedral|church|chapel|basílica|catedral|iglesia|capilla|ermita)", k_):
+        k_ = re.sub(r"(?im)\,.*", "", k).strip()
+        if not re.search(r"(?im)(cathedral|church|chapel|domes|banco|basílica|calle|catedral|iglesia|capilla|ermita|label)", k_):
             if k_.startswith('Collections of the '):
                 institutions_list.append(k.split('Collections of the ')[1])
             elif k_.startswith('Interior of the '):
@@ -204,6 +210,14 @@ def main():
     monthsx = [monthnum2monthname[str(k)] for k, v in months_list]
     monthsy = [str(v) for k, v in months_list]
     
+    days_list = []
+    for k, v in days.items():
+        days_list.append([v, k])
+    days_list.sort(reverse=True)
+    days_list = days_list[:10]
+    daysx = [str(k) for v, k in days_list]
+    daysy = [str(v) for v, k in days_list]
+    
     devices_list = []
     for k, v in devices.items():
         devices_list.append([k, v])
@@ -219,9 +233,11 @@ def main():
     filesbyyeartable = """{| class="wikitable sortable" style="text-align: center;"\n! Year !! Files !! Cities\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s || %s" % (yearsx[i], yearsx[i], yearsy[i], yearsy[i], yearscities[i]) for i in range(len(yearsx))]))
     filesbymonthgraph = "{{Graph:Chart|width=800|height=300|xAxisTitle=Month|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(monthsx), ','.join(monthsy))
     filesbymonthtable = """{| class="wikitable sortable" style="text-align: center;"\n! Month !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken in %s|%s]] || data-sort-value=%s | %s" % (monthsx[i], monthsx[i], monthsy[i], monthsy[i]) for i in range(len(monthsx))]))
+    filesbydaygraph = "{{Graph:Chart|width=800|height=300|xAxisTitle=Day|yAxisTitle=Files|type=rect|x=%s|y=%s}}" % (','.join(daysx), ','.join(daysy))
+    filesbydaytable = """{| class="wikitable sortable" style="text-align: center;"\n! Day !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken on %s|%s]] || data-sort-value=%s | %s" % (daysx[i], daysx[i], daysy[i], daysy[i]) for i in range(len(daysx))]))
     filesbydevicegraph = "{{Graph:Chart|width=100|height=100|type=pie|legend=Legend|x=%s|y1=%s|showValues=}}" % (','.join(devicesx), ','.join(devicesy))
     filesbydevicetable = """{| class="wikitable sortable" style="text-align: center;"\n! Device !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken with %s|%s]] || data-sort-value=%s | %s" % (devicesx[i], devicesx[i], devicesy[i], devicesy[i]) for i in range(len(devicesx))]))
-    formatdict = { "total": total, "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
+    formatdict = { "total": total, "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydaygraph": filesbydaygraph, "filesbydaytable": filesbydaytable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
     newtext = """'''Statistics''' for '''{{{{formatnum:{total}}}}} files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|{totaldevices} different devices]] in [[#Cities|{totalcities} cities]] spanning [[#By year|{totalyears} years]]. Among the visited places, there are over [[#Institutions|{totalinstitutions} cultural institutions]].
 \nLast update: {lastupdate}.
 {usage}
@@ -229,12 +245,18 @@ def main():
 === By year ===
 {{|
 | valign=top | \n{filesbyyeargraph}
+|-
 | valign=top | \n{filesbyyeartable}
 |}}
 === By month ===
 {{|
 | valign=top | \n{filesbymonthgraph}
 | valign=top | \n{filesbymonthtable}
+|}}
+=== By day ===
+{{|
+| valign=top | \n{filesbydaygraph}
+| valign=top | \n{filesbydaytable}
 |}}
 === By device ===
 {{|
