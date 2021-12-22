@@ -50,8 +50,8 @@ def main():
         'pt': ['Category:Nascidos em %s' % (year) for year in years], 
         'sv': ['Category:Födda %s' % (year) for year in years], 
     }
-    langs = categories.keys()
-    langs = ['ca', 'da', 'de', 'eu', 'fi', 'it', 'pt', 'sv']
+    langs = list(categories.keys())
+    #langs = ['ca', 'da', 'de', 'eu', 'fi', 'it', 'pt', 'sv']
     random.shuffle(langs)
     for targetlang in langs:
         wikisite = pywikibot.Site(targetlang, 'wikipedia')
