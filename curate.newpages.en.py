@@ -223,7 +223,9 @@ def pageIsBiography(page='', lang=''):
     return False
 
 def pageHasTitleToAvoid(page='', lang=''):
-    if ' of ' in page.title():
+    if ' of ' in page.title().lower() or \
+        'murder' in page.title().lower() or \
+        'disappearance' in page.title().lower():
         return True
     return False
 
@@ -258,17 +260,29 @@ def addBiographyClaims(repo='', wikisite='', item='', page='', lang=''):
         if not 'P106' in item.claims and occupations:
             addOccupationsClaim(repo=repo, item=item, occupations=occupations, lang=lang)
 
+def qIsDisambig(item=""):
+    try:
+        item.get()
+        if 'P31' in item.claims:
+            for p31 in item.claims['P31']:
+                if p31.getTarget().title() == "Q4167410":
+                    return True
+    except:
+        print('Error while retrieving item, skiping...')
+        return False
+    return False
+
 def main():
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
-    total = 100
+    total = 200
     #langs = ['en', 'fr', 'de']
     langs = ['en']
-    for i in range(1000): # continuos check for new pages, time sleep below
+    for i in range(1000): # continuous check for new pages, time sleep below
         if i == 0:
-            total = 1000 #first pass bigger (full check last day)
+            total = 2000 #first pass bigger (full check last day)
         else:
-            total = 100
+            total = 200
         for lang in langs:
             wikisite = pywikibot.Site(lang, 'wikipedia')
             gen = pagegenerators.NewpagesPageGenerator(site=wikisite, namespaces=[0], total=total)
@@ -292,6 +306,9 @@ def main():
                 if item:
                     print('Page has item')
                     print('https://www.wikidata.org/wiki/%s' % (item.title()))
+                    if qIsDisambig(item=item):
+                        print('Item is disambig, skiping...')
+                        continue
                     addBiographyClaims(repo=repo, wikisite=wikisite, item=item, page=page, lang=lang)
                 else:
                     print('Page without item')
@@ -323,6 +340,9 @@ def main():
                             continue
                         for itemfoundq in m:
                             itemfound = pywikibot.ItemPage(repo, itemfoundq)
+                            if qIsDisambig(item=itemfound):
+                                print('Item is disambig, skiping...')
+                                continue
                             itemfound.get()
                             if ('%swiki' % (lang)) in itemfound.sitelinks:
                                 print("Candidate %s has sitelink, skiping" % (itemfoundq))
