@@ -23,6 +23,18 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
+def qIsHuman(item=""):
+    try:
+        item.get()
+        if 'P31' in item.claims:
+            for p31 in item.claims['P31']:
+                if p31.getTarget().title() == "Q5":
+                    return True
+    except:
+        print('Error while retrieving item, skiping...')
+        return False
+    return False
+
 def main():
     #recorrer categorías de nacimientos por año, y buscar el texto bold del nombre, y compararlo con el label y aliases de wikidata, sino están, añadirlo
     #tirar de interwikis y repetir para es, it, fr, ..., alfabeto latino
@@ -33,22 +45,54 @@ def main():
         'Q983416', #meh, just in case, https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&oldid=1498162619#Inappropriate_alias(es)_by_your_bot
     ]
     
-    years = list(range(1500, 2000))
+    years = list(range(1000, 2000))
     categories = {
+        #añadido hasta el ido: segun la tabla al 31 de diciembre de 2021
+        #'als': ['Category:%s' % (x) for x in ["Dütsche", "Schwiizer"]], el idioma gsw: recae en este? aclarar antes de lanzarlo
         'an': ['Category:%s (naixencias)' % (year) for year in years], 
         'ast': ['Category:Persones nacíes en %s' % (year) for year in years], 
+        'bar': ['Category:Geboren %s' % (year) for year in years], 
+        'bs': ['Category:Rođeni %s.' % (year) for year in years], 
         'ca': ['Category:Persones vives'], 
+        'cs': ['Category:Narození %s' % (year) for year in years], 
+        'cy': ['Category:Genedigaethau %s' % (year) for year in years], 
         'da': ['Category:Født i %s' % (year) for year in years], 
         'de': ['Category:Geboren %s' % (year) for year in years], 
         'en': ['Category:%s births' % (year) for year in years], 
         'es': ['Category:Nacidos en %s' % (year) for year in years], 
+        'et': ['Category:Sündinud %s' % (year) for year in years], 
         'eu': ['Category:Gizabanako biziak'], 
+        'ext': ['Category:%s' % (x) for x in ["Científicus", "Escrebioris"]], 
         'fi': ['Category:Vuonna %s syntyneet' % (year) for year in years], 
+        'fo': ['Category:Føðingar í %s' % (year) for year in years], 
         'fr': ['Category:Naissance en %s' % (year) for year in years], 
+        'fy': ['Category:Persoan berne yn %s' % (year) for year in years], 
+        'ga': ['Category:Daoine a rugadh i %s' % (year) for year in years], 
         'gl': ['Category:Nados en %s' % (year) for year in years], 
+        'hsb': ['Category:Rodź. %s' % (year) for year in years], 
+        'hu': ['Category:%s-ben született személyek' % (year) for year in years], 
+        'ia': ['Category:%s' % (x) for x in ["Actores de film", "Philosophos", "Physicos", "Pictores", "Politicos", "Scriptores", "Scientistas"]], 
+        'id': ['Category:Kelahiran %s' % (year) for year in years], 
         'it': ['Category:Nati nel %s' % (year) for year in years], 
+        'jv': ['Category:Lair %s' % (year) for year in years], 
+        'ku': ['Category:Jidayikbûn %s' % (year) for year in years], 
+        'kw': ['Category:Mernansow %s' % (year) for year in years], 
+        'la': ['Category:Nati %s' % (year) for year in years], 
+        'ms': ['Category:Kelahiran %s' % (year) for year in years], 
+        'nds': ['Category:Boren %s' % (year) for year in years], 
+        'nn': ['Category:Fødde i %s' % (year) for year in years], 
+        'no': ['Category:Fødsler i %s' % (year) for year in years], 
+        'oc': ['Category:Naissença en %s' % (year) for year in years], 
+        'pl': ['Category:Urodzeni w %s' % (year) for year in years], 
         'pt': ['Category:Nascidos em %s' % (year) for year in years], 
+        'ro': ['Category:Nașteri în %s' % (year) for year in years], 
+        'sh': ['Category:Rođeni %s.' % (year) for year in years], 
+        'sk': ['Category:Narodenia v %s' % (year) for year in years], 
+        'sq': ['Category:Lindje %s' % (year) for year in years], 
         'sv': ['Category:Födda %s' % (year) for year in years], 
+        'tl': ['Category:Ipinanganak noong %s' % (year) for year in years], 
+        'tr': ['Category:%s doğumlular' % (year) for year in years], 
+        'vi': ['Category:Sinh năm %s' % (year) for year in years], 
     }
     langs = list(categories.keys())
     #langs = ['ca', 'da', 'de', 'eu', 'fi', 'it', 'pt', 'sv']
@@ -82,6 +126,10 @@ def main():
                     
                     if item.title() in ignore:
                         print('Item in ignore list, skiping...')
+                        continue
+                    
+                    if not qIsHuman(item=item):
+                        print('Item not human Q5')
                         continue
                     
                     if re.search(r"\'\'\' ?[\"\']? ?\'\'\'", page.text):
