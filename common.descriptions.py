@@ -141,90 +141,112 @@ def genTranslationsByCountryCore(desc='', desclang=''):
         'bay in ~': { 
             'en': 'bay in ~', 
             'es': 'bahía de ~', 
+            'he': 'מפרץ ב~', 
         }, 
         'bight in ~': { 
             'en': 'bight in ~', 
             'es': 'ancón de ~', 
+            'he': 'מפרצון ב~', 
         }, 
         'cape in ~': { 
             'en': 'cape in ~', 
             'es': 'cabo de ~', 
+            'he': 'לשון יבשה ב~', 
         }, 
         'cave in ~': { 
             'en': 'cave in ~', 
             'es': 'cueva de ~', 
+            'he': 'מערה ב~', 
         }, 
         'dune in ~': { 
             'en': 'dune in ~', 
             'es': 'duna de ~', 
+            'he': 'חולית ב~', 
         }, 
         'glacier in ~': { 
             'en': 'glacier in ~', 
             'es': 'glaciar de ~', 
+            'he': 'קרחון ב~', 
         }, 
         'hill in ~': { 
             'en': 'hill in ~', 
             'es': 'colina de ~', 
+            'he': 'גבעה ב~', 
         }, 
         'island in ~': { 
             'en': 'island in ~', 
             'es': 'isla de ~', 
+            'he': 'אי ב~', 
         }, 
         'lagoon in ~': { 
             'en': 'lagoon in ~', 
             'es': 'laguna de ~', 
+            'he': 'אי ב~', 
         }, 
         'lake in ~': { 
             'en': 'lake in ~', 
             'es': 'lago de ~', 
+            'he': 'לגונה ב~', 
         }, 
         'mine in ~': { 
             'en': 'mine in ~', 
             'es': 'mina de ~', 
+            'he': 'מכרה ב~', 
         }, 
         'mountain in ~': { 
             'en': 'mountain in ~', 
             'es': 'montaña de ~', 
+            'he': 'הר ב~', 
         }, 
         'plain in ~': { 
             'en': 'plain in ~', 
             'es': 'llanura de ~', 
+            'he': 'מישור ב~', 
         }, 
         'reef in ~': { 
             'en': 'reef in ~', 
             'es': 'arrecife de ~', 
+            'he': 'שונית ב~', 
         }, 
         'reservoir in ~': { 
             'en': 'reservoir in ~', 
             'es': 'embalse de ~', 
+            'he': 'מאגר מים ב~', 
         }, 
         'river in ~': { 
             'en': 'river in ~', 
             'es': 'río de ~', 
+            'he': 'נהר ב~', 
         }, 
         'road in ~': { 
             'en': 'road in ~', 
             'es': 'carretera de ~', 
+            'he': 'כביש ב~', 
         }, 
         'spring in ~': { 
             'en': 'spring in ~', 
             'es': 'manantial de ~', 
+            'he': 'מעיין ב~', 
         }, 
         'stream in ~': { 
             'en': 'stream in ~', 
             'es': 'arroyo de ~', 
+            'he': 'נחל ב~', 
         }, 
         'swamp in ~': { 
             'en': 'swamp in ~', 
             'es': 'pantano de ~', 
+            'he': 'ביצה ב~', 
         }, 
         'valley in ~': { 
             'en': 'valley in ~', 
             'es': 'valle de ~', 
+            'he': 'עמק ב~', 
         }, 
         'watercourse in ~': { 
             'en': 'watercourse in ~', 
             'es': 'curso de agua de ~', 
+            'he': 'מסלול מים ב~', 
         }, 
     }
     return translations[desc][desclang]
@@ -232,276 +254,347 @@ def genTranslationsByCountryCore(desc='', desclang=''):
 def genTranslationsByCountry(desc=''):
     translations = {}
     translations[desc.replace('~', 'Afghanistan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Afghanistan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Afganistán'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Afghanistan'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Afganistán'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אפגניסטן'),
     }
     translations[desc.replace('~', 'Angola')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Angola'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Angola'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Angola'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Angola'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אנגולה'),
     }
     translations[desc.replace('~', 'Armenia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Armenia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Armenia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Armenia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Armenia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ארמניה'),
     }
     translations[desc.replace('~', 'Australia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אוסטרליה'),
     }
     translations[desc.replace('~', 'Bangladesh')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bangladesh'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bangladesh'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bangladesh'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bangladesh'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בנגלדש'),
     }
     translations[desc.replace('~', 'Belarus')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belarus'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bielorrusia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belarus'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bielorrusia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בלארוס'),
     }
     translations[desc.replace('~', 'Belgium')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belgium'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bélgica'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belgium'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bélgica'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בלגיה'),
     }
     translations[desc.replace('~', 'Benin')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Benin'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Benín'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Benin'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Benín'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בנין'),
     }
     translations[desc.replace('~', 'Bolivia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בוליביה'),
     }
     translations[desc.replace('~', 'Bosnia and Herzegovina')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bosnia and Herzegovina'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bosnia y Herzegovina'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bosnia and Herzegovina'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bosnia y Herzegovina'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בוסניה והרצגובינה'),
     }
     translations[desc.replace('~', 'Botswana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Botswana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Botsuana'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Botswana'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Botsuana'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בוטסואנה'),
     }
     translations[desc.replace('~', 'Brazil')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ברזיל'),
     }
     translations[desc.replace('~', 'Brunei')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brunei'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brunéi'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brunei'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brunéi'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ברוניי'),
     }
     translations[desc.replace('~', 'Bulgaria')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bulgaria'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bulgaria'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bulgaria'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bulgaria'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בולגריה'),
     }
     translations[desc.replace('~', 'Burkina Faso')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Burkina Faso'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Burkina Faso'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Burkina Faso'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Burkina Faso'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'בורקינה פאסו'),
     }
     translations[desc.replace('~', 'Canada')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Canada'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Canadá'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Canada'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Canadá'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קנדה'),
     }
     translations[desc.replace('~', 'Chile')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Chile'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chile'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Chile'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chile'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'צ\'ילה'),
     }
     translations[desc.replace('~', 'Colombia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Colombia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Colombia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Colombia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Colombia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קולומביה'),
     }
     translations[desc.replace('~', 'Croatia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Croatia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Croacia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Croatia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Croacia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קרואטיה'),
     }
     translations[desc.replace('~', 'Cuba')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cuba'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Cuba'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cuba'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Cuba'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קובה'),
     }
     translations[desc.replace('~', 'Cyprus')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cyprus'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chipre'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cyprus'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chipre'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קפריסין'),
     }
     translations[desc.replace('~', 'Democratic Republic of the Congo')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Democratic Republic of the Congo'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Democrática del Congo'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Democratic Republic of the Congo'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Democrática del Congo'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רפובליקה הדמוקרטית של קונגו'),
     }
     translations[desc.replace('~', 'Equatorial Guinea')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Equatorial Guinea'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guinea Ecuatorial'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Equatorial Guinea'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guinea Ecuatorial'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'גינאה המשוונית'),
     }
     translations[desc.replace('~', 'Ethiopia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ethiopia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Etiopía'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ethiopia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Etiopía'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אתיופיה'),
     }
     translations[desc.replace('~', 'Fiji')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'פיג'י'),
     }
     translations[desc.replace('~', 'Gabon')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Gabon'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Gabón'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Gabon'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Gabón'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'גבון'),
     }
     translations[desc.replace('~', 'Germany')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Alemania'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Alemania'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'גרמניה'),
     }
     translations[desc.replace('~', 'Ghana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ghana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ghana'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ghana'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ghana'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'גאנה'),
     }
     translations[desc.replace('~', 'Guyana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Guyana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guyana'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Guyana'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guyana'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'גיאנה'),
     }
     translations[desc.replace('~', 'India')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'הודו'),
     }
     translations[desc.replace('~', 'Indonesia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אינדונזיה'),
     }
     translations[desc.replace('~', 'Iran')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Iran'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Irán'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Iran'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Irán'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'איראן'),
     }
     translations[desc.replace('~', 'Japan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Japan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Japón'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Japan'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Japón'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'יפן'),
     }
     translations[desc.replace('~', 'Latvia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Latvia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Letonia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Latvia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Letonia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'לטביה'),
     }
     translations[desc.replace('~', 'Lebanon')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lebanon'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Líbano'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lebanon'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Líbano'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'לבנון'),
     }
     translations[desc.replace('~', 'Lithuania')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lithuania'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Lituania'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lithuania'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Lituania'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ליטא'),
     }
     translations[desc.replace('~', 'Malaysia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Malaysia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Malasia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Malaysia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Malasia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'מלזיה'),
     }
     translations[desc.replace('~', 'Mexico')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mexico'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'México'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mexico'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'México'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'מקסיקו'),
     }
     translations[desc.replace('~', 'Mozambique')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mozambique'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Mozambique'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mozambique'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Mozambique'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'מוזמביק'),
     }
     translations[desc.replace('~', 'New Zealand')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ניו זילנד'),
     }
     translations[desc.replace('~', 'North Korea')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'North Korea'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Corea del Norte'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'North Korea'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Corea del Norte'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'קוריאה הצפונית'),
     }
     translations[desc.replace('~', 'Norway')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Norway'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Noruega'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Norway'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Noruega'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'נורווגיה'),
     }
     translations[desc.replace('~', 'Pakistan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'פקיסטן'),
     }
     translations[desc.replace('~', "People's Republic of China")] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', "People's Republic of China"), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la República Popular China'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', "People's Republic of China"),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la República Popular China'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רפובליקה העממית של סין'),
     }
     translations[desc.replace('~', 'Poland')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Poland'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Polonia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Poland'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Polonia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'פולין'),
     }
     translations[desc.replace('~', 'Portugal')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Portugal'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Portugal'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Portugal'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Portugal'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'פורטוגל'),
     }
     translations[desc.replace('~', 'Republic of the Congo')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Republic of the Congo'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República del Congo'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Republic of the Congo'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República del Congo'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רפובליקה של קונגו'),
     }
     translations[desc.replace('~', 'Romania')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rumanía'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rumanía'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רומניה'),
     }
     translations[desc.replace('~', 'Russia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רוסיה'),
     }
     translations[desc.replace('~', 'Serbia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Serbia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Serbia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Serbia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Serbia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'סרביה'),
     }
     translations[desc.replace('~', 'Sierra Leone')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sierra Leone'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sierra Leona'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sierra Leone'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sierra Leona'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'סיירה לאון'),
     }
     translations[desc.replace('~', 'Slovakia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Slovakia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Eslovaquia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Slovakia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Eslovaquia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'סלובקיה'),
     }
     translations[desc.replace('~', 'South Africa')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Africa'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudáfrica'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Africa'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudáfrica'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'דרום אפריקה'),
     }
     translations[desc.replace('~', 'South Sudan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Sudan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudán del Sur'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Sudan'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudán del Sur'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'דרום סודאן'),
     }
     translations[desc.replace('~', 'Spain')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Spain'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'España'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Spain'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'España'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ספרד'),
     }
     translations[desc.replace('~', 'Sweden')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sweden'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Suecia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sweden'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Suecia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'שוודיה'),
     }
     translations[desc.replace('~', 'Taiwan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Taiwan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Taiwán'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Taiwan'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Taiwán'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'טאיוואן'),
     }
     translations[desc.replace('~', 'Turkey')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Turkey'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Turquía'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Turkey'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Turquía'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'טורקיה'),
     }
     translations[desc.replace('~', 'the Central African Republic')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'רפובליקה המרכז-אפריקאית'),
+
     }
     translations[desc.replace('~', 'the Philippines')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'פיליפינים'),
+
     }
     translations[desc.replace('~', 'the United Kingdom')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United Kingdom'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Reino Unido'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United Kingdom'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Reino Unido'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ממלכה המאוחדת'),
+
     }
     translations[desc.replace('~', 'United States of America')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'United States of America'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'United States of America'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ארצות הברית'),
     }
     translations[desc.replace('~', 'Ukraine')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ukraine'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ucrania'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ukraine'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ucrania'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אוקראינה'),
     }
     translations[desc.replace('~', 'Uganda')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uganda'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uganda'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uganda'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uganda'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אוגנדה'),
     }
     translations[desc.replace('~', 'Uruguay')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uruguay'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uruguay'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uruguay'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uruguay'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'אורוגוואי'),
     }
     translations[desc.replace('~', 'Venezuela')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Venezuela'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Venezuela'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Venezuela'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Venezuela'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'וונצואלה'),
     }
     translations[desc.replace('~', 'Vietnam')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Vietnam'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Vietnam'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'ווייטנאם'),
     }
     translations[desc.replace('~', 'Zambia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Zambia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Zambia'), 
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Zambia'),
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Zambia'),
+        'he': genTranslationsByCountryCore(desc=desc, desclang='he').replace('~', 'זמביה'),
     }
     return translations
 
@@ -787,7 +880,7 @@ def main():
             'ar': 'مقالة موسوعية',
             'ast': 'artículu enciclopédicu',
             'be': 'энцыклапедычны артыкул',
-            'bn': 'বিশ্বকোষীয় নিবন্ধ',
+            'bn': 'বিশ্বকোষীয় নিবন্ধ',
             'ca': 'article enciclopèdic',
             'cs': 'encyklopedický článek',
             'da': 'encyklopædiartikel',
@@ -838,6 +931,7 @@ def main():
         'entry in Dictionary of National Biography': {
             'en': 'entry in Dictionary of National Biography',
             'es': 'entrada del Dictionary of National Biography',
+            'he': 'ערך במילון לביוגרפיה לאומית',
         }, 
         'extrasolar planet': {
             'af': 'eksoplaneet',
@@ -868,6 +962,7 @@ def main():
             'wuu': '太阳系外行星',
             'yue': '太陽系外行星',
             'zh': '太陽系外行星',
+            'he': 'כוכב לכת חוץ-שמשי',
         },
         #more families https://query.wikidata.org/#SELECT %3FitemDescription (COUNT(%3Fitem) AS %3Fcount)%0AWHERE {%0A%09%3Fitem wdt%3AP31 wd%3AQ16521.%0A %3Fitem wdt%3AP105 wd%3AQ35409.%0A %23%3Fitem schema%3Adescription "family of insects"%40en.%0A OPTIONAL { %3Fitem schema%3Adescription %3FitemDescription. FILTER(LANG(%3FitemDescription) %3D "en"). }%0A%09FILTER (BOUND(%3FitemDescription))%0A}%0AGROUP BY %3FitemDescription%0AORDER BY DESC(%3Fcount)
         'family of crustaceans': {
@@ -912,6 +1007,7 @@ def main():
             'ca': 'galàxia',
             'en': 'galaxia',
             'eo': 'galaksio',
+            'he': 'גלקסיה',
             'es': 'galaxy',
             'fr': 'galaxie',
             'gl': 'galaxia',
@@ -1503,6 +1599,7 @@ def main():
             'fr': 'série télévisée',
             'hu': 'televíziós sorozat',
             'it': 'serie televisiva',
+            'he': 'סדרת טלוויזיה',
         },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
