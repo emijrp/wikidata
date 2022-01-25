@@ -253,8 +253,9 @@ def replaceSource(newtext=''):
     return newtext
 
 def creditByWhatlinkshere():
+    purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Aranjuez en noviembre de 2021 35.jpg'
+    skip = 'File:Playa de El Buzo en febrero de 2020 01.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
@@ -270,7 +271,7 @@ def creditByWhatlinkshere():
         newtext = replaceAuthor(newtext=newtext)
         newtext = replaceSource(newtext=newtext)
         newtext = addMetadata(newtext=newtext, pagelink=page.full_url())
-        if newtext != page.text:
+        if newtext != page.text or purgeedit:
             pywikibot.showDiff(page.text, newtext)
             page.text = newtext
             page.save('BOT - Updating credit template')
