@@ -81,7 +81,10 @@ def main():
         }, 
     }
     targetlangs = ["ast", "ca", "es", "eu", "fr", "gl", "it", "pl", "pt", "ro", "sq"]
-    mincount = 25
+    targetlangs += ["an", "da", "et", "ext", "nn", "no", "oc", "sk", "sv", "tr"]
+    targetlangs += ["eo", "ar", "he", "hu", "bn", "el", "fi", "cs", "ru", "bg", "fa", "af"]
+    targetlangs = list(set(targetlangs))
+    mincount = 25 #cuidado, esto define la calidad de las traducciones, no bajar de 25 o puede escoger malas traducciones
     for wdt, v in basedescsdict.items():
         for baselang, basedescs in v.items():
             basedescsshuffle = basedescs
@@ -168,7 +171,7 @@ WHERE {
                     sparql2 = getURL(url=url2)
                     json2 = loadSPARQL(sparql=sparql2)
                     for result2 in json2['results']['bindings']:
-                        time.sleep(0.2)
+                        time.sleep(0.5)
                         #print(result2)
                         q = 'item' in result2 and result2['item']['value'].split('/entity/')[1] or ''
                         if not q:
@@ -188,7 +191,7 @@ WHERE {
                             print(q, summary)
                             try:
                                 item.editEntity(data, summary=summary)
-                                break
+                                #break
                             except:
                                 print('Error while saving')
                                 continue
