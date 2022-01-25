@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -513,6 +513,9 @@ def main():
         'family name': {
             'sq': ['mbiemri'], #because "mbiemri" = "the family name"
         },
+        'galaxy': {
+            'es': ['galaxy'], 
+        },
         'species of insect': {
             'sq': ['specie e insekteve'], #https://github.com/emijrp/wikidata/pull/47
         },
@@ -912,7 +915,7 @@ def main():
             'ca': 'galàxia',
             'en': 'galaxia',
             'eo': 'galaksio',
-            'es': 'galaxy',
+            'es': 'galaxia',
             'fr': 'galaxie',
             'gl': 'galaxia',
             'pt': 'galáxia',
@@ -2633,16 +2636,18 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q4167410 ;
-                  wdt:P31 ?instance .
-            ?item schema:description "Wikimedia disambiguation page"@en.
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q4167410 .
+                bd:serviceParam bd:sample.limit %s .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+        ?item schema:description "Wikimedia disambiguation page"@en.
+        OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").  }
+        FILTER (!BOUND(?itemDescription))
         }
-        GROUP BY ?item
-        HAVING(COUNT(?instance) = 1)
-        LIMIT %s
-        OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 2000000, querylimit)
-        ], 
+        #random%s
+        """ % (str(querylimit+i), random.choice(list(translations['Wikimedia disambiguation page'].keys())), random.randint(1,1000000)) for i in range(1, 10000)
+        ],
         
         'Wikimedia list article': [
         """
