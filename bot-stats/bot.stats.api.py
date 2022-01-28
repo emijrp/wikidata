@@ -36,6 +36,8 @@ regexps = {
     'references': re.compile(r"(?i)BOT - Adding ([0-9]+) reference"), 
     'sitelinks': re.compile(r"(?i)BOT - Adding ([0-9]+) sitelink"), 
     'items': re.compile(r"(?i)BOT - Creating item"), 
+}
+regexps2 = {
     'difflangs': re.compile(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">'), 
 }
 
@@ -66,6 +68,7 @@ def getLanguagesFromDiff(revid='', comment=''):
     #https://www.wikidata.org/w/index.php?diff=prev&oldid=1521456307 tt-latn, ur / Fixing descriptions (1 languages): uk
     global diffs2langs
     global regexps
+    global regexps2
     
     langsfromdiff = []
     if revid and comment:
@@ -76,7 +79,7 @@ def getLanguagesFromDiff(revid='', comment=''):
         else:
             diffurl = 'https://www.wikidata.org/w/index.php?oldid=%s&diff=prev' % (revid)
             raw = urllib.request.urlopen(diffurl).read().decode('utf-8')
-            m = regexp['difflangs'].findall(raw)
+            m = regexps2['difflangs'].findall(raw)
             for lang in m:
                 lang = lang.strip()
                 if len(lang) >= 2 and not '.' in lang:
@@ -87,6 +90,7 @@ def getLanguagesFromDiff(revid='', comment=''):
 
 def main():
     global regexps
+    global regexps2
     
     path = '/data/project/emijrpbot/wikidata'
     nick = 'Emijrpbot'
@@ -324,6 +328,7 @@ def main():
     formatdictbylang['nick_'] = formatdict['nick_']
     formatdictbylang['lastupdate'] = formatdict['lastupdate']
     formatdictbylang['statsbylangtable'] = statsbylangtable
+    formatdictbylang['numberoflangs'] = len(statsbylang.keys())
     outputbylang = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
 ! colspan=5 | Statistics for [[User:{nick}|{nick}]] by language
 |-
@@ -333,12 +338,12 @@ def main():
 ! [[Help:Aliases|Aliases]]
 ! Total
 |-{statsbylangtable}
-! '''Subtotal''' !! data-sort-value={subtotallabels} | {{{{formatnum:{subtotallabels}}}}}
+! '''Subtotal ({numberoflangs} langs)''' !! data-sort-value={subtotallabels} | {{{{formatnum:{subtotallabels}}}}}
 ! data-sort-value={subtotaldescriptions} | {{{{formatnum:{subtotaldescriptions}}}}}
 ! data-sort-value={subtotalaliases} | {{{{formatnum:{subtotalaliases}}}}}
 ! data-sort-value={subtotaltotal} | {{{{formatnum:{subtotaltotal}}}}}
 |-
-! '''Total''' !! data-sort-value={labels} | {{{{formatnum:{labels}}}}}
+! '''Total ({numberoflangs} langs)''' !! data-sort-value={labels} | {{{{formatnum:{labels}}}}}
 ! data-sort-value={descriptions} | {{{{formatnum:{descriptions}}}}}
 ! data-sort-value={aliases} | {{{{formatnum:{aliases}}}}}
 ! data-sort-value={total} | {{{{formatnum:{total}}}}}
