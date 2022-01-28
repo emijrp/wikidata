@@ -35,9 +35,49 @@ def main():
     langs = re.findall(r"(?im){{#language:([a-z\-]+)\|en}}", pasleimtext)
     print(langs, len(langs))
     
-    aliases = ["🗺", "♁", "🜨", "🌍", "🌏", "🌎"]
-    qq = ["Q2"]
-    for q in qq:
+    qlabels = {
+        "Q33836537": "😂", 
+    }
+    qaliases = {
+        #"Q2": ["🗺", "♁", "🜨", "🌍", "🌏", "🌎"], 
+        "Q2": ["🗺", "♁", "🜨", "🌍", "🌏", "🌎"], 
+    }
+    for q, label in qlabels.items():
+        nomorelangs = False
+        for i in range(100):
+            if nomorelangs:
+                break
+            item = pywikibot.ItemPage(repo, q)
+            try: #to detect Redirect because .isRedirectPage fails
+                item.get()
+            except:
+                print('Error while .get()')
+                continue
+            
+            addedlangs = []
+            itemlabels = item.labels
+            for lang in langs:
+                if not lang in itemlabels:
+                    itemlabels[lang] = label
+                    if not lang in addedlangs:
+                        addedlangs.append(lang)
+                if len(addedlangs) >= 25:
+                    break
+            if len(addedlangs) == 0:
+                nomorelangs = True
+            else:
+                addedlangs.sort()
+                data = { 'labels': itemlabels }
+                summary = 'BOT - Adding labels (%d languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+                print(q, summary)
+                try:
+                    item.editEntity(data, summary=summary)
+                    #break
+                except:
+                    print('Error while saving')
+                    continue
+    
+    for q, aliases in qaliases.items():
         nomorelangs = False
         for i in range(100):
             if nomorelangs:
@@ -62,7 +102,7 @@ def main():
                             itemaliases[lang].append(alias)
                             if not lang in addedlangs:
                                 addedlangs.append(lang)
-                if len(addedlangs) >= 50:
+                if len(addedlangs) >= 25:
                     break
             if len(addedlangs) == 0:
                 nomorelangs = True
