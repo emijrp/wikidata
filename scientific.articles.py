@@ -202,6 +202,7 @@ def main():
                 if addedlangs or fixedlangs:
                     data = { 'descriptions': descriptions }
                     addedlangs.sort()
+                    fixedlangs.sort()
                     summary = 'BOT - '
                     if addedlangs:
                         if fixedlangs:
