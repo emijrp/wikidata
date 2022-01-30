@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -26,6 +26,10 @@ import urllib.parse
 
 import pywikibot
 from wikidatafun import *
+
+#mas adelante hacer queries para descripciones como (scientific article published on 01 January 1986)
+#el pubdate lo capturamos asi que da igual
+#https://query.wikidata.org/#SELECT%20%3FitemDescBase%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%3Fitem%20wdt%3AP31%20%3Fp31%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20100000%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%7D%0A%20%20%23%3Fitem%20wdt%3AP21%20wd%3AQ6581097.%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescBase.%20FILTER%28LANG%28%3FitemDescBase%29%20%3D%20%22en%22%29.%20%20%7D%0A%20%20FILTER%20%28BOUND%28%3FitemDescBase%29%29%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescTarget.%20FILTER%28LANG%28%3FitemDescTarget%29%20%3D%20%22es%22%29.%20%20%7D%0A%20%20FILTER%20%28%21BOUND%28%3FitemDescTarget%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescBase%0AORDER%20BY%20DESC%28%3Fcount%29%0ALIMIT%20100
 
 def bnyear(year=''):
     digits = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' }
@@ -166,51 +170,55 @@ def main():
                     skip = ''
             
             pubdate = dateutil.parser.parse(pubdate)
-            fixthiswhenfound, translations = generateTranslations(pubdate=pubdate)
-            item = pywikibot.ItemPage(repo, q)
-            try: #to detect Redirect because .isRedirectPage fails
-                item.get()
-            except:
-                print('Error while .get()')
-                continue
-            
-            descriptions = item.descriptions
-            #skip papers without english description
-            if not 'en' in descriptions or not 'scientific article' in descriptions['en']:
-                continue
-            
-            addedlangs = []
-            fixedlangs = []
-            for lang in translations.keys():
-                if lang in descriptions:
-                    if lang in fixthiswhenfound and \
-                       descriptions[lang] in fixthiswhenfound[lang]:
-                        descriptions[lang] = translations[lang]
-                        fixedlangs.append(lang)
-                else:
-                    descriptions[lang] = translations[lang]
-                    addedlangs.append(lang)
-            
-            if addedlangs or fixedlangs:
-                data = { 'descriptions': descriptions }
-                addedlangs.sort()
-                summary = 'BOT - '
-                if addedlangs:
-                    if fixedlangs:
-                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs[:15]))
-                        summary += ' / Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
-                    else:
-                        summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
-                else:
-                    if fixedlangs:
-                        summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
-                print(summary)
-                try:
-                    item.editEntity(data, summary=summary)
+            for edit in ["add", "fix"]:
+                fixthiswhenfound, translations = generateTranslations(pubdate=pubdate)
+                if edit == "add":
+                    fixthiswhenfound = {}
+                
+                item = pywikibot.ItemPage(repo, q)
+                try: #to detect Redirect because .isRedirectPage fails
+                    item.get()
                 except:
-                    print('Error while saving')
+                    print('Error while .get()')
                     continue
-                #time.sleep(1)
+                
+                descriptions = item.descriptions
+                #skip papers without english description
+                if not 'en' in descriptions or not 'scientific article' in descriptions['en']:
+                    continue
+                
+                addedlangs = []
+                fixedlangs = []
+                for lang in translations.keys():
+                    if lang in descriptions:
+                        if lang in fixthiswhenfound and \
+                           descriptions[lang] in fixthiswhenfound[lang]:
+                            descriptions[lang] = translations[lang]
+                            fixedlangs.append(lang)
+                    else:
+                        descriptions[lang] = translations[lang]
+                        addedlangs.append(lang)
+                
+                if addedlangs or fixedlangs:
+                    data = { 'descriptions': descriptions }
+                    addedlangs.sort()
+                    summary = 'BOT - '
+                    if addedlangs:
+                        if fixedlangs:
+                            summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs[:15]))
+                            summary += ' / Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
+                        else:
+                            summary += 'Adding descriptions (%s languages): %s' % (len(addedlangs), ', '.join(addedlangs))
+                    else:
+                        if fixedlangs:
+                            summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
+                    print(summary)
+                    try:
+                        item.editEntity(data, summary=summary)
+                    except:
+                        print('Error while saving')
+                        continue
+                    #time.sleep(1)
     print("Finished successfully")
 
 if __name__ == '__main__':
