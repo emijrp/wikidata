@@ -49,9 +49,11 @@ def main():
     categories = {
         #añadido hasta el ido: segun la tabla al 31 de diciembre de 2021
         #'als': ['Category:%s' % (x) for x in ["Dütsche", "Schwiizer"]], el idioma gsw: recae en este? aclarar antes de lanzarlo
+        'af': ['Category:Geboortes in %s' % (year) for year in years], 
         'an': ['Category:%s (naixencias)' % (year) for year in years], 
         'ast': ['Category:Persones nacíes en %s' % (year) for year in years], 
         'bar': ['Category:Geboren %s' % (year) for year in years], 
+        'br': ['Category:Ganedigezhioù %s' % (year) for year in years], 
         'bs': ['Category:Rođeni %s.' % (year) for year in years], 
         'ca': ['Category:Persones vives'], 
         'cs': ['Category:Narození %s' % (year) for year in years], 
@@ -80,6 +82,7 @@ def main():
         'la': ['Category:Nati %s' % (year) for year in years], 
         'ms': ['Category:Kelahiran %s' % (year) for year in years], 
         'nds': ['Category:Boren %s' % (year) for year in years], 
+        #nl: no useful cats, deberia hacer esto con sparql sobre Q5 y sacar los iws y filtrar los idiomas interesen...
         'nn': ['Category:Fødde i %s' % (year) for year in years], 
         'no': ['Category:Fødsler i %s' % (year) for year in years], 
         'oc': ['Category:Naissença en %s' % (year) for year in years], 
@@ -89,10 +92,13 @@ def main():
         'sh': ['Category:Rođeni %s.' % (year) for year in years], 
         'sk': ['Category:Narodenia v %s' % (year) for year in years], 
         'sq': ['Category:Lindje %s' % (year) for year in years], 
+        'su': ['Category:Nu babar taun %s' % (year) for year in years], 
         'sv': ['Category:Födda %s' % (year) for year in years], 
         'tl': ['Category:Ipinanganak noong %s' % (year) for year in years], 
         'tr': ['Category:%s doğumlular' % (year) for year in years], 
         'vi': ['Category:Sinh năm %s' % (year) for year in years], 
+        'yo': ['Category:Àwọn ọjọ́ìbí ní %s' % (year) for year in years], 
+        'zea': ['Category:Historisch persoôn'], 
     }
     langs = list(categories.keys())
     #langs = ['ca', 'da', 'de', 'eu', 'fi', 'it', 'pt', 'sv']
@@ -148,6 +154,10 @@ def main():
                     if not ' ' in aliascandidate or len(aliascandidate) < 10: #https://www.wikidata.org/w/index.php?title=Q542337&type=revision&diff=1482744856&oldid=1400873196
                         print('Alias muy corto o unipalabra, saltamos')
                         continue
+                    if len(aliascandidate) > 50:
+                        print('Alias muy largo, saltamos')
+                        continue
+                    
                     if sum([len(x) > 2 and x in aliascandidate.lower() and 1 or 0 for x in page.title().lower().split()]) < 1:
                         # at least 1 word in title must be in alias candidate
                         print('No se encontro ninguna palabra del titulo en el alias, saltamos')
