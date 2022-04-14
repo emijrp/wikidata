@@ -211,16 +211,17 @@ def addMetadata(newtext='', pagelink=''):
     #subjects
     #|subjects=museum si contiene la palabra museo en alguna parte (o solo el título?)
     subjects = {
-        'animals': ['zoo', 'zoobotanico', 'zoologico', ], 
+        'animals': ['zoo', 'zoobotanico', 'zoologico', 'ave', 'gato', 'perro', ], 
         'astronomy': ['astronomy', 'astronomia', "iridium"], 
         'buildings': ['edificio', ], 
         'buildings-lighthouses': ['faro', ], 
         'buildings-religion': ['iglesia', 'catedral', 'concatedral', 'ermita', 'parroquia', 'edificios religiosos', 'mezquita', ], 
+        'buildings-towers': ['torre', ], 
         'events-carnival': ['carnaval', 'carrusel de coros', 'chirigota', ], 
         'events-culture': ['charla', 'conferencia', 'debate', 'exposicion', 'teatro', 'concierto', 'jornadas', 'mesa redonda', 'presentacion', ], 
         'events-demonstrations': ['manifestacion', 'marcha contra', '19jmani', ], 
         'events-disasters': ['temporal', 'tornado', 'accidente', 'humo', 'incendio', ], 
-        'events-religion': ['semana santa', 'lunes santo', 'martes santo', 'miercoles santo', 'jueves santo', 'viernes santo', 'sabado santo', 'domingo de resureccion', ], 
+        'events-religion': ['semana santa', 'lunes santo', 'martes santo', 'miercoles santo', 'jueves santo', 'viernes santo', 'sabado santo', 'domingo de resurreccion', ], 
         'events-sports': ['futbol', 'triatlon', ], 
         'events-other': ['dia de', 'dia del', 'dia de la', 'dia local', 'dia nacional', 'dia internacional', 'festividad', 'fiesta', 'feria', 'homenaje', ], 
         'libraries': ['biblioteca', 'library', 'libraries', ], 
@@ -255,7 +256,7 @@ def replaceSource(newtext=''):
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Playa de El Buzo en febrero de 2020 01.jpg'
+    skip = 'File:Museo del Romanticismo de Madrid en marzo de 2022 01.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
