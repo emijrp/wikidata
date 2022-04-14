@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2021 emijrp <emijrp@gmail.com>
+# Copyright (C) 2021-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -41,6 +41,7 @@ cities2catname = {
     "Medina Sidonia": "Medina-Sidonia", 
     "Sanlucar de Barrameda": "Sanlúcar de Barrameda", 
     "Sevilla": "Seville", 
+    "Torrejon de Ardoz": "Torrejón de Ardoz", 
     "Vejer": "Vejer de la Frontera", 
     "Villar de Domingo Garcia": "Villar de Domingo García", 
     "Unknown": "other places", 
@@ -84,7 +85,7 @@ def main():
         for param in params:
             if '=' not in param:
                 continue
-            print(param)
+            #print(param)
             key = param.split('=')[0].lower()
             value = param.split('=')[1]
             #print(key, value)
@@ -174,7 +175,7 @@ def main():
         catstable += "\n|-\n| %s || [[:Category:%s|%s]] || %s" % (c, category, category, freq)
         c += 1
     catstable = """{| id="Categories" class="wikitable sortable" width="400px"\n! # !! Category !! Files%s\n|}""" % (catstable)
-    institutionstable = ", ".join(["{{[[Institution:%s|%s]]}}" % (institution, institution) for institution in institutions_list])
+    institutionstable = "{{div col|2}}\n* " + ("\n* ".join(["{{[[Institution:%s|%s]]}}" % (institution, institution) for institution in institutions_list])) + "\n{{div col end}}"
     
     cities_list = []
     for k, v in cities.items():
@@ -214,9 +215,9 @@ def main():
     for k, v in days.items():
         days_list.append([v, k])
     days_list.sort(reverse=True)
-    days_list = days_list[:10]
-    daysx = [str(k) for v, k in days_list]
-    daysy = [str(v) for v, k in days_list]
+    days_list_truncated = days_list[:12]
+    daysx = [str(k) for v, k in days_list_truncated]
+    daysy = [str(v) for v, k in days_list_truncated]
     
     devices_list = []
     for k, v in devices.items():
@@ -237,12 +238,15 @@ def main():
     filesbydaytable = """{| class="wikitable sortable" style="text-align: center;"\n! Day !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken on %s|%s]] || data-sort-value=%s | %s" % (daysx[i], daysx[i], daysy[i], daysy[i]) for i in range(len(daysx))]))
     filesbydevicegraph = "{{Graph:Chart|width=100|height=100|type=pie|legend=Legend|x=%s|y1=%s|showValues=}}" % (','.join(devicesx), ','.join(devicesy))
     filesbydevicetable = """{| class="wikitable sortable" style="text-align: center;"\n! Device !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken with %s|%s]] || data-sort-value=%s | %s" % (devicesx[i], devicesx[i], devicesy[i], devicesy[i]) for i in range(len(devicesx))]))
-    formatdict = { "total": total, "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydaygraph": filesbydaygraph, "filesbydaytable": filesbydaytable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
+    formatdict = { "total": total, "totaldays": len(days_list), "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydaygraph": filesbydaygraph, "filesbydaytable": filesbydaytable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
     newtext = """'''Statistics''' for '''{{{{formatnum:{total}}}}} files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|{totaldevices} different devices]] in [[#Cities|{totalcities} cities]] spanning [[#By year|{totalyears} years]]. Among the visited places, there are over [[#Institutions|{totalinstitutions} cultural institutions]].
 \nLast update: {lastupdate}.
 {usage}
 == Files ==
 === By year ===
+
+The images were taken over a period of '''{totalyears} years'''.
+
 {{|
 | valign=top | \n{filesbyyeargraph}
 |-
@@ -254,11 +258,17 @@ def main():
 | valign=top | \n{filesbymonthtable}
 |}}
 === By day ===
+
+The images were taken in '''{totaldays} days'''.
+
 {{|
 | valign=top | \n{filesbydaygraph}
 | valign=top | \n{filesbydaytable}
 |}}
 === By device ===
+
+The images were taken with '''{totaldevices} devices'''.
+
 {{|
 | valign=top | \n{filesbydevicegraph}
 | valign=top | \n{filesbydevicetable}
@@ -271,6 +281,9 @@ def main():
 |}}
 
 == Institutions ==
+
+The images were taken in '''{totalinstitutions} institutions'''.
+
 {institutionstable}
 
 {{{{Template:User:Emijrp}}}}""".format(**formatdict)
