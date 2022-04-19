@@ -27,6 +27,8 @@ from pywikibot import pagegenerators
 #ciudades a las que he ido, q año, cuantos dias distintos
 #mayor numero de fotos en un día, en una ciudad, etc
 #en que categorias estan mis fotos (Collections of museum of...)
+#extreme points: fotos más al sur, norte, este, oeste, primera foto, más antigua
+#cuadrantes lat/lon con más fotos
 
 cities2catname = {
     "Alcala de Henares": "Alcalá de Henares", 
@@ -240,7 +242,9 @@ def main():
     filesbydevicetable = """{| class="wikitable sortable" style="text-align: center;"\n! Device !! Files\n%s\n|}""" % ('\n'.join(["|-\n| [[:Category:Images by User:Emijrp taken with %s|%s]] || data-sort-value=%s | %s" % (devicesx[i], devicesx[i], devicesy[i], devicesy[i]) for i in range(len(devicesx))]))
     formatdict = { "total": total, "totaldays": len(days_list), "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydaygraph": filesbydaygraph, "filesbydaytable": filesbydaytable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
     newtext = """'''Statistics''' for '''{{{{formatnum:{total}}}}} files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|{totaldevices} different devices]] in [[#Cities|{totalcities} cities]] spanning [[#By year|{totalyears} years]]. Among the visited places, there are over [[#Institutions|{totalinstitutions} cultural institutions]].
-\nLast update: {lastupdate}.
+
+* [https://wikimap.toolforge.org/?cat=Files_by_User:Emijrp Map all coordinates] on OSM 
+* Last update: {lastupdate}
 {usage}
 == Files ==
 === By year ===
