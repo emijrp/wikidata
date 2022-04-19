@@ -161,11 +161,21 @@ def addMetadata(newtext='', pagelink=''):
     #else:
     #    print("La plantilla credit ya tiene un f-number")
     
+    #{{QualityImage}}
+    qualityimage = re.findall(r'(?im)\{\{\s*Quality\s*Image', newtext)
+    if qualityimage:
+        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|quality-image=yes}}', newtext)
+    else:
+        print("{{QualityImage}} no encontrado")
+    #else:
+    #    print("La plantilla credit ya tiene un quality-image")
+    
     #location (coordinates) https://commons.wikimedia.org/wiki/Template:Location
     #puede estar en coordenadas decimales o grados/minutos/segundos, parsear solo las {{Location|1=|2=}} para evitar lios
     #country, city, se puede hacer con github reverse-geocoder tirando de las coordenadas metidas con toolforge locator-tool
     #https://github.com/thampiman/reverse-geocoder
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?location=', newtext):
+    #tambien existe Object-location por ej aquí lo puse https://commons.wikimedia.org/wiki/File:La_Muralla_en_enero_(39784771451).jpg
     location = re.findall(r'(?im)\{\{\s*Location ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
     if location:
         print(location)
@@ -256,7 +266,7 @@ def replaceSource(newtext=''):
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Museo del Romanticismo de Madrid en marzo de 2022 01.jpg'
+    #skip = 'File:Universidad de Alcalá (34132030353).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
