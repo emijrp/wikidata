@@ -58,11 +58,11 @@ def getCity(result={}):
 
 def addMetadata(newtext='', pagelink=''):
     #esto solo analiza las q le haya puesto coordenadas, comentar cuando quiera que recorra todas mis fotos
-    #if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
-    #    if re.search(r'(?im)\|location-longitude=', newtext):
-    #        return newtext
-    #else:
-    #    return newtext
+    if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+        if re.search(r'(?im)\|location-longitude=', newtext):
+            return newtext
+    else:
+        return newtext
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
@@ -252,21 +252,24 @@ def addMetadata(newtext='', pagelink=''):
     return newtext
 
 def replaceAuthor(newtext=''):
-    newtext = re.sub(r'(?im)(\|\s*author\s*=\s*)\[\[User\:Emijrp\|Emijrp\]\]', r'\1{{User:Emijrp/credit}}', newtext)
-    newtext = re.sub(r'(?im)(\|\s*author\s*=\s*)User\:Emijrp', r'\1{{User:Emijrp/credit}}', newtext)
-    newtext = re.sub(r'(?im)(\|\s*author\s*=\s*)Usuario\:Emijrp', r'\1{{User:Emijrp/credit}}', newtext)
-    newtext = re.sub(r'(?im)(\|\s*author\s*=\s*)Emijrp', r'\1{{User:Emijrp/credit}}', newtext)
+    fieldnames = ["author", "photographer"]
+    for fieldname in fieldnames:
+        newtext = re.sub(r'(?im)(\|\s*%s\s*=\s*)\[\[User\:Emijrp\|Emijrp\]\]' % (fieldname), r'\1{{User:Emijrp/credit}}', newtext)
+        newtext = re.sub(r'(?im)(\|\s*%s\s*=\s*)User\:Emijrp' % (fieldname), r'\1{{User:Emijrp/credit}}', newtext)
+        newtext = re.sub(r'(?im)(\|\s*%s\s*=\s*)Usuario\:Emijrp' % (fieldname), r'\1{{User:Emijrp/credit}}', newtext)
+        newtext = re.sub(r'(?im)(\|\s*%s\s*=\s*)Emijrp' % (fieldname), r'\1{{User:Emijrp/credit}}', newtext)
     return newtext
 
 def replaceSource(newtext=''):
-    if re.search(r'(?im)\|\s*author\s*=\s*{{User:Emijrp/credit}}', newtext):
+    if re.search(r'(?im)\|\s*author\s*=\s*{{User:Emijrp/credit', newtext):
         newtext = re.sub(r'(?im)(\|\s*source\s*=\s*){{User:Emijrp/credit}}', r'\1{{own work}}', newtext)
     return newtext
 
 def creditByWhatlinkshere():
-    purgeedit = True #force template cache purge
+    purgeedit = False #force template cache purge
     skip = ''
     #skip = 'File:Universidad de Alcalá (34132030353).jpg'
+    #skip = 'File:Museo del Prado de Madrid en abril de 2022 08.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
