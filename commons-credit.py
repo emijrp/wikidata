@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -30,6 +30,8 @@ fixcities = {
     
     '37.85,-4.9,Villarrubia': 'Córdoba',
     
+    '40.66677,-3.19914,Marchamalo': 'Guadalajara',
+    
     '40.40021,-3.69618,Arganzuela': 'Madrid',
     '40.43893,-3.61537,San Blas': 'Madrid',
     '40.38897,-3.74569,Latina': 'Madrid',
@@ -57,12 +59,17 @@ def getCity(result={}):
     return city
 
 def addMetadata(newtext='', pagelink=''):
-    #esto solo analiza las q le haya puesto coordenadas, comentar cuando quiera que recorra todas mis fotos
-    if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
-        if re.search(r'(?im)\|location-longitude=', newtext):
-            return newtext
+    if re.search(r'(?im)\{\{\s*Quality\s*Image', newtext):
+        #las quality images las actualizamos siempre
+        pass
     else:
-        return newtext
+        #esto solo analiza las q le haya puesto coordenadas y no haya sido procesada antes
+        #comentar cuando quiera que recorra todas mis fotos
+        if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+            if re.search(r'(?im)\|location-longitude=', newtext):
+                return newtext
+        else:
+            return newtext
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
@@ -269,7 +276,6 @@ def creditByWhatlinkshere():
     purgeedit = False #force template cache purge
     skip = ''
     #skip = 'File:Universidad de Alcalá (34132030353).jpg'
-    #skip = 'File:Museo del Prado de Madrid en abril de 2022 08.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
