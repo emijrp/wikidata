@@ -186,6 +186,7 @@ def main():
                     data = { 'aliases': aliases }
                     summary = "BOT - Adding 1 aliases (%s): %s" % (targetlang, aliascandidate)
                     print(summary.encode('utf-8'))
+                    cronstop()
                     try:
                         item.editEntity(data, summary=summary)
                     except:
