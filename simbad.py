@@ -123,7 +123,12 @@ def main():
     if len(sys.argv) > 1:
         method = sys.argv[1]
     
-    targetlangs = ["es", "ast", "ca", "gl", "ext", "eu", "oc"]
+    targetlangs = ["es", "ast", "ca", "gl", "ext", "eu", "oc", "an", ]
+    targetlangs += ["fr", "de", "it", "pt", "pt-br", "nl", "ga", "pl", ]
+    targetlangs += ["eo", "io", "ia", "ie", "vo", ]
+    targetlangs += ["la", ]
+    targetlangs = list(set(targetlangs))
+    targetlangs.sort()
     if method == 'all' or method == 'method1':
         #method 1
         random.shuffle(constellations)
@@ -135,7 +140,7 @@ def main():
                 #?item wdt:P31 wd:Q523.
                 ?item wdt:P3083 ?simbadid.
                 ?item wdt:P59 wd:%s.
-                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "es") }
+                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "ext") }
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
@@ -193,6 +198,7 @@ def main():
                 print(summary)
                 
                 time.sleep(0.01)
+                cronstop()
                 try:
                     item.editEntity(data, summary=summary)
                 except:

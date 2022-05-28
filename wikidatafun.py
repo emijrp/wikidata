@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import json
 import os
 import re
@@ -26,11 +27,16 @@ import urllib
 import urllib.request
 import urllib.parse
 
+def cronstop():
+    if datetime.datetime.now().isoweekday() in [1, 2, 3, 4, 5]: #1 Monday
+        if datetime.datetime.now().hour >= 4 and datetime.datetime.now().hour <= 18:
+            sys.exit()
+
 def removeAccents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
 
-def getURL(url='', retry=True, timeout=30):
+def getURL(url='', retry=True, timeout=60):
     raw = ''
     req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
     try:
