@@ -279,6 +279,7 @@ def main():
     #langs = ['en', 'fr', 'de']
     langs = ['en']
     for i in range(1000): # continuous check for new pages, time sleep below
+        cronstop()
         if i == 0:
             total = 2000 #first pass bigger (full check last day)
         else:
@@ -394,7 +395,7 @@ def main():
                             break
                         addBiographyClaims(repo=repo, wikisite=wikisite, item=newitem, page=page, lang=lang)
         print("Waiting for next run...")
-        time.sleep(60*10)
+        time.sleep(60*3) #3 minutes
 
 if __name__ == "__main__":
     main()
