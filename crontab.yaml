@@ -1,0 +1,45 @@
+#https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework#Loading_jobs_from_a_YAML_file
+#toolforge-jobs load crontab.yaml
+---
+
+- name: curatenewpages
+  command: pwbvenv/bin/python pwbvenv/curate.newpages.en.py
+  image: tf-python39
+  schedule: "3 18 * * *"
+  emails: none
+
+- name: humanaliases-1
+  command: pwbvenv/bin/python pwbvenv/human.aliases.py
+  image: tf-python39
+  schedule: "6 18 * * *"
+  emails: none
+
+- name: humanaliases-2
+  command: pwbvenv/bin/python pwbvenv/human.aliases.py
+  image: tf-python39
+  schedule: "9 18 * * *"
+  emails: none
+
+- name: simbad-1
+  command: pwbvenv/bin/python pwbvenv/simbad.py
+  image: tf-python39
+  schedule: "12 18 * * *"
+  emails: none
+
+- name: simbad-2
+  command: pwbvenv/bin/python pwbvenv/simbad.py
+  image: tf-python39
+  schedule: "15 18 * * *"
+  emails: none
+
+- name: taxon-1
+  command: pwbvenv/bin/python pwbvenv/taxon.py
+  image: tf-python39
+  schedule: "18 18 * * *"
+  emails: none
+
+- name: taxon-2
+  command: pwbvenv/bin/python pwbvenv/taxon.py
+  image: tf-python39
+  schedule: "21 18 * * *"
+  emails: none
