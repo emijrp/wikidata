@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -577,12 +577,14 @@ def main():
             'af': 'asteroïde',
             'an': 'asteroide',
             'ar': 'كويكب',
+            'arz': 'كويكب',
             'as': 'গ্ৰহাণু',
             'ast': 'asteroide',
             'az': 'asteroid',
             'azb': 'گزگنچه',
             'ba': 'Астероид',
             'bar': 'Asteroid',
+            'bcl': 'Asteroyd',
             'be': 'астэроід',
             'be-tarask': 'астэроід',
             'bg': 'астероид',
@@ -595,7 +597,9 @@ def main():
             'ce': 'Астероид',
             'chr': 'ᏅᏯ ᏧᎳᎬᎭᎸᏓ',
             'ckb': 'گەڕەستێرۆچکە',
+            'crh': 'asteroid',
             'cs': 'asteroid',
+            'cu': 'Астєроидъ',
             'cv': 'астероид',
             'cy': 'asteroid',
             'da': 'asteroide',
@@ -611,6 +615,7 @@ def main():
             'eu': 'asteroide',
             'fa': 'سیارک',
             'fi': 'asteroidi',
+            'fj': 'Asteroid',
             'fr': 'astéroïde',
             'fy': 'asteroïde',
             'ga': 'astaróideach',
@@ -649,6 +654,7 @@ def main():
             'la': 'asteroides',
             'lb': 'Asteroid',
             'lez': 'астероид',
+            'lld': 'Asteroid',
             'lmo': 'Asteroide',
             'lo': 'ດາວເຄາະນ້ອຍ',
             'lt': 'Asteroidas',
@@ -729,6 +735,7 @@ def main():
             'be-tarask': 'хімічнае злучэньне',
             'bg': 'химично съединение',
             'bn': 'রাসায়নিক যৌগ',
+            'br': 'kediad kimiek',
             'ca': 'compost químic',
             'cs': 'chemická sloučenina',
             'cy': 'cyfansoddyn cemegol',
@@ -745,6 +752,7 @@ def main():
             'eu': 'konposatu kimiko',
             'fr': 'composé chimique',
             'fy': 'gemyske ferbining',
+            'gcr': 'Kompozé chimik',
             'gl': 'composto químico',
             'he': 'תרכובת',
             'hy': 'քիմիական միացություն',
@@ -769,6 +777,7 @@ def main():
             'sk': 'chemická zlúčenina',
             'sq': 'komponim kimik',
             'uk': 'хімічна сполука',
+            'vec': 'conposto chìmego',
             'yue': '化合物',
             'zh': '化合物',
             'zh-cn': '化合物',
@@ -1507,6 +1516,18 @@ def main():
             'hu': 'televíziós sorozat',
             'it': 'serie televisiva',
         },
+        'unicode character': {
+            'ast': 'caráuter Unicode',
+            'ca': 'caràcter Unicode',
+            'en': 'Unicode character',
+            'eo': 'skribsigno de Unikodo',
+            'es': 'carácter Unicode',
+            'fr': 'caractère Unicode',
+            'gl': 'carácter Unicode',
+            'it': 'carattere Unicode',
+            'pt': 'caractere Unicode',
+            'pt-br': 'caractere Unicode',
+        },
         'village in China': {
             'an': 'pueblo d\'a Republica Popular de China', #o 'pueblo de China'
             'ar': 'قرية في الصين',
@@ -2121,6 +2142,7 @@ def main():
         WHERE {
             ?item wdt:P31 wd:Q3863 ;
                   wdt:P31 ?instance .
+            ?item schema:description "asteroid"@en.
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
@@ -2141,7 +2163,7 @@ def main():
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 250000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 1200000, querylimit)
         ],
         
         'douar in Morocco': [
@@ -2613,6 +2635,21 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(0, 100000, querylimit)    
         ], 
         
+        'unicode character': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q29654788 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "Unicode character"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 200000, querylimit)    
+        ], 
+        
         #'village in China': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%0A%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ13100073%20%3B%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP31%20%3Finstance%20.%0A%7D%0AGROUP%20BY%20%3Fitem%0AHAVING(COUNT(%3Finstance)%20%3D%201)'],
         
         'Wikimedia category': [
@@ -2779,6 +2816,8 @@ def main():
         #'species of mollusc',
         #'species of plant',
         
+        #'Unicode character', 
+        
         #'Wikimedia category', 
         #'Wikimedia disambiguation page', 
         #'Wikimedia list article', 
@@ -2867,6 +2906,7 @@ def main():
                         if fixedlangs:
                             summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
                     print(summary)
+                    cronstop()
                     try:
                         item.editEntity(data, summary=summary)
                         #break

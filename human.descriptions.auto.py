@@ -189,6 +189,7 @@ WHERE {
                             data = { 'descriptions': itemdesc }
                             summary = 'BOT - Adding descriptions (1 languages): %s' % (targetlang)
                             print(q, summary)
+                            cronstop()
                             try:
                                 item.editEntity(data, summary=summary)
                                 #break

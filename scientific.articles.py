@@ -214,6 +214,7 @@ def main():
                         if fixedlangs:
                             summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
                     print(summary)
+                    cronstop()
                     try:
                         item.editEntity(data, summary=summary)
                     except:
