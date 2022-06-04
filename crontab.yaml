@@ -2,44 +2,104 @@
 #toolforge-jobs load crontab.yaml
 ---
 
+- name: emijrpbot-stats
+  command: pwbvenv/bin/python pwbvenv/bot.stats.api.py
+  image: tf-python39
+  schedule: "3 23 * * *"
+  emails: none
+
+- name: emijrpbot-ahk
+  command: pwbvenv/bin/python pwbvenv/all.human.knowledge.py
+  image: tf-python39
+  schedule: "3 20 * * *"
+  emails: none
+
 - name: curatenewpages
   command: pwbvenv/bin/python pwbvenv/curate.newpages.en.py
   image: tf-python39
-  schedule: "3 18 * * *"
+  schedule: "3 17 * * *"
   emails: none
 
 - name: humanaliases-1
   command: pwbvenv/bin/python pwbvenv/human.aliases.py
   image: tf-python39
-  schedule: "6 18 * * *"
+  schedule: "11 17 * * *"
   emails: none
 
 - name: humanaliases-2
   command: pwbvenv/bin/python pwbvenv/human.aliases.py
   image: tf-python39
-  schedule: "9 18 * * *"
+  schedule: "13 17 * * *"
   emails: none
 
 - name: simbad-1
   command: pwbvenv/bin/python pwbvenv/simbad.py
   image: tf-python39
-  schedule: "12 18 * * *"
+  schedule: "21 17 * * *"
   emails: none
 
 - name: simbad-2
   command: pwbvenv/bin/python pwbvenv/simbad.py
   image: tf-python39
-  schedule: "15 18 * * *"
+  schedule: "23 17 * * *"
   emails: none
 
 - name: taxon-1
   command: pwbvenv/bin/python pwbvenv/taxon.py
   image: tf-python39
-  schedule: "18 18 * * *"
+  schedule: "31 17 * * *"
   emails: none
 
 - name: taxon-2
   command: pwbvenv/bin/python pwbvenv/taxon.py
   image: tf-python39
-  schedule: "21 18 * * *"
+  schedule: "33 17 * * *"
+  emails: none
+
+- name: humandesc-1
+  command: pwbvenv/bin/python pwbvenv/human.descriptions.auto.py
+  image: tf-python39
+  schedule: "31 17 * * *"
+  emails: none
+
+- name: humandesc-2
+  command: pwbvenv/bin/python pwbvenv/human.descriptions.auto.py
+  image: tf-python39
+  schedule: "33 17 * * *"
+  emails: none
+
+- name: sciartdesc-1
+  command: pwbvenv/bin/python pwbvenv/scientific.articles.py
+  image: tf-python39
+  schedule: "41 17 * * *"
+  emails: none
+
+- name: sciartdesc-2
+  command: pwbvenv/bin/python pwbvenv/scientific.articles.py
+  image: tf-python39
+  schedule: "43 17 * * *"
+  emails: none
+
+- name: commondesccat-1
+  command: pwbvenv/bin/python pwbvenv/common.descriptions.py wikimedia-category
+  image: tf-python39
+  schedule: "51 17 * * *"
+  emails: none
+
+- name: commondesccat-2
+  command: pwbvenv/bin/python pwbvenv/common.descriptions.py wikimedia-category
+  image: tf-python39
+  schedule: "52 17 * * *"
+  emails: none
+
+- name: commondescchem-1
+  command: pwbvenv/bin/python pwbvenv/common.descriptions.py chemical-compound
+  image: tf-python39
+  schedule: "53 17 * * *"
+  emails: none
+
+- name: commondescchem-2
+  command: pwbvenv/bin/python pwbvenv/common.descriptions.py chemical-compound
+  image: tf-python39
+  schedule: "54 17 * * *"
   emails: none
