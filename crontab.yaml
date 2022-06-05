@@ -3,13 +3,13 @@
 ---
 
 - name: emijrpbot-stats
-  command: pwbvenv/bin/python pwbvenv/bot.stats.api.py
+  command: pwbvenv/bin/python pwbvenv/bot.stats.api.py --mem 2Gi
   image: tf-python39
   schedule: "3 23 * * *"
   emails: none
 
 - name: emijrpbot-ahk
-  command: pwbvenv/bin/python pwbvenv/all.human.knowledge.py
+  command: pwbvenv/bin/python pwbvenv/all.human.knowledge.py --mem 1Gi
   image: tf-python39
   schedule: "3 20 * * *"
   emails: none

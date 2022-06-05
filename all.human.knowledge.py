@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2021 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -71,6 +71,9 @@ def getQueryCount(p='', q='', site=''):
         elif q == "Q13442814": #scholarly article
             if site == "":
                 return "22574314"
+        elif q == "Q11173": #chemical compound
+            if site == "":
+                return "1188724"
     
     #finally when no data is available, return empty string, and bot will keep the current value in the row
     return ''

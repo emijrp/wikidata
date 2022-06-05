@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -29,7 +29,7 @@ import urllib.parse
 
 def cronstop():
     if datetime.datetime.now().isoweekday() in [1, 2, 3, 4, 5]: #1 Monday
-        if datetime.datetime.now().hour >= 4 and datetime.datetime.now().hour <= 18:
+        if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
 
 def removeAccents(s):

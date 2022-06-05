@@ -332,7 +332,7 @@ def main():
     outputbylang = """{{| class="wikitable sortable plainlinks" style="text-align: center;"
 ! colspan=5 | Statistics for [[User:{nick}|{nick}]] by language
 |-
-! width=120px | Language
+! width=140px | Language
 ! [[Help:Label|Labels]]
 ! [[Help:Description|Descriptions]]
 ! [[Help:Aliases|Aliases]]
