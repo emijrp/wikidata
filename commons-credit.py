@@ -65,11 +65,14 @@ def addMetadata(newtext='', pagelink=''):
     else:
         #esto solo analiza las q le haya puesto coordenadas y no haya sido procesada antes
         #comentar cuando quiera que recorra todas mis fotos
+        pass
+        """
         if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
             if re.search(r'(?im)\|location-longitude=', newtext):
                 return newtext
         else:
             return newtext
+        """
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
@@ -183,47 +186,49 @@ def addMetadata(newtext='', pagelink=''):
     #https://github.com/thampiman/reverse-geocoder
     #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?location=', newtext):
     #tambien existe Object-location por ej aquí lo puse https://commons.wikimedia.org/wiki/File:La_Muralla_en_enero_(39784771451).jpg
-    location = re.findall(r'(?im)\{\{\s*Location ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', newtext)
-    if location:
-        print(location)
-        lat = location[0][0]
-        lon = location[0][1]
-        latlon = '%s,%s' % (lat, lon)
-        city = ''
-        country = ''
-        results = ''
-        if latlon in cachedlocations:
-            results = cachedlocations[latlon]
-            print('Loaded cached location')
-        else:
-            results = rg.search((float(lat), float(lon)))
-            cachedlocations[latlon] = results
-        print(results)
-        if results and len(results) == 1 and 'cc' in results[0] and 'name' in results[0]:
-            """
-            [{'name': 'Mountain View', 
-            'cc': 'US', 
-            'lat': '37.38605',
-            'lon': '-122.08385', 
-            'admin1': 'California', 
-            'admin2': 'Santa Clara County'}]
-            """
-            country = getCountry(result=results[0])
-            city = getCity(result=results[0])
-            if country and city:
-                print(country, city)
-                newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s|country=%s|city=%s}}' % (lat, lon, country, city), newtext)
-                with open('commons-credit.geo', 'a') as f:
-                    f.write('%s,%s,%s,%s,%s,%s,%s\n' % (results[0]['lat'], results[0]['lon'], results[0]['cc'], results[0]['admin1'], results[0]['admin2'], results[0]['name'], pagelink))
+    #https://commons.wikimedia.org/wiki/File:Estrecho_de_Gibraltar_(9834504944).jpg
+    for locregexp, locparam in [["Location", "location"], ["Object location", "object"]]:
+        location = re.findall(r'(?im)\{\{\s*%s ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}' % (locregexp), newtext)
+        if location:
+            print(location)
+            lat = location[0][0]
+            lon = location[0][1]
+            latlon = '%s,%s' % (lat, lon)
+            city = ''
+            country = ''
+            results = ''
+            if latlon in cachedlocations:
+                results = cachedlocations[latlon]
+                print('Loaded cached location')
             else:
-                print('Error in country or city')
+                results = rg.search((float(lat), float(lon)))
+                cachedlocations[latlon] = results
+            print(results)
+            if results and len(results) == 1 and 'cc' in results[0] and 'name' in results[0]:
+                """
+                [{'name': 'Mountain View', 
+                'cc': 'US', 
+                'lat': '37.38605',
+                'lon': '-122.08385', 
+                'admin1': 'California', 
+                'admin2': 'Santa Clara County'}]
+                """
+                country = getCountry(result=results[0])
+                city = getCity(result=results[0])
+                if country and city:
+                    print(country, city)
+                    newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|%s-latitude=%s|%s-longitude=%s|%s-country=%s|%s-city=%s}}' % (locparam, lat, locparam, lon, locparam, country, locparam, city), newtext)
+                    with open('commons-credit.geo', 'a') as f:
+                        f.write('%s,%s,%s,%s,%s,%s,%s\n' % (results[0]['lat'], results[0]['lon'], results[0]['cc'], results[0]['admin1'], results[0]['admin2'], results[0]['name'], pagelink))
+                else:
+                    print('Error in country or city')
+            else:
+                print('Error doing reverse geocoding')
+                newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|%s-latitude=%s|%s-longitude=%s}}' % (locparam, lat, locparam, lon), newtext)
         else:
-            print('Error doing reverse geocoding')
-            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-latitude=%s|location-longitude=%s}}' % (lat, lon), newtext)
-    else:
-        print("{{Location}} no encontrado")
-    #else:
-    #    print("La plantilla credit ya tiene location")
+            print("{{Location}} no encontrado")
+        #else:
+        #    print("La plantilla credit ya tiene location")
     
     #subjects
     #|subjects=museum si contiene la palabra museo en alguna parte (o solo el título?)
@@ -274,8 +279,9 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     purgeedit = False #force template cache purge
+    skip = 'File:Viaje en tren Alicante-Murcia en julio de 2022 133.jpg'
+    skip = 'File:Estrecho de Gibraltar (9834504944).jpg'
     skip = ''
-    #skip = 'File:Universidad de Alcalá (34132030353).jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
