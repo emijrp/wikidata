@@ -25,6 +25,10 @@ from pywikibot import pagegenerators
 
 cc2country = { 'ES': 'Spain' }
 fixcities = {
+    #acentos
+    '36.16809,-5.34777,La Linea de la Concepcion': 'La Línea de la Concepción',
+    
+    #minor entities in cities
     '41.38022,2.17319,Ciutat Vella': 'Barcelona',
     '41.37263,2.1546,Sants-Montjuic': 'Barcelona',
     
@@ -215,7 +219,8 @@ def addMetadata(newtext='', pagelink=''):
                 """
                 country = getCountry(result=results[0])
                 city = getCity(result=results[0])
-                if country and city:
+                print("country=", country, "city=", city)
+                if country or city:
                     print(country, city)
                     newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|%s-latitude=%s|%s-longitude=%s|%s-country=%s|%s-city=%s}}' % (locparam, lat, locparam, lon, locparam, country, locparam, city), newtext)
                     with open('commons-credit.geo', 'a') as f:
@@ -281,7 +286,7 @@ def creditByWhatlinkshere():
     purgeedit = False #force template cache purge
     skip = 'File:Viaje en tren Alicante-Murcia en julio de 2022 133.jpg'
     skip = 'File:Estrecho de Gibraltar (9834504944).jpg'
-    skip = ''
+    skip = 'File:Provincia de Guadalajara a finales de julio de 2022 131.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
