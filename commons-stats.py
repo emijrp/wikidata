@@ -27,11 +27,13 @@ from pywikibot import pagegenerators
 #ciudades a las que he ido, q año, cuantos dias distintos
 #mayor numero de fotos en un día, en una ciudad, etc
 #en que categorias estan mis fotos (Collections of museum of...)
-#extreme points: fotos más al sur, norte, este, oeste, primera foto, más antigua
+#extreme points: fotos más al sur, norte, este, oeste, primera foto, más antigua, a nivel global y por ccaa y prov y ciudades
 #cuadrantes lat/lon con más fotos
+#24 paginas, una por hora, con los 3600 segundos
 
 cities2catname = {
     "Alcala de Henares": "Alcalá de Henares", 
+    "Alcala de los Gazules": "Alcalá de los Gazules", 
     "Avila": "Ávila", 
     "Benalup Casas Viejas": "Benalup-Casas Viejas", 
     "Caceres": "Cáceres", 
@@ -43,7 +45,9 @@ cities2catname = {
     "Medina Sidonia": "Medina-Sidonia", 
     "Sanlucar de Barrameda": "Sanlúcar de Barrameda", 
     "Sevilla": "Seville", 
+    "Siguenza": "Sigüenza", 
     "Torrejon de Ardoz": "Torrejón de Ardoz", 
+    "Tortola de Henares": "Tórtola de Henares", 
     "Vejer": "Vejer de la Frontera", 
     "Villar de Domingo Garcia": "Villar de Domingo García", 
     "Unknown": "other places", 
@@ -67,6 +71,7 @@ months = {}
 years = {}
 
 def main():
+    t1 = time.time()
     commons = pywikibot.Site('commons', 'commons')
     category = pywikibot.Category(commons, 'Files by User:Emijrp')
     gen = pagegenerators.CategorizedPageGenerator(category)
@@ -95,7 +100,7 @@ def main():
                 date = value
             elif key == "device":
                 device = value
-            elif key == "city":
+            elif key == "city" or key == "location-city":
                 city = value
             else:
                 pass
@@ -156,13 +161,13 @@ def main():
         k_ = k[0].upper() + k[1:]
         k_ = re.sub(r"(?im)\,.*", "", k).strip()
         if not re.search(r"(?im)(cathedral|church|chapel|domes|banco|basílica|calle|catedral|iglesia|capilla|ermita|label)", k_):
-            if k_.startswith('Collections of the '):
-                institutions_list.append(k.split('Collections of the ')[1])
-            elif k_.startswith('Interior of the '):
-                institutions_list.append(k.split('Interior of the ')[1])
-            elif k_.startswith('Exterior of the '):
-                institutions_list.append(k.split('Exterior of the ')[1])
-            elif k_.startswith('Archivo ') or k_.startswith('Biblioteca ') or k_.startswith('Centro Cultural ') or k_.startswith('Museo ') or k_.startswith('Museum '):
+            if k_.startswith('Collections of '):
+                institutions_list.append(k.split('Collections of ')[1].lstrip('the '))
+            elif k_.startswith('Interior of '):
+                institutions_list.append(k.split('Interior of ')[1].lstrip('the '))
+            elif k_.startswith('Exterior of '):
+                institutions_list.append(k.split('Exterior of ')[1].lstrip('the '))
+            elif k_.startswith('Archivo ') or k_.startswith('Biblioteca ') or k_.startswith('Casa-Museo ') or k_.startswith('Centro Cultural ') or k_.startswith('Museo ') or k_.startswith('Museum '):
                 institutions_list.append(k_)
             else:
                 pass
@@ -290,11 +295,13 @@ The images were taken in '''{totalinstitutions} institutions'''.
 
 {institutionstable}
 
-{{{{Template:User:Emijrp}}}}""".format(**formatdict)
+{{{{Template:User:Emijrp}}}}
+[[Category:Files by User:Emijrp| ]]""".format(**formatdict)
     if newtext != page.text:
         pywikibot.showDiff(page.text, newtext)
         page.text = newtext
         page.save('BOT - Updating stats')
+    print("Generated in %d seconds" % (time.time()-t1))
 
 if __name__ == '__main__':
     main()
