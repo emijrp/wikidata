@@ -17,6 +17,7 @@
 
 import re
 import time
+import unicodedata
 import urllib
 
 import reverse_geocoder as rg
@@ -62,7 +63,16 @@ def getCity(result={}):
         city = fixcities[key]
     return city
 
-def addMetadata(newtext='', pagelink=''):
+def removeAccents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s)
+                  if unicodedata.category(c) != 'Mn')
+
+def removePunctuation(s):
+    s = re.sub(r"(?im)[\"\'\!\¡\.\,\:\;\(\)\&\%\$\@\#\{\}\-]", " ", s)
+    s = re.sub(r"(?im) +", " ", s)
+    return s
+
+def addMetadata(pagetitle='', newtext='', pagelink=''):
     if re.search(r'(?im)\{\{\s*Quality\s*Image', newtext):
         #las quality images las actualizamos siempre
         pass
@@ -235,37 +245,137 @@ def addMetadata(newtext='', pagelink=''):
         #else:
         #    print("La plantilla credit ya tiene location")
     
-    #subjects
-    #|subjects=museum si contiene la palabra museo en alguna parte (o solo el título?)
-    subjects = {
-        'animals': ['zoo', 'zoobotanico', 'zoologico', 'ave', 'gato', 'perro', ], 
-        'astronomy': ['astronomy', 'astronomia', "iridium"], 
-        'buildings': ['edificio', ], 
-        'buildings-lighthouses': ['faro', ], 
-        'buildings-religion': ['iglesia', 'catedral', 'concatedral', 'ermita', 'parroquia', 'edificios religiosos', 'mezquita', ], 
-        'buildings-towers': ['torre', ], 
-        'events-carnival': ['carnaval', 'carrusel de coros', 'chirigota', ], 
-        'events-culture': ['charla', 'conferencia', 'debate', 'exposicion', 'teatro', 'concierto', 'jornadas', 'mesa redonda', 'presentacion', ], 
-        'events-demonstrations': ['manifestacion', 'marcha contra', '19jmani', ], 
-        'events-disasters': ['temporal', 'tornado', 'accidente', 'humo', 'incendio', ], 
-        'events-religion': ['semana santa', 'lunes santo', 'martes santo', 'miercoles santo', 'jueves santo', 'viernes santo', 'sabado santo', 'domingo de resurreccion', ], 
-        'events-sports': ['futbol', 'triatlon', ], 
-        'events-other': ['dia de', 'dia del', 'dia de la', 'dia local', 'dia nacional', 'dia internacional', 'festividad', 'fiesta', 'feria', 'homenaje', ], 
-        'libraries': ['biblioteca', 'library', 'libraries', ], 
-        'maps': ['plano', 'mapa', ], 
-        'memoria-historica': ['memoria historica', 'memoria democratica', 'represion franquista', 'memorial republicano', 'bandera republicana', '13 rosas', 'trece rosas', 'guerra civil espanola', ], 
-        'monuments': ['alcazar', 'castillo', 'casa', 'torreon', ], 
-        'museums': ['museo', 'museum', ], 
-        'nature-gardens': ['jardin', 'jardines', 'orchidarium', 'arbol', ], 
-        'streets': ['calle', 'callejeando', 'avenida', 'plaza', ], 
-        'transport-aviation': ['avion' ,'helicoptero', ], 
-        'transport-road': ['autobus', 'carretera', 'coche', ], 
-        'transport-ship': ['barco', 'catamaran', 'crucero', 'vaporcito', ], 
-        'views': ['vista', 'vistas', 'mirador', 'miradores', ], 
-        'water-rivers': ['rio', 'arroyo', 'afluente', ], 
-        'water-sea': ['mar', 'oceano', 'playa', ], 
-        'water-body': ['embalse', 'pantano', 'laguna', ], 
-    }
+    #topics
+    #|topic=museum si contiene la palabra museo en alguna parte (o solo el título? o solo categorías?)
+    #|topic2= topic3=...
+    topics = [
+        ["animals", 
+            ["zoo", "zoobotanico", "zoologico", "ave", "gato", "insecto", "perro", "reptil", ], 
+            ["estacion", "santa justa", ], 
+        ], 
+        ["astronomy", 
+            ["astronomy", "astronomia", "iridium", ], 
+            [], 
+        ], 
+        ["buildings", 
+            ["edificio", "building", ], 
+            [], 
+        ], 
+        ["buildings-lighthouses", 
+            ["faro", ], 
+            [], 
+        ], 
+        ["buildings-religion", 
+            ["iglesia", "catedral", "concatedral", "ermita", "parroquia", "edificios religiosos", "mezquita", ], 
+            [], 
+        ], 
+        ["buildings-towers", 
+            ["torre", ], 
+            [], 
+        ], 
+        ["events-carnival", 
+            ["carnaval", "carrusel de coros", "chirigota", ], 
+            [], 
+        ], 
+        ["events-culture", 
+            ["charla", "conferencia", "debate", "exposicion", "teatro", "concierto", "jornadas", "mesa redonda", "presentacion", ], 
+            [], 
+        ], 
+        ["events-demonstrations", 
+            ["manifestacion", "marcha contra", "19jmani", ], 
+            [], 
+        ], 
+        ["events-disasters", 
+            ["tornado", "accidente", "humo", "incendio", ], 
+            [], 
+        ], 
+        ["events-religion", 
+            ["semana santa", "lunes santo", "martes santo", "miercoles santo", "jueves santo", "viernes santo", "sabado santo", "domingo de resurreccion", ], 
+            [], 
+        ], 
+        ["events-sports", 
+            ["futbol", "triatlon", ], 
+            [], 
+        ], 
+        ["events-other", 
+            ["dia de", "dia del", "dia de la", "dia local", "dia nacional", "dia internacional", "festividad", "fiesta", "feria", "homenaje", ], 
+            [], 
+        ], 
+        ["libraries", 
+            ["biblioteca", "library", "libraries", ], 
+            [], 
+        ], 
+        ["maps", 
+            ["plano", "mapa", ], 
+            [], 
+        ], 
+        ["memoria-historica", 
+            ["memoria historica", "memoria democratica", "represion franquista", "memorial republicano", "bandera republicana", "13 rosas", "trece rosas", "guerra civil espanola", ], 
+            [], 
+        ], 
+        ["monuments", 
+            ["alcazar", "castillo", "torreon", "monumento", "monument"], 
+            [], 
+        ], 
+        ["museums", 
+            ["museo", "museum", "casa-museo", ], 
+            [], 
+        ], 
+        ["nature-gardens", 
+            ["jardin", "jardines", "orchidarium", "arbol", ], 
+            [], 
+        ], 
+        ["streets", 
+            ["calle", "callejeando", "avenida", "plaza", ], 
+            ["plaza de toros"], 
+        ], 
+        ["transport-aviation", 
+            ["avion" ,"helicoptero", ], 
+            [], 
+        ], 
+        ["transport-road", 
+            ["autobus", "carretera", "coche", "road signs", ], 
+            [], 
+        ], 
+        ["transport-ship", 
+            ["barco", "catamaran", "crucero", "vaporcito", ], 
+            [], 
+        ], 
+        ["views", 
+            ["vista", "vistas", "mirador", "miradores", "views", ], 
+            [], 
+        ], 
+        ["water-body", 
+            ["embalse", "pantano", "laguna", ], 
+            [], 
+        ], 
+        ["water-rivers", 
+            ["rio", "arroyo", "afluente", "river", ], 
+            ["instituto cervantes", ], 
+        ], 
+        ["water-sea", 
+            ["mar", "oceano", "playa", "beach", ], 
+            ["apartamentos", "multicines", "puerta del mar", ], 
+        ], 
+        ["weather", 
+            ["temporal", "nube", "nubes"], 
+            [], 
+        ], 
+    ]
+    topics_c = 1
+    for topic, topic_keywords, topic_keywords_exclusion in topics:
+        categories = re.findall(r"(?im)\[\[\s*Category\s*:\s*([^\[\]\|]+?)\s*[\[\]\|]", newtext)
+        categories.append(pagetitle.split("File:")[1])
+        for category in categories:
+            category_keywords = removePunctuation(removeAccents(category.strip().lower())).split()
+            if sum([removeAccents(topic_keyword.lower()) in category_keywords for topic_keyword in topic_keywords]) > 0 and \
+                sum([topic_keyword_exclusion in removeAccents(" ".join(categories)).lower() for topic_keyword_exclusion in topic_keywords_exclusion]) == 0:
+                newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|topic%s%s}}' % ((topics_c == 1 and '=' or str(topics_c)+"="), topic), newtext)
+                topics_c += 1
+                break
+    if topics_c == 1:
+        print("topic no encontrado")   
+    
     return newtext
 
 def replaceAuthor(newtext=''):
@@ -287,6 +397,7 @@ def creditByWhatlinkshere():
     skip = 'File:Viaje en tren Alicante-Murcia en julio de 2022 133.jpg'
     skip = 'File:Estrecho de Gibraltar (9834504944).jpg'
     skip = 'File:Provincia de Guadalajara a finales de julio de 2022 131.jpg'
+    skip = ''
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
@@ -301,7 +412,7 @@ def creditByWhatlinkshere():
         newtext = page.text
         newtext = replaceAuthor(newtext=newtext)
         newtext = replaceSource(newtext=newtext)
-        newtext = addMetadata(newtext=newtext, pagelink=page.full_url())
+        newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url())
         if newtext != page.text or purgeedit:
             pywikibot.showDiff(page.text, newtext)
             page.text = newtext
