@@ -248,6 +248,8 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
     #topics
     #|topic=museum si contiene la palabra museo en alguna parte (o solo el título? o solo categorías?)
     #|topic2= topic3=...
+    #ideas: teatro romano (topic=arquitectura romana?)
+    #bronze age (topic=edad del bronce) https://commons.wikimedia.org/wiki/Category:Prehistory_by_period
     topics = [
         ["animals", 
             ["zoo", "zoobotanico", "zoologico", "ave", "gato", "insecto", "perro", "reptil", ], 
@@ -302,7 +304,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["events-disasters", 
-            ["tornado", "accidente", "humo", "incendio", ], 
+            ["tornado", "accidente", "incendio", "inundacion"], 
             [], 
         ], 
         ["events-religion", 
@@ -382,81 +384,62 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         
+        #prehistoria
+        ["prehistory", 
+            ["prehistory", "prehistoric"], 
+            [], 
+        ], 
+        ["bronze-age", 
+            ["bronze-age", "bronze age"], 
+            [], 
+        ], 
+        ["copper-age", 
+            ["copper-age", "copper age"], 
+            [], 
+        ], 
+        ["iron-age", 
+            ["iron-age", "iron age"], 
+            [], 
+        ], 
+        ["stone-age", 
+            ["stone-age", "stone age"], 
+            [], 
+        ], 
+        ["paleolithic", 
+            ["paleolithic"], 
+            [], 
+        ], 
+        ["mesolithic", 
+            ["mesolithic"], 
+            [], 
+        ], 
+        ["neolithic", 
+            ["neolithic"], 
+            [], 
+        ], 
+        
+        #otras cosas
         ["plots",
             ["wmchart", "wmcharts", ],
             [],
         ], 
         
-        ["5th-century",
-            ["5th century", "5th-century", "4\d\d", "500"],
-            ["400"],
-        ], 
-        ["6th-century",
-            ["6th century", "6th-century", "5\d\d", "600"],
-            ["500"],
-        ], 
-        ["7th-century",
-            ["7th century", "7th-century", "6\d\d", "700"],
-            ["600"],
-        ], 
-        ["8th-century",
-            ["8th century", "8th-century", "7\d\d", "800"],
-            ["700"],
-        ], 
-        ["9th-century",
-            ["9th century", "9th-century", "8\d\d", "900"],
-            ["800"],
-        ], 
-        ["10th-century",
-            ["10th century", "10th-century", "9\d\d", "1000"],
-            ["900"],
-        ], 
-        ["11th-century",
-            ["11th century", "11th-century", "10\d\d", "1100"],
-            ["1000"],
-        ], 
-        ["12th-century",
-            ["12th century", "12th-century", "11\d\d", "1200"],
-            ["1100"],
-        ], 
-        ["13th-century",
-            ["13th century", "13th-century", "12\d\d", "1300"],
-            ["1200"],
-        ], 
-        ["14th-century",
-            ["14th century", "14th-century", "13\d\d", "1400"],
-            ["1300"],
-        ], 
-        ["15th-century",
-            ["15th century", "15th-century", "14\d\d", "1500"],
-            ["1400"],
-        ], 
-        ["16th-century",
-            ["16th century", "16th-century", "15\d\d", "1600"],
-            ["1500"],
-        ], 
-        ["17th-century",
-            ["17th century", "17th-century", "16\d\d", "1700"],
-            ["1600"],
-        ], 
-        ["18th-century",
-            ["18th century", "18th-century", "17\d\d", "1800"],
-            ["1700"],
-        ], 
-        ["19th-century",
-            ["19th century", "19th-century", "18\d\d", "1900"],
-            ["1800"],
-        ], 
-        ["20th-century",
-            ["20th century", "20th-century", "19\d\d", "2000"],
-            ["1900"],
-        ], 
     ]
+    #siglos
+    for century in range(5, 21):
+        century_list = [
+            "%dth-century" % (century),
+                ["%dth century" % (century), "%dth-century" % (century), "%d\d\d" % (century-1), "%d00" % (century)],
+                ["%d00" % (century-1), "class"], #modelos de trenes, coches...
+        ]
+        topics.append(century_list)
+    
     topics.sort()
     topics_c = 1
     for topic, topic_keywords, topic_keywords_exclusion in topics:
         categories = re.findall(r"(?im)\[\[\s*Category\s*:\s*([^\[\]\|]+?)\s*[\[\]\|]", newtext)
         categories.append(pagetitle.split("File:")[1])
+        categories = [removeAccents(category.lower()) for category in categories]
         for category in categories:
             regexp = "|".join([removeAccents(topic_keyword.lower()) for topic_keyword in topic_keywords])
             regexpexc = "|".join([removeAccents(topic_keyword_exclusion.lower()) for topic_keyword_exclusion in topic_keywords_exclusion])
