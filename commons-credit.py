@@ -584,7 +584,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         topics.append(country_list)
     #siglos
     suffixes = {1:"st",2:"nd",3:"rd",21:"st",22:"nd",23:"rd"}
-    for century in range(1, 20): #no meter el siglo XXI, hay mucha cosa del estilo January 2005 in Andalusia
+    for century in range(3, 20): #no meter el siglo XXI, hay mucha cosa del estilo January 2005 in Andalusia, ni siglos 1 y 2, porque hay fotos 001 002, etc
         suffix = century in suffixes.keys() and suffixes[century] or "th"
         century_list = [
             "%d%s-century" % (century, suffix),
