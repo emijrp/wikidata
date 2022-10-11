@@ -31,9 +31,13 @@ fixcities = {
     
     #minor entities in cities
     '41.38022,2.17319,Ciutat Vella': 'Barcelona',
+    '41.41849,2.1677,Horta-Guinardo': 'Barcelona',
     '41.37263,2.1546,Sants-Montjuic': 'Barcelona',
+    '41.93012,2.25486,Vic': 'Barcelona',
     
     '37.85,-4.9,Villarrubia': 'Córdoba',
+    
+    '37.15994,-3.43863,Guejar-Sierra': 'Güéjar Sierra',
     
     '40.66677,-3.19914,Marchamalo': 'Guadalajara',
     
@@ -42,14 +46,19 @@ fixcities = {
     '40.38897,-3.74569,Latina': 'Madrid',
     '40.38866,-3.70035,Usera': 'Madrid',
     '40.42972,-3.67975,Salamanca': 'Madrid',
+    '40.46206,-3.6766,Chamartin': 'Madrid',
     '40.43404,-3.70379,Chamberi': 'Madrid',
     '40.39094,-3.7242,Carabanchel': 'Madrid',
     '40.41831,-3.70275,City Center': 'Madrid',
     '40.41317,-3.68307,Retiro': 'Madrid',
     '40.41667,-3.65,Moratalaz': 'Madrid',
     '40.43547,-3.7317,Moncloa-Aravaca': 'Madrid',
+    
+    '40.6,-6.53333,Ciudad Rodrigo': 'Salamanca',
+    
 }
 cachedlocations = {}
+cachedpages = {}
 
 def getCountry(result={}):
     country = result['cc']
@@ -80,13 +89,11 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         #esto solo analiza las q le haya puesto coordenadas y no haya sido procesada antes
         #comentar cuando quiera que recorra todas mis fotos
         pass
-        """
-        if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
+        """if re.search(r'(?im)\{\{\s*Location\s*\|', newtext):
             if re.search(r'(?im)\|location-longitude=', newtext):
                 return newtext
         else:
-            return newtext
-        """
+            return newtext"""
     
     newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
     #date
@@ -254,7 +261,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
     # cueva
     topics = [
         ["animals", 
-            ["zoo", "zoobotanico", "zoologico", "gato", "insecto", "perro", "reptil", ], 
+            ["zoo", "zoobotanico", "zoologico", "gato", "insecto", "perro", "reptil", "cangrejo", "peces" ], 
             ["estacion", "santa justa", "monumento"], 
         ], 
         ["aquariums",
@@ -265,6 +272,32 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             ["astronomy", "astronomia", "iridium", ], 
             [], 
         ], 
+        
+        ["architectural-elements-arches", 
+            ["arco", "arcos", "arch", "arches"], 
+            ["arcos de la frontera"], 
+        ], 
+        ["architectural-elements-ceilings", 
+            ["ceilings"], 
+            [], 
+        ], 
+        ["architectural-elements-columns", 
+            ["columns"], 
+            [], 
+        ], 
+        ["architectural-elements-doors", 
+            ["doors"], 
+            [], 
+        ], 
+        ["architectural-elements-pavements", 
+            ["pavements"], 
+            [], 
+        ], 
+        ["architectural-elements-stairs", 
+            ["stairs"], 
+            [], 
+        ], 
+        
         ["buildings", 
             ["edificio", "building", "academia", "centro cultural", "colegio", "school", "facultad", "universidad", "university"], 
             [], 
@@ -285,12 +318,8 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             ["anfiteatro", "anfiteatros", "amphitheatre", "amphitheatres", ], 
             [], 
         ], 
-        ["buildings-arches", 
-            ["arco", "arcos", "arch", "arches"], 
-            ["arcos de la frontera"], 
-        ], 
         ["buildings-archives", 
-            ["archivo general", "archivo historico", "archivo municipal", "archivo nacional", "archivo provincial", "archive", "archives", "municipal archive", "national archive"], 
+            ["archivo general", "archivo historico", "archivo municipal", "archivo nacional", "archivo provincial", "archive", "archives", "municipal archive", "national archive", "archivo de"], 
             [], 
         ], 
         ["buildings-aqueducts", 
@@ -303,7 +332,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         ], 
         ["buildings-castles", 
             ["castillo", "castillos", "castle", "castles"], 
-            [], 
+            ["canovas"], 
         ], 
         ["buildings-cathedrals", 
             ["catedral", "catedrales", "cathedral", "cathedrals"], 
@@ -311,6 +340,10 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         ], 
         ["buildings-cemeteries", 
             ["cementerio", "cementerios", "panteon", "cemetery", "cemeteries"], 
+            [], 
+        ], 
+        ["buildings-houses", 
+            ["casa de", "house", "casas colgadas"], 
             [], 
         ], 
         ["buildings-libraries", 
@@ -327,7 +360,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         ], 
         ["buildings-ports", 
             ["puerto", "lonja", "muelle", "seaport", "seaports", "shipyard", "shipyards", ], 
-            ["puerto de santa", "puerto santa", "puerto real"], 
+            ["puerto de santa", "puerto santa", "puerto real", "ciudad de el puerto"], 
         ], 
         ["buildings-religion", 
             ["iglesia", "catedral", "capilla", "concatedral", "convento", "conventos", "ermita", "parroquia", "edificios religiosos", "mezquita", "church", "churches", "cathedral", "cathedrals", "chapel", "chapels", "convent", "convents"], 
@@ -338,7 +371,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["buildings-train-stations", 
-            ["estacion de tren", "entacion de trenes", "train station", "train stations"], 
+            ["estacion de tren", "entacion de trenes", "train station", "train stations", "anden"], 
             [], 
         ], 
         ["buildings-towers", 
@@ -382,7 +415,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["events-religion", 
-            ["semana santa", "lunes santo", "martes santo", "miercoles santo", "jueves santo", "viernes santo", "sabado santo", "domingo de resurreccion", "penitente", "penitentes"], 
+            ["semana santa", "lunes santo", "martes santo", "miercoles santo", "jueves santo", "viernes santo", "sabado santo", "domingo de resurreccion", "penitente", "penitentes", "palio", "virgen de"], 
             [], 
         ], 
         ["events-sports", 
@@ -394,11 +427,11 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["maps", 
-            ["plano", "mapa", ], 
+            ["plano", "mapa", "callejero"], 
             ["en primer plano", "en segundo plano"], 
         ], 
         ["memoria-historica", 
-            ["memoria historica", "memoria democratica", "represion franquista", "memorial republicano", "bandera republicana", "13 rosas", "trece rosas", "guerra civil espanola", "brigadas internacionales", "por la memoria"], 
+            ["memoria historica", "memoria democratica", "represion franquista", "memorial republicano", "bandera republicana", "13 rosas", "trece rosas", "guerra civil espanola", "brigadas internacionales", "por la memoria", "franquismo"], 
             [], 
         ], 
         ["monuments", 
@@ -409,8 +442,12 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             ["museo", "museu", "museum", "casa museo", "casa natal"], 
             [], 
         ], 
+        ["nature-countryside", 
+            ["campos de lavanda"], 
+            [""], 
+        ], 
         ["nature-gardens", 
-            ["jardin", "jardines", "orchidarium", "parque", "arbol", ], 
+            ["jardin", "jardines", "orchidarium", "parque", "parques", "arbol", "alameda"], 
             ["natural", "eolico"], 
         ], 
         ["people", 
@@ -426,7 +463,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             ["solar", "solares"], 
         ], 
         ["streets", 
-            ["calle", "callejeando", "avenida", "plaza", "rotonda" ], 
+            ["calle", "calles", "callejero", "callejeando", "avenida", "plaza", "rotonda"], 
             ["plaza de toros"], 
         ], 
         ["vehicles-air", #for airports see buildings-airports
@@ -434,7 +471,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["vehicles-road", #for roads see buildings-roads
-            ["autobus", "carretera", "coche", "car"], 
+            ["autobus", "coche", "car"], 
             [], 
         ], 
         ["vehicles-sea", #for seaports see buildings-ports
@@ -450,7 +487,7 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
             [], 
         ], 
         ["views-from-trains", 
-            ["viaje en tren", "vistas desde el tren", ], 
+            ["viaje en tren", "vistas desde el tren", "ave sevilla"], 
             [], 
         ], 
         ["water-body", 
@@ -467,6 +504,14 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         ], 
         ["weather", 
             ["lluvia", "nieve", "nube", "nubes", "temporal", "tormenta", "viento", "calor", "frio", "termometro", "rain", "snow", "storm", "weather"], 
+            [], 
+        ], 
+        ["weather-sunshine", 
+            ["amanecer", "sunshine"], 
+            [], 
+        ], 
+        ["weather-sunset", 
+            ["atardecer", "sunset"], 
             [], 
         ], 
         
@@ -511,12 +556,46 @@ def addMetadata(pagetitle='', newtext='', pagelink=''):
         ], 
         
     ]
+    #paises
+    countries_dic = {
+        "Algeria": ["Argelia"], 
+        "Belarus": ["Bielorrusia", "Bielorusia", "Minsk", ], 
+        "Burkina Faso": ["Burkina Faso"], 
+        "Czech Republic": ["Republica Checa"], 
+        "France": ["Francia", "French", "Paris", ], 
+        "Germany": ["Alemania", "German", "Berlin", "Berlín"], 
+        "Ghana": ["Ghana"], 
+        "Italy": ["Italia", "Italian", "Roma", "Rome"], 
+        "Mali": ["Mali"], 
+        "Morocco": ["Marruecos"], 
+        "Myanmar": ["Birmania", "Burma", "Myanmar"], 
+        "Nepal": ["Nepal"], 
+        "Russia": ["Rusia", "Moscu", "Moscú", "Moscow", ], 
+        "United States": ["Estados Unidos", "EEUU", "Washington", ], 
+    }
+    countries = list(set(countries_dic.keys()))
+    countries.sort()
+    for country in countries:
+        country_list = [
+            "%s" % (country),
+                ["%s" % (country)] + countries_dic[country],
+                [], 
+        ]
+        topics.append(country_list)
     #siglos
-    for century in range(5, 21):
+    suffixes = {1:"st",2:"nd",3:"rd",21:"st",22:"nd",23:"rd"}
+    for century in range(1, 20): #no meter el siglo XXI, hay mucha cosa del estilo January 2005 in Andalusia
+        suffix = century in suffixes.keys() and suffixes[century] or "th"
         century_list = [
-            "%dth-century" % (century),
-                ["%dth century" % (century), "%dth-century" % (century), "%d\d\d" % (century-1), "%d00" % (century)],
-                ["%d00" % (century-1), "class", "boeing", "number", "[a-z]\-\d", "metros"], #modelos de trenes, coches...
+            "%d%s-century" % (century, suffix),
+                ["%d%s century" % (century, suffix), "%d%s-century" % (century, suffix), "%d\d0s" % (century-1), "%d\d\d" % (century-1), "%d00" % (century)],
+                ["%d00" % (century-1), "class", "boeing", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
+            ]
+        topics.append(century_list)
+        century_list = [
+            "%d%s-century BC" % (century, suffix),
+                ["%d%s century BC" % (century, suffix), "%d%s-century BC" % (century, suffix), "%d\d0s BC" % (century-1), "%d\d\d BC" % (century-1), "%d00 BC" % (century)],
+                ["%d00" % (century-1), "class", "boeing", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
         ]
         topics.append(century_list)
     
@@ -551,14 +630,12 @@ def replaceAuthor(newtext=''):
 
 def replaceSource(newtext=''):
     if re.search(r'(?im)\|\s*author\s*=\s*{{User:Emijrp/credit', newtext):
-        newtext = re.sub(r'(?im)(\|\s*source\s*=\s*){{User:Emijrp/credit}}', r'\1{{own work}}', newtext)
+        newtext = re.sub(r'(?im)(\|\s*source\s*=\s*)({{User:Emijrp/credit}}|Self[ -]?published work by \[\[User:emijrp\|emijrp\]\])', r'\1{{own work}}', newtext)
     return newtext
 
 def creditByWhatlinkshere():
     purgeedit = False #force template cache purge
-    skip = 'File:Viaje en tren Alicante-Murcia en julio de 2022 133.jpg'
-    skip = 'File:Estrecho de Gibraltar (9834504944).jpg'
-    skip = 'File:Provincia de Guadalajara a finales de julio de 2022 131.jpg'
+    skip = 'File:Palacio Real y sus jardines en julio de 2022 10.jpg'
     skip = ''
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
