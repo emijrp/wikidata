@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2023 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -532,6 +532,7 @@ def main():
             'be-tarask': ['Катэгорыя', 'Вікіпэдыя:Катэгорыя'],#https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&diff=next&oldid=500158307
             'es': ['categoría de Wikipedia'],
             'mk': ['категорија на Википедија'],
+            'sl': ['kategorija Wikimedije'], #https://www.wikidata.org/w/index.php?title=User_talk:Emijrp&diff=prev&oldid=1838633138
             'uk': ['Категорії', 'категорія в проекті Вікімедіа'], #https://www.wikidata.org/w/index.php?title=User_talk%3AEmijrp&type=revision&diff=527336622&oldid=525302741
         }, 
         'Wikimedia disambiguation page': {
@@ -1667,7 +1668,7 @@ def main():
             'sh': 'Wikimedia:Kategorija',
             'si': 'විකිමීඩියා ප්‍රභේද පිටුව',
             'sk': 'kategória projektov Wikimedia',
-            'sl': 'kategorija Wikimedije',
+            'sl': 'kategorija Wikimedie',
             'sq': 'kategori e Wikimedias',
             'sr': 'категорија на Викимедији',
             'stq': 'Wikimedia-Kategorie',
