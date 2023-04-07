@@ -15,7 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import os
+import pickle
 import re
 import time
 import unicodedata
@@ -25,6 +27,7 @@ import reverse_geocoder as rg
 import pywikibot
 from pywikibot import pagegenerators
 
+timeline = {}
 cc2country = { 'ES': 'Spain' }
 fixcities = {
     #acentos
@@ -109,6 +112,64 @@ def ocr(filename):
         return "" #probablemente SVG u otro formato no soportado
     
     return text
+
+def timediff(time1="", time2=""):
+    delta = time1-time2
+    if delta.days:
+        return "%d days" % (delta.days)
+    elif delta.seconds >= 3600:
+        return "%d hours" % (delta.seconds/3600)
+    elif delta.seconds >= 60:
+        return "%d minutes" % (delta.seconds/60)
+    return delta.seconds
+
+def parseTime(time=""):
+    if len(time) == 19:
+        time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
+    elif len(time) == 16:
+        time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M")
+    return time
+
+def generateTimelineGallery(pagetitle=''):
+    global timeline
+    
+    timelinegallery = ""
+    if not pagetitle:
+        return timelinegallery
+    
+    timeline_list = [[v, k] for k, v in timeline.items()]
+    timeline_list.sort()
+    c = 0
+    for time, filename in timeline_list:
+        time = parseTime(time=time)
+        if not time:
+            return timelinegallery
+        if pagetitle == filename and c >= 2 and c <= len(timeline_list)-2:
+            prev2pagetitle = timeline_list[c-2][1]
+            prev2time = parseTime(time=timeline_list[c-2][0])
+            prev2delta = timediff(time, prev2time)
+            prev1pagetitle = timeline_list[c-1][1]
+            prev1time = parseTime(time=timeline_list[c-1][0])
+            prev1delta = timediff(time, prev1time)
+            
+            next1pagetitle = timeline_list[c+1][1]
+            next1time = parseTime(time=timeline_list[c+1][0])
+            next1delta = timediff(next1time, time)
+            next2pagetitle = timeline_list[c+2][1]
+            next2time = parseTime(time=timeline_list[c+2][0])
+            next2delta = timediff(next2time, time)
+            
+            timelinegallery = """{{#tag:gallery|
+%s{{!}}<< %s
+%s{{!}}< %s
+%s{{!}}This image
+%s{{!}}%s >
+%s{{!}}%s >>
+|mode=packed-hover}}""" % (prev2pagetitle, prev2delta, prev1pagetitle, prev1delta, pagetitle, next1pagetitle, next1delta, next2pagetitle, next2delta)
+            break
+        c += 1
+    
+    return timelinegallery
 
 def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink=''):
     filename = "file.jpg"
@@ -726,6 +787,12 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
     if topics_c == 1:
         print("topic no encontrado")   
     
+    #timeline gallery
+    timelinegallery = generateTimelineGallery(pagetitle=pagetitle)
+    if timelinegallery:
+        print(timelinegallery)
+        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|timeline-gallery=%s}}' % (timelinegallery), newtext)
+    
     return newtext   
 
 def replaceAuthor(newtext=''):
@@ -745,7 +812,7 @@ def replaceSource(newtext=''):
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Es-Anuncio-Imagina.gif'
+    skip = 'File:Andén 0 Estación de Chamberí en septiembre de 2022 01.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
@@ -806,7 +873,39 @@ def creditByFlickrUrl():
                     page.text = newtext
                     page.save('BOT - Updating credit template')
 
+def loadTimeline(overwrite=False):
+    global timeline
+    
+    filename = "timeline.pickle"
+    if overwrite:
+        commons = pywikibot.Site('commons', 'commons')
+        category = pywikibot.Category(commons, 'Images by User:Emijrp')
+        gen = pagegenerators.CategorizedPageGenerator(category, content=True)
+        for page in gen:
+            #print('==', page.title(), '==')
+            title = page.title()
+            if re.findall(r'(?im)(cropped)', title): # ignorar las recortadas
+                continue
+            text = page.text
+            m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', text)
+            if m:
+                time = m[0][0]
+                if len(time) == 19:
+                    #print(title, time)
+                    if not title in timeline.keys():
+                        timeline[title] = time
+                        if len(timeline.keys()) % 100 == 0:
+                            print("Loaded %d timelines" % (len(timeline.keys())))
+                            #break
+        pickle.dump(timeline, open(filename, "wb"))
+        pickle.dump(timeline, open(filename+datetime.datetime.today().strftime("%Y%m%d%H%M%S"), "wb"))
+    else:
+        if os.path.exists(filename):
+            timeline = pickle.load(open(filename, "rb"))
+            print("Loaded %d timelines" % (len(timeline.keys())))
+
 def main():
+    loadTimeline(overwrite=False)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
