@@ -93,24 +93,27 @@ def ocr(filename):
         return ""
     try:
         img = cv2.imread(filename)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        ret, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
+        rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (100, 100))
+        dilation = cv2.dilate(thresh1, rect_kernel, iterations = 1)
+        contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        im2 = img.copy()
+        text = ""
+        for cnt in contours:
+            x, y, w, h = cv2.boundingRect(cnt)
+            rect = cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cropped = im2[y:y + h, x:x + w]
+            text += "\n" + pytesseract.image_to_string(cropped)
     except:
         return "" #probablemente SVG u otro formato no soportado
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
-    rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (100, 100))
-    dilation = cv2.dilate(thresh1, rect_kernel, iterations = 1)
-    contours, hierarchy = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    im2 = img.copy()
-    text = ""
-    for cnt in contours:
-        x, y, w, h = cv2.boundingRect(cnt)
-        rect = cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cropped = im2[y:y + h, x:x + w]
-        text += "\n" + pytesseract.image_to_string(cropped)
+    
     return text
 
 def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink=''):
     filename = "file.jpg"
+    if os.path.exists(filename):
+        os.remove(filename)
     if re.search(r'(?im)\{\{\s*Quality\s*Image', newtext):
         #las quality images las actualizamos siempre
         pass
@@ -742,7 +745,7 @@ def replaceSource(newtext=''):
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Paloma rascándose.jpg'
+    skip = 'File:Es-Anuncio-Imagina.gif'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
