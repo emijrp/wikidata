@@ -91,7 +91,10 @@ def ocr(filename):
     if not os.path.exists(filename):
         print("El fichero no existe", filename)
         return ""
-    img = cv2.imread(filename)
+    try:
+        img = cv2.imread(filename)
+    except:
+        return "" #probablemente SVG u otro formato no soportado
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
     rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (100, 100))
