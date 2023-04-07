@@ -121,7 +121,7 @@ def timediff(time1="", time2=""):
         return "%d hours" % (delta.seconds/3600)
     elif delta.seconds >= 60:
         return "%d minutes" % (delta.seconds/60)
-    return delta.seconds
+    return "%d seconds" % (delta.seconds)
 
 def parseTime(time=""):
     if len(time) == 19:
