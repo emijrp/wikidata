@@ -696,7 +696,9 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         ]
         topics.append(century_list)
     #opencv
-    if len(re.sub(r'\s*', '', ocr(filename=filename))) >= 25:
+    ocrtext = re.sub(r'\s+', ' ', ocr(filename=filename))
+    if len(re.sub(r'(?im)\b(.{1,3})\b', '', ocrtext)) >= 25:
+        print("*****", "\nOCR:\n", ocrtext, "\n*****")
         imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
         topics.append(imageswithtext)
     
@@ -737,8 +739,7 @@ def replaceSource(newtext=''):
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
-    skip = 'File:Macro 00001.jpg'
-    skip = ''
+    skip = 'File:Paloma rascándose.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
