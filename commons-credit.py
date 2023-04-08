@@ -124,7 +124,7 @@ def timediff(time1="", time2=""):
     elif delta.seconds <= 60 and delta.seconds > 0:
         return "%d {{seconds}}" % (delta.seconds)
     else:
-        return ""
+        return "{{Same day}}"
 
 def parseTime(time=""):
     if len(time) == 19:
@@ -846,8 +846,8 @@ def creditByWhatlinkshere():
         newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200))
         if newtext != page.text or purgeedit:
             pywikibot.showDiff(page.text, newtext)
-            #page.text = newtext
-            #page.save('BOT - Updating credit template')
+            page.text = newtext
+            page.save('BOT - Updating credit template')
 
 def creditByCategory():
     commons = pywikibot.Site('commons', 'commons')
@@ -922,7 +922,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=True)
+    loadTimeline(overwrite=False)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
