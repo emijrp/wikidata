@@ -116,12 +116,15 @@ def ocr(filename):
 def timediff(time1="", time2=""):
     delta = time1-time2
     if delta.days:
-        return "%d days" % (delta.days)
+        return "%d {{days}}" % (delta.days)
     elif delta.seconds >= 3600:
-        return "%d hours" % (delta.seconds/3600)
+        return "%d {{hours}}" % (delta.seconds/3600)
     elif delta.seconds >= 60:
-        return "%d minutes" % (delta.seconds/60)
-    return "%d seconds" % (delta.seconds)
+        return "%d {{minutes}}" % (delta.seconds/60)
+    elif delta.seconds <= 60 and delta.seconds > 0:
+        return "%d {{seconds}}" % (delta.seconds)
+    else:
+        return ""
 
 def parseTime(time=""):
     if len(time) == 19:
@@ -163,7 +166,7 @@ def generateTimelineGallery(pagetitle=''):
             timelinegallery = """{{#tag:gallery|
 %s{{!}}<< %s
 %s{{!}}< %s
-%s{{!}}This image
+%s{{!}}{{This image}}
 %s{{!}}%s >
 %s{{!}}%s >>
 |mode=packed-hover}}""" % (prev2pagetitle, prev2delta, prev1pagetitle, prev1delta, pagetitle, next1pagetitle, next1delta, next2pagetitle, next2delta)
@@ -190,15 +193,18 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
             return newtext"""
     
     creditend = "credit-end=}}" #no incluir el | al principio, pq en las regexp se lia y cree que es un OR y causa repeticiones
-    regexpcredit = r'(?im)({{User:Emijrp/credit[\n\r\s.]*?)\|%s' % (creditend)
-    newtext = re.sub(r'(?im){{User:Emijrp/credit[\n\r\s.]*?mode=packed-hover}}}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext) #temp patch 8 abril 2023
-    newtext = re.sub(r'(?im){{User:Emijrp/credit[\n\r\s.]*?\|%s' % (creditend), r'{{User:Emijrp/credit|%s' % (creditend), newtext)
+    regexpcredit = r'(?im)({{User:Emijrp/credit.*?)\|%s' % (creditend)
+    newtext = re.sub(r'(?im){{User:Emijrp/credit.*?mode=packed-hover}}}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext) #temp patch 8 abril 2023
+    newtext = re.sub(r'(?im){{User:Emijrp/credit.*?\|%s' % (creditend), r'{{User:Emijrp/credit|%s' % (creditend), newtext)
+    newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext)
+    
     #date
     #el campo "photo date" es para la plantilla "Art photo" que me han puesto en esta y otras https://commons.wikimedia.org/w/index.php?title=File:Museo_de_Santa_Cruz_(27024254341).jpg&oldid=691638708
     m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
     if m:
-        print(m)
-        newtext = re.sub(regexpcredit, r'{{User:Emijrp/credit|date=%s|%s' % (m[0][0], creditend), newtext)
+        date = m[0][0]
+        print(date)
+        newtext = re.sub(regexpcredit, r'\1|date=%s|%s' % (date, creditend), newtext)
     
     #camera
     try:
@@ -826,6 +832,10 @@ def creditByWhatlinkshere():
                 skip = ""
             else:
                 continue
+        
+        if not page.title() in timeline.keys():
+            print("No en timeline, saltamos")
+            continue
         
         newtext = page.text
         newtext = replaceAuthor(newtext=newtext)
