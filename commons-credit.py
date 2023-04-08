@@ -137,26 +137,27 @@ def generateTimelineGallery(pagetitle=''):
     if not pagetitle:
         return timelinegallery
     
-    timeline_list = [[v, k] for k, v in timeline.items()]
+    timeline_list = [["%s-%s" % (v, k), v, k] for k, v in timeline.items()]
     timeline_list.sort()
     c = 0
-    for time, filename in timeline_list:
+    #timefilenameconcat es para ordenar ficheros temporalmente cuando la fecha no tiene resolucion de segundo, usa time+nombre fichero para ofrecer siempre el mismo orden en distintas ejecuciones del bot
+    for timefilenameconcat, time, filename in timeline_list:
         time = parseTime(time=time)
         if not time:
             return timelinegallery
         if pagetitle == filename and c >= 2 and c <= len(timeline_list)-2:
-            prev2pagetitle = timeline_list[c-2][1]
-            prev2time = parseTime(time=timeline_list[c-2][0])
+            prev2pagetitle = timeline_list[c-2][2]
+            prev2time = parseTime(time=timeline_list[c-2][1])
             prev2delta = timediff(time, prev2time)
-            prev1pagetitle = timeline_list[c-1][1]
-            prev1time = parseTime(time=timeline_list[c-1][0])
+            prev1pagetitle = timeline_list[c-1][2]
+            prev1time = parseTime(time=timeline_list[c-1][1])
             prev1delta = timediff(time, prev1time)
             
-            next1pagetitle = timeline_list[c+1][1]
-            next1time = parseTime(time=timeline_list[c+1][0])
+            next1pagetitle = timeline_list[c+1][2]
+            next1time = parseTime(time=timeline_list[c+1][1])
             next1delta = timediff(next1time, time)
-            next2pagetitle = timeline_list[c+2][1]
-            next2time = parseTime(time=timeline_list[c+2][0])
+            next2pagetitle = timeline_list[c+2][2]
+            next2time = parseTime(time=timeline_list[c+2][1])
             next2delta = timediff(next2time, time)
             
             timelinegallery = """{{#tag:gallery|
@@ -188,16 +189,18 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         else:
             return newtext"""
     
-    newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit}}', newtext)
+    creditend = "credit-end=}}" #no incluir el | al principio, pq en las regexp se lia y cree que es un OR y causa repeticiones
+    regexpcredit = r'(?im)({{User:Emijrp/credit[\n\r\s.]*?)\|%s' % (creditend)
+    newtext = re.sub(r'(?im){{User:Emijrp/credit[\n\r\s.]*?mode=packed-hover}}}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext) #temp patch 8 abril 2023
+    newtext = re.sub(r'(?im){{User:Emijrp/credit[\n\r\s.]*?\|%s' % (creditend), r'{{User:Emijrp/credit|%s' % (creditend), newtext)
     #date
     #el campo "photo date" es para la plantilla "Art photo" que me han puesto en esta y otras https://commons.wikimedia.org/w/index.php?title=File:Museo_de_Santa_Cruz_(27024254341).jpg&oldid=691638708
     m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
     if m:
         print(m)
-        newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|date=%s}}' % (m[0][0]), newtext)
+        newtext = re.sub(regexpcredit, r'{{User:Emijrp/credit|date=%s|%s' % (m[0][0], creditend), newtext)
     
     #camera
-    #if not re.search(r'(?im){{User:Emijrp/credit[^\{\}]*?device=', newtext):
     try:
         if not pagehtml:
             req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
@@ -221,10 +224,10 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         model = re.sub(r'(?im)<a[^<>]*?>', r'', model)
         model = re.sub(r'(?im)</a>', r'', model).strip()
         print(model)
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
+        newtext = re.sub(regexpcredit, r'\1|device=%s|%s' % (model, creditend), newtext)
     elif re.search(r'(?im)microscope', pagetitle) and re.search(r'(?im)data-file-width="640" data-file-height="480"', pagehtml):
         model = 'Jiusion Digital Microscope'
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|device=%s}}' % (model), newtext)
+        newtext = re.sub(regexpcredit, r'\1|device=%s|%s' % (model, creditend), newtext)
     else:
         print("Modelo no encontrado en exif")        
     #else:
@@ -241,7 +244,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         exposuretime = re.sub(r',', r'', exposuretime)
         print(exposuretime)
         if exposuretime:
-            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|exposure-time=%s}}' % (exposuretime), newtext)
+            newtext = re.sub(regexpcredit, r'\1|exposure-time=%s|%s' % (exposuretime, creditend), newtext)
     else:
         print("Tiempo de exposicion no encontrado en exif")        
     #else:
@@ -256,7 +259,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         iso = re.sub(r',', r'', iso)
         print(iso)
         if iso:
-            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|iso=%s}}' % (iso), newtext)
+            newtext = re.sub(regexpcredit, r'\1|iso=%s|%s' % (iso, creditend), newtext)
     else:
         print("ISO no encontrado en exif")        
     #else:
@@ -272,7 +275,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         focallength = focallength.strip()
         print(focallength)
         if focallength:
-            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|focal-length=%s}}' % (focallength), newtext)
+            newtext = re.sub(regexpcredit, r'\1|focal-length=%s|%s' % (focallength, creditend), newtext)
     else:
         print("Focal length no encontrado en exif")        
     #else:
@@ -289,7 +292,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         fnumber = fnumber.strip()
         print(fnumber)
         if fnumber:
-            newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|f-number=%s}}' % (fnumber), newtext)
+            newtext = re.sub(regexpcredit, r'\1|f-number=%s|%s' % (fnumber, creditend), newtext)
     else:
         print("f-number no encontrado en exif")        
     #else:
@@ -298,7 +301,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
     #{{QualityImage}}
     qualityimage = re.findall(r'(?im)\{\{\s*Quality\s*Image', newtext)
     if qualityimage:
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|quality-image=yes}}', newtext)
+        newtext = re.sub(regexpcredit, r'\1|quality-image=yes|%s' % (creditend), newtext)
     else:
         print("{{QualityImage}} no encontrado")
     #else:
@@ -312,7 +315,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
     #tambien existe Object-location por ej aquí lo puse https://commons.wikimedia.org/wiki/File:La_Muralla_en_enero_(39784771451).jpg
     #https://commons.wikimedia.org/wiki/File:Estrecho_de_Gibraltar_(9834504944).jpg
     if re.findall(r'(?im)\{\{\s*Location withheld', newtext):
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|location-withheld=yes}}', newtext)
+        newtext = re.sub(regexpcredit, r'\1|location-withheld=yes|%s' % (creditend), newtext)
     else:
         for locregexp, locparam in [["Location", "location"], ["Object location", "object"]]:
             location = re.findall(r'(?im)\{\{\s*%s ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}' % (locregexp), newtext)
@@ -345,14 +348,14 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
                     print("country=", country, "city=", city)
                     if country or city:
                         print(country, city)
-                        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|%s-latitude=%s|%s-longitude=%s|%s-country=%s|%s-city=%s}}' % (locparam, lat, locparam, lon, locparam, country, locparam, city), newtext)
+                        newtext = re.sub(regexpcredit, r'\1|%s-latitude=%s|%s-longitude=%s|%s-country=%s|%s-city=%s|%s' % (locparam, lat, locparam, lon, locparam, country, locparam, city, creditend), newtext)
                         with open('commons-credit.geo', 'a') as f:
                             f.write('%s,%s,%s,%s,%s,%s,%s\n' % (results[0]['lat'], results[0]['lon'], results[0]['cc'], results[0]['admin1'], results[0]['admin2'], results[0]['name'], pagelink))
                     else:
                         print('Error in country or city')
                 else:
                     print('Error doing reverse geocoding')
-                    newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|%s-latitude=%s|%s-longitude=%s}}' % (locparam, lat, locparam, lon), newtext)
+                    newtext = re.sub(regexpcredit, r'\1|%s-latitude=%s|%s-longitude=%s|%s' % (locparam, lat, locparam, lon, creditend), newtext)
             else:
                 print("{{Location}} no encontrado")
             #else:
@@ -781,7 +784,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
             if re.search(r"(?im)\b(%s)\b" % (regexp), category):
                 if regexpexc and re.search(r"(?im)\b(%s)\b" % (regexpexc), removeAccents(" ".join(categories)).lower()):
                     continue
-                newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|topic%s%s}}' % ((topics_c == 1 and '=' or str(topics_c)+"="), topic), newtext)
+                newtext = re.sub(regexpcredit, r'\1|topic%s%s|%s' % ((topics_c == 1 and '=' or str(topics_c)+"="), topic, creditend), newtext)
                 topics_c += 1
                 break
     if topics_c == 1:
@@ -791,7 +794,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
     timelinegallery = generateTimelineGallery(pagetitle=pagetitle)
     if timelinegallery:
         print(timelinegallery)
-        newtext = re.sub(r'(?im)({{User:Emijrp/credit[^\{\}]*?)}}', r'\1|timeline-gallery=%s}}' % (timelinegallery), newtext)
+        newtext = re.sub(regexpcredit, r'\1|timeline-gallery=%s|%s' % (timelinegallery, creditend), newtext)
     
     return newtext   
 
@@ -830,8 +833,8 @@ def creditByWhatlinkshere():
         newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200))
         if newtext != page.text or purgeedit:
             pywikibot.showDiff(page.text, newtext)
-            page.text = newtext
-            page.save('BOT - Updating credit template')
+            #page.text = newtext
+            #page.save('BOT - Updating credit template')
 
 def creditByCategory():
     commons = pywikibot.Site('commons', 'commons')
@@ -884,14 +887,15 @@ def loadTimeline(overwrite=False):
         for page in gen:
             #print('==', page.title(), '==')
             title = page.title()
-            if re.findall(r'(?im)(cropped)', title): # ignorar las recortadas
-                continue
             text = page.text
+            if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*extracted)', text): # ignorar las recortadas
+                continue
+            
             m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', text)
             if m:
                 time = m[0][0]
-                if len(time) == 19:
-                    #print(title, time)
+                if len(time) == 19 or len(time) == 16:
+                    print(title, time)
                     if not title in timeline.keys():
                         timeline[title] = time
                         if len(timeline.keys()) % 100 == 0:
