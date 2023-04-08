@@ -929,7 +929,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=True)
+    loadTimeline(overwrite=False)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
