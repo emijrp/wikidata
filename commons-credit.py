@@ -118,10 +118,12 @@ def timediff(time1="", time2=""):
     if delta.days:
         if delta.days >= 365:
             return "%d {{years}}" % (delta.days/365)
-        elif delta.days >= 31:
-            return "%d {{months (i18n)}}" % (delta.days/31)
-        else:
+        elif delta.days >= 30:
+            return "%d {{months (i18n)}}" % (delta.days/30)
+        elif delta.days > 0:
             return "%d {{days}}" % (delta.days)
+        else:
+            return "{{Same day}}"
     elif delta.seconds >= 3600:
         return "%d {{hours}}" % (delta.seconds/3600)
     elif delta.seconds >= 60:
