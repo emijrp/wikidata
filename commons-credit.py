@@ -116,7 +116,12 @@ def ocr(filename):
 def timediff(time1="", time2=""):
     delta = time1-time2
     if delta.days:
-        return "%d {{days}}" % (delta.days)
+        if delta.days >= 365:
+            return "%d {{years}}" % (delta.days/365)
+        elif delta.days >= 31:
+            return "%d {{months (i18n)}}" % (delta.days/31)
+        else:
+            return "%d {{days}}" % (delta.days)
     elif delta.seconds >= 3600:
         return "%d {{hours}}" % (delta.seconds/3600)
     elif delta.seconds >= 60:
