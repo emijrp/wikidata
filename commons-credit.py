@@ -193,10 +193,10 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
             return newtext"""
     
     creditend = "credit-end=}}" #no incluir el | al principio, pq en las regexp se lia y cree que es un OR y causa repeticiones
-    regexpcredit = r'(?im)({{User:Emijrp/credit.*?)\|%s' % (creditend)
-    newtext = re.sub(r'(?im){{User:Emijrp/credit.*?mode=packed-hover}}}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext) #temp patch 8 abril 2023
-    newtext = re.sub(r'(?im){{User:Emijrp/credit.*?\|%s' % (creditend), r'{{User:Emijrp/credit|%s' % (creditend), newtext)
-    newtext = re.sub(r'(?im){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext)
+    regexpcredit = r'(?ims)({{User:Emijrp/credit.*?)\|%s' % (creditend)
+    newtext = re.sub(r'(?ims){{User:Emijrp/credit.*?mode=packed-hover}}}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext) #temp patch 8 abril 2023
+    newtext = re.sub(r'(?ims){{User:Emijrp/credit.*?\|%s' % (creditend), r'{{User:Emijrp/credit|%s' % (creditend), newtext)
+    newtext = re.sub(r'(?ims){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext)
     
     #date
     #el campo "photo date" es para la plantilla "Art photo" que me han puesto en esta y otras https://commons.wikimedia.org/w/index.php?title=File:Museo_de_Santa_Cruz_(27024254341).jpg&oldid=691638708
@@ -822,6 +822,7 @@ def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     skip = ''
     skip = 'File:Andén 0 Estación de Chamberí en septiembre de 2022 01.jpg'
+    skip = ''
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
