@@ -131,6 +131,8 @@ def parseTime(time=""):
         time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
     elif len(time) == 16:
         time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M")
+    elif len(time) == 10:
+        time = datetime.datetime.strptime(time, "%Y-%m-%d")
     return time
 
 def generateTimelineGallery(pagetitle=''):
@@ -905,7 +907,7 @@ def loadTimeline(overwrite=False):
             m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', text)
             if m:
                 time = m[0][0]
-                if len(time) == 19 or len(time) == 16:
+                if len(time) == 19 or len(time) == 16 or len(time) == 10:
                     print(title, time)
                     if not title in timeline.keys():
                         timeline[title] = time
@@ -920,7 +922,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=False)
+    loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
