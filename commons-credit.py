@@ -906,7 +906,9 @@ def loadTimeline(overwrite=False):
             #print('==', page.title(), '==')
             title = page.title()
             text = page.text
-            if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*extracted)', text): # ignorar las recortadas
+            if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*(extracted|cropped))', text): # ignorar las recortadas
+                continue
+            if re.findall(r'(?im)(withheld)', text): # ignorar las location withheld
                 continue
             
             m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', text)
@@ -927,7 +929,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=False)
+    loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
