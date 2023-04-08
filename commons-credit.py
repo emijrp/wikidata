@@ -915,7 +915,7 @@ def loadTimeline(overwrite=False):
             if m:
                 time = m[0][0]
                 if len(time) == 19 or len(time) == 16 or len(time) == 10:
-                    print(title, time)
+                    #print(title, time)
                     if not title in timeline.keys():
                         timeline[title] = time
                         if len(timeline.keys()) % 100 == 0:
