@@ -805,6 +805,19 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
     if topics_c == 1:
         print("topic no encontrado")   
     
+    #depicts
+    p180 = pagehtml.split("<div id='P180' data-property='P180'")
+    if len(p180) > 1:
+        p180 = p180[1].split("</div></div></div>")[0]
+        p180 = re.findall(r"(?im)Special:EntityPage\\/(Q\d+)\\", p180)
+        if p180:
+            p180 = list(set(p180))
+            p180.sort()
+            p180_ = "{{-}}".join(["{{Depicted|%s}}" % (p) for p in p180])
+            newtext = re.sub(regexpcredit, r'\1|depicted=%s|%s' % (p180_, creditend), newtext)
+        else:
+            print("P180 no encontrado en structured data")
+    
     #timeline gallery
     timelinegallery = generateTimelineGallery(pagetitle=pagetitle)
     if timelinegallery:
@@ -829,8 +842,6 @@ def replaceSource(newtext=''):
 
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
-    skip = ''
-    skip = 'File:Andén 0 Estación de Chamberí en septiembre de 2022 01.jpg'
     skip = ''
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
