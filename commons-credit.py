@@ -846,6 +846,9 @@ def replaceDescription(newtext=''):
         "{{es\|19Jmani: manifestación contra el Pacto del euro, Cádiz.}}": "{{es|1=Manifestación contra el Pacto del Euro en Cádiz, convocatoria de protesta que tuvo lugar el 19 de junio de 2011 y fue secundada en más de 60 ciudades de España. También conocida como 19J y difundida en redes sociales con el hashtag 19Jmani. El Pacto del Euro implicaba una serie de recortes en salarios, derechos laborales y prestaciones sociales.}}", 
     
         "{{es\|1=Exposición 40 años de Comisiones Obreras, Valladolid, España}}": "{{es|1=Exposición conmemorativa «40 años de Comisiones Obreras» en el Archivo General de Castilla y León, situado en el Palacio del Licenciado Butrón de Valladolid. Exposición compuesta de fotografías, carteles, panfletos y textos del sindicato, entre otros objetos.}}", 
+        
+        "{{es\|1=I Triatlón BMW Puerto Sherry, El Puerto de Santa María, Andalucía, España.}}": "{{es|1=El I Triatlón BMW Puerto Sherry tuvo lugar el 7 de octubre de 2017 en El Puerto de Santa María. Se disputaron las distancias Sprint (750 m de natación, 20 km de bicicleta y 5 km de carrera a pie) y Olímpica (1500 m de natación, 40 km de bicicleta y 10 km de carrera a pie). La salida se realizó desde el mar, con los triatletas saltando desde embarcaciones.}}", 
+        
     }
     for olddesc, newdesc in descriptions.items():
         if not olddesc or not newdesc or olddesc == newdesc:
