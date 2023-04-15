@@ -789,7 +789,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
             imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
             topics.append(imageswithtext)
     else: #no recalculamos, pero mantener lo calculado por opencv
-        if re.search(r'(?im)images-with-text', newtext):
+        if re.findall(r'(?im)images-with-text', newtext):
             imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
             topics.append(imageswithtext)
     
@@ -862,8 +862,8 @@ def replaceSource(newtext=''):
     return newtext
 
 def creditByWhatlinkshere():
-    purgeedit = False #force template cache purge
-    opencv = False
+    purgeedit = True #force template cache purge
+    opencv = True
     skip = ''
     skip = ''
     commons = pywikibot.Site('commons', 'commons')
@@ -876,10 +876,6 @@ def creditByWhatlinkshere():
                 skip = ""
             else:
                 continue
-        
-        if not page.title() in timeline.keys():
-            print("No en timeline, saltamos")
-            continue
         
         newtext = page.text
         newtext = replaceAuthor(newtext=newtext)
