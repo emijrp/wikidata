@@ -59,6 +59,7 @@ fixcities = {
     '40.43547,-3.7317,Moncloa-Aravaca': 'Madrid',
     '40.35,-3.7,Villaverde': 'Madrid',
     '40.15913,-3.62103,Ciempozuelos': 'Madrid',
+    '40.47903,-3.66836,Pinar de Chamartin': 'Madrid',
     
     '40.6,-6.53333,Ciudad Rodrigo': 'Salamanca',
     
@@ -184,7 +185,7 @@ def generateTimelineGallery(pagetitle=''):
     
     return timelinegallery
 
-def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink=''):
+def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='', opencv=False):
     filename = "file.jpg"
     if os.path.exists(filename):
         os.remove(filename)
@@ -781,11 +782,16 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
         ]
         topics.append(century_list)
     #opencv
-    ocrtext = re.sub(r'\s+', ' ', ocr(filename=filename))
-    if len(re.sub(r'(?im)\b(.{1,3})\b', '', ocrtext)) >= 25:
-        print("*****", "\nOCR:\n", ocrtext, "\n*****")
-        imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
-        topics.append(imageswithtext)
+    if opencv: #calculamos con opencv
+        ocrtext = re.sub(r'\s+', ' ', ocr(filename=filename))
+        if len(re.sub(r'(?im)\b(.{1,3})\b', '', ocrtext)) >= 25:
+            print("*****", "\nOCR:\n", ocrtext, "\n*****")
+            imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
+            topics.append(imageswithtext)
+    else: #no recalculamos, pero mantener lo calculado por opencv
+        if re.search(r'(?im)images-with-text', newtext):
+            imageswithtext = ["images-with-text", ["."], []] #. como palabra que siempre va a estar
+            topics.append(imageswithtext)
     
     topics.sort()
     topics_c = 1
@@ -803,7 +809,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='')
                 topics_c += 1
                 break
     if topics_c == 1:
-        print("topic no encontrado")   
+        print("topic no encontrado")
     
     #depicts
     p180 = pagehtml.split("<div id='P180' data-property='P180'")
@@ -835,13 +841,30 @@ def replaceAuthor(newtext=''):
         newtext = re.sub(r'(?im)(\|\s*%s\s*=\s*)Emijrp' % (fieldname), r'\1{{User:Emijrp/credit}}', newtext)
     return newtext
 
+def replaceDescription(newtext=''):
+    descriptions = {
+        "{{es\|19Jmani: manifestación contra el Pacto del euro, Cádiz.}}": "{{es|1=Manifestación contra el Pacto del Euro en Cádiz, convocatoria de protesta que tuvo lugar el 19 de junio de 2011 y fue secundada en más de 60 ciudades de España. También conocida como 19J y difundida en redes sociales con el hashtag 19Jmani. El Pacto del Euro implicaba una serie de recortes en salarios, derechos laborales y prestaciones sociales.}}", 
+    
+        "{{es\|1=Exposición 40 años de Comisiones Obreras, Valladolid, España}}": "{{es|1=Exposición conmemorativa «40 años de Comisiones Obreras» en el Archivo General de Castilla y León, situado en el Palacio del Licenciado Butrón de Valladolid. Exposición compuesta de fotografías, carteles, panfletos y textos del sindicato, entre otros objetos.}}", 
+    }
+    for olddesc, newdesc in descriptions.items():
+        if not olddesc or not newdesc or olddesc == newdesc:
+            continue
+        if "es|" in olddesc or "en|" in olddesc: #avoid error | as OR
+            continue
+        newtext = re.sub(r'(?ims)(\|\s*Description\s*=\s*)%s(\s*\|\s*Source\s*=)' % (olddesc), r'\1%s\2' % (newdesc), newtext)
+    
+    return newtext
+
 def replaceSource(newtext=''):
     if re.search(r'(?im)\|\s*author\s*=\s*{{User:Emijrp/credit', newtext):
         newtext = re.sub(r'(?im)(\|\s*source\s*=\s*)({{User:Emijrp/credit}}|Self[ -]?published work by \[\[User:emijrp\|emijrp\]\])', r'\1{{own work}}', newtext)
     return newtext
 
 def creditByWhatlinkshere():
-    purgeedit = True #force template cache purge
+    purgeedit = False #force template cache purge
+    opencv = False
+    skip = ''
     skip = ''
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
@@ -861,7 +884,8 @@ def creditByWhatlinkshere():
         newtext = page.text
         newtext = replaceAuthor(newtext=newtext)
         newtext = replaceSource(newtext=newtext)
-        newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200))
+        newtext = replaceDescription(newtext=newtext)
+        newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200), opencv=opencv)
         if newtext != page.text or purgeedit:
             pywikibot.showDiff(page.text, newtext)
             page.text = newtext
