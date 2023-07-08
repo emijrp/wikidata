@@ -146,6 +146,7 @@ def parseTime(time=""):
     return time
 
 def generateTimelineGallery(pagetitle=''):
+    return #ahora es con las paginas /index
     global timeline
     
     timelinegallery = ""
@@ -1045,7 +1046,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=True)
+    loadTimeline(overwrite=False)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
