@@ -60,6 +60,7 @@ fixcities = {
     '40.35,-3.7,Villaverde': 'Madrid',
     '40.15913,-3.62103,Ciempozuelos': 'Madrid',
     '40.47903,-3.66836,Pinar de Chamartin': 'Madrid',
+    '40.46667,-3.71667,Tetuan de las Victorias': 'Madrid',
     
     '40.6,-6.53333,Ciudad Rodrigo': 'Salamanca',
     
@@ -118,19 +119,19 @@ def timediff(time1="", time2=""):
     delta = time1-time2
     if delta.days:
         if delta.days >= 365:
-            return "%d {{years}}" % (delta.days/365)
+            return "%s" % (delta.days/365 == 1 and "1 {{year}}" or "%d {{years}}" % (delta.days/365))
         elif delta.days >= 30:
-            return "%d {{months (i18n)}}" % (delta.days/30)
+            return "%s" % (delta.days/30 == 1 and "1 {{month (i18n)}}" or "%d {{months (i18n)}}" % (delta.days/30))
         elif delta.days > 0:
-            return "%d {{days}}" % (delta.days)
+            return "%s" % (delta.days == 1 and "1 {{day}}" or "%d {{days}}" % (delta.days))
         else:
             return "{{Same day}}"
     elif delta.seconds >= 3600:
-        return "%d {{hours}}" % (delta.seconds/3600)
+        return "%s" % (delta.seconds/3600 == 1 and "1 {{hour}}" or "%d {{hours}}" % (delta.seconds/3600))
     elif delta.seconds >= 60:
-        return "%d {{minutes}}" % (delta.seconds/60)
+        return "%s" % (delta.seconds/60 == 1 and "1 {{minute}}" or "%d {{minutes}}" % (delta.seconds/60))
     elif delta.seconds <= 60 and delta.seconds > 0:
-        return "%d {{seconds}}" % (delta.seconds)
+        return "%s" % (delta.seconds == 1 and "1 {{second}}" or "%d {{seconds}}" % (delta.seconds))
     else:
         return "{{Same day}}"
 
@@ -209,14 +210,6 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
     newtext = re.sub(r'(?ims){{User:Emijrp/credit[^\{\}]*?}}', r'{{User:Emijrp/credit|%s' % (creditend), newtext)
     
     #date
-    #el campo "photo date" es para la plantilla "Art photo" que me han puesto en esta y otras https://commons.wikimedia.org/w/index.php?title=File:Museo_de_Santa_Cruz_(27024254341).jpg&oldid=691638708
-    m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
-    if m:
-        date = m[0][0]
-        print(date)
-        newtext = re.sub(regexpcredit, r'\1|date=%s|%s' % (date, creditend), newtext)
-    
-    #camera
     try:
         if not pagehtml:
             req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
@@ -226,6 +219,56 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
         if not pagehtml:
             req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
             pagehtml = urllib.request.urlopen(req).read().strip().decode('utf-8')
+    #el campo "photo date" es para la plantilla "Art photo" que me han puesto en esta y otras https://commons.wikimedia.org/w/index.php?title=File:Museo_de_Santa_Cruz_(27024254341).jpg&oldid=691638708
+    m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', newtext)
+    if m:
+        date = m[0][0]
+        print(date)
+        newtext = re.sub(regexpcredit, r'\1|date=%s|%s' % (date, creditend), newtext)
+    else:
+        #<tr class="exif-datetimeoriginal"><th>Date and time of data generation</th><td>12:30, September 4, 2017</td></tr>
+        #<tr class="exif-datetimeoriginal"><th>Date and time of data generation</th><td>13:13, March 28, 2009</td></tr>
+        #también da la fecha con el día delante 13:13, 28 March, 2009, supongo que el html lo coge así al no estar logueada esa función
+        print("Sin fecha, buscando en exif...")
+        exif = re.findall(r'(?im)<tr class="exif-datetimeoriginal">\s*<th>\s*Date and time of data generation\s*</th>\s*<td>([^<>]+?)</td>\s*</tr>', pagehtml)
+        if exif:
+            exifdate = exif[0]
+            print(exifdate)
+            dateo = ''
+            hhmmss = False
+            try:
+                dateo = datetime.datetime.strptime(exifdate, "%H:%M:%S, %B %d, %Y")
+                hhmmss = True
+            except:
+                try:
+                    dateo = datetime.datetime.strptime(exifdate, "%H:%M, %B %d, %Y")
+                except:
+                    try:
+                        dateo = datetime.datetime.strptime(exifdate, "%H:%M:%S, %d %B %Y")
+                        hhmmss = True
+                    except:
+                        try:
+                            dateo = datetime.datetime.strptime(exifdate, "%H:%M, %d %B %Y")
+                        except:
+                            pass
+            if dateo:
+                dateoplain = str(dateo)
+                if not hhmmss:
+                    dateoplain = dateoplain[:-3]
+                print(dateo)
+                print(dateoplain)
+                if re.search(r'(?im)\|\s*(date|photo date)\s*=', newtext):
+                    #el valor del campo no debe incluir saltos de línea o |, saltar en esos casos, por eso es [^\|\n]*?)
+                    #https://commons.wikimedia.org/w/index.php?title=File:Museo_de_las_Cortes_de_C%C3%A1diz_(36988271511).jpg&diff=prev&oldid=781350407
+                    #pero que si meta la fecha en la plantilla /credit para mis calculos
+                    newtext = re.sub(r'(?im)^(\|\s*(?:date|photo date)\s*=\s*)([^\|\n]*?)(\n\|)', r'\1{{According to Exif data|%s}}\n\3' % (dateoplain), newtext)
+                elif re.search(r'(?im)\|\s*(source)\s*=', newtext):
+                    newtext = re.sub(r'(?im)^(\|\s*(?:source)\s*=\s*[^\|\n]*?)(\n\|)', r'\1\n|date={{According to Exif data|%s}}\n\3' % (dateoplain), newtext)
+                newtext = re.sub(regexpcredit, r'\1|date=%s|%s' % (dateoplain, creditend), newtext)
+            else:
+                print("No se pudo parsear fecha exif")
+    
+    #camera
     try:
         if filelink:
             urllib.request.urlretrieve(filelink, "file.jpg")
@@ -446,7 +489,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
         ], 
         ["buildings-alcazares", 
             ["alcazar", "alcazares"], 
-            [], 
+            ["alcazar de san juan"], 
         ], 
         ["buildings-amphitheatres", 
             ["anfiteatro", "anfiteatros", "amphitheatre", "amphitheatres", ], 
@@ -577,7 +620,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
             ["en primer plano", "en segundo plano"], 
         ], 
         ["memoria-historica", 
-            ["memoria historica", "memoria democratica", "represion franquista", "memorial republicano", "bandera republicana", "13 rosas", "trece rosas", "guerra civil espanola", "brigadas internacionales", "por la memoria", "franquismo"], 
+            ["memoria historica", "memoria democratica", "memorialista", "represion franquista", "memorial republicano", "bandera republicana", "13 rosas", "trece rosas", "guerra civil espanola", "brigadas internacionales", "por la memoria", "franquismo", "Daniel Ortega Martínez"], 
             [], 
         ], 
         ["monuments", #limitado a monumentos estilo esculturas, bustos, homenajes
@@ -771,14 +814,14 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
         suffix = century in suffixes.keys() and suffixes[century] or "th"
         century_list = [
             "%d%s-century" % (century, suffix),
-                ["%d%s century" % (century, suffix), "%d%s-century" % (century, suffix), "%d\d0s" % (century-1), "%d\d\d" % (century-1), "%d00" % (century)],
-                ["%d00" % (century-1), "class", "boeing", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
+                ["%d%s century" % (century, suffix), "%d%s-century" % (century, suffix), "%d\d0s" % (century-1)], #, "%d\d\d" % (century-1), "%d00" % (century)],
+                ["%d00" % (century-1), "class", "boeing", "calle", "street", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
             ]
         topics.append(century_list)
         century_list = [
             "%d%s-century BC" % (century, suffix),
                 ["%d%s century BC" % (century, suffix), "%d%s-century BC" % (century, suffix), "%d\d0s BC" % (century-1), "%d\d\d BC" % (century-1), "%d00 BC" % (century)],
-                ["%d00" % (century-1), "class", "boeing", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
+                ["%d00" % (century-1), "class", "boeing", "calle", "street", "number", "[a-z]\-\d", "metros", "glorieta", "resolution"], #modelos de trenes, coches...
         ]
         topics.append(century_list)
     #opencv
@@ -864,45 +907,48 @@ def replaceSource(newtext=''):
         newtext = re.sub(r'(?im)(\|\s*source\s*=\s*)({{User:Emijrp/credit}}|Self[ -]?published work by \[\[User:emijrp\|emijrp\]\])', r'\1{{own work}}', newtext)
     return newtext
 
+def creditByCore(page='', skip='', opencv=False, purgeedit=False):
+    if not page:
+        return
+    
+    print('==', page.title(), '==')
+    if skip:
+        if page.title() == skip:
+            skip = ""
+        else:
+            return
+    
+    newtext = page.text
+    newtext = replaceAuthor(newtext=newtext)
+    newtext = replaceSource(newtext=newtext)
+    newtext = replaceDescription(newtext=newtext)
+    newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200), opencv=opencv)
+    if newtext != page.text or purgeedit:
+        pywikibot.showDiff(page.text, newtext)
+        page.text = newtext
+        page.save('BOT - Updating credit template')
+
 def creditByWhatlinkshere():
     purgeedit = True #force template cache purge
     opencv = True
     skip = ''
-    skip = ''
+    #skip = 'File:Exposición "Las Sinsombrero" en Madrid en octubre de 2022 108.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
     for page in gen:
-        print('==', page.title(), '==')
-        if skip:
-            if page.title() == skip:
-                skip = ""
-            else:
-                continue
-        
-        newtext = page.text
-        newtext = replaceAuthor(newtext=newtext)
-        newtext = replaceSource(newtext=newtext)
-        newtext = replaceDescription(newtext=newtext)
-        newtext = addMetadata(pagetitle=page.title(), newtext=newtext, pagelink=page.full_url(), pagehtml=page.getImagePageHtml(), filelink=page.get_file_url(url_width=1200), opencv=opencv)
-        if newtext != page.text or purgeedit:
-            pywikibot.showDiff(page.text, newtext)
-            page.text = newtext
-            page.save('BOT - Updating credit template')
+        creditByCore(page=page, skip=skip, opencv=opencv, purgeedit=purgeedit)
 
 def creditByCategory():
+    purgeedit = False #force template cache purge
+    opencv = False
+    skip = ''
     commons = pywikibot.Site('commons', 'commons')
     category = pywikibot.Category(commons, '15-O Demonstrations, Cádiz')
-    gen = pagegenerators.CategorizedPageGenerator(category)
+    category = pywikibot.Category(commons, 'Images by User:Emijrp by date')
+    gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     for page in gen:
-        print('==', page.title(), '==')
-        newtext = page.text
-        newtext = replaceAuthor(newtext=newtext)
-        newtext = replaceSource(newtext=newtext)
-        if newtext != page.text:
-            pywikibot.showDiff(page.text, newtext)
-            page.text = newtext
-            page.save('BOT - Updating credit template')
+        creditByCore(page=page, skip=skip, opencv=opencv, purgeedit=purgeedit)
 
 def creditByFlickrUrl():
     commons = pywikibot.Site('commons', 'commons')
@@ -967,8 +1013,8 @@ def loadTimeline(overwrite=False):
 def main():
     loadTimeline(overwrite=False)
     #creditByFlickrUrl()
-    #creditByCategory()
-    creditByWhatlinkshere()
+    creditByCategory()
+    #creditByWhatlinkshere()
 
 if __name__ == '__main__':
     main()
