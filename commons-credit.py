@@ -19,6 +19,7 @@ import datetime
 import os
 import pickle
 import re
+import sys
 import time
 import unicodedata
 import urllib.request
@@ -123,7 +124,7 @@ def timediff(time1="", time2=""):
         elif delta.days >= 30:
             return "%s" % (delta.days/30 == 1 and "1 {{month (i18n)}}" or "%d {{months (i18n)}}" % (delta.days/30))
         elif delta.days > 0:
-            return "%s" % (delta.days == 1 and "1 {{day}}" or "%d {{days}}" % (delta.days))
+            return "%s" % (delta.days == 1 and "1 {{day (i18n)}}" or "%d {{days}}" % (delta.days))
         else:
             return "{{Same day}}"
     elif delta.seconds >= 3600:
@@ -978,6 +979,7 @@ def creditByFlickrUrl():
 
 def loadTimeline(overwrite=False):
     global timeline
+    pageids = {}
     
     filename = "timeline.pickle"
     if overwrite:
@@ -987,6 +989,7 @@ def loadTimeline(overwrite=False):
         for page in gen:
             #print('==', page.title(), '==')
             title = page.title()
+            pageid = page.pageid
             text = page.text
             if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*(extracted|cropped))', text): # ignorar las recortadas
                 continue
@@ -1000,18 +1003,49 @@ def loadTimeline(overwrite=False):
                     #print(title, time)
                     if not title in timeline.keys():
                         timeline[title] = time
+                        pageids[title] = pageid
                         if len(timeline.keys()) % 100 == 0:
                             print("Loaded %d timelines" % (len(timeline.keys())))
                             #break
         pickle.dump(timeline, open(filename, "wb"))
-        pickle.dump(timeline, open(filename+datetime.datetime.today().strftime("%Y%m%d%H%M%S"), "wb"))
+        pickle.dump(timeline, open(filename+datetime.datetime.today().strftime("%Y%m%d%H%M%S"), "wb")) #backup
+        
+        #index page in commons for auto galleries
+        timeline_list = [["%s-%s" % (v, k), v, k] for k, v in timeline.items()]
+        timeline_list.sort()
+        timelineindex = {}
+        pageidprev = pageids[timeline_list[-1][2]]
+        pageidnext = 0
+        c = 0
+        for timefilenameconcat, time, filename in timeline_list:
+            if c < len(timeline_list)-1:
+                pageidnext = pageids[timeline_list[c+1][2]]
+            else:
+                pageidnext = pageids[timeline_list[0][2]]
+            timelineindex[filename] = { "pageid": pageids[filename], "date": time, "prev": pageidprev, "next": pageidnext }
+            pageidprev = pageids[filename]
+            c += 1
+        timelineindexoutput = {}
+        for timefilenameconcat, time, filename in timeline_list:
+            pageid = timelineindex[filename]["pageid"]
+            pageidmod = pageid % 10
+            if not pageidmod in timelineindexoutput.keys():
+                timelineindexoutput[pageidmod] = "{{#switch:{{{pageid|}}}"
+            timelineindexoutput[pageidmod] += "\n|%s={{#switch:{{{pp|}}}|d=%s|p=%s|n=%s|f=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
+        for c in range(0, 10):
+            timelineindexoutput[c] += "\n|#default=\n}}"
+        for c in range(0, 10):
+            userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
+            userpage.text = timelineindexoutput[c]
+            userpage.save('BOT - Updating gallery index')
+        #sys.exit()
     else:
         if os.path.exists(filename):
             timeline = pickle.load(open(filename, "rb"))
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=False)
+    loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
