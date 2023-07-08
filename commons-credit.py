@@ -981,6 +981,7 @@ def creditByFlickrUrl():
 def loadTimeline(overwrite=False):
     global timeline
     pageids = {}
+    locations = {}
     
     filename = "timeline.pickle"
     if overwrite:
@@ -1005,6 +1006,14 @@ def loadTimeline(overwrite=False):
                     if not title in timeline.keys():
                         timeline[title] = time
                         pageids[title] = pageid
+                        location = re.findall(r'(?im)\{\{\s*location ?(?:dec|decimal)?\s*\|\s*(?:1=)?\s*([0-9\.\-\+]+)\s*\|\s*(?:2=)?\s*([0-9\.\-\+]+)\s*\}\}', text)
+                        lat = ""
+                        lon = ""
+                        if location:
+                            #print(location)
+                            lat = location[0][0]
+                            lon = location[0][1]
+                        locations[title] = { "lat": lat, "lon": lon }
                         if len(timeline.keys()) % 100 == 0:
                             print("Loaded %d timelines" % (len(timeline.keys())))
                             #break
@@ -1019,11 +1028,13 @@ def loadTimeline(overwrite=False):
         pageidnext = 0
         c = 0
         for timefilenameconcat, time, filename in timeline_list:
+            lat = locations[filename]["lat"]
+            lon = locations[filename]["lon"]
             if c < len(timeline_list)-1:
                 pageidnext = pageids[timeline_list[c+1][2]]
             else:
                 pageidnext = pageids[timeline_list[0][2]]
-            timelineindex[filename] = { "pageid": pageids[filename], "date": time, "prev": pageidprev, "next": pageidnext }
+            timelineindex[filename] = { "pageid": pageids[filename], "date": time, "lat": lat, "lon": lon, "prev": pageidprev, "next": pageidnext }
             pageidprev = pageids[filename]
             c += 1
         timelineindexoutput = {}
@@ -1032,7 +1043,7 @@ def loadTimeline(overwrite=False):
             pageidmod = pageid % 10
             if not pageidmod in timelineindexoutput.keys():
                 timelineindexoutput[pageidmod] = "{{#switch:{{{pageid|}}}"
-            timelineindexoutput[pageidmod] += "\n|%s={{#switch:{{{pp|}}}|d=%s|p=%s|n=%s|f=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
+            timelineindexoutput[pageidmod] += "\n|%s={{#switch:{{{prop|}}}|date=%s|lat=%s|lon=%s|prev=%s|next=%s|file=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["lat"], timelineindex[filename]["lon"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
         for c in range(0, 10):
             timelineindexoutput[c] += "\n|#default=\n}}"
         for c in range(0, 10):
@@ -1046,7 +1057,7 @@ def loadTimeline(overwrite=False):
             print("Loaded %d timelines" % (len(timeline.keys())))
 
 def main():
-    loadTimeline(overwrite=False)
+    loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
