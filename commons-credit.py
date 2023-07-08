@@ -1013,8 +1013,8 @@ def loadTimeline(overwrite=False):
 def main():
     loadTimeline(overwrite=False)
     #creditByFlickrUrl()
-    creditByCategory()
-    #creditByWhatlinkshere()
+    #creditByCategory()
+    creditByWhatlinkshere()
 
 if __name__ == '__main__':
     main()
