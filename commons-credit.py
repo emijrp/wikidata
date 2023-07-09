@@ -1040,17 +1040,26 @@ def loadTimeline(overwrite=False):
         timelineindexoutput = {}
         for timefilenameconcat, time, filename in timeline_list:
             pageid = timelineindex[filename]["pageid"]
-            pageidmod = pageid % 10
-            if not pageidmod in timelineindexoutput.keys():
-                timelineindexoutput[pageidmod] = "{{#switch:{{{pageid|}}}"
-            timelineindexoutput[pageidmod] += "\n|%s={{#switch:{{{prop|}}}|date=%s|lat=%s|lon=%s|prev=%s|next=%s|file=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["lat"], timelineindex[filename]["lon"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
+            pageidmod10 = "%01d" % (pageid % 10)
+            pageidmod100 = "%02d" % (pageid % 100)
+            if not pageidmod10 in timelineindexoutput.keys():
+                timelineindexoutput[pageidmod10] = "{{#switch:{{#expr:{{{pageid|{{PAGEID}}}}} mod 100}}"
+            if not pageidmod100 in timelineindexoutput.keys():
+                timelineindexoutput[pageidmod100] = "|%02d={{#switch:{{{pageid|}}}" % (int(pageidmod100))
+            timelineindexoutput[pageidmod100] += "\n|%s={{#switch:{{{prop|}}}|date=%s|lat=%s|lon=%s|prev=%s|next=%s|file=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["lat"], timelineindex[filename]["lon"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
+        for c in range(0, 100):
+            if "%02d" % (c) in timelineindexoutput.keys():
+                timelineindexoutput["%02d" % (c)] += "\n|#default=\n}}"
         for c in range(0, 10):
-            timelineindexoutput[c] += "\n|#default=\n}}"
-        for c in range(0, 10):
+            output = timelineindexoutput["%01d" % (c)]
+            for cc in range(0, 100):
+                if str("%02d" % (cc)).startswith(str(c)) and str("%02d" % (cc)) in timelineindexoutput.keys():
+                    output += "\n"+timelineindexoutput[str("%02d" % (cc))]
+            output += "\n}}"
             userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
-            userpage.text = timelineindexoutput[c]
+            userpage.text = output
             userpage.save('BOT - Updating gallery index')
-        #sys.exit()
+        sys.exit()
     else:
         if os.path.exists(filename):
             timeline = pickle.load(open(filename, "rb"))
