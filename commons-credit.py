@@ -28,6 +28,8 @@ import reverse_geocoder as rg
 import pywikibot
 from pywikibot import pagegenerators
 
+grid1 = {}
+grid2 = {}
 timeline = {}
 cc2country = { 'ES': 'Spain' }
 fixcities = {
@@ -978,7 +980,34 @@ def creditByFlickrUrl():
                     page.text = newtext
                     page.save('BOT - Updating credit template')
 
+def updategrid(lat='', lon=''):
+    global grid1
+    global grid2
+    
+    if lat != '' and lon != '':
+        intlat = int(float(lat))
+        intlon = int(float(lon))
+        if intlat in grid1.keys():
+            if intlon in grid1[intlat].keys():
+                grid1[intlat][intlon] += 1
+            else:
+                grid1[intlat][intlon] = 1
+        else:
+            grid1[intlat] = { intlon: 1 }
+        
+        floatlat = float(str(float(lat)).split('.')[0] + '.' + str(float(lat)).split('.')[1][0])
+        floatlon = float(str(float(lon)).split('.')[0] + '.' + str(float(lon)).split('.')[1][0])
+        if floatlat in grid2.keys():
+            if floatlon in grid2[floatlat].keys():
+                grid2[floatlat][floatlon] += 1
+            else:
+                grid2[floatlat][floatlon] = 1
+        else:
+            grid2[floatlat] = { floatlon: 1 }
+
 def loadTimeline(overwrite=False):
+    global grid1
+    global grid2
     global timeline
     pageids = {}
     locations = {}
@@ -1026,12 +1055,14 @@ def loadTimeline(overwrite=False):
         timeline_list = [["%s-%s" % (v, k), v, k] for k, v in timeline.items()]
         timeline_list.sort()
         timelineindex = {}
+        grid = {}
         pageidprev = pageids[timeline_list[-1][2]]
         pageidnext = 0
         c = 0
         for timefilenameconcat, time, filename in timeline_list:
             lat = locations[filename]["lat"]
             lon = locations[filename]["lon"]
+            updategrid(lat=lat, lon=lon)
             if c < len(timeline_list)-1:
                 pageidnext = pageids[timeline_list[c+1][2]]
             else:
@@ -1058,10 +1089,52 @@ def loadTimeline(overwrite=False):
                 if str("%02d" % (cc)).endswith(str(c)) and str("%02d" % (cc)) in timelineindexoutput.keys():
                     output += "\n"+timelineindexoutput[str("%02d" % (cc))]
             output += "\n}}"
-            userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
-            userpage.text = output
-            userpage.save('BOT - Updating gallery index')
-        #sys.exit()
+            #userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
+            #userpage.text = output
+            #userpage.save('BOT - Updating gallery index')
+        
+        #grid
+        print(grid1.items())
+        grid1list = []
+        for lat, lons in grid1.items():
+            step = 1
+            for lon, num in lons.items():
+                fillopacity = "0.1"
+                grid11 = """{ "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [ [ [%d, %d], [%d, %d], [%d, %d], [%d, %d] ] ] }, "properties": { "fill": "#ff0000", "fill-opacity": %s, "stroke": "#ff0000", "stroke-width": 1, "stroke-opacity": 1 } }""" % (lon, lat, lon, lat+step, lon-step, lat+step, lon-step, lat, fillopacity)
+                grid1list.append(grid11)
+        grid1plain = """{{maplink|frame=yes|frame-width=100%%|frame-height=500|raw=
+{
+  "type": "FeatureCollection",
+  "features": [
+%s
+]
+}
+}}""" % (",\n".join(grid1list))
+        userpage = pywikibot.Page(commons, "User:Emijrp/Sandbox")
+        userpage.text = grid1plain
+        userpage.save("BOT - Updating grid")
+        
+        print(grid2.items())
+        grid2list = []
+        for lat, lons in grid2.items():
+            step = 0.1
+            for lon, num in lons.items():
+                fillopacity = "0.1"
+                grid21 = """{ "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [ [ [%f, %f], [%f, %f], [%f, %f], [%f, %f] ] ] }, "properties": { "fill": "#ff0000", "fill-opacity": %s, "stroke": "#ff0000", "stroke-width": 1, "stroke-opacity": 1 } }""" % (lon, lat, lon, lat+step, lon-step, lat+step, lon-step, lat, fillopacity)
+                grid2list.append(grid21)
+        grid2plain = """{{maplink|frame=yes|frame-width=100%%|frame-height=500|raw=
+{
+  "type": "FeatureCollection",
+  "features": [
+%s
+]
+}
+}}""" % (",\n".join(grid2list))
+        userpage = pywikibot.Page(commons, "User:Emijrp/Sandbox2")
+        userpage.text = grid2plain
+        userpage.save("BOT - Updating grid")
+        
+        sys.exit()
     else:
         if os.path.exists(filename):
             timeline = pickle.load(open(filename, "rb"))
