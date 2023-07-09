@@ -1045,7 +1045,7 @@ def loadTimeline(overwrite=False):
             if not pageidmod10 in timelineindexoutput.keys():
                 timelineindexoutput[pageidmod10] = "{{#switch:{{#expr:{{{pageid|{{PAGEID}}}}} mod 100}}"
             if not pageidmod100 in timelineindexoutput.keys():
-                timelineindexoutput[pageidmod100] = "|%02d={{#switch:{{{pageid|}}}" % (int(pageidmod100))
+                timelineindexoutput[pageidmod100] = "|%02d={{#switch:{{{pageid|{{PAGEID}}}}}" % (int(pageidmod100))
             timelineindexoutput[pageidmod100] += "\n|%s={{#switch:{{{prop|}}}|date=%s|lat=%s|lon=%s|prev=%s|next=%s|file=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["lat"], timelineindex[filename]["lon"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
         for c in range(0, 100):
             if "%02d" % (c) in timelineindexoutput.keys():
