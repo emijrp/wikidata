@@ -875,7 +875,7 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
         print(timelinegallery)
         newtext = re.sub(regexpcredit, r'\1|timeline-gallery=%s|%s' % (timelinegallery, creditend), newtext)
     
-    return newtext   
+    return newtext
 
 def replaceAuthor(newtext=''):
     fieldnames = ["author", "photographer"]
@@ -1082,7 +1082,7 @@ def purgeCache():
 
 def main():
     #purgeCache()
-    loadTimeline(overwrite=True)
+    loadTimeline(overwrite=False)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
