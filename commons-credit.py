@@ -986,8 +986,10 @@ def loadTimeline(overwrite=False):
     filename = "timeline.pickle"
     if overwrite:
         commons = pywikibot.Site('commons', 'commons')
-        category = pywikibot.Category(commons, 'Images by User:Emijrp')
-        gen = pagegenerators.CategorizedPageGenerator(category, content=True)
+        #category = pywikibot.Category(commons, 'Images by User:Emijrp')
+        #gen = pagegenerators.CategorizedPageGenerator(category, content=True)
+        userpage = pywikibot.Page(commons, 'User:Emijrp')
+        gen = userpage.backlinks(namespaces=[6], content=True)
         for page in gen:
             #print('==', page.title(), '==')
             title = page.title()
@@ -1043,7 +1045,7 @@ def loadTimeline(overwrite=False):
             pageidmod10 = "%01d" % (pageid % 10)
             pageidmod100 = "%02d" % (pageid % 100)
             if not pageidmod10 in timelineindexoutput.keys():
-                timelineindexoutput[pageidmod10] = "{{#switch:{{#expr:{{{pageid|{{PAGEID}}}}} mod 100}}"
+                timelineindexoutput[pageidmod10] = "{{#switch:{{padleft:{{#expr:{{{pageid|{{PAGEID}}}}} mod 100}}|2}}"
             if not pageidmod100 in timelineindexoutput.keys():
                 timelineindexoutput[pageidmod100] = "|%02d={{#switch:{{{pageid|{{PAGEID}}}}}" % (int(pageidmod100))
             timelineindexoutput[pageidmod100] += "\n|%s={{#switch:{{{prop|}}}|date=%s|lat=%s|lon=%s|prev=%s|next=%s|file=%s}}" % (pageid, timelineindex[filename]["date"], timelineindex[filename]["lat"], timelineindex[filename]["lon"], timelineindex[filename]["prev"], timelineindex[filename]["next"], filename[5:])
@@ -1059,13 +1061,27 @@ def loadTimeline(overwrite=False):
             userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
             userpage.text = output
             userpage.save('BOT - Updating gallery index')
-        sys.exit()
+        #sys.exit()
     else:
         if os.path.exists(filename):
             timeline = pickle.load(open(filename, "rb"))
             print("Loaded %d timelines" % (len(timeline.keys())))
 
+def purgeCache():
+    #usado cuando se metieron miles de imagenes en https://commons.wikimedia.org/wiki/Category:Pages_where_node_count_is_exceeded
+    #porque el mapa no estaba optimizado
+    commons = pywikibot.Site('commons', 'commons')
+    category = pywikibot.Category(commons, 'Pages where node count is exceeded')
+    gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6], start="", content=True)
+    for page in gen:
+        print('==', page.title(), '==')
+        if re.search(r"Emijrp/credit", page.text):
+            page.save("BOT - Purge cache")
+        else:
+            print("No es mia")
+
 def main():
+    #purgeCache()
     loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
