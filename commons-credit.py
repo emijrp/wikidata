@@ -1053,7 +1053,7 @@ def loadTimeline(overwrite=False):
         for c in range(0, 10):
             output = timelineindexoutput["%01d" % (c)]
             for cc in range(0, 100):
-                if str("%02d" % (cc)).startswith(str(c)) and str("%02d" % (cc)) in timelineindexoutput.keys():
+                if str("%02d" % (cc)).endswith(str(c)) and str("%02d" % (cc)) in timelineindexoutput.keys():
                     output += "\n"+timelineindexoutput[str("%02d" % (cc))]
             output += "\n}}"
             userpage = pywikibot.Page(commons, 'User:Emijrp/credit/index/%d' % (c))
