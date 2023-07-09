@@ -986,15 +986,15 @@ def loadTimeline(overwrite=False):
     filename = "timeline.pickle"
     if overwrite:
         commons = pywikibot.Site('commons', 'commons')
-        #category = pywikibot.Category(commons, 'Images by User:Emijrp')
-        #gen = pagegenerators.CategorizedPageGenerator(category, content=True)
-        userpage = pywikibot.Page(commons, 'User:Emijrp')
-        gen = userpage.backlinks(namespaces=[6], content=True)
+        category = pywikibot.Category(commons, 'Images by User:Emijrp')
+        gen = pagegenerators.CategorizedPageGenerator(category, content=True)
         for page in gen:
             #print('==', page.title(), '==')
             title = page.title()
             pageid = page.pageid
             text = page.text
+            if not re.search(r"(?im){{User:Emijrp/credit", text):
+                continue
             if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*(extracted|cropped))', text): # ignorar las recortadas
                 continue
             if re.findall(r'(?im)(withheld)', text): # ignorar las location withheld
@@ -1075,14 +1075,14 @@ def purgeCache():
     gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6], start="", content=True)
     for page in gen:
         print('==', page.title(), '==')
-        if re.search(r"Emijrp/credit", page.text):
+        if re.search(r"(?im){{User:Emijrp/credit", page.text):
             page.save("BOT - Purge cache")
         else:
             print("No es mia")
 
 def main():
     #purgeCache()
-    loadTimeline(overwrite=False)
+    loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
