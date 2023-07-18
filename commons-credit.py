@@ -915,13 +915,6 @@ def creditByCore(page='', skip='', opencv=False, purgeedit=False):
     if not page:
         return
     
-    print('==', page.title(), '==')
-    if skip:
-        if page.title() == skip:
-            skip = ""
-        else:
-            return
-    
     newtext = page.text
     newtext = replaceAuthor(newtext=newtext)
     newtext = replaceSource(newtext=newtext)
@@ -933,18 +926,25 @@ def creditByCore(page='', skip='', opencv=False, purgeedit=False):
         page.save('BOT - Updating credit template')
 
 def creditByWhatlinkshere():
-    purgeedit = True #force template cache purge
-    opencv = True
+    purgeedit = False #force template cache purge
+    opencv = False
     skip = ''
+    skip = 'File:Museo Tiflológico de Madrid en abril de 2023 148.jpg'
     #skip = 'File:Exposición "Las Sinsombrero" en Madrid en octubre de 2022 108.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
     for page in gen:
+        print('==', page.title(), '==')
+        if skip: #skip no puede ir dentro de Core pq la variable skip se le pasa cada vez
+            if page.title() == skip:
+                skip = ""
+            else:
+                continue
         creditByCore(page=page, skip=skip, opencv=opencv, purgeedit=purgeedit)
 
 def creditByCategory():
-    purgeedit = False #force template cache purge
+    purgeedit = True #force template cache purge
     opencv = False
     skip = ''
     commons = pywikibot.Site('commons', 'commons')
@@ -952,6 +952,12 @@ def creditByCategory():
     category = pywikibot.Category(commons, 'Images by User:Emijrp by date')
     gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     for page in gen:
+        print('==', page.title(), '==')
+        if skip: #skip no puede ir dentro de Core pq la variable skip se le pasa cada vez
+            if page.title() == skip:
+                skip = ""
+            else:
+                continue
         creditByCore(page=page, skip=skip, opencv=opencv, purgeedit=purgeedit)
 
 def creditByFlickrUrl():
@@ -1024,9 +1030,13 @@ def loadTimeline(overwrite=False):
             text = page.text
             if not re.search(r"(?im){{User:Emijrp/credit", text):
                 continue
-            if re.findall(r'(?im)(cropped)', title) or re.findall(r'(?im)(\{\{\s*(extracted|cropped))', text): # ignorar las recortadas
+            if not re.search(r"(?im)\.(jpg|jpeg)", title): #ignorar pdfs, pngs, etc
                 continue
-            if re.findall(r'(?im)(withheld)', text): # ignorar las location withheld
+            if re.search(r"(?im)(colori[zs]ed|colori[zs]ation)", title+text): #ignorar las coloreadas
+                continue
+            if re.search(r'(?im)(cropped)', title) or re.search(r'(?im)(\{\{\s*(extracted|cropped))', text): # ignorar las recortadas
+                continue
+            if re.search(r'(?im)(withheld)', text): # ignorar las location withheld
                 continue
             
             m = re.findall(r'(?im)^\|\s*(?:date|photo date)\s*=\s*(?:\{\{(?:according ?to ?exif ?data|taken ?on)\s*\|\s*(?:1=)?)?\s*(\d\d\d\d-\d\d-\d\d( \d\d:\d\d(:\d\d)?)?)', text)
@@ -1155,7 +1165,7 @@ def purgeCache():
 
 def main():
     #purgeCache()
-    loadTimeline(overwrite=True)
+    #loadTimeline(overwrite=True)
     #creditByFlickrUrl()
     #creditByCategory()
     creditByWhatlinkshere()
