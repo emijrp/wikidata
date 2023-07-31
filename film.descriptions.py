@@ -27,6 +27,9 @@ from wikidatafun import *
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
+    inputyear = False
+    if len(sys.argv) > 1:
+        inputyear = int(sys.argv[1])
     
     targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fy', 'fr', 'he', 'ar', 'ro', 'et', ]
     #he: it only adds YEAR by now
@@ -72,7 +75,13 @@ def main():
         'sv': ' och ', 
     }
     for targetlang in targetlangs:
-        for year in range(1880, 2020):
+        if inputyear:
+            yearstart = inputyear
+            yearend = inputyear+1
+        else:
+            yearstart = 1880
+            yearend = 2024
+        for year in range(yearstart, yearend):
             print(targetlang, year)
             for defaultdescen in [str(year)+'%20film%20by', str(year)+'%20film%20directed%20by', ]:
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+defaultdescen+'%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
