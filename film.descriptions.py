@@ -81,7 +81,7 @@ def main():
     else:
         yearstart = 1880
         yearend = 2024
-    years = range(yearstart, yearend)
+    years = list(range(yearstart, yearend))
     random.shuffle(targetlangs)
     random.shuffle(years)
     for targetlang in targetlangs:
