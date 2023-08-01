@@ -28,6 +28,7 @@ import urllib.request
 import urllib.parse
 
 def cronstop():
+    return
     if datetime.datetime.now().isoweekday() in [1, 2, 3, 4, 5]: #1 Monday
         if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
