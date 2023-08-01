@@ -108,7 +108,6 @@ def main():
                 print(summary)
                 
                 time.sleep(0.01)
-                cronstop()
                 try:
                     item.editEntity(data, summary=summary)
                 except:
