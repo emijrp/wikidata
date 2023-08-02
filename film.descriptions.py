@@ -105,8 +105,9 @@ SELECT DISTINCT ?item ?itemDescriptionEN
 WHERE {
     ?item wdt:P31 wd:Q11424.
     ?item schema:description ?itemDescriptionEN.
-    FILTER (CONTAINS(?itemDescriptionEN, " and ")). 
-    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "es").
+    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en"). 
+    FILTER (CONTAINS(?itemDescription, " and ")). 
+    ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es").
 }"""
 
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
