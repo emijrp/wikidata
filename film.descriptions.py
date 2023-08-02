@@ -33,6 +33,7 @@ def main():
         inputyear = int(sys.argv[1])
     
     targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fy', 'fr', 'he', 'ar', 'ro', 'et', ]
+    targetlangs = ['es', 'et', ] #dejo es y uno poco probable que este completo
     #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
@@ -87,9 +88,32 @@ def main():
     for targetlang in targetlangs:
         for year in years:
             print(targetlang, year)
-            for defaultdescen in [str(year)+'%20film%20by', str(year)+'%20film%20directed%20by', ]:
-                url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%20%3FitemDescriptionEN%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ11424.%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%3FitemDescriptionEN.%0A%20%20%20%20FILTER%20(CONTAINS(%3FitemDescriptionEN%2C%20%22'+defaultdescen+'%22)).%20%0A%09OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescription.%20FILTER(LANG(%3FitemDescription)%20%3D%20%22'+targetlang+'%22).%20%20%7D%0A%09FILTER%20(!BOUND(%3FitemDescription))%0A%7D'
+            for defaultdescen in [str(year)+' film by', str(year)+' film directed by', ]:
+                query = """
+SELECT ?item ?itemDescriptionEN
+WHERE {
+    ?item wdt:P31 wd:Q11424.
+    ?item schema:description ?itemDescriptionEN.
+    FILTER (CONTAINS(?itemDescriptionEN, "%s")). 
+    OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s"). }
+    FILTER (!BOUND(?itemDescription))
+}""" % (defaultdescen, targetlang)
+                
+                #los q tienen and en english
+                query = """
+SELECT DISTINCT ?item ?itemDescriptionEN
+WHERE {
+	?item wdt:P31 wd:Q11424.
+    ?item schema:description ?itemDescriptionEN.
+    FILTER (CONTAINS(?itemDescriptionEN, " and ")). 
+    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").
+	OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ext").  }
+	FILTER (!BOUND(?itemDescription))
+}"""
+
+                url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
                 url = '%s&format=json' % (url)
+                print("Loading...", url)
                 sparql = getURL(url=url)
                 json1 = loadSPARQL(sparql=sparql)
                 for result in json1['results']['bindings']:
@@ -105,15 +129,15 @@ def main():
                     authors = []
                     for a in author:
                         if ' and ' in a:
-                            authors += [aa.strip(',').strip(' ') for aa in a.split(' and ')]
+                            authors += [aa.strip(',').strip(' ').strip(',') for aa in a.split(' and ')]
                         else:
-                            authors.append(a.strip(',').strip(' '))
+                            authors.append(a.strip(',').strip(' ').strip(','))
                     item = pywikibot.ItemPage(repo, q)
                     item.get()
                     descriptions = item.descriptions
                     addedlangs = []
                     for lang in translations.keys():
-                        if not lang in descriptions.keys():
+                        if not lang in descriptions.keys() or (lang != "en" and lang in descriptions.keys() and ' and ' in descriptions[lang]):
                             translation = translations[lang]
                             translation = translation.replace('~YEAR~', str(year))
                             if len(authors) == 1:
