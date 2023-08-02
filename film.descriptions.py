@@ -81,7 +81,7 @@ def main():
         yearend = inputyear+1
     else:
         yearstart = 1880
-        yearstart = 1912
+        yearstart = 1916 #temp
         yearend = 2024
     years = list(range(yearstart, yearend))
     random.shuffle(targetlangs)
@@ -100,7 +100,7 @@ WHERE {
     FILTER (!BOUND(?itemDescription))
 }""" % (defaultdescen, targetlang)
                 
-                #los q tienen ' and ' en español
+                #los q tienen ' and ' en español  #temp
                 query = """
 SELECT DISTINCT ?item ?itemDescriptionEN
 WHERE {
@@ -133,12 +133,18 @@ WHERE {
                             authors += [aa.strip(',').strip(' ').strip(',') for aa in a.split(' and ')]
                         else:
                             authors.append(a.strip(',').strip(' ').strip(','))
+                    authors2 = []
+                    for a in authors:
+                        a = a.strip()
+                        if a:
+                            authors2.append(a)
+                    authors = authors2
                     item = pywikibot.ItemPage(repo, q)
                     item.get()
                     descriptions = item.descriptions
                     addedlangs = []
                     for lang in translations.keys():
-                        if not lang in descriptions.keys() or (lang != "en" and lang in descriptions.keys() and ' and ' in descriptions[lang]):
+                        if not lang in descriptions.keys() or (lang != "en" and lang in descriptions.keys() and ' and ' in descriptions[lang]): #temp or
                             translation = translations[lang]
                             translation = translation.replace('~YEAR~', str(year))
                             if len(authors) == 1:
