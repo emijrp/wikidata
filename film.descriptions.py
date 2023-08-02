@@ -107,8 +107,8 @@ WHERE {
     ?item schema:description ?itemDescriptionEN.
     FILTER (CONTAINS(?itemDescriptionEN, " and ")). 
     ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").
-	OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ext").  }
-	FILTER (!BOUND(?itemDescription))
+    #OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ext").  }
+    #FILTER (!BOUND(?itemDescription))
 }"""
 
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
