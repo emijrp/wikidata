@@ -33,7 +33,7 @@ def main():
         inputyear = int(sys.argv[1])
     
     targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fy', 'fr', 'he', 'ar', 'ro', 'et', ]
-    targetlangs = ['es', 'et', ] #dejo es y uno poco probable que este completo
+    targetlangs = ['es'] #dejo es y uno poco probable que este completo
     #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
@@ -105,10 +105,11 @@ SELECT DISTINCT ?item ?itemDescriptionEN
 WHERE {
     ?item wdt:P31 wd:Q11424.
     ?item schema:description ?itemDescriptionEN.
+    FILTER (CONTAINS(?itemDescriptionEN, "%s")). 
     ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en"). 
     FILTER (CONTAINS(?itemDescription, " and ")). 
-    ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es").
-}"""
+    ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").
+}""" % (defaultdescen, targetlang)
 
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
                 url = '%s&format=json' % (url)
