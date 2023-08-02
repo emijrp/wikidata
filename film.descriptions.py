@@ -99,16 +99,14 @@ WHERE {
     FILTER (!BOUND(?itemDescription))
 }""" % (defaultdescen, targetlang)
                 
-                #los q tienen and en english
+                #los q tienen ' and ' en español
                 query = """
 SELECT DISTINCT ?item ?itemDescriptionEN
 WHERE {
-	?item wdt:P31 wd:Q11424.
+    ?item wdt:P31 wd:Q11424.
     ?item schema:description ?itemDescriptionEN.
     FILTER (CONTAINS(?itemDescriptionEN, " and ")). 
-    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").
-    #OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "ext").  }
-    #FILTER (!BOUND(?itemDescription))
+    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "es").
 }"""
 
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
