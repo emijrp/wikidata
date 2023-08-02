@@ -102,6 +102,12 @@ def main():
                     author = descen.split('film by ')[1].split(', ')
                     if not author or len(author[0]) == 0:
                         continue
+                    authors = []
+                    for a in author:
+                        if ' and ' in a:
+                            authors += [aa.strip(',').strip(' ') for aa in a.split(' and ')]
+                        else:
+                            authors.append(a.strip(',').strip(' '))
                     item = pywikibot.ItemPage(repo, q)
                     item.get()
                     descriptions = item.descriptions
@@ -110,16 +116,16 @@ def main():
                         if not lang in descriptions.keys():
                             translation = translations[lang]
                             translation = translation.replace('~YEAR~', str(year))
-                            if len(author) == 1:
-                                translation = translation.replace('~AUTHOR~', ''.join(author))
-                            elif len(author) == 2:
-                                translation = translation.replace('~AUTHOR~', translationsand[lang].join(author))
-                            elif len(author) > 2:
-                                author_ = ', '.join(author[:-1])
-                                author_ = '%s%s%s' % (author_, translationsand[lang], author[-1])
+                            if len(authors) == 1:
+                                translation = translation.replace('~AUTHOR~', ''.join(authors))
+                            elif len(authors) == 2:
+                                translation = translation.replace('~AUTHOR~', translationsand[lang].join(authors))
+                            elif len(authors) > 2:
+                                author_ = ', '.join(authors[:-1])
+                                author_ = '%s%s%s' % (author_, translationsand[lang], authors[-1])
                                 translation = translation.replace('~AUTHOR~', author_)
                             descriptions[lang] = translation
-                            print(q, lang) #, author.encode('utf-8'), lang, translation.encode('utf-8'))
+                            print(q, lang) #, authors.encode('utf-8'), lang, translation.encode('utf-8'))
                             addedlangs.append(lang)
                     data = { 'descriptions': descriptions }
                     addedlangs.sort()
