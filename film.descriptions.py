@@ -33,7 +33,6 @@ def main():
         inputyear = int(sys.argv[1])
     
     targetlangs = ['es', 'ca', 'gl', 'ast', 'an', 'ext', 'oc', 'it', 'pt', 'sv', 'de', 'nl', 'fy', 'fr', 'he', 'ar', 'ro', 'et', ]
-    targetlangs = ['es'] #dejo es y uno poco probable que este completo
     #he: it only adds YEAR by now
     translations = {
         'an': 'cinta de ~YEAR~ dirichita por ~AUTHOR~', 
@@ -81,11 +80,10 @@ def main():
         yearend = inputyear+1
     else:
         yearstart = 1880
-        yearstart = 1916 #temp
         yearend = 2024
     years = list(range(yearstart, yearend))
     random.shuffle(targetlangs)
-    #random.shuffle(years)
+    random.shuffle(years)
     for targetlang in targetlangs:
         for year in years:
             print(targetlang, year)
@@ -99,19 +97,6 @@ WHERE {
     OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s"). }
     FILTER (!BOUND(?itemDescription))
 }""" % (defaultdescen, targetlang)
-                
-                #los q tienen ' and ' en español  #temp
-                query = """
-SELECT DISTINCT ?item ?itemDescriptionEN
-WHERE {
-    ?item wdt:P31 wd:Q11424.
-    ?item schema:description ?itemDescriptionEN.
-    FILTER (CONTAINS(?itemDescriptionEN, "%s")). 
-    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en"). 
-    FILTER (CONTAINS(?itemDescription, " and ")). 
-    ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").
-}""" % (defaultdescen, targetlang)
-
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
                 url = '%s&format=json' % (url)
                 print("Loading...", url)
@@ -144,7 +129,7 @@ WHERE {
                     descriptions = item.descriptions
                     addedlangs = []
                     for lang in translations.keys():
-                        if not lang in descriptions.keys() or (lang != "en" and lang in descriptions.keys() and ' and ' in descriptions[lang]): #temp or
+                        if not lang in descriptions.keys():
                             translation = translations[lang]
                             translation = translation.replace('~YEAR~', str(year))
                             if len(authors) == 1:
