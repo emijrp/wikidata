@@ -123,7 +123,7 @@ WHERE {
                         continue
                     if not 'film by ' in descen:
                         continue
-                    author = descen.split('film by ')[1].split(', ')
+                    author = descen.split('film by ')[1].split(',')
                     if not author or len(author[0]) == 0:
                         continue
                     authors = []
