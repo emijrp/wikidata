@@ -46,7 +46,7 @@ def main():
             WHERE {
                 SERVICE bd:sample {
                     ?item wdt:P31 wd:Q16521 .
-                    bd:serviceParam bd:sample.limit 1000 .
+                    bd:serviceParam bd:sample.limit 10000 .
                     bd:serviceParam bd:sample.sampleType "RANDOM" .
                 }
                 ?item wdt:P225 ?taxonname.
@@ -54,7 +54,8 @@ def main():
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            """
+            #random%s
+            """ % (random.randint(1,1000000))
             
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)

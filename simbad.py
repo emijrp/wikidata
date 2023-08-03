@@ -157,7 +157,9 @@ def main():
                 OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "ext") }
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-            }"""
+            }
+            #random%s
+            """ % (random.randint(1,1000000))
             
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
