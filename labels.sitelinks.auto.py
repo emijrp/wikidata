@@ -28,9 +28,9 @@ from wikidatafun import *
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    langs = ["de", "en", "es", "fr", "pt"]
+    langs = ["de", "en", "es", "fr", "pt", "it"]
     random.shuffle(langs)
-    for i in range(1000):
+    for i in range(10000):
         for lang in langs:
             query1 = """
         SELECT DISTINCT ?item

@@ -114,7 +114,7 @@ constellations = [
     "Q10438", 
     "Q10567", 
     "Q10525", 
-]
+] # ahora no filtro por constelaciones, sino hago un random y ya
 
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
@@ -132,9 +132,10 @@ def main():
     if method == 'all' or method == 'method1':
         #method 1
         random.shuffle(constellations)
-        for constellation in constellations:
+        #for constellation in constellations:
+        for i in range(10000):
             skip = ''
-            query = """
+            """query = 
             SELECT DISTINCT ?item
             WHERE {
                 #?item wdt:P31 wd:Q523.
@@ -144,7 +145,19 @@ def main():
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
-            """ % (constellation)
+             % (constellation)"""
+            query = """
+            SELECT DISTINCT ?item
+            WHERE {
+                SERVICE bd:sample {
+                    ?item wdt:P3083 ?simbadid.
+                    bd:serviceParam bd:sample.limit 10000 .
+                    bd:serviceParam bd:sample.sampleType "RANDOM" .
+                }
+                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "ext") }
+                FILTER(!BOUND(?label))
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }"""
             
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
