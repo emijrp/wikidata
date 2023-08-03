@@ -145,7 +145,7 @@ def main():
     FILTER (!BOUND(?itemDescription))
     }
     #random%s
-    """ % (str(querylimit+i), random.choice(list(generateTranslations(pubdate=datetime.datetime.strptime('2099-01-01', '%Y-%m-%d'))[1].keys())), random.randint(1,1000000)) for i in range(1, 10000)
+    """ % (str(querylimit+i), random.choice(list(generateTranslations(pubdate=datetime.datetime.strptime('2099-01-01', '%Y-%m-%d'))[1].keys())), random.randint(1,1000000)) for i in range(1, 100000)
     ]
     
     for query in queries:
@@ -214,7 +214,6 @@ def main():
                         if fixedlangs:
                             summary += 'Fixing descriptions (%s languages): %s' % (len(fixedlangs), ', '.join(fixedlangs))
                     print(summary)
-                    cronstop()
                     try:
                         item.editEntity(data, summary=summary)
                     except:
