@@ -151,8 +151,15 @@ def main():
         cat = pywikibot.Category(wikisite, 'Category:Categories by year')
         #gen = pagegenerators.SubCategoriesPageGenerator(cat)
         gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
+        skip = ''
+        skip = 'Category:1982 disestablishments in Ireland'
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
+            if skip:
+                if page.title() == skip:
+                    skip = ''
+                else:
+                    continue
             year = ''
             titleprev = ''
             titlenext = ''
