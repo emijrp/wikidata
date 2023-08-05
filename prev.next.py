@@ -148,11 +148,11 @@ def main():
     if method == 'all' or method == 'method2':
         #cat = pywikibot.Category(wikisite, 'Category:Year by category — used with year parameter(s) equals year in page title')
         #cat = pywikibot.Category(wikisite, 'Category:YearParamUsageCheck tracking categories')
-        cat = pywikibot.Category(wikisite, 'Category:Categories by year')
-        #gen = pagegenerators.SubCategoriesPageGenerator(cat)
-        gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
+        #cat = pywikibot.Category(wikisite, 'Category:Categories by year')
+        cat = pywikibot.Category(wikisite, 'Category:Navseasoncats year and decade')
+        #gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
+        gen = pagegenerators.SubCategoriesPageGenerator(cat)
         skip = ''
-        skip = 'Category:1412 disestablishments in England'
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             if False and skip: #este skip no funciona bien, va lento no se pq
