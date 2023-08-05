@@ -155,7 +155,7 @@ def main():
         skip = 'Category:1412 disestablishments in England'
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
-            if skip:
+            if False and skip: #este skip no funciona bien, va lento no se pq
                 if page.title() == skip:
                     skip = ''
                 else:
