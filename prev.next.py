@@ -152,13 +152,14 @@ def main():
         #gen = pagegenerators.SubCategoriesPageGenerator(cat)
         gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
         skip = ''
-        skip = 'Category:1982 disestablishments in Ireland'
+        skip = 'Category:1412 disestablishments in England'
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             if skip:
                 if page.title() == skip:
                     skip = ''
                 else:
+                    print("Skiping...")
                     continue
             year = ''
             titleprev = ''
@@ -192,6 +193,8 @@ def main():
             else:
                 print("Page doest have item")
     
+    
+    sys.exit()
     if method == 'all' or method == 'method3':
         for year in range(1000, 2050):
             prefix = '%s in ' % (year)
