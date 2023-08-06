@@ -153,14 +153,8 @@ def main():
         #gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
         gen = pagegenerators.SubCategoriesPageGenerator(cat)
         skip = ''
-        jump = random.randint(1, 20)*10000
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
-            
-            if jump > 0:
-                jump -= 1
-                continue
-            
             if False and skip: #este skip no funciona bien, va lento no se pq, creo q cuando es cat recurse
                 if page.title() == skip:
                     skip = ''
