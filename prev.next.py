@@ -153,7 +153,7 @@ def main():
         #gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
         gen = pagegenerators.SubCategoriesPageGenerator(cat)
         skip = ''
-        jump = range(1,20)*10000
+        jump = random.randint(1, 20)*10000
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
             
