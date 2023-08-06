@@ -53,7 +53,7 @@ def loadNewestEditId(nick='', path=''):
     return newesteditid
 
 def loadOldestEditId(nick='', path=''):
-    oldesteditid = 0
+    oldesteditid = 99999999999999
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -316,7 +316,7 @@ def main():
     summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
     print(output)
     statspage.text = output
-    statspage.save(summary)
+    #statspage.save(summary)
     
     statsbylanglist = []
     for lang, langprops in statsbylang.items():
@@ -373,7 +373,7 @@ def main():
     summarybylang = "BOT - Updating stats by language"
     print(outputbylang)
     statsbylangpage.text = outputbylang
-    statsbylangpage.save(summarybylang)
+    #statsbylangpage.save(summarybylang)
 
 if __name__ == "__main__":
     main()
