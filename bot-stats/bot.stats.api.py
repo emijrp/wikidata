@@ -51,7 +51,7 @@ def loadNewestEditId(nick='', path=''):
                 #print(', '.join(row))
                 if int(row[0]) > newesteditid:
                     newesteditid = int(row[0])
-                    newesteditdate = int(row[1])
+                    newesteditdate = row[1]
     return newesteditid, newesteditdate
 
 def loadOldestEditId(nick='', path=''):
@@ -64,7 +64,7 @@ def loadOldestEditId(nick='', path=''):
                 #print(', '.join(row))
                 if int(row[0]) < oldesteditid:
                     oldesteditid = int(row[0])
-                    oldesteditdate = int(row[1])
+                    oldesteditdate = row[1]
     return oldesteditid, oldesteditdate
 
 def saveEdits(nick='', path='', edits=''):
