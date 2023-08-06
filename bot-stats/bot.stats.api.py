@@ -321,7 +321,7 @@ def main():
     summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
     print(output)
     statspage.text = output
-    #statspage.save(summary)
+    statspage.save(summary)
     
     statsbylanglist = []
     for lang, langprops in statsbylang.items():
@@ -378,7 +378,7 @@ def main():
     summarybylang = "BOT - Updating stats by language"
     print(outputbylang)
     statsbylangpage.text = outputbylang
-    #statsbylangpage.save(summarybylang)
+    statsbylangpage.save(summarybylang)
 
 if __name__ == "__main__":
     main()
