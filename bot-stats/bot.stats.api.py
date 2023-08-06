@@ -43,6 +43,7 @@ regexps2 = {
 
 def loadNewestEditId(nick='', path=''):
     newesteditid = 0
+    newesteditdate = 0
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -50,10 +51,12 @@ def loadNewestEditId(nick='', path=''):
                 #print(', '.join(row))
                 if int(row[0]) > newesteditid:
                     newesteditid = int(row[0])
-    return newesteditid
+                    newesteditdate = int(row[1])
+    return newesteditid, newesteditdate
 
 def loadOldestEditId(nick='', path=''):
     oldesteditid = 99999999999999
+    oldesteditdate = 99999999999999
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -61,7 +64,8 @@ def loadOldestEditId(nick='', path=''):
                 #print(', '.join(row))
                 if int(row[0]) < oldesteditid:
                     oldesteditid = int(row[0])
-    return oldesteditid
+                    oldesteditdate = int(row[1])
+    return oldesteditid, oldesteditdate
 
 def saveEdits(nick='', path='', edits=''):
     if nick and path and edits:
@@ -107,10 +111,10 @@ def main():
     nick = 'Emijrpbot'
     nick_ = re.sub(' ', '_', nick)
     #load saved edits
-    newesteditid = loadNewestEditId(nick=nick, path=path)
-    oldesteditid = loadOldestEditId(nick=nick, path=path)
-    print('%d newest edit id' % (newesteditid))
-    print('%d oldest edit id' % (oldesteditid))
+    newesteditid, newesteditdate = loadNewestEditId(nick=nick, path=path)
+    oldesteditid, oldesteditdate = loadOldestEditId(nick=nick, path=path)
+    print('%d newest edit id, %s' % (newesteditid, newesteditdate))
+    print('%d oldest edit id, %s' % (oldesteditid, oldesteditdate))
     
     #load missing edits
     api = 'https://www.wikidata.org/w/api.php'
@@ -119,7 +123,7 @@ def main():
     if oldesteditid > 442787986:
         #complete csv if oldestedit isn't <= 2017-02-06 or <= 442787986
         #https://www.wikidata.org/w/index.php?title=Special:Contributions/Emijrpbot&target=Emijrpbot&dir=prev
-        apiqueries.append('?action=query&list=usercontribs&ucuser=%s&uclimit=500&ucstart=%s&ucprop=timestamp|title|comment|ids&format=json' % (nick, oldesteditid))
+        apiqueries.append('?action=query&list=usercontribs&ucuser=%s&uclimit=500&ucstart=%s&ucprop=timestamp|title|comment|ids&format=json' % (nick, oldesteditdate))
     
     for apiquery in apiqueries:
         uccontinue = True
