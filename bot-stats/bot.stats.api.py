@@ -154,8 +154,9 @@ def main():
                 d = datetime.datetime.strptime(edit['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
                 #d = datetime.datetime.strptime(edit['timestamp'].split('T')[0], "%Y-%m-%d")
                 unixtime = d.strftime('%s')
-                edits.append([edit['revid'], edit['timestamp'], edit['comment'].encode('utf-8')])
-                total += 1
+                if 'revid' in edit and 'timestamp' in edit and 'comment' in edit: #si han ocultado el comentario en el historial por ej. fallaría sin este if
+                    edits.append([edit['revid'], edit['timestamp'], edit['comment'].encode('utf-8')])
+                    total += 1
             json_data.close()
             if uccontinue:
                 if 'query-continue' in data:
