@@ -151,11 +151,14 @@ def main():
         #cat = pywikibot.Category(wikisite, 'Category:Categories by year')
         cat = pywikibot.Category(wikisite, 'Category:Navseasoncats year and decade')
         #gen = pagegenerators.SubCategoriesPageGenerator(cat, recurse=5)
-        gen = pagegenerators.SubCategoriesPageGenerator(cat)
+        start = ''
+        starts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        random.shuffle(starts)
+        gen = pagegenerators.SubCategoriesPageGenerator(cat, start=starts[0])
         skip = ''
         for page in gen:
             print('\n==', page.title().encode('utf-8'), '==')
-            if False and skip: #este skip no funciona bien, va lento no se pq
+            if False and skip: #este skip no funciona bien, va lento no se pq, creo q cuando es cat recurse
                 if page.title() == skip:
                     skip = ''
                 else:
