@@ -41,16 +41,27 @@ regexps2 = {
     'difflangs': re.compile(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">'), 
 }
 
-def loadLastEditId(nick='', path=''):
-    lasteditid = 0
+def loadNewestEditId(nick='', path=''):
+    newesteditid = 0
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
             for row in csvreader:
                 #print(', '.join(row))
-                if int(row[0]) > lasteditid:
-                    lasteditid = int(row[0])
-    return lasteditid
+                if int(row[0]) > newesteditid:
+                    newesteditid = int(row[0])
+    return newesteditid
+
+def loadOldestEditId(nick='', path=''):
+    oldesteditid = 0
+    if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
+        with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
+            csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+            for row in csvreader:
+                #print(', '.join(row))
+                if int(row[0]) < oldesteditid:
+                    oldesteditid = int(row[0])
+    return oldesteditid
 
 def saveEdits(nick='', path='', edits=''):
     if nick and path and edits:
@@ -96,57 +107,66 @@ def main():
     nick = 'Emijrpbot'
     nick_ = re.sub(' ', '_', nick)
     #load saved edits
-    lasteditid = loadLastEditId(nick=nick, path=path)
-    print('%d last edit id' % (lasteditid))
+    newesteditid = loadNewestEditId(nick=nick, path=path)
+    oldesteditid = loadOldestEditId(nick=nick, path=path)
+    print('%d newest edit id' % (newesteditid))
+    print('%d oldest edit id' % (oldesteditid))
     
-    #load new edits
+    #load missing edits
     api = 'https://www.wikidata.org/w/api.php'
-    apiquery = '?action=query&list=usercontribs&ucuser=%s&uclimit=500&ucprop=timestamp|title|comment|ids&format=json' % (nick)
-    uccontinue = True
-    uccontinue_name = 'uccontinue'
-    total = 0
-    edits = []
-    while uccontinue:
-        if len(edits) >= 10000:
-            saveEdits(nick=nick, path=path, edits=edits)
-            edits = []
-        if uccontinue == True:
-            json_data = urllib.request.urlopen(api+apiquery)
-        else:
-            try:
-                json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
-            except:
-                time.sleep(10)
+    apiqueries = []
+    apiqueries.append('?action=query&list=usercontribs&ucuser=%s&uclimit=500&ucprop=timestamp|title|comment|ids&format=json' % (nick))
+    if oldesteditid > 442787986:
+        #complete csv if oldestedit isn't <= 2017-02-06 or <= 442787986
+        #https://www.wikidata.org/w/index.php?title=Special:Contributions/Emijrpbot&target=Emijrpbot&dir=prev
+        apiqueries.append('?action=query&list=usercontribs&ucuser=%s&uclimit=500&ucstart=%s&ucprop=timestamp|title|comment|ids&format=json' % (nick, oldesteditid))
+    
+    for apiquery in apiqueries:
+        uccontinue = True
+        uccontinue_name = 'uccontinue'
+        total = 0
+        edits = []
+        while uccontinue:
+            if len(edits) >= 10000:
+                saveEdits(nick=nick, path=path, edits=edits)
+                edits = []
+            if uccontinue == True:
+                json_data = urllib.request.urlopen(api+apiquery)
+            else:
                 try:
                     json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
                 except:
+                    time.sleep(10)
+                    try:
+                        json_data = urllib.request.urlopen(api+apiquery+'&'+uccontinue_name+'='+uccontinue)
+                    except:
+                        uccontinue = ''
+                        break
+            data = json.loads(json_data.read().decode('utf-8'))
+            for edit in data['query']['usercontribs']:
+                if edit['revid'] == newesteditid:# no hace falta una comparacion como esta con oldesteditit pq terminará de cargar cuando la api no le devuelva más
                     uccontinue = ''
                     break
-        data = json.loads(json_data.read().decode('utf-8'))
-        for edit in data['query']['usercontribs']:
-            if edit['revid'] == lasteditid:
-                uccontinue = ''
-                break
-            d = datetime.datetime.strptime(edit['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
-            #d = datetime.datetime.strptime(edit['timestamp'].split('T')[0], "%Y-%m-%d")
-            unixtime = d.strftime('%s')
-            edits.append([edit['revid'], edit['timestamp'], edit['comment'].encode('utf-8')])
-            total += 1
-        json_data.close()
-        if uccontinue:
-            if 'query-continue' in data:
-                if not uccontinue_name in data['query-continue']['usercontribs']:
-                    uccontinue_name = 'ucstart'
-                uccontinue = data['query-continue']['usercontribs'][uccontinue_name]
-            elif 'continue' in data:
-                uccontinue = data['continue'][uccontinue_name]
-            else:
-                uccontinue = ''
-        print('%s edits' % (total))
-    print('%s edits. Finished' % (total))
-    if edits:
-        saveEdits(nick=nick, path=path, edits=edits)
-    edits = []
+                d = datetime.datetime.strptime(edit['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
+                #d = datetime.datetime.strptime(edit['timestamp'].split('T')[0], "%Y-%m-%d")
+                unixtime = d.strftime('%s')
+                edits.append([edit['revid'], edit['timestamp'], edit['comment'].encode('utf-8')])
+                total += 1
+            json_data.close()
+            if uccontinue:
+                if 'query-continue' in data:
+                    if not uccontinue_name in data['query-continue']['usercontribs']:
+                        uccontinue_name = 'ucstart'
+                    uccontinue = data['query-continue']['usercontribs'][uccontinue_name]
+                elif 'continue' in data:
+                    uccontinue = data['continue'][uccontinue_name]
+                else:
+                    uccontinue = ''
+            print('%s edits' % (total))
+        print('%s edits. Finished' % (total))
+        if edits:
+            saveEdits(nick=nick, path=path, edits=edits)
+        edits = []
     
     stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
     statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {}, 'total': {} }
