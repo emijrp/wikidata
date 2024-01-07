@@ -127,6 +127,8 @@ def main():
     targetlangs += ["fr", "de", "it", "pt", "pt-br", "nl", "ga", "pl", ]
     targetlangs += ["eo", "io", "ia", "ie", "vo", ]
     targetlangs += ["la", ]
+    targetlangs += ["en-gb", "en-ca", "en-us", ]
+    targetlangs += ["af", "co", "cy"]
     targetlangs = list(set(targetlangs))
     targetlangs.sort()
     if method == 'all' or method == 'method1':
