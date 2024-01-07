@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2022-2023 emijrp <emijrp@gmail.com>
+# Copyright (C) 2022-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -29,8 +29,11 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     langs = ["de", "en", "es", "fr", "pt", "it"]
+    langs += ["an", "ast", "ca", "ext", "eu", "gl", "nl", "oc", "ro", "sv"]
+    langs += ["eo", "io", "ia", "ie", "vo", "la"]
+    langs = list(set(langs))
     random.shuffle(langs)
-    for i in range(10000):
+    for i in range(100000):
         for lang in langs:
             query1 = """
         SELECT DISTINCT ?item
