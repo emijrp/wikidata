@@ -127,8 +127,8 @@ def main():
     targetlangs += ["fr", "de", "it", "pt", "pt-br", "nl", "ga", "pl", ]
     targetlangs += ["eo", "io", "ia", "ie", "vo", ]
     targetlangs += ["la", ]
-    targetlangs += ["en-gb", "en-ca", "en-us", ]
-    targetlangs += ["af", "co", "cy"]
+    targetlangs += ["en-gb", "en-ca", "en-us", ] #seguir metiendo de este labelslist https://www.wikidata.org/wiki/Q15110845
+    targetlangs += ["af", "co", "cy", "da", "de-at", "de-ch", "et", "fi", "frp", "fur"]
     targetlangs = list(set(targetlangs))
     targetlangs.sort()
     if method == 'all' or method == 'method1':
@@ -156,7 +156,7 @@ def main():
                     bd:serviceParam bd:sample.limit 10000 .
                     bd:serviceParam bd:sample.sampleType "RANDOM" .
                 }
-                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "ext") }
+                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "af") }
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
