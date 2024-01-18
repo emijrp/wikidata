@@ -29,7 +29,7 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     
-    targetlangs = ['es', 'ca', 'gl', 'ast', 'oc', 'he', 'nl', 'fy', 'eo', 'io', ]
+    targetlangs = ['es', 'ca', 'gl', 'ast', 'oc', 'he', 'nl', 'fy', 'eo', 'io', 'sq' ]
     translations = {
         'ast': 'pintura de ~CREATOR~', 
         'ca': 'quadre de ~CREATOR~', 
@@ -40,7 +40,8 @@ def main():
         'he': 'ציור מאת ~CREATOR~', 
         'io': 'pikturo da ~CREATOR~', 
         'nl': 'schilderij van ~CREATOR~', 
-        'oc': 'pintura de ~CREATOR~', 
+        'oc': 'pintura de ~CREATOR~',
+        'sq': 'pikturë nga ~CREATOR~',
     }
     translationsSpecial = { #for different prepositions when needed
         'ast': "pintura d'~CREATOR~", 
