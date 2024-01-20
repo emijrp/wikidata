@@ -2786,7 +2786,7 @@ def main():
     skip = ''
     topics = [ #uncomment topics you want to run the bot on
         #'asteroid',
-        #'chemical compound',
+        'chemical compound',
         #'douar in Morocco',
         #'encyclopedic article',
         
@@ -2862,6 +2862,7 @@ def main():
             if not qlist: #empty query result? maybe no more Q
                 break
             
+            random.shuffle(qlist) #sino siempre empieza por los mismos y en sucesivas ejecuciones tiene que llegar hasta donde llegó
             ctotal += len(qlist)
             for q in qlist:
                 c += 1
