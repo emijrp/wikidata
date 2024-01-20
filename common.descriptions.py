@@ -2833,6 +2833,7 @@ def main():
     if len(sys.argv) > 1:
         topicarg = sys.argv[1].strip()
     for topic in queries_list:
+        print("%s\nTOPIC: %s\n" % ("-"*50, topic, "-"*50))
         topic_ = re.sub(' ', '-', topic.lower())
         topicarg_ = re.sub(' ', '-', topicarg.lower())
         if topicarg:
