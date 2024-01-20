@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2023 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -923,6 +923,9 @@ def main():
             'ast': 'galaxa',
             'ca': 'galàxia',
             'en': 'galaxia',
+            'en-ca': 'galaxy',
+            'en-gb': 'galaxy',
+            'en-us': 'galaxy',
             'eo': 'galaksio',
             'es': 'galaxia',
             'fr': 'galaxie',
@@ -2320,7 +2323,9 @@ def main():
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
-        """
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
         ], 
         
         'genus of algae': [
@@ -2776,7 +2781,8 @@ def main():
             queries[k] = v
     
     queries_list = [x for x in queries.keys()]
-    queries_list.sort()
+    #queries_list.sort()
+    random.shuffle(queries_list)
     skip = ''
     topics = [ #uncomment topics you want to run the bot on
         #'asteroid',
@@ -2788,33 +2794,33 @@ def main():
         #'female given name',
         #'male given name',
         
-        #'family of crustaceans',
-        #'family of insects',
-        #'family of molluscs',
-        #'family of plants',
+        'family of crustaceans',
+        'family of insects',
+        'family of molluscs',
+        'family of plants',
         
-        #'genus of algae',
-        #'genus of amphibians',
-        #'genus of arachnids',
-        #'genus of birds',
-        #'genus of fishes',
-        #'genus of fungi',
-        #'genus of insects',
-        #'genus of mammals',
-        #'genus of molluscs',
-        #'genus of plants',
-        #'genus of reptiles',
+        'genus of algae',
+        'genus of amphibians',
+        'genus of arachnids',
+        'genus of birds',
+        'genus of fishes',
+        'genus of fungi',
+        'genus of insects',
+        'genus of mammals',
+        'genus of molluscs',
+        'genus of plants',
+        'genus of reptiles',
         
         #'year',
         #'Hebrew calendar year',
         #'Islamic calendar year',
         
-        #'species of alga',
-        #'species of amphibian',
-        #'species of arachnid',
-        #'species of insect',
-        #'species of mollusc',
-        #'species of plant',
+        'species of alga',
+        'species of amphibian',
+        'species of arachnid',
+        'species of insect',
+        'species of mollusc',
+        'species of plant',
         
         #'Unicode character', 
         
@@ -2825,7 +2831,7 @@ def main():
     ]
     topicarg = ''
     if len(sys.argv) > 1:
-        topicarg = sys.argv[1]
+        topicarg = sys.argv[1].strip()
     for topic in queries_list:
         topic_ = re.sub(' ', '-', topic.lower())
         topicarg_ = re.sub(' ', '-', topicarg.lower())
