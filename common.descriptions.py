@@ -2836,8 +2836,9 @@ def main():
         topic_ = re.sub(' ', '-', topic.lower())
         topicarg_ = re.sub(' ', '-', topicarg.lower())
         if topicarg:
-            if topic_ != topicarg_ and not (topicarg_.endswith('-') and topic_.startswith(topicarg_)):
-                continue
+            if topic != "all":
+                if topic_ != topicarg_ and not (topicarg_.endswith('-') and topic_.startswith(topicarg_)):
+                    continue
         elif not topic in topics:
             continue
         
