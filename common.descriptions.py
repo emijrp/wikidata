@@ -63,6 +63,14 @@ def genQuery(p31='', desc='', desclang=''):
     ]
     return query
 
+def genQueriesByConstellation(p31='', desc='', desclang=''):
+    queries = {}
+    queries[desc.replace('~', 'Andromeda')] = genQuery(p31=p31, desc=desc.replace('~', 'Andromeda'), desclang=desclang)
+    queries[desc.replace('~', 'Capricornus')] = genQuery(p31=p31, desc=desc.replace('~', 'Capricornus'), desclang=desclang)
+    queries[desc.replace('~', 'Pegasus')] = genQuery(p31=p31, desc=desc.replace('~', 'Pegasus'), desclang=desclang)
+    queries[desc.replace('~', 'Perseus')] = genQuery(p31=p31, desc=desc.replace('~', 'Perseus'), desclang=desclang)
+    return queries
+
 def genQueriesByCountry(p31='', desc='', desclang=''):
     queries = {}
     queries[desc.replace('~', 'Afghanistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Afghanistan'), desclang=desclang)
@@ -134,6 +142,15 @@ def genQueriesByCountry(p31='', desc='', desclang=''):
     queries[desc.replace('~', 'Vietnam')] = genQuery(p31=p31, desc=desc.replace('~', 'Vietnam'), desclang=desclang)
     queries[desc.replace('~', 'Zambia')] = genQuery(p31=p31, desc=desc.replace('~', 'Zambia'), desclang=desclang)
     return queries
+
+def genTranslationsByConstellationCore(desc='', desclang=''):
+    translations = {
+        'star in the constellation ~': { 
+            'en': 'star in the constellation ~', 
+            'es': 'estrella de la constelación ~', 
+        }, 
+    }
+    return translations[desc][desclang]
 
 def genTranslationsByCountryCore(desc='', desclang=''):
     translations = {
@@ -227,6 +244,26 @@ def genTranslationsByCountryCore(desc='', desclang=''):
         }, 
     }
     return translations[desc][desclang]
+
+def genTranslationsByConstellation(desc=''):
+    translations = {}
+    translations[desc.replace('~', 'Andromeda')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Andromeda'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Andrómeda'), 
+    }
+    translations[desc.replace('~', 'Capricornus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Capricornus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Capricornio'), 
+    }
+    translations[desc.replace('~', 'Pegasus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Pegasus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Pegaso'), 
+    }
+    translations[desc.replace('~', 'Perseus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Perseus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Perseo'), 
+    }
+    return translations
 
 def genTranslationsByCountry(desc=''):
     translations = {}
@@ -2109,6 +2146,7 @@ def main():
         },
     }
     autotranslations = []
+    
     autotranslations.append(genTranslationsByCountry(desc='bay in ~'))
     autotranslations.append(genTranslationsByCountry(desc='bight in ~'))
     autotranslations.append(genTranslationsByCountry(desc='cape in ~'))
@@ -2131,6 +2169,9 @@ def main():
     autotranslations.append(genTranslationsByCountry(desc='swamp in ~'))
     autotranslations.append(genTranslationsByCountry(desc='valley in ~'))
     autotranslations.append(genTranslationsByCountry(desc='watercourse in ~'))
+    
+    autotranslations.append(genTranslationsByCountry(desc='star in the constellation ~'))
+    
     for autotranslation in autotranslations:
         for k, v in autotranslation.items():
             translations[k] = v
@@ -2754,6 +2795,7 @@ def main():
         
     }
     autoqueries = []
+    
     autoqueries.append(genQueriesByCountry(p31='Q39594', desc='bay in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q17018380', desc='bight in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q185113', desc='cape in ~', desclang='en'))
@@ -2776,6 +2818,9 @@ def main():
     autoqueries.append(genQueriesByCountry(p31='Q166735', desc='swamp in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q39816', desc='valley in ~', desclang='en'))
     autoqueries.append(genQueriesByCountry(p31='Q355304', desc='watercourse in ~', desclang='en'))
+    
+    autoqueries.append(genQueriesByConstellation(p31='Q523', desc='star in the constellation ~', desclang='en'))
+    
     for autoquery in autoqueries:
         for k, v in autoquery.items():
             queries[k] = v
