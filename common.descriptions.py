@@ -2170,7 +2170,7 @@ def main():
     autotranslations.append(genTranslationsByCountry(desc='valley in ~'))
     autotranslations.append(genTranslationsByCountry(desc='watercourse in ~'))
     
-    autotranslations.append(genTranslationsByCountry(desc='star in the constellation ~'))
+    autotranslations.append(genTranslationsByConstellation(desc='star in the constellation ~'))
     
     for autotranslation in autotranslations:
         for k, v in autotranslation.items():
