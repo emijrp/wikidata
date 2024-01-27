@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2023 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -272,14 +272,16 @@ def addMetadata(pagetitle='', newtext='', pagelink='', pagehtml='', filelink='',
             else:
                 print("No se pudo parsear fecha exif")
     
+    if opencv: #bajamos fichero solo si lo vamos a analizar
+        try:
+            if filelink:
+                urllib.request.urlretrieve(filelink, filename)
+        except:
+            time.sleep(60)
+            if filelink:
+                urllib.request.urlretrieve(filelink, filename)
+    
     #camera
-    try:
-        if filelink:
-            urllib.request.urlretrieve(filelink, "file.jpg")
-    except:
-        time.sleep(60)
-        if filelink:
-            urllib.request.urlretrieve(filelink, "file.jpg")
     #<tr class="exif-model"><th>Modelo de cámara</th><td>X-3,C-60Z       </td></tr>
     model = re.findall(r'(?im)<tr class="exif-model"><th>[^<>]*?</th><td>(.*?)</td></tr>', pagehtml)
     if model:
@@ -929,8 +931,8 @@ def creditByWhatlinkshere():
     purgeedit = False #force template cache purge
     opencv = False
     skip = ''
-    skip = 'File:Museo Tiflológico de Madrid en abril de 2023 148.jpg'
-    #skip = 'File:Exposición "Las Sinsombrero" en Madrid en octubre de 2022 108.jpg'
+    #skip = 'File:Soria en julio de 2023 72.jpg'
+    skip = 'File:Acueducto de Segovia en marzo de 2022 74.jpg'
     commons = pywikibot.Site('commons', 'commons')
     userpage = pywikibot.Page(commons, 'User:Emijrp')
     gen = userpage.backlinks(namespaces=[6])
@@ -1166,8 +1168,8 @@ def main():
     #purgeCache()
     #creditByFlickrUrl()
     #creditByCategory()
-    #creditByWhatlinkshere()
-    loadTimeline(overwrite=True)
+    creditByWhatlinkshere() #este es el que suelo usar, pendiente decidir si paso opencv=True pero es q tarda mucho
+    loadTimeline(overwrite=False) #esto para actualizar los mapas-grid despues de haber metido el /credit en las subidas recientes
 
 if __name__ == '__main__':
     main()
