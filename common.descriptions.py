@@ -910,6 +910,10 @@ def main():
             'zh-sg': '化合物',
             'zh-tw': '化合物',
         }, 
+        'clinical trial': { 
+            'en': 'clinical trial',
+            'es': 'ensayo clínico',
+        }, 
         'date in Gregorian calendar': { 
             'en': 'date in Gregorian calendar',
             'es': 'fecha del calendario gregoriano',
@@ -1543,6 +1547,10 @@ def main():
             'ru': 'натуральное число',
             'sq': 'numër natyror',
             'uk': 'натуральне число',
+        },
+        'prime number': {
+            'en': 'prime number',
+            'es': 'número primo',
         },
         'shipwreck off the Scottish coast': {
             'en': 'shipwreck off the Scottish coast',
@@ -2306,6 +2314,21 @@ def main():
         """ % (str(querylimit), str(offset)) for offset in range(1, 1200000, querylimit)
         ],
         
+        'clinical trial': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q30612 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "clinical trial"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 400000, querylimit)
+        ],
+        
         'date in Gregorian calendar': [
         """
         SELECT ?item
@@ -2684,6 +2707,19 @@ def main():
         
         #'natural number': ['https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=SELECT%20%3Fitem%0AWHERE%20%7B%0A%09%3Fitem%20wdt%3AP31%20wd%3AQ21199%20.%0A%20%20%20%20FILTER%20NOT%20EXISTS%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ200227%20%7D%20.%20%0A%20%20%20%20%3Fitem%20schema%3Adescription%20%22natural%20number%22%40en.%0A%7D%0A'],
         
+        'prime number': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q49008 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "prime number"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
         #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
         'shipwreck off the Scottish coast': [
@@ -2959,6 +2995,7 @@ def main():
     topics = [ #uncomment topics you want to run the bot on
         #'asteroid',
         'chemical compound',
+        'clinical trial',
         
         'date in Gregorian calendar',
         #'douar in Morocco',
@@ -2988,6 +3025,8 @@ def main():
         #'year',
         #'Hebrew calendar year',
         #'Islamic calendar year',
+        
+        'prime number',
         
         'shipwreck off the Scottish coast',
         
