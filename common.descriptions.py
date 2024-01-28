@@ -1552,6 +1552,18 @@ def main():
             'en': 'prime number',
             'es': 'número primo',
         },
+        'researcher': {
+            'en': 'researcher',
+            'es': 'investigador/a',
+        },
+        'researcher female': {
+            'en': 'researcher',
+            'es': 'investigadora',
+        },
+        'researcher male': {
+            'en': 'researcher',
+            'es': 'investigador',
+        },
         'shipwreck off the Scottish coast': {
             'en': 'shipwreck off the Scottish coast',
             'es': 'naufragio frente a la costa escocesa',
@@ -2720,6 +2732,47 @@ def main():
         """
         ], 
         
+        'researcher': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q5 .
+            OPTIONAL { ?item wdt:P21 ?instance . }
+            ?item schema:description "researcher"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 0)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        ], 
+        
+        'researcher female': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q5 .
+            ?item wdt:P21 wd:Q6581072 .
+            ?item schema:description "researcher"@en.
+        }
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        ], 
+        
+        'researcher male': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q5 .
+            ?item wdt:P21 wd:Q6581097 .
+            ?item schema:description "researcher"@en.
+        }
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        ], 
+        
         #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
         'shipwreck off the Scottish coast': [
@@ -3027,6 +3080,10 @@ def main():
         #'Islamic calendar year',
         
         'prime number',
+        
+        'researcher',
+        'researcher female',
+        'researcher male',
         
         'shipwreck off the Scottish coast',
         
