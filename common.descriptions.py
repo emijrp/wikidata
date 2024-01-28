@@ -910,6 +910,10 @@ def main():
             'zh-sg': '化合物',
             'zh-tw': '化合物',
         }, 
+        'date in Gregorian calendar': { 
+            'en': 'date in Gregorian calendar',
+            'es': 'fecha del calendario gregoriano',
+        }, 
         'douar in Morocco': { #Q23925393
             'de': 'douar in Marokko',
             'en': 'douar in Morocco',
@@ -1539,6 +1543,10 @@ def main():
             'ru': 'натуральное число',
             'sq': 'numër natyror',
             'uk': 'натуральне число',
+        },
+        'shipwreck off the Scottish coast': {
+            'en': 'shipwreck off the Scottish coast',
+            'es': 'naufragio frente a la costa escocesa',
         },
         'species of alga': {
             'bn': 'শৈবালের প্রজাতি',
@@ -2290,15 +2298,24 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q11173 ;
-                  wdt:P31 ?instance .
-            #?item schema:description "chemical compound"@en.
+            ?item wdt:P279 wd:Q11173 .
+            ?item schema:description "chemical compound"@en.
         }
-        GROUP BY ?item
-        HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
         """ % (str(querylimit), str(offset)) for offset in range(1, 1200000, querylimit)
+        ],
+        
+        'date in Gregorian calendar': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q47150325 .
+            ?item schema:description "date in Gregorian calendar"@en.
+        }
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 500000, querylimit)
         ],
         
         'douar in Morocco': [
@@ -2669,6 +2686,19 @@ def main():
         
         #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
         
+        'shipwreck off the Scottish coast': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P718 ?P718 ;
+                  wdt:P718 ?instance .
+            ?item schema:description "shipwreck off the Scottish coast"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        """
+        ], 
+        
         'species of alga': [
         """
         SELECT ?item
@@ -2929,6 +2959,8 @@ def main():
     topics = [ #uncomment topics you want to run the bot on
         #'asteroid',
         'chemical compound',
+        
+        'date in Gregorian calendar',
         #'douar in Morocco',
         #'encyclopedic article',
         
@@ -2956,6 +2988,8 @@ def main():
         #'year',
         #'Hebrew calendar year',
         #'Islamic calendar year',
+        
+        'shipwreck off the Scottish coast',
         
         'species of alga',
         'species of amphibian',
