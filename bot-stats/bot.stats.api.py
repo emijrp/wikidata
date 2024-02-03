@@ -105,7 +105,7 @@ def getLanguagesFromDiff(revid='', comment=''):
 
 def cleancomment(comment=""):
     comment = "BOT - " + comment.split("BOT - ")[1]
-    comment = comment.replace(", ", ",", comment)
+    comment = comment.replace(", ", ",")
     return comment
 
 def main():
