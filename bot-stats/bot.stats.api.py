@@ -103,6 +103,11 @@ def getLanguagesFromDiff(revid='', comment=''):
                 diffs2langs[comment] = langsfromdiff
     return langsfromdiff
 
+def cleancomment(comment=""):
+    comment = "BOT - " + comment.split("BOT - ")[1]
+    comment = comment.replace(", ", ",", comment)
+    return comment
+
 def main():
     global regexps
     global regexps2
@@ -155,7 +160,8 @@ def main():
                 #d = datetime.datetime.strptime(edit['timestamp'].split('T')[0], "%Y-%m-%d")
                 unixtime = d.strftime('%s')
                 if 'revid' in edit and 'timestamp' in edit and 'comment' in edit: #si han ocultado el comentario en el historial por ej. fallaría sin este if
-                    edits.append([edit['revid'], edit['timestamp'], edit['comment'].encode('utf-8')])
+                    comment = cleancomment(comment=edit['comment'])
+                    edits.append([edit['revid'], edit['timestamp'], comment.encode('utf-8')])
                     total += 1
             json_data.close()
             if uccontinue:
@@ -199,7 +205,7 @@ def main():
                 
                 langsincomment = []
                 if 'languages):' in comment:
-                    langsincomment = comment.split('languages):')[1].split('/')[0]
+                    langsincomment = comment.split('languages):')[1].split('/')[0] # stop before slash, some comments include "/ Fixing..."
                     langsincomment = langsincomment.split(',')
                     #comentado hasta que optimice lo del diff
                     #if '...' in comment:
