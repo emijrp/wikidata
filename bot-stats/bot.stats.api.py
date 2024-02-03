@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2019-2023 emijrp <emijrp@gmail.com>
+# Copyright (C) 2019-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -41,9 +41,11 @@ regexps2 = {
     'difflangs': re.compile(r'(?im) ([a-z-]+?) / </td></tr><tr><td colspan="2">&nbsp;</td><td class="diff-marker" data-marker="+">'), 
 }
 
-def loadNewestEditId(nick='', path=''):
+def loadNewestAndOldestEditId(nick='', path=''):
     newesteditid = 0
     newesteditdate = 0
+    oldesteditid = 99999999999999
+    oldesteditdate = 99999999999999
     if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
         with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -52,20 +54,10 @@ def loadNewestEditId(nick='', path=''):
                 if int(row[0]) > newesteditid:
                     newesteditid = int(row[0])
                     newesteditdate = row[1]
-    return newesteditid, newesteditdate
-
-def loadOldestEditId(nick='', path=''):
-    oldesteditid = 99999999999999
-    oldesteditdate = 99999999999999
-    if nick and path and os.path.exists('%s/%s-edits.csv' % (path, nick)):
-        with open('%s/%s-edits.csv' % (path, nick), 'r') as csvfile:
-            csvreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-            for row in csvreader:
-                #print(', '.join(row))
                 if int(row[0]) < oldesteditid:
                     oldesteditid = int(row[0])
                     oldesteditdate = row[1]
-    return oldesteditid, oldesteditdate
+    return newesteditid, newesteditdate, oldesteditid, oldesteditdate
 
 def saveEdits(nick='', path='', edits=''):
     if nick and path and edits:
@@ -104,7 +96,8 @@ def getLanguagesFromDiff(revid='', comment=''):
     return langsfromdiff
 
 def cleancomment(comment=""):
-    comment = "BOT - " + comment.split("BOT - ")[1]
+    if "BOT - " in comment: 
+        comment = "BOT - " + comment.split("BOT - ")[1] #remove prefix /* wbeditentity-update:0| */ etc
     comment = comment.replace(", ", ",")
     return comment
 
@@ -116,8 +109,7 @@ def main():
     nick = 'Emijrpbot'
     nick_ = re.sub(' ', '_', nick)
     #load saved edits
-    newesteditid, newesteditdate = loadNewestEditId(nick=nick, path=path)
-    oldesteditid, oldesteditdate = loadOldestEditId(nick=nick, path=path)
+    newesteditid, newesteditdate, oldesteditid, oldesteditdate = loadNewestAndOldestEditId(nick=nick, path=path)
     print('%d newest edit id, %s' % (newesteditid, newesteditdate))
     print('%d oldest edit id, %s' % (oldesteditid, oldesteditdate))
     
