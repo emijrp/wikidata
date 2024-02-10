@@ -23,7 +23,6 @@ import pywikibot
 from wikidatafun import *
 
 def getQueryCount(p='', q='', site=''):
-    return '0'
     #for tests
     #if not q in ["Q5"]:#["Q166118", "Q7075", "Q33506"]:
     #    return ''
