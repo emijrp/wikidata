@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2022 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -23,6 +23,7 @@ import pywikibot
 from wikidatafun import *
 
 def getQueryCount(p='', q='', site=''):
+    return '0'
     #for tests
     #if not q in ["Q5"]:#["Q166118", "Q7075", "Q33506"]:
     #    return ''
@@ -57,6 +58,7 @@ def getQueryCount(p='', q='', site=''):
     
     #useful when big query breaks, returning static values
     #https://www.wikidata.org/wiki/Wikidata:Statistics/Wikipedia#Type_of_content
+    """
     if p == "P31":
         if q == "Q5": #humans
             if site == "en.wikipedia.org":
@@ -74,7 +76,7 @@ def getQueryCount(p='', q='', site=''):
         elif q == "Q11173": #chemical compound
             if site == "":
                 return "1188724"
-    
+    """
     #finally when no data is available, return empty string, and bot will keep the current value in the row
     return ''
 
@@ -203,7 +205,7 @@ def main():
                     if not anchors:
                         anchors = '[[#%s|See table]]' % (sectiontitle)
                     summaryrow = """| [[#%s|%s]]
-| <li>[[#%s|%s]]
+| [[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
 |-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
@@ -218,7 +220,7 @@ def main():
                 anchors = '{{·}} '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
                 if not anchors:
                     anchors = '[[#%s|See table]]' % (sectiontitle)
-                summaryrow = """| <li>[[#%s|%s]]
+                summaryrow = """| [[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
 |-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
@@ -231,7 +233,7 @@ def main():
             if summaryrow:
                 summaryrows.append(summaryrow)
         summarytotal = "{{User:Emijrp/AHKsummarytotal|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}" % (summarytotalenwiki, summarytotalcommons, summarytotalwikidata, summarytotalestimate)
-        summary = """<!-- summary -->{{User:Emijrp/AHKheader|id=summary table|column2 name=Subtopic}}
+        summary = """<!-- summary -->{{User:Emijrp/AHKsummaryheader}}
 |-
 %s
 %s
