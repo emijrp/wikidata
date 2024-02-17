@@ -117,7 +117,7 @@ def main():
             if not bneid.startswith("XX"):
                 print("BNE ID not starts with XX, skiping")
                 continue
-                
+            
             claim = item.claims['P31'][0]
             refstatedinclaim = pywikibot.Claim(repo, 'P248')
             refstatedinclaim.setTarget(itembne)
@@ -126,6 +126,7 @@ def main():
             refbneidclaim = pywikibot.Claim(repo, 'P950')
             refbneidclaim.setTarget(bneid)
             claim.addSources([refstatedinclaim, refretrieveddateclaim, refbneidclaim], summary='BOT - Adding 1 reference')
+            print("Adding reference to claim")
 
 if __name__ == "__main__":
     main()
