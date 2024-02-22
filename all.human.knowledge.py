@@ -31,22 +31,40 @@ def getQueryCount(p='', q='', site=''):
        q and q.startswith('Q'):
         try:
             query = ""
-            if site:
-                query = """
-                    SELECT (COUNT(DISTINCT ?item) AS ?count)
-                    WHERE {
-                      ?item wdt:%s/wdt:P279* wd:%s.
-                      ?sitelink schema:about ?item .
-                      ?sitelink schema:isPartOf <https://%s/>.
-                    }
-                    """ % (p, q, site)
-            else:
-                query = """
-                    SELECT (COUNT(DISTINCT ?item) AS ?count)
-                    WHERE {
-                      ?item wdt:%s/wdt:P279* wd:%s.
-                    }
-                    """ % (p, q)
+            if p == "P105": #taxon (Q defines species, genus, etc)
+                if site:
+                    query = """
+                        SELECT (COUNT(DISTINCT ?item) AS ?count)
+                        WHERE {
+                          ?item wdt:%s wd:%s.
+                          ?sitelink schema:about ?item .
+                          ?sitelink schema:isPartOf <https://%s/>.
+                        }
+                        """ % (p, q, site)
+                else:
+                    query = """
+                        SELECT (COUNT(DISTINCT ?item) AS ?count)
+                        WHERE {
+                          ?item wdt:%s/wdt:P279* wd:%s.
+                        }
+                        """ % (p, q)
+            else: #P31 (instance of), P1435 (heritage sites)
+                if site:
+                    query = """
+                        SELECT (COUNT(DISTINCT ?item) AS ?count)
+                        WHERE {
+                          ?item wdt:%s/wdt:P279* wd:%s.
+                          ?sitelink schema:about ?item .
+                          ?sitelink schema:isPartOf <https://%s/>.
+                        }
+                        """ % (p, q, site)
+                else:
+                    query = """
+                        SELECT (COUNT(DISTINCT ?item) AS ?count)
+                        WHERE {
+                          ?item wdt:%s/wdt:P279* wd:%s.
+                        }
+                        """ % (p, q)
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
             sparql = getURL(url=url, retry=False, timeout=120)
@@ -101,7 +119,7 @@ def main():
         wdstatsurl = 'https://www.wikidata.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
         jsonwd = json.loads(getURL(url=wdstatsurl))
         wdarticles = jsonwd['query']['statistics']['articles']
-        wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, {{Q|Q328}} has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and {{Q|Q2013}} includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
+        wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, {{LinkedLabel|Q328}} has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and {{LinkedLabel|Q2013}} includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
         ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
         #biography
         
