@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2017-2019 emijrp <emijrp@gmail.com>
+# Copyright (C) 2017-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -29,12 +29,12 @@
 # Thanks everybody for your help!
 
 import os
+import random
 import re
 import sys
 import time
 import urllib.parse
 
-import pwb
 import pywikibot
 from wikidatafun import *
 
@@ -46,6 +46,7 @@ def main():
     #jstart -N humandesc -mem 1G /usr/bin/python3 /data/project/.../human.descriptions.py
     
     targetlangs = ['es', 'ca', 'gl', 'he', 'ar', 'fr', 'bn', 'ro', 'sq', 'et']
+    random.shuffle(targetlangs)
 
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -55,7 +56,8 @@ def main():
         'Q6581072': 'female', 
     }
     genders_list = [[x, y] for x, y in genders.items()]
-    genders_list.sort()
+    random.shuffle(genders_list)
+    #genders_list.sort()
     
     #ca: https://ca.wikipedia.org/wiki/Llista_de_gentilicis#Llista_de_gentilicis_per_estat
     #en: https://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations
@@ -4176,7 +4178,8 @@ def main():
     total2 = 0
     cqueries = 0
     translations_list = list(translations.keys())
-    translations_list.sort()
+    random.shuffle(translations_list)
+    #translations_list.sort()
     totalqueries = len(targetlangs) * len(genders_list) * len(translations_list)
     skiptolang = '' #'es'
     skiptogender = '' #'male'
