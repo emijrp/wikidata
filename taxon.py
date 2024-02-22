@@ -39,7 +39,8 @@ def main():
     targetlangs.sort()
     if method == 'all' or method == 'method1':
         #method 1
-        for i in range(1000):
+        for i in range(10000):
+            random.shuffle(targetlangs)
             skip = ''
             query = """
             SELECT DISTINCT ?item
@@ -50,12 +51,12 @@ def main():
                     bd:serviceParam bd:sample.sampleType "RANDOM" .
                 }
                 ?item wdt:P225 ?taxonname.
-                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "ext") }
+                OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "%s") }
                 FILTER(!BOUND(?label))
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             #random%s
-            """ % (random.randint(1,1000000))
+            """ % (targetlangs[0], random.randint(1,1000000))
             
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
