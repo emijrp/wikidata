@@ -131,43 +131,59 @@ def addGenderRef(repo="", item=""):
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    queries = [
-    """
-    SELECT ?item
-    WHERE {
-      SERVICE bd:sample {
-        ?item wdt:P950 ?id. #P950 BNE id
-        bd:serviceParam bd:sample.limit 10000 .
-        bd:serviceParam bd:sample.sampleType "RANDOM" .
-      }
-      ?item wdt:P31 wd:Q5.
-    }
-    #random%d
-    """ % (random.randint(1000000, 9999999))
-    ]
-    for query in queries:
-        time.sleep(1)
-        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
-        url = '%s&format=json' % (url)
-        print("Loading...", url)
-        sparql = getURL(url=url)
-        json1 = loadSPARQL(sparql=sparql)
-        
-        for result in json1['results']['bindings']:
-            q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-            #bneid = 'bneid' in result and result['item']['value'] or ''
-            if not q:
-                break
-            print('\n== %s ==' % (q))
-            item = pywikibot.ItemPage(repo, q)
-            try: #to detect Redirect because .isRedirectPage fails
-                item.get()
-            except:
-                print('Error while .get()')
-                continue
+    
+    for i in range(1000):
+        queries = [
+        """
+        SELECT ?item
+        WHERE {
+          SERVICE bd:sample {
+            ?item wdt:P950 ?id. #P950 BNE id
+            bd:serviceParam bd:sample.limit 10000 .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+          }
+          ?item wdt:P31 wd:Q5.
+        }
+        #random%d
+        """ % (random.randint(1000000, 9999999))
+        ]
+        queries = [
+        """
+        SELECT ?item
+        WHERE {
+          SERVICE bd:sample {
+            ?item wdt:P31 wd:Q5 .
+            bd:serviceParam bd:sample.limit 10000 .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+          }
+          ?item wdt:P31 wd:Q5.
+        }
+        #random%d
+        """ % (random.randint(1000000, 9999999))
+        ]
+        for query in queries:
+            time.sleep(1)
+            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
+            url = '%s&format=json' % (url)
+            print("Loading...", url)
+            sparql = getURL(url=url)
+            json1 = loadSPARQL(sparql=sparql)
             
-            addHumanRef(repo=repo, item=item)
-            addGenderRef(repo=repo, item=item)
+            for result in json1['results']['bindings']:
+                q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+                #bneid = 'bneid' in result and result['item']['value'] or ''
+                if not q:
+                    break
+                print('\n== %s ==' % (q))
+                item = pywikibot.ItemPage(repo, q)
+                try: #to detect Redirect because .isRedirectPage fails
+                    item.get()
+                except:
+                    print('Error while .get()')
+                    continue
+                
+                #addHumanRef(repo=repo, item=item)
+                addGenderRef(repo=repo, item=item)
 
 if __name__ == "__main__":
     main()
