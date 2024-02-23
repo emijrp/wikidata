@@ -107,6 +107,7 @@ def addGenderRef(repo="", item=""):
         if not sources:
             if 'P735' in item.claims and len(item.claims['P735']) == 1: #given name
                 givennameitem = item.claims['P735'][0].getTarget()
+                print(givennameitem)
                 givennameitem.get()
                 if "P31" in givennameitem.claims and len(givennameitem.claims['P31']) == 1:
                     inferredfromgivenname = pywikibot.ItemPage(repo, "Q69652498")
@@ -171,6 +172,7 @@ def main():
             
             for result in json1['results']['bindings']:
                 q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+                q = "Q1918629"
                 #bneid = 'bneid' in result and result['item']['value'] or ''
                 if not q:
                     break
