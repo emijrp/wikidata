@@ -107,7 +107,8 @@ def addGenderRef(repo="", item=""):
         if not sources:
             if 'P735' in item.claims and len(item.claims['P735']) == 1: #given name
                 givennameitem = item.claims['P735'][0].getTarget()
-                print(givennameitem)
+                if not givennameitem: #sometimes no value https://www.wikidata.org/wiki/Q1918629
+                    return
                 givennameitem.get()
                 if "P31" in givennameitem.claims and len(givennameitem.claims['P31']) == 1:
                     inferredfromgivenname = pywikibot.ItemPage(repo, "Q69652498")
@@ -119,13 +120,15 @@ def addGenderRef(repo="", item=""):
                         claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
                         print("Adding reference to claim")
                         return
-                    if givennameitem.claims["P31"][0].getTarget() == femalegivennameitem and item.claims['P21'][0].getTarget() == femaleitem:
+                    elif givennameitem.claims["P31"][0].getTarget() == femalegivennameitem and item.claims['P21'][0].getTarget() == femaleitem:
                         print("Female given name")
                         claim = item.claims['P21'][0]
                         refheuristicclaim = pywikibot.Claim(repo, 'P887')
                         refheuristicclaim.setTarget(inferredfromgivenname)
                         claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
                         print("Adding reference to claim")
+                        return
+                    else:
                         return
     return
 
@@ -172,7 +175,6 @@ def main():
             
             for result in json1['results']['bindings']:
                 q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                q = "Q1918629"
                 #bneid = 'bneid' in result and result['item']['value'] or ''
                 if not q:
                     break
