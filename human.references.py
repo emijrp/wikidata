@@ -49,7 +49,7 @@ def addHumanRef(repo="", item=""):
                ("P854" in source and "bnf.fr" in source["P854"][0].getTarget()):
                 bnfinref = True
     else:
-        print("Not a Q5")
+        print("Not Q5")
         return
     """
     if bnfinref:
@@ -82,15 +82,18 @@ def addHumanRef(repo="", item=""):
         print("BNE ID not starts with XX, skiping")
         return
     
-    claim = item.claims['P31'][0]
-    refstatedinclaim = pywikibot.Claim(repo, 'P248')
-    refstatedinclaim.setTarget(itembne)
-    refretrieveddateclaim = pywikibot.Claim(repo, 'P813')
-    refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
-    refbneidclaim = pywikibot.Claim(repo, 'P950')
-    refbneidclaim.setTarget(bneid)
-    claim.addSources([refstatedinclaim, refretrieveddateclaim, refbneidclaim], summary='BOT - Adding 1 reference')
-    print("Adding reference to claim")
+    if itembne and bneid:
+        claim = item.claims['P31'][0]
+        refstatedinclaim = pywikibot.Claim(repo, 'P248')
+        refstatedinclaim.setTarget(itembne)
+        refretrieveddateclaim = pywikibot.Claim(repo, 'P813')
+        refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
+        refbneidclaim = pywikibot.Claim(repo, 'P950')
+        refbneidclaim.setTarget(bneid)
+        claim.addSources([refstatedinclaim, refretrieveddateclaim, refbneidclaim], summary='BOT - Adding 1 reference')
+        print("Adding BNE reference to P31 claim")
+    
+    return
 
 def addGenderRef(repo="", item=""):
     if not repo or not item:
@@ -186,7 +189,7 @@ def main():
                     print('Error while .get()')
                     continue
                 
-                #addHumanRef(repo=repo, item=item)
+                addHumanRef(repo=repo, item=item)
                 addGenderRef(repo=repo, item=item)
 
 if __name__ == "__main__":
