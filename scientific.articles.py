@@ -117,6 +117,7 @@ def main():
     repo = site.data_repository()
     querylimit = 10000
     skip = ''
+    
     #old query
     queries = [
     """
@@ -129,7 +130,14 @@ def main():
     OFFSET %s
     """ % (str(querylimit), str(offset)) for offset in range(10000000, 20000000, querylimit)
     ]
+    
     #random query
+    #el 2024-02-24 le cambio el:
+    #?item schema:description "scientific article"@en.
+    #por:
+    #?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").
+    #FILTER(STRSTARTS(?itemDescriptionEN, "scientific article")).
+    #para que cubra cosas como https://www.wikidata.org/w/index.php?title=Q28140512&oldid=1049020376
     queries = [
     """
     SELECT ?item ?pubdate
@@ -140,7 +148,10 @@ def main():
             bd:serviceParam bd:sample.sampleType "RANDOM" .
         }
     ?item wdt:P577 ?pubdate.
-    ?item schema:description "scientific article"@en.
+    
+    ?item schema:description ?itemDescriptionEN. FILTER(LANG(?itemDescriptionEN) = "en").
+    FILTER(STRSTARTS(?itemDescriptionEN, "scientific article")).
+    
     OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "%s").  }
     FILTER (!BOUND(?itemDescription))
     }
