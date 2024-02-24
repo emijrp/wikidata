@@ -195,7 +195,7 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
         }, 
         'globular cluster in the constellation ~': { 
             'en': 'globular cluster in the constellation ~', 
-            'es': 'cúmulo gobular de la constelación ~', 
+            'es': 'cúmulo globular de la constelación ~', 
         }, 
         'high proper-motion star in the constellation ~': { 
             'en': 'high proper-motion star in the constellation ~', 
