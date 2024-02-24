@@ -189,6 +189,14 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
             'en': 'galaxy in the constellation ~', 
             'es': 'galaxia de la constelación ~', 
         }, 
+        'nova in the constellation ~': { 
+            'en': 'nova in the constellation ~', 
+            'es': 'nova de la constelación ~', 
+        }, 
+        'pulsar in the constellation ~': { 
+            'en': 'pulsar in the constellation ~', 
+            'es': 'pulsar de la constelación ~', 
+        }, 
         'quasar in the constellation ~': { 
             'en': 'quasar in the constellation ~', 
             'es': 'quasar de la constelación ~', 
@@ -200,6 +208,10 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
         'star in the constellation ~': { 
             'en': 'star in the constellation ~', 
             'es': 'estrella de la constelación ~', 
+        }, 
+        'supernova in the constellation ~': { 
+            'en': 'supernova in the constellation ~', 
+            'es': 'supernova de la constelación ~', 
         }, 
     }
     return translations[desc][desclang]
@@ -2362,9 +2374,12 @@ def main():
     autotranslations.append(genTranslationsByConstellation(desc='astronomical radio source in the constellation ~'))
     autotranslations.append(genTranslationsByConstellation(desc='eclipsing binary star in the constellation ~'))
     autotranslations.append(genTranslationsByConstellation(desc='galaxy in the constellation ~'))
+    autotranslations.append(genTranslationsByConstellation(desc='nova in the constellation ~'))
+    autotranslations.append(genTranslationsByConstellation(desc='pulsar in the constellation ~'))
     autotranslations.append(genTranslationsByConstellation(desc='quasar in the constellation ~'))
     autotranslations.append(genTranslationsByConstellation(desc='radio source in the constellation ~'))
     autotranslations.append(genTranslationsByConstellation(desc='star in the constellation ~'))
+    autotranslations.append(genTranslationsByConstellation(desc='supernova in the constellation ~'))
     
     for autotranslation in autotranslations:
         for k, v in autotranslation.items():
@@ -3108,9 +3123,12 @@ def main():
     autoqueries.append(genQueriesByConstellation(p31='Q1931185', desc='astronomical radio source in the constellation ~', desclang='en'))
     autoqueries.append(genQueriesByConstellation(p31='Q1457376', desc='eclipsing binary star in the constellation ~', desclang='en'))
     autoqueries.append(genQueriesByConstellation(p31='Q318', desc='galaxy in the constellation ~', desclang='en'))
+    autoqueries.append(genQueriesByConstellation(p31='Q6458', desc='nova in the constellation ~', desclang='en'))
+    autoqueries.append(genQueriesByConstellation(p31='Q4360', desc='pulsar in the constellation ~', desclang='en'))
     autoqueries.append(genQueriesByConstellation(p31='Q83373', desc='quasar in the constellation ~', desclang='en'))
     autoqueries.append(genQueriesByConstellation(p31='Q1931185', desc='radio source in the constellation ~', desclang='en'))
     autoqueries.append(genQueriesByConstellation(p31='Q523', desc='star in the constellation ~', desclang='en'))
+    autoqueries.append(genQueriesByConstellation(p31='Q3937', desc='supernova in the constellation ~', desclang='en'))
     
     for autoquery in autoqueries:
         for k, v in autoquery.items():
