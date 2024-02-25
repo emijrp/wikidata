@@ -51,6 +51,7 @@ def addHumanRef(repo="", item=""):
     global publishers
     if not repo or not item:
         return
+    item.get()
     today = datetime.date.today()
     year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
     itembne = pywikibot.ItemPage(repo, publishers["bne"]["q"])
@@ -120,6 +121,7 @@ def addHumanRef(repo="", item=""):
 def addGenderRef(repo="", item=""):
     if not repo or not item:
         return
+    item.get()
     today = datetime.date.today()
     year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
     maleitem = pywikibot.ItemPage(repo, "Q6581097")
@@ -324,9 +326,9 @@ def addDeathdateRef(repo="", item=""):
     global languages
     if not repo or not item:
         return
+    item.get()
     today = datetime.date.today()
     year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
-    
     if ('P569' in item.claims and len(item.claims['P569']) == 1) and \
        ('P570' in item.claims and len(item.claims['P570']) == 1):
         #print(item.claims['P570'][0].getTarget())
@@ -363,7 +365,7 @@ def addDeathdateRef(repo="", item=""):
 def addCitizenshipRef(repo="", item=""):
     if not repo or not item:
         return
-    
+    item.get()
     if ('P569' in item.claims and len(item.claims['P569']) == 1 and item.claims['P569'][0].getTarget().year >= 1950) and \
        ('P27' in item.claims and len(item.claims['P27']) == 1) and \
        ('P19' in item.claims and len(item.claims['P19']) == 1): #P569 birthdate, P27 citizenship, P19 birthplace, 1950 to avoid old countries
@@ -387,7 +389,7 @@ def addCitizenshipRef(repo="", item=""):
 def addGivennameRef(repo="", item=""):
     if not repo or not item:
         return
-    
+    item.get()
     if ('P735' in item.claims and len(item.claims['P735']) == 1): #P735 given name
         #print(item.claims['P735'][0].getTarget())
         sources = item.claims['P735'][0].getSources()
@@ -407,7 +409,7 @@ def addGivennameRef(repo="", item=""):
                len(givenname.labels["en"]) >= 4 and \
                len(item.labels["en"].split(" ")) == 2 and item.labels["en"].startswith(givenname.labels["en"]+" ")):
                 inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
-                claim = item.claims['P735'][0]
+                claim = item.claims['P735'][0] #P735 given name
                 refheuristicclaim = pywikibot.Claim(repo, 'P887')
                 refheuristicclaim.setTarget(inferredfromfullname)
                 claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
@@ -433,7 +435,7 @@ def addFamilynameRef(repo="", item=""):
                len(familyname.labels["en"]) >= 4 and \
                len(item.labels["en"].split(" ")) == 2 and item.labels["en"].endswith(" "+familyname.labels["en"])):
                 inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
-                claim = item.claims['P735'][0]
+                claim = item.claims['P734'][0] #P734 family name
                 refheuristicclaim = pywikibot.Claim(repo, 'P887')
                 refheuristicclaim.setTarget(inferredfromfullname)
                 claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
