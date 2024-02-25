@@ -143,7 +143,7 @@ def addGenderRef(repo="", item=""):
                         refheuristicclaim = pywikibot.Claim(repo, 'P887')
                         refheuristicclaim.setTarget(inferredfromgivenname)
                         claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
-                        print("Adding reference to claim")
+                        print("Adding reference to gender claim")
                         return
                     elif givennameitem.claims["P31"][0].getTarget() == femalegivennameitem and item.claims['P21'][0].getTarget() == femaleitem:
                         print("Female given name")
@@ -151,7 +151,7 @@ def addGenderRef(repo="", item=""):
                         refheuristicclaim = pywikibot.Claim(repo, 'P887')
                         refheuristicclaim.setTarget(inferredfromgivenname)
                         claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
-                        print("Adding reference to claim")
+                        print("Adding reference to gender claim")
                         return
                     else:
                         return
@@ -360,6 +360,86 @@ def addDeathdateRef(repo="", item=""):
                     addDeathdateRefCore(repo=repo, item=item, refcandidate=refcandidate)
     return
 
+def addCitizenshipRef(repo="", item=""):
+    if not repo or not item:
+        return
+    
+    if ('P569' in item.claims and len(item.claims['P569']) == 1 and item.claims['P569'][0].getTarget().year >= 1950) and \
+       ('P27' in item.claims and len(item.claims['P27']) == 1) and \
+       ('P19' in item.claims and len(item.claims['P19']) == 1): #P569 birthdate, P27 citizenship, P19 birthplace, 1950 to avoid old countries
+        #print(item.claims['P19'][0].getTarget())
+        sources = item.claims['P27'][0].getSources()
+        if not sources:
+            birthplace = item.claims['P19'][0].getTarget()
+            birthplace.get()
+            if ('P17' in birthplace.claims and len(birthplace.claims['P17']) == 1): #P17 country
+                birthcountry = birthplace.claims['P17'][0].getTarget()
+                inferredfrombirthplace = pywikibot.ItemPage(repo, "Q91770864")
+                if birthcountry == item.claims['P27'][0].getTarget():
+                    claim = item.claims['P27'][0]
+                    refheuristicclaim = pywikibot.Claim(repo, 'P887')
+                    refheuristicclaim.setTarget(inferredfrombirthplace)
+                    claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
+                    print(birthcountry)
+                    print("Adding reference to citizenship claim")
+        return
+
+def addGivennameRef(repo="", item=""):
+    if not repo or not item:
+        return
+    
+    if ('P735' in item.claims and len(item.claims['P735']) == 1): #P735 given name
+        #print(item.claims['P735'][0].getTarget())
+        sources = item.claims['P735'][0].getSources()
+        if not sources:
+            givenname = item.claims['P735'][0].getTarget()
+            givenname.get()
+            given = pywikibot.ItemPage(repo, "Q202444")
+            givenmale = pywikibot.ItemPage(repo, "Q12308941")
+            givenfemale = pywikibot.ItemPage(repo, "Q11879590")
+            if not 'P31' in givenname.claims or \
+               (not given in [x.getTarget() for x in givenname.claims['P31']] and \
+               not givenmale in [x.getTarget() for x in givenname.claims['P31']] and \
+               not givenfemale in [x.getTarget() for x in givenname.claims['P31']]):
+                print("Not a given name")
+                return
+            if ("en" in givenname.labels and "en" in item.labels and \
+               len(givenname.labels["en"]) >= 4 and \
+               item.labels["en"].startswith(givenname.labels["en"])):
+                inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
+                claim = item.claims['P735'][0]
+                refheuristicclaim = pywikibot.Claim(repo, 'P887')
+                refheuristicclaim.setTarget(inferredfromfullname)
+                claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
+                print("Adding reference to given name claim")
+        return
+
+def addFamilynameRef(repo="", item=""):
+    if not repo or not item:
+        return
+    
+    if ('P734' in item.claims and len(item.claims['P734']) == 1): #P734 family name
+        #print(item.claims['P734'][0].getTarget())
+        sources = item.claims['P734'][0].getSources()
+        if not sources:
+            familyname = item.claims['P734'][0].getTarget()
+            familyname.get()
+            family = pywikibot.ItemPage(repo, "Q101352")
+            if not 'P31' in familyname.claims or \
+               (not family in [x.getTarget() for x in familyname.claims['P31']]):
+                print("Not a family name")
+                return
+            if ("en" in familyname.labels and "en" in item.labels and \
+               len(familyname.labels["en"]) >= 4 and \
+               item.labels["en"].endswith(familyname.labels["en"])):
+                inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
+                claim = item.claims['P735'][0]
+                refheuristicclaim = pywikibot.Claim(repo, 'P887')
+                refheuristicclaim.setTarget(inferredfromfullname)
+                claim.addSources([refheuristicclaim], summary='BOT - Adding 1 reference')
+                print("Adding reference to family name claim")
+        return
+
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -371,20 +451,6 @@ def main():
         WHERE {
           SERVICE bd:sample {
             ?item wdt:P950 ?id. #P950 BNE id
-            bd:serviceParam bd:sample.limit 10000 .
-            bd:serviceParam bd:sample.sampleType "RANDOM" .
-          }
-          ?item wdt:P31 wd:Q5.
-        }
-        #random%d
-        """ % (random.randint(1000000, 9999999))
-        ]
-        queries = [
-        """
-        SELECT ?item
-        WHERE {
-          SERVICE bd:sample {
-            ?item wdt:P31 wd:Q5 .
             bd:serviceParam bd:sample.limit 10000 .
             bd:serviceParam bd:sample.sampleType "RANDOM" .
           }
@@ -406,6 +472,20 @@ def main():
         GROUP BY ?item ?linkcount 
         HAVING (?linkcount > 20)
         ORDER BY DESC(?linkcount)
+        #random%d
+        """ % (random.randint(1000000, 9999999))
+        ]
+        queries = [
+        """
+        SELECT ?item
+        WHERE {
+          SERVICE bd:sample {
+            ?item wdt:P31 wd:Q5 .
+            bd:serviceParam bd:sample.limit 10000 .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+          }
+          ?item wdt:P31 wd:Q5.
+        }
         #random%d
         """ % (random.randint(1000000, 9999999))
         ]
@@ -435,14 +515,15 @@ def main():
                     print('Error while .get()')
                     continue
                 
-                #addHumanRef(repo=repo, item=item) #bne, orcid, google scholar...
-                #addGenderRef(repo=repo, item=item)
-                
-                #addCitizenshipRef #based on birthplace when birthdate >= 1950 (cuidado países que ya no existen)
-                #addGivennameRef inferred from full name when fullname.split = 2 y esta en la label inglesa
-                #addFamilynameRef inferred from full name when fullname.split = 2 y esta en la label inglesa
-                
-                addDeathdateRef(repo=repo, item=item)
+                try:
+                    #addHumanRef(repo=repo, item=item) #bne, orcid, google scholar...
+                    addGenderRef(repo=repo, item=item)
+                    #addCitizenshipRef(repo=repo, item=item)
+                    addGivennameRef(repo=repo, item=item)
+                    addFamilynameRef(repo=repo, item=item)
+                    #addDeathdateRef(repo=repo, item=item) no da muchos resultados
+                except:
+                    pass
 
 if __name__ == "__main__":
     main()
