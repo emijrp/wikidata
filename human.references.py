@@ -405,7 +405,7 @@ def addGivennameRef(repo="", item=""):
                 return
             if ("en" in givenname.labels and "en" in item.labels and \
                len(givenname.labels["en"]) >= 4 and \
-               item.labels["en"].startswith(givenname.labels["en"])):
+               len(item.labels["en"].split(" ")) == 2 and item.labels["en"].startswith(givenname.labels["en"]+" ")):
                 inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
                 claim = item.claims['P735'][0]
                 refheuristicclaim = pywikibot.Claim(repo, 'P887')
@@ -431,7 +431,7 @@ def addFamilynameRef(repo="", item=""):
                 return
             if ("en" in familyname.labels and "en" in item.labels and \
                len(familyname.labels["en"]) >= 4 and \
-               item.labels["en"].endswith(familyname.labels["en"])):
+               len(item.labels["en"].split(" ")) == 2 and item.labels["en"].endswith(" "+familyname.labels["en"])):
                 inferredfromfullname = pywikibot.ItemPage(repo, "Q97033143")
                 claim = item.claims['P735'][0]
                 refheuristicclaim = pywikibot.Claim(repo, 'P887')
