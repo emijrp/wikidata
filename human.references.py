@@ -24,6 +24,7 @@ import time
 import urllib
 import urllib.parse
 import urllib.request
+import unicodedata
 
 import pywikibot
 from pywikibot import pagegenerators
@@ -38,10 +39,13 @@ publishers = {
     "rtve": {"domain": "rtve.es", "q": "Q54829"}, 
 }
 languages = {
-    "ca": {"q": "Q7026", "keywords": {"death": ["mor"]}, "publishers": ["ccma"] }, 
+    "ca": {"q": "Q7026", "keywords": {"death": ["mor", "mort"]}, "publishers": ["ccma"] }, 
     "en": {"q": "Q1860", "keywords": {"death": ["dies", "passes away"]}, "publishers": ["bbc"] }, 
     "es": {"q": "Q1321", "keywords": {"death": ["fallece", "muere"]}, "publishers": ["rtve"] }, 
 }
+
+def removeaccute(s):
+    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
 def addHumanRef(repo="", item=""):
     global publishers
@@ -176,43 +180,55 @@ def ddgSearch(search="", domain=""):
                     resulturls.append(resulturl)
                     print("Found", resulturl)
             break #just first result
-    
     return resulturls
 
-def publishCore(repo="", itemlabel="", deathdate="", publisher=""):
+def publisherCore(repo="", itemlabel="", deathdate="", publisher="", lang=""):
     global publishers
+    global languages
     if not repo or not itemlabel:
         return
-    if not deathdate or not publisher:
+    if not deathdate or not publisher or not lang:
         return
     
     resultpublisher = pywikibot.ItemPage(repo, publishers[publisher]["q"])
-    search = '%s "%s" %s %s' % (" ".join(publishers[publisher]["keywords"]["death"]), itemlabel, deathdate.year, publishers[publisher]["domain"])
-    resulturls = ddgSearch(search=search, domain=domain)
-    resulttitle, resultdate, resulttext = "", "", ""
+    search = '%s "%s" %s %s' % (" ".join(languages[lang]["keywords"]["death"]), itemlabel, deathdate.year, publishers[publisher]["domain"])
+    print(search)
+    resulturls = ddgSearch(search=search, domain=publishers[publisher]["domain"])
+    refcandidate = ""
     for resulturl in resulturls:
-        try:
-            raw = getURL(url=resulturl)
-            if publisher == "ccma":
-                return publisherCCMA(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
-            elif publisher == "rtve":
-                return publisherRTVE(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
-            else:
-                return 
-        except:
-            pass
-    return 
+        refcandidate = ""
+        #try:
+        raw = getURL(url=resulturl)
+        print("Retrieving url from publisher", publisher)
+        
+        if publisher == "ccma":
+            refcandidate = publisherCCMA(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
+        elif publisher == "rtve":
+            refcandidate = publisherRTVE(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
+        else:
+            print("Unknown publisher", publisher)
+            return 
+        
+        if refcandidate:
+            refcandidate["publisher"] = publisher
+            refcandidate["lang"] = lang
+            refcandidate["url"] = resulturl
+            if re.search(r"(?im)(%s|%s)" % (itemlabel, removeaccute(itemlabel)), refcandidate["title"]+" "+refcandidate["text"]):
+                return refcandidate
+        else:
+            return
+        #except:
+        #    pass
+    return refcandidate
 
 def publisherCCMA(repo="", itemlabel="", deathdate="", raw=""):
-    #<title>Mor el director de cinema José Luis Cuerda, autor d'"Amanece que no es poco"</title>
+    #<meta property="og:title" content="">
     #<meta property="article:published_time" content="2020-02-04T16&#x3A;09&#x3A;59&#x2B;02&#x3A;00">
-    resulttitle = unquote(re.findall(r'(?im)<title>([^<>]+?)</title>', raw)[0].strip())
+    resulttitle = unquote(re.findall(r'(?im)<meta property="og:title" content="([^<>]+?)">', raw)[0].strip())
     resultdate = re.findall(r'(?im)<meta property="article:published_time" content="([^<>]+?)" */?>', raw)[0].split("T")[0].strip()
     resultdate = datetime.datetime(year=int(resultdate.split("-")[0]), month=int(resultdate.split("-")[1]), day=int(resultdate.split("-")[2]))
-    resulttext = unquote(raw.split('<div class="artBody">')[1].split('<div class="slideH">')[0])
-    if not itemlabel in resulttitle and not itemlabel in resulttext:
-        return
-    refcandidate = {"title": resulttitle, "publisher": resultpublisher, "date": resultdate, "url": resulturl, "lang": "es"}
+    resulttext = unquote(raw.split('<article')[1].split('</article>')[0])
+    refcandidate = {"title": resulttitle, "date": resultdate, "text": resulttext}
     return refcandidate
 
 def publisherRTVE(repo="", itemlabel="", deathdate="", raw=""):
@@ -222,9 +238,7 @@ def publisherRTVE(repo="", itemlabel="", deathdate="", raw=""):
     resultdate = re.findall(r'(?im)<meta name="DC.date" content="([^<>]+?)" */?>', raw)[0].split("T")[0].strip()
     resultdate = datetime.datetime(year=int(resultdate.split("-")[0]), month=int(resultdate.split("-")[1]), day=int(resultdate.split("-")[2]))
     resulttext = unquote(raw.split('<div class="artBody">')[1].split('<div class="slideH">')[0])
-    if not itemlabel in resulttitle and not itemlabel in resulttext:
-        return 
-    refcandidate = {"title": resulttitle, "publisher": resultpublisher, "date": resultdate, "url": resulturl, "lang": "es"}
+    refcandidate = {"title": resulttitle, "date": resultdate, "text": resulttext}
     return refcandidate
 
 def unquote(s=""):
@@ -232,13 +246,10 @@ def unquote(s=""):
     s = html.unescape(s)
     return s
 
-def searchDeathdateRefCore(repo="", item="", itemlabel="", deathdate="", lang="", publisher=""):
-    if not repo or not item:
+def searchDeathdateRefCore(repo="", itemlabel="", deathdate="", publisher="", lang=""):
+    if not repo or not itemlabel or not deathdate or not publisher or not lang:
         return
-    if not itemlabel or not deathdate or not lang or not publisher:
-        return
-    
-    return publisherCore(repo=repo, itemlabel=itemlabel, deathdate=deathdate, publisher=publisher)
+    return publisherCore(repo=repo, itemlabel=itemlabel, deathdate=deathdate, publisher=publisher, lang=lang)
 
 def searchDeathdateRef(repo="", item="", itemlabel="", deathdate="", lang=""):
     global languages
@@ -253,7 +264,8 @@ def searchDeathdateRef(repo="", item="", itemlabel="", deathdate="", lang=""):
         itemcountry.get()
         if itemcountry.labels["en"] == "Spain" and lang in ["es", "ca", "eu", "gl"]:
             for publisher in languages[lang]["publishers"]:
-                refcandidate = searchDeathdateRefCore(repo=repo, itemlabel=itemlabel, deathdate=deathdate, lang=lang, publisher=publisher)
+                print("Searching ref in", publisher)
+                refcandidate = searchDeathdateRefCore(repo=repo, itemlabel=itemlabel, deathdate=deathdate, publisher=publisher, lang=lang)
                 if refcandidate:
                     break #just 1 ref per lang
         else:
@@ -280,6 +292,7 @@ def hasSourceInThisLang(sources="", lang=""):
 
 def addDeathdateRefCore(repo="", item="", refcandidate=""):
     global languages
+    global publishers
     if not repo or not item or not refcandidate:
         return
     today = datetime.date.today()
@@ -290,11 +303,11 @@ def addDeathdateRefCore(repo="", item="", refcandidate=""):
     reftitlemonotext = pywikibot.WbMonolingualText(text=refcandidate["title"], language=refcandidate["lang"])
     reftitleclaim.setTarget(reftitlemonotext)
     refpublisherclaim = pywikibot.Claim(repo, 'P123')
-    refpublisherclaim.setTarget(refcandidate["publisher"])
+    refpublisherclaim.setTarget(pywikibot.ItemPage(repo, publishers[refcandidate["publisher"]]["q"]))
     refpublisheddateclaim = pywikibot.Claim(repo, 'P577')
     refpublisheddateclaim.setTarget(pywikibot.WbTime(year=refcandidate["date"].year, month=refcandidate["date"].month, day=refcandidate["date"].day))
     reflanguageofworkclaim = pywikibot.Claim(repo, 'P407')
-    reflanguageofworkclaim.setTarget(pywikibot.ItemPage(repo, languages[refcandidate["lang"]]))
+    reflanguageofworkclaim.setTarget(pywikibot.ItemPage(repo, languages[refcandidate["lang"]]["q"]))
     refreferenceurlclaim = pywikibot.Claim(repo, 'P854')
     refreferenceurlclaim.setTarget(refcandidate["url"])
     refretrieveddateclaim = pywikibot.Claim(repo, 'P813')
@@ -334,6 +347,7 @@ def addDeathdateRef(repo="", item=""):
                 print("Buscando ref:", itemlabel, deathdate.year, lang)
                 refcandidate = searchDeathdateRef(repo=repo, item=item, itemlabel=itemlabel, deathdate=deathdate, lang=lang)
                 if refcandidate:
+                    #print(refcandidate)
                     if not re.search(r"(?im)\b(%s)\b" % ("|".join(languages[lang]["keywords"]["death"])), refcandidate["title"]):
                         print("Not found keywords in title", refcandidate["title"])
                         return
@@ -396,12 +410,17 @@ def main():
             sparql = getURL(url=url)
             json1 = loadSPARQL(sparql=sparql)
             
+            qlist = []
             for result in json1['results']['bindings']:
                 q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                #bneid = 'bneid' in result and result['item']['value'] or ''
-                if not q:
-                    break
+                if q:
+                    qlist.append(q)
+            if not qlist: #empty query result? maybe no more Q
+                continue
+            random.shuffle(qlist) #sino siempre empieza por los mismos y en sucesivas ejecuciones tiene que llegar hasta donde llegó
+            for q in qlist:
                 print('\n== %s ==' % (q))
+                print('https://www.wikidata.org/wiki/%s' % (q))
                 item = pywikibot.ItemPage(repo, q)
                 try: #to detect Redirect because .isRedirectPage fails
                     item.get()
