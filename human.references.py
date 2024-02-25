@@ -197,28 +197,28 @@ def publisherCore(repo="", itemlabel="", deathdate="", publisher="", lang=""):
     refcandidate = ""
     for resulturl in resulturls:
         refcandidate = ""
-        #try:
-        raw = getURL(url=resulturl)
-        print("Retrieving url from publisher", publisher)
-        
-        if publisher == "ccma":
-            refcandidate = publisherCCMA(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
-        elif publisher == "rtve":
-            refcandidate = publisherRTVE(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
-        else:
-            print("Unknown publisher", publisher)
-            return 
-        
-        if refcandidate:
-            refcandidate["publisher"] = publisher
-            refcandidate["lang"] = lang
-            refcandidate["url"] = resulturl
-            if re.search(r"(?im)(%s|%s)" % (itemlabel, removeaccute(itemlabel)), refcandidate["title"]+" "+refcandidate["text"]):
-                return refcandidate
-        else:
-            return
-        #except:
-        #    pass
+        try:
+            raw = getURL(url=resulturl)
+            print("Retrieving url from publisher", publisher)
+            
+            if publisher == "ccma":
+                refcandidate = publisherCCMA(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
+            elif publisher == "rtve":
+                refcandidate = publisherRTVE(repo=repo, itemlabel=itemlabel, deathdate=deathdate, raw=raw)
+            else:
+                print("Unknown publisher", publisher)
+                return 
+            
+            if refcandidate:
+                refcandidate["publisher"] = publisher
+                refcandidate["lang"] = lang
+                refcandidate["url"] = resulturl
+                if re.search(r"(?im)(%s|%s)" % (itemlabel, removeaccute(itemlabel)), refcandidate["title"]+" "+refcandidate["text"]):
+                    return refcandidate
+            else:
+                return
+        except:
+            print("Error al parsear referencia")
     return refcandidate
 
 def publisherCCMA(repo="", itemlabel="", deathdate="", raw=""):
@@ -349,7 +349,10 @@ def addDeathdateRef(repo="", item=""):
                 if refcandidate:
                     #print(refcandidate)
                     if not re.search(r"(?im)\b(%s)\b" % ("|".join(languages[lang]["keywords"]["death"])), refcandidate["title"]):
-                        print("Not found keywords in title", refcandidate["title"])
+                        print("Not found keywords in title: %s" % (refcandidate["title"]))
+                        return
+                    if not re.search(r"(?im)\b(%s)\b" % (itemlabel), refcandidate["title"]):
+                        print("Not found %s in title: %s" % (itemlabel, refcandidate["title"]))
                         return
                     if deathdate.year != refcandidate["date"].year:
                         print("Death year and news year are different")
@@ -392,13 +395,17 @@ def main():
         ]
         queries = [ #para testear noticias de deathdate
         """
-        SELECT ?item
+        SELECT ?item ?linkcount
         WHERE {
           ?item wdt:P31 wd:Q5.
           ?item wdt:P27 wd:Q29.
           ?item wdt:P570 ?deathdate.
-          FILTER (?deathdate > "2020-01-01"^^xsd:dateTime).
+          FILTER (?deathdate > "2015-01-01"^^xsd:dateTime).
+          ?item wikibase:sitelinks ?linkcount .
         }
+        GROUP BY ?item ?linkcount 
+        HAVING (?linkcount > 20)
+        ORDER BY DESC(?linkcount)
         #random%d
         """ % (random.randint(1000000, 9999999))
         ]
