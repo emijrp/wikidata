@@ -485,6 +485,8 @@ def main():
             bd:serviceParam bd:sample.sampleType "RANDOM" .
           }
           ?item wdt:P31 wd:Q5.
+          ?item wdt:P569 ?birthdate.
+          FILTER (?birthdate > "1950-01-01"^^xsd:dateTime).
         }
         #random%d
         """ % (random.randint(1000000, 9999999))
@@ -516,9 +518,9 @@ def main():
                     continue
                 
                 try:
-                    #addHumanRef(repo=repo, item=item) #bne, orcid, google scholar...
+                    addHumanRef(repo=repo, item=item) #bne, orcid, google scholar...
                     addGenderRef(repo=repo, item=item)
-                    #addCitizenshipRef(repo=repo, item=item)
+                    addCitizenshipRef(repo=repo, item=item)
                     addGivennameRef(repo=repo, item=item)
                     addFamilynameRef(repo=repo, item=item)
                     #addDeathdateRef(repo=repo, item=item) no da muchos resultados
