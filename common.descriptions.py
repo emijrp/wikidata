@@ -1656,16 +1656,34 @@ def main():
             'es': 'número primo',
         },
         'researcher': {
+            'ast': 'investigador',
+            'ca': 'investigador',
             'en': 'researcher',
             'es': 'investigador/a',
+            'fr': 'chercheur',
+            'gl': 'investigador',
+            'it': 'ricercatore',
+            'pt': 'investigador',
         },
         'researcher female': {
+            'ast': 'investigadora',
+            'ca': 'investigadora',
             'en': 'researcher',
             'es': 'investigadora',
+            'fr': 'chercheuse',
+            'gl': 'investigadora',
+            'it': 'ricercatrice',
+            'pt': 'investigadora',
         },
         'researcher male': {
+            'ast': 'investigador',
+            'ca': 'investigador',
             'en': 'researcher',
             'es': 'investigador',
+            'fr': 'chercheur',
+            'gl': 'investigador',
+            'it': 'ricercatore',
+            'pt': 'investigador',
         },
         'shipwreck off the Scottish coast': {
             'en': 'shipwreck off the Scottish coast',
@@ -2854,7 +2872,7 @@ def main():
         HAVING(COUNT(?instance) = 0)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
         ], 
         
         'researcher female': [
@@ -2867,7 +2885,7 @@ def main():
         }
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
         ], 
         
         'researcher male': [
@@ -2880,7 +2898,7 @@ def main():
         }
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(0, 1000000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
         ], 
         
         #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
