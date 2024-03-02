@@ -34,18 +34,21 @@ lang2langname = {
     "es": "spanish",
     "fr": "french", 
     "it": "italian", 
+    "pl": "polish", 
 }
 lang2q = {
     "en": "Q1860", 
     "es": "Q1321", 
     "fr": "Q150", 
     "it": "Q652", 
+    "pl": "Q809", 
 }
 regexpsbylang = {
     #"ca": r"(?im)\b(i|els|les)\b", 
     "es": r"(?im)\b(un|una|unos|unas|el|la|los|las|ante|con|para|por|de|del|muy|que|este|esta|nuestro|nuestra)\b",
     "fr": r"(?im)\b(et|le|vous|au|ou|pour|nos)\b",
     "it": r"(?im)\b(di|il|le|per)\b",
+    "pl": r"(?im)\b(i|w|na|do)\b",
 }
 
 def getLocalizedVersions(html=""):
@@ -71,7 +74,7 @@ def htmllangtags(html="", targetlang=""):
 def detectLanguage(html=""):
     if not html:
         return
-    langs = ["es", "fr", "it"] #priority
+    langs = ["es", "fr", "it", "pl"] #priority
     detectedlang = ""
     for lang in langs:
         if htmllangtags(html=html, targetlang=lang) and len(re.findall(regexpsbylang[lang], html)) >= 10:
@@ -84,7 +87,7 @@ def main():
     repo = site.data_repository()
     skip = ""
     
-    targetdomainsuffixes = ["es", "fr", "it"]
+    targetdomainsuffixes = ["es", "fr", "it", "pl"]
     for i in range(100000):
         for targetdomainsuffix in targetdomainsuffixes:
             time.sleep(1)
