@@ -68,7 +68,7 @@ def main():
         titulo = re.sub(r'(?im)\s+', ' ', discurso[0]).strip().strip('(').strip().strip('.')
         titulo = unquote(s=titulo)
         titulo = titulo.strip().strip('.').strip()
-        titulo = titulo[:250]
+        titulo = titulo[:250].strip()
         enlace = discurso[1].strip()
         fecha = re.findall(r'(?im)(\d\d)(\d\d)(\d\d)', enlace.split('/')[2])[0]
         fecha = '%s-%s-%s' % (fecha[2], fecha[1], fecha[0])
@@ -76,7 +76,7 @@ def main():
             fecha = '19' + fecha
         else:
             fecha = '20' + fecha
-        if fecha[:4] != sys.argv[1]:
+        if int(fecha[:4]) <= 1965:
             continue
         print(titulo.encode('utf-8'), enlace, fecha)
         
