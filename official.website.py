@@ -30,22 +30,19 @@ from pywikibot import pagegenerators
 from wikidatafun import *
 
 lang2langname = {
-    "ca": "catalan",
     "en": "english",
     "es": "spanish",
     "fr": "french", 
     "it": "italian", 
 }
 lang2q = {
-    "ca": "Q7026", 
-    "cat": "Q7026", 
     "en": "Q1860", 
     "es": "Q1321", 
     "fr": "Q150", 
     "it": "Q652", 
 }
 regexpsbylang = {
-    "ca": r"(?im)\b(i|els|les)\b", 
+    #"ca": r"(?im)\b(i|els|les)\b", 
     "es": r"(?im)\b(un|una|unos|unas|el|la|los|las|ante|con|para|por|de|del|muy|que|este|esta|nuestro|nuestra)\b",
     "fr": r"(?im)\b(et|le|vous|au|ou|pour|nos)\b",
     "it": r"(?im)\b(di|il|le|per)\b",
@@ -74,7 +71,7 @@ def htmllangtags(html="", targetlang=""):
 def detectLanguage(html=""):
     if not html:
         return
-    langs = ["es", "ca", "fr", "it"] #priority
+    langs = ["es", "fr", "it"] #priority
     detectedlang = ""
     for lang in langs:
         if htmllangtags(html=html, targetlang=lang) and len(re.findall(regexpsbylang[lang], html)) >= 10:
@@ -87,9 +84,9 @@ def main():
     repo = site.data_repository()
     skip = ""
     
-    targetdomainsuffixes = ["it"]
-    for targetdomainsuffix in targetdomainsuffixes:
-        for i in range(100000):
+    targetdomainsuffixes = ["es", "fr", "it"]
+    for i in range(100000):
+        for targetdomainsuffix in targetdomainsuffixes:
             time.sleep(1)
             queries = [
             """
