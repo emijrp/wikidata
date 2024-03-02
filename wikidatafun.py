@@ -39,7 +39,7 @@ def removeAccents(s):
 
 def getURL(url='', retry=True, timeout=60):
     raw = ''
-    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0' })
     try:
         raw = urllib.request.urlopen(req, timeout=timeout).read().strip().decode('utf-8')
     except:
