@@ -33,6 +33,7 @@ regexps = {
     'claims': re.compile(r"(?i)BOT - Adding ([0-9]+) claim"), 
     'descriptions': re.compile(r"(?i)BOT - Adding descriptions? \(([0-9]+) languages?\)"), 
     'labels': re.compile(r"(?i)BOT - Adding labels? \(([0-9]+) languages?\)"), 
+    'qualifiers': re.compile(r"(?i)BOT - Adding ([0-9]+) qualifier"), 
     'references': re.compile(r"(?i)BOT - Adding ([0-9]+) reference"), 
     'sitelinks': re.compile(r"(?i)BOT - Adding ([0-9]+) sitelink"), 
     'items': re.compile(r"(?i)BOT - Creating item"), 
@@ -171,9 +172,9 @@ def main():
             saveEdits(nick=nick, path=path, edits=edits)
         edits = []
     
-    stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
-    statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'references': {}, 'sitelinks': {}, 'items': {}, 'total': {} }
-    statsprev = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
+    stats = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'qualifiers': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
+    statsbyday = { 'edits': {}, 'aliases': {}, 'claims': {}, 'descriptions': {}, 'labels': {}, 'qualifiers': {}, 'references': {}, 'sitelinks': {}, 'items': {}, 'total': {} }
+    statsprev = { 'edits': 0, 'aliases': 0, 'claims': 0, 'descriptions': 0, 'labels': 0, 'qualifiers': 0, 'references': 0, 'sitelinks': 0, 'items': 0 }
     statsbylang = {}
     site = pywikibot.Site('wikidata', 'wikidata')
     statspage = pywikibot.Page(site, 'User:Emijrpbot/stats')
@@ -243,7 +244,7 @@ def main():
     formatdict = { 'total': 0, 'difftotal': 0 }
     for k, v in stats.items():
         formatdict[k] = v
-        if k in ['aliases', 'claims', 'descriptions', 'items', 'labels', 'references', 'sitelinks']:
+        if k in ['aliases', 'claims', 'descriptions', 'items', 'labels', 'qualifiers', 'references', 'sitelinks']:
             formatdict['total'] += v
         formatdict['diff'+k] = v - statsprev[k]
         formatdict['difftotal'] += formatdict['diff'+k]
@@ -289,6 +290,11 @@ def main():
 | data-sort-value={topdayclaimsvalue} | +{{{{formatnum:{topdayclaimsvalue}}}}}
 | [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayclaimsday}&limit=100&title=Special:Contributions {topdayclaimsday}]
 |-
+| '''[[Help:Qualifiers|Qualifiers]]''' || data-sort-value={qualifiers} | {{{{formatnum:{qualifiers}}}}}
+| data-sort-value={diffqualifiers} | +{{{{formatnum:{diffqualifiers}}}}}
+| data-sort-value={topdayqualifiersvalue} | +{{{{formatnum:{topdayqualifiersvalue}}}}}
+| [https://www.wikidata.org/w/index.php?target={nick_}&namespace=all&tagfilter=&newOnly=0&start=&end={topdayqualifiersday}&limit=100&title=Special:Contributions {topdayqualifiersday}]
+|-
 | '''[[Help:Sitelinks|Sitelinks]]''' || data-sort-value={sitelinks} | {{{{formatnum:{sitelinks}}}}}
 | data-sort-value={diffsitelinks} | +{{{{formatnum:{diffsitelinks}}}}}
 | data-sort-value={topdaysitelinksvalue} | +{{{{formatnum:{topdaysitelinksvalue}}}}}
@@ -316,7 +322,7 @@ def main():
 |-
 ! colspan=5 | Last update: {lastupdate}
 |}}""".format(**formatdict)
-    summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
+    summary = "BOT - Updating stats: Edits (+{diffedits}), Labels (+{difflabels}), Descriptions (+{diffdescriptions}), Aliases (+{diffaliases}), Claims (+{diffclaims}), Qualifiers (+{diffqualifiers}), Sitelinks (+{diffsitelinks}), Items (+{diffitems}), References (+{diffreferences})".format(**formatdict)
     print(output)
     statspage.text = output
     statspage.save(summary)
