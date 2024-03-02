@@ -35,6 +35,7 @@ def main():
     random.shuffle(langs)
     for i in range(100000):
         for lang in langs:
+            time.sleep(1)
             query1 = """
         SELECT DISTINCT ?item
         WHERE {
@@ -51,7 +52,7 @@ def main():
             OPTIONAL { ?item rdfs:label ?label filter(lang(?label) = "%s"). }
             FILTER(!BOUND(?label)) .
         }
-        #%s""" % (lang, lang, lang, random.randint(1000000, 9999999))
+        #random%s""" % (lang, lang, lang, random.randint(1000000, 9999999))
             url1 = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query1))
             url1 = '%s&format=json' % (url1)
             #print("Loading...", url1)
