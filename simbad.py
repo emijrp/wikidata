@@ -136,6 +136,7 @@ def main():
         random.shuffle(constellations)
         #for constellation in constellations:
         for i in range(10000):
+            time.sleep(1)
             random.shuffle(targetlangs)
             skip = ''
             """query = 
