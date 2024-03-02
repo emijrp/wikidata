@@ -180,7 +180,10 @@ def main():
     statspage = pywikibot.Page(site, 'User:Emijrpbot/stats')
     statsbylangpage = pywikibot.Page(site, 'User:Emijrpbot/statsbylang')
     for statsprop in statsprev.keys():
-        statsprev[statsprop] = int(re.findall(r"(?im)%s[^\n\{]+?{{formatnum:(\d+)}}" % (statsprop), statspage.text)[0])
+        try:
+            statsprev[statsprop] = int(re.findall(r"(?im)%s[^\n\{]+?{{formatnum:(\d+)}}" % (statsprop), statspage.text)[0])
+        except:
+            statsprev[statsprop] = 0
     
     #848135050,2019-02-01T10:14:31Z,"/* wbeditentity-update:0| */ BOT - Adding descriptions (57 languages): ar, ast, bg, bn, ca, cs, da, de, el, eo, es, et, fa, fi, fr, gl, he, hu, hy, it, ja, ka, ko, lt, nan, nb, nn, oc, pl, pt, pt-br, ro, ru, sk, sq, sr, sr-ec, sr-el, sv, tg, tg-cyrl, th, tl, tr, ur, vi, wuu, yue, zh, zh-cn, zh-hans, zh-hant, zh-hk, zh-mo, zh-my, zh-sg, zh-tw"
     if os.path.exists('%s/%s-edits.csv' % (path, nick)):
