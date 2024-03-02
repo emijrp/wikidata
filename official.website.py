@@ -29,7 +29,30 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
+lang2langname = {
+    "ca": "catalan",
+    "en": "english",
+    "es": "spanish",
+    "fr": "french", 
+    "it": "italian", 
+}
+lang2q = {
+    "ca": "Q7026", 
+    "cat": "Q7026", 
+    "en": "Q1860", 
+    "es": "Q1321", 
+    "fr": "Q150", 
+    "it": "Q652", 
+}
+regexpsbylang = {
+    "ca": r"(?im)\b(i|els|les)\b", 
+    "es": r"(?im)\b(un|una|unos|unas|el|la|los|las|ante|con|para|por|de|del|muy|que|este|esta|nuestro|nuestra)\b",
+    "fr": r"(?im)\b(et|le|vous|au|ou|pour|nos)\b",
+    "it": r"(?im)\b(di|il|le|per)\b",
+}
+
 def getLocalizedVersions(html=""):
+    #pending
     """
     <link hreflang="en" href="https://www.memory-of-mankind.com/en/" rel="alternate" />
     <link hreflang="de" href="https://www.memory-of-mankind.com/de/" rel="alternate" />
@@ -42,12 +65,7 @@ def getLocalizedVersions(html=""):
 def htmllangtags(html="", targetlang=""):
     if not html or not targetlang:
         return False
-    lang2langname = {
-        "ca": "catalan",
-        "en": "english",
-        "es": "spanish",
-        "fr": "french", 
-    }
+    
     if re.search(r"(?im)<html[^<>]*? lang\s*=\s*[\'\"]?(%s)[\'\"]?[^<>]*>" % (targetlang), html) or \
        re.search(r"(?im)<meta[^<>]*? name=[\'\"]language[\'\"][^<>]*? content=[\'\"](%s|%s|%s-)[\'\"]\s*/>" % (lang2langname[targetlang], targetlang, targetlang), html):
         return True
@@ -56,36 +74,25 @@ def htmllangtags(html="", targetlang=""):
 def detectLanguage(html=""):
     if not html:
         return
-    
-    lang = ""
-    if htmllangtags(html=html, targetlang="es") and len(re.findall(r"(?im)\b(un|una|unos|unas|el|la|los|las|ante|con|para|por|de|del|muy|que|este|esta|nuestro|nuestra)\b", html)) >= 10:
-        lang = "es"
-    elif htmllangtags(html=html, targetlang="ca") and len(re.findall(r"(?im)\b(i|els|les)\b", html)) >= 10:
-        lang = "ca"
-    elif htmllangtags(html=html, targetlang="fr") and len(re.findall(r"(?im)\b(et|le|vous|au|ou|pour|nos)\b", html)) >= 10:
-        lang = "fr"
-    else:
-        lang = ""
-    
-    return lang.lower().strip()
+    langs = ["es", "ca", "fr", "it"] #priority
+    detectedlang = ""
+    for lang in langs:
+        if htmllangtags(html=html, targetlang=lang) and len(re.findall(regexpsbylang[lang], html)) >= 10:
+            detectedlang = lang
+            break
+    return detectedlang
 
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     skip = ""
     
-    lang2q = {
-        "ca": "Q7026", 
-        "cat": "Q7026", 
-        "en": "Q1860", 
-        "es": "Q1321", 
-        "fr": "Q150", 
-    }
-    targetdomainsuffixes = ["fr"]
+    targetdomainsuffixes = ["it"]
     for targetdomainsuffix in targetdomainsuffixes:
-        for i in range(10000):
+        for i in range(100000):
             time.sleep(1)
-            query = """
+            queries = [
+            """
             SELECT DISTINCT ?item
             WHERE {
               SERVICE bd:sample {
@@ -99,68 +106,85 @@ def main():
               SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
             }
             #random%s
+            """ % (targetdomainsuffix, random.randint(1,1000000)),
+            """
+            SELECT DISTINCT ?item
+            WHERE {
+              SERVICE bd:sample {
+                ?item wdt:P856 ?web.
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+              }
+              ?item wdt:P31/wdt:P279* wd:Q82794.
+              MINUS { ?web pq:P407 ?weblang. } .
+              FILTER(STRENDS(STR(?web), '.%s/')) .
+              SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+            }
+            #random%s
             """ % (targetdomainsuffix, random.randint(1,1000000))
-            
-            url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
-            url = '%s&format=json' % (url)
-            print("Loading...", url)
-            sparql = getURL(url=url)
-            json1 = loadSPARQL(sparql=sparql)
-            
-            for result in json1['results']['bindings']:
-                q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-                if not q:
-                    break
-                print('\n== %s ==' % (q))
-                if skip:
-                    if q != skip:
-                        print('Skiping...')
+            ]
+            for query in queries:
+                url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
+                url = '%s&format=json' % (url)
+                print("Loading...", url)
+                sparql = getURL(url=url)
+                json1 = loadSPARQL(sparql=sparql)
+                
+                for result in json1['results']['bindings']:
+                    q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+                    if not q:
+                        break
+                    print('\n== %s ==' % (q))
+                    if skip:
+                        if q != skip:
+                            print('Skiping...')
+                            continue
+                        else:
+                            skip = ''
+                    
+                    print("https://www.wikidata.org/wiki/%s" % (q))
+                    item = pywikibot.ItemPage(repo, q)
+                    try: #to detect Redirect because .isRedirectPage fails
+                        item.get()
+                    except:
+                        print('Error while .get()')
                         continue
+                    
+                    if item.claims:
+                        if not 'P856' in item.claims:
+                            print("P528 not found, skiping")
+                            continue
+                        if 'P856' in item.claims and len(item.claims["P856"]) != 1:
+                            print("More than one website, skiping")
+                            continue
                     else:
-                        skip = ''
-                
-                item = pywikibot.ItemPage(repo, q)
-                try: #to detect Redirect because .isRedirectPage fails
-                    item.get()
-                except:
-                    print('Error while .get()')
-                    continue
-                
-                if item.claims:
-                    if not 'P856' in item.claims:
-                        print("P528 not found, skiping")
+                        print("No claims found, skiping")
                         continue
-                    if 'P856' in item.claims and len(item.claims["P856"]) != 1:
-                        print("More than one website, skiping")
+                    
+                    if len(item.claims["P856"][0].qualifiers) > 0:
+                        print("Tiene qualifiers, skiping")
                         continue
-                else:
-                    print("No claims found, skiping")
-                    continue
-                
-                if len(item.claims["P856"][0].qualifiers) > 0:
-                    print("Tiene qualifiers, skiping")
-                    continue
-                
-                website = item.claims["P856"][0].getTarget()
-                print("Analizando", website)
-                html = getURL(url=website, retry=False, timeout=10)
-                weblang = detectLanguage(html=html)
-                if weblang:
-                    if weblang in lang2q.keys() and weblang == targetdomainsuffix:
-                        print("Detectado como idioma", weblang)
-                        qualifierlang = pywikibot.Claim(repo, "P407")
-                        targetlangitem = pywikibot.ItemPage(repo, lang2q[weblang])
-                        qualifierlang.setTarget(targetlangitem)
-                        item.claims["P856"][0].addQualifier(qualifierlang, summary="BOT - Adding 1 qualifier")
-                        
-                        #add other languages if available and different
-                        getLocalizedVersions(html=html)
+                    
+                    website = item.claims["P856"][0].getTarget()
+                    print("Analizando", website)
+                    html = getURL(url=website, retry=False, timeout=10)
+                    weblang = detectLanguage(html=html)
+                    if weblang:
+                        if weblang in lang2q.keys() and weblang == targetdomainsuffix:
+                            print("Detectado como idioma", weblang)
+                            qualifierlang = pywikibot.Claim(repo, "P407")
+                            targetlangitem = pywikibot.ItemPage(repo, lang2q[weblang])
+                            qualifierlang.setTarget(targetlangitem)
+                            item.claims["P856"][0].addQualifier(qualifierlang, summary="BOT - Adding 1 qualifier")
+                            
+                            #add other languages if available and different
+                            #getLocalizedVersions(html=html)
+                        else:
+                            print("Idioma desconocido", weblang, "skiping")
+                            continue
                     else:
-                        print("Idioma desconocido", weblang, "skiping")
+                        print("No se pudo detectar idioma, skiping")
                         continue
-                else:
-                    print("No se pudo detectar idioma, skiping")
-                    continue
             
 if __name__ == "__main__":
     main()
