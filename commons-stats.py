@@ -248,7 +248,7 @@ def main():
     formatdict = { "total": total, "totaldays": len(days_list), "totaldevices": len(devices_list), "totalcities": len(cities_list), "totalyears": len(years_list), "totalinstitutions": len(institutions_list), "lastupdate": lastupdate, "usage": usage, "filesbyyeargraph": filesbyyeargraph, "filesbyyeartable": filesbyyeartable, "filesbymonthgraph": filesbymonthgraph, "filesbymonthtable": filesbymonthtable, "filesbydaygraph": filesbydaygraph, "filesbydaytable": filesbydaytable, "filesbydevicegraph": filesbydevicegraph, "filesbydevicetable": filesbydevicetable, "catstable": catstable, "citiestable": citiestable, "institutionstable": institutionstable }  
     newtext = """'''Statistics''' for '''{{{{formatnum:{total}}}}} files''' from [[:Category:Files by User:Emijrp]]. The files, mostly images, were taken with [[#By device|{totaldevices} different devices]] in [[#Cities|{totalcities} cities]] spanning [[#By year|{totalyears} years]]. Among the visited places, there are over [[#Institutions|{totalinstitutions} cultural institutions]].
 
-* [https://wikimap.toolforge.org/?cat=Files_by_User:Emijrp Map all coordinates] on OSM 
+* [https://wikimap.toolforge.org/?cat=Files_by_User:Emijrp Map all coordinates] on OpenStreetMap 
 * Last update: {lastupdate}
 {usage}
 == Files ==
