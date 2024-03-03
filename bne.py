@@ -390,6 +390,17 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
             else:
                 print("Ya tiene P212")
+    #P6164 = depósito legal
+    if p31 == "edition":
+        if props["legaldeposit"]:
+            if not "P6164" in workitem.claims:
+                print("Añadiendo P6164")
+                claim = pywikibot.Claim(repo, 'P6164')
+                claim.setTarget(props["legaldeposit"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            else:
+                print("Ya tiene P6164")
     
     #more ideas
     #country of origin	P495
