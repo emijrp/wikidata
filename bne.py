@@ -333,7 +333,6 @@ def createItem(p31="", item="", repo="", props={}):
                 addGoodReadsRef(repo=repo, claim=claim)
             else:
                 print("Ya tiene P8383")
-    
     #P648 = openlibrary work id
     if p31 == "work":
         if props["openlibraryworkid"]:
@@ -341,6 +340,29 @@ def createItem(p31="", item="", repo="", props={}):
                 print("Añadiendo P648")
                 claim = pywikibot.Claim(repo, 'P648')
                 claim.setTarget(props["openlibraryworkid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addOpenLibraryRef(repo=repo, claim=claim)
+            else:
+                print("Ya tiene P648")
+    
+    #P2969 = goodreads edition id
+    if p31 == "edition":
+        if props["goodreadseditionid"]:
+            if not "P2969" in workitem.claims:
+                print("Añadiendo P2969")
+                claim = pywikibot.Claim(repo, 'P2969')
+                claim.setTarget(props["goodreadseditionid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addGoodReadsRef(repo=repo, claim=claim)
+            else:
+                print("Ya tiene P2969")
+    #P648 = openlibrary edition id
+    if p31 == "edition":
+        if props["openlibraryeditionid"]:
+            if not "P648" in workitem.claims:
+                print("Añadiendo P648")
+                claim = pywikibot.Claim(repo, 'P648')
+                claim.setTarget(props["openlibraryeditionid"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addOpenLibraryRef(repo=repo, claim=claim)
             else:
@@ -389,6 +411,22 @@ def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
         goodreadsworkid = "https://www.goodreads.com/work/quotes/" in raw and re.findall(r"(?im)href=\"https://www\.goodreads\.com/work/quotes/(\d+)\">", raw)[0] or ""
     return goodreadsworkid
             
+def getGoodReadsEditionId(title="", isbn10="", isbn13=""):
+    #href="https://www.goodreads.com/es/book/show/61688544"
+    if not title or (not isbn10 and not isbn13):
+        return
+    busqueda = ""
+    if isbn10:
+        busqueda = isbn10
+    if isbn13:
+        busqueda = isbn13
+    url = "https://www.goodreads.com/search?q=" + urllib.parse.quote_plus(busqueda)
+    raw = getURL(url=url)
+    goodreadseditionid = ""
+    if '"isbn":"%s"' % (isbn10) in raw or '"isbn13":"%s"' % (isbn13) in raw:
+        goodreadseditionid = "https://www.goodreads.com/es/book/show/" in raw and re.findall(r"(?im)href=\"https://www\.goodreads\.com/es/book/show/(\d+)\"", raw)[0] or ""
+    return goodreadseditionid
+            
 def getOpenLibraryWorkId(title="", isbn10="", isbn13=""):
     #<input type="hidden" name="work_id" value="/works/OL28180208W"/>
     if not title or (not isbn10 and not isbn13):
@@ -404,6 +442,22 @@ def getOpenLibraryWorkId(title="", isbn10="", isbn13=""):
     if re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn10), raw) or re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn13), raw):
         openlibraryworkid = 'name="work_id" value="/works/' in raw and re.findall(r'(?im)<input type="hidden" name="work_id" value="/works/([^<>]+?)"/>', raw)[0] or ""
     return openlibraryworkid
+
+def getOpenLibraryEditionId(title="", isbn10="", isbn13=""):
+    #<input type="hidden" name="edition_id" value="/books/OL38578288M"/>
+    if not title or (not isbn10 and not isbn13):
+        return
+    busqueda = ""
+    if isbn10:
+        busqueda = isbn10
+    if isbn13:
+        busqueda = isbn13
+    url = "https://openlibrary.org/search?q=" + urllib.parse.quote_plus(busqueda)
+    raw = getURL(url=url)
+    openlibraryeditionid = ""
+    if re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn10), raw) or re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn13), raw):
+        openlibraryeditionid = 'name="edition_id" value="/books/' in raw and re.findall(r'(?im)<input type="hidden" name="edition_id" value="/books/([^<>]+?)"/>', raw)[0] or ""
+    return openlibraryeditionid
 
 def unquote(s=""):
     s = urllib.parse.unquote_plus(s)
@@ -526,6 +580,9 @@ def main():
             goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
             openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
             
+            goodreadseditionid = getGoodReadsEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+            openlibraryeditionid = getOpenLibraryEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+            
             props = {
                 "title": title, 
                 "subtitle": subtitle, 
@@ -543,8 +600,12 @@ def main():
                 "isbn13": isbn13, 
                 "isbnplain": isbnplain, 
                 "legaldeposit": legaldeposit, 
+                
                 "goodreadsworkid": goodreadsworkid, 
                 "openlibraryworkid": openlibraryworkid, 
+                
+                "goodreadseditionid": goodreadseditionid, 
+                "openlibraryeditionid": openlibraryeditionid, 
             }
             print(props.items())
             
