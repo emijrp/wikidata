@@ -279,7 +279,7 @@ def createItem(p31="", item="", repo="", props={}):
             target = pywikibot.ItemPage(repo, 'Q3331189')
             claim.setTarget(target)
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+            addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
         else:
             print("Ya tiene P31")
     #P50 = authorq
@@ -289,7 +289,7 @@ def createItem(p31="", item="", repo="", props={}):
         target = pywikibot.ItemPage(repo, props["authorq"])
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P50")
     #P1476 = title
@@ -299,7 +299,7 @@ def createItem(p31="", item="", repo="", props={}):
         target = pywikibot.WbMonolingualText(text=props["fulltitle"], language=lang)
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P1476")
     #P407 = language of work
@@ -309,7 +309,7 @@ def createItem(p31="", item="", repo="", props={}):
         target = pywikibot.ItemPage(repo, languages[lang])
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P407")
     #P577 = publication date
@@ -318,7 +318,7 @@ def createItem(p31="", item="", repo="", props={}):
         claim = pywikibot.Claim(repo, 'P577')
         claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P407")
     
@@ -345,6 +345,29 @@ def createItem(p31="", item="", repo="", props={}):
                 addOpenLibraryRef(repo=repo, claim=claim)
             else:
                 print("Ya tiene P648")
+    
+    #P957 = isbn10
+    if p31 == "edition":
+        if props["isbn10"]:
+            if not "P957" in workitem.claims:
+                print("Añadiendo P957")
+                claim = pywikibot.Claim(repo, 'P957')
+                claim.setTarget(props["isbn10"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            else:
+                print("Ya tiene P957")
+    #P212 = isbn13
+    if p31 == "edition":
+        if props["isbn13"]:
+            if not "P212" in workitem.claims:
+                print("Añadiendo P212")
+                claim = pywikibot.Claim(repo, 'P212')
+                claim.setTarget(props["isbn13"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            else:
+                print("Ya tiene P212")
     
     #more ideas
     #country of origin	P495
@@ -488,9 +511,9 @@ def main():
             isbn10 = ""
             isbn13 = ""
             if len(isbnplain) == 10:
-                isbn10 = isbnplain
+                isbn10 = isbn
             if len(isbnplain) == 13:
-                isbn13 = isbnplain
+                isbn13 = isbn
             m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
             legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
@@ -510,10 +533,12 @@ def main():
                 "fulltitle": fulltitle, 
                 "authorq": authorq, 
                 "authorbneid": authorbneid, 
+                "resourceid": resourceid, 
                 "pages": pages, 
                 "publisher": publisher, 
                 "publicationdate": publicationdate, 
                 "isbn": isbn, 
+                "isbnplain": isbnplain, 
                 "isbn10": isbn10, 
                 "isbn13": isbn13, 
                 "isbnplain": isbnplain, 
@@ -526,8 +551,10 @@ def main():
             donecandidates = []
             candidates = []
             candidates += existsInWikidata(s=isbn)
+            candidates += existsInWikidata(s=isbnplain)
             candidates += existsInWikidata(s=isbn10)
             candidates += existsInWikidata(s=isbn13)
+            candidates += existsInWikidata(s=resourceid)
             candidates += existsInWikidata(s=goodreadsworkid)
             candidates += existsInWikidata(s=openlibraryworkid)
             candidates += existsInWikidata(s=fulltitle)
