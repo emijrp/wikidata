@@ -129,7 +129,7 @@ def getPublisher(s=""):
 
 def existsInWikidata(s=""):
     if not s:
-        return
+        return []
     print("\nSearching in Wikidata", s)
     lang = "en"
     #searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=%s&format=xml' % (urllib.parse.quote(s), lang)
@@ -493,24 +493,9 @@ def main():
                 continue
             
             #external ids
-            #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
             goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
             openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
             
-            print("title", title)
-            print("subtitle", subtitle)
-            print("alternatetitles", alternatetitles)
-            print("fulltitle", fulltitle)
-            print("pages", pages)
-            print("publisher", publisher)
-            print("publicationdate", publicationdate)
-            print("isbn", isbn)
-            print("isbn10", isbn10)
-            print("isbn13", isbn13)
-            print("isbnplain", isbnplain)
-            print("legaldeposit", legaldeposit)
-            print("goodreadsworkid", goodreadsworkid)
-            print("openlibraryworkid", openlibraryworkid)
             props = {
                 "title": title, 
                 "subtitle": subtitle, 
@@ -529,39 +514,31 @@ def main():
                 "goodreadsworkid": goodreadsworkid, 
                 "openlibraryworkid": openlibraryworkid, 
             }
+            print(props.items())
             
             donecandidates = []
-            for method in ["isbn", "isbn10", "isbn13", "goodreadsworkid", "openlibraryworkid", "fulltitle"]:
-                candidates = ""
-                if method == "isbn":
-                    candidates = existsInWikidata(s=isbn)
-                elif method == "isbn10":
-                    candidates = existsInWikidata(s=isbn10)
-                elif method == "isbn13":
-                    candidates = existsInWikidata(s=isbn13)
-                elif method == "goodreadsworkid":
-                    candidates = existsInWikidata(s=goodreadsworkid)
-                elif method == "openlibraryworkid":
-                    candidates = existsInWikidata(s=openlibraryworkid)
-                elif method == "fulltitle":
-                    candidates = existsInWikidata(s=fulltitle)
-                if candidates:
-                    #comprobar si lo cree yo y es una edicion o un work, entonces mejorar
-                    for candidate in candidates:
-                        if candidate in donecandidates:
-                            continue
-                        print("Encontrado candidato", candidate)
-                        donecandidates.append(candidate)
-                        candidateitem = pywikibot.ItemPage(repo, candidate)
-                        candidateitem.get()
-                        if "P31" in candidateitem.claims:
-                            for candidateitemp31 in candidateitem.claims["P31"]:
-                                if "Q47461344" in candidateitemp31.getTarget().title(): #work
-                                    improveItem(p31="work", item=candidate, repo=repo, props=props)
-                                elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
-                                    improveItem(p31="edition", item=candidate, repo=repo, props=props)
-                                    pass
-                    break
+            candidates = []
+            candidates += existsInWikidata(s=isbn)
+            candidates += existsInWikidata(s=isbn10)
+            candidates += existsInWikidata(s=isbn13)
+            candidates += existsInWikidata(s=goodreadsworkid)
+            candidates += existsInWikidata(s=openlibraryworkid)
+            candidates += existsInWikidata(s=fulltitle)
+            candidates = list(set(candidates))
+            candidates.sort()
+            for candidate in candidates:
+                if candidate in donecandidates:
+                    continue
+                print("Encontrado candidato", candidate)
+                donecandidates.append(candidate)
+                candidateitem = pywikibot.ItemPage(repo, candidate)
+                candidateitem.get()
+                if "P31" in candidateitem.claims:
+                    for candidateitemp31 in candidateitem.claims["P31"]:
+                        if "Q47461344" in candidateitemp31.getTarget().title(): #work
+                            improveItem(p31="work", item=candidate, repo=repo, props=props)
+                        elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
+                            improveItem(p31="edition", item=candidate, repo=repo, props=props)
                 
             if not candidates:
                 print("No se encontraron candidatos, creamos")
