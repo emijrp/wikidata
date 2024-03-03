@@ -294,8 +294,7 @@ def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publi
     
     #more ideas
     #country of origin	P495
-    #contributor to the creative work or subject	P767
-    #publication date	P577
+    #contributor to the creative work or subject	P767, mejor no, puede variar con la edición (los que prologan, etc)
     
     #P8383 = goodreads work id
     if goodreadsworkid:
