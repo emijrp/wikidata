@@ -400,6 +400,8 @@ def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
     if not title or (not isbn10 and not isbn13):
         return
     busqueda = ""
+    isbn10 = isbn10.replace("-", "")
+    isbn13 = isbn13.replace("-", "")
     if isbn10:
         busqueda = isbn10
     if isbn13:
@@ -416,6 +418,8 @@ def getGoodReadsEditionId(title="", isbn10="", isbn13=""):
     if not title or (not isbn10 and not isbn13):
         return
     busqueda = ""
+    isbn10 = isbn10.replace("-", "")
+    isbn13 = isbn13.replace("-", "")
     if isbn10:
         busqueda = isbn10
     if isbn13:
@@ -432,6 +436,8 @@ def getOpenLibraryWorkId(title="", isbn10="", isbn13=""):
     if not title or (not isbn10 and not isbn13):
         return
     busqueda = ""
+    isbn10 = isbn10.replace("-", "")
+    isbn13 = isbn13.replace("-", "")
     if isbn10:
         busqueda = isbn10
     if isbn13:
@@ -448,6 +454,8 @@ def getOpenLibraryEditionId(title="", isbn10="", isbn13=""):
     if not title or (not isbn10 and not isbn13):
         return
     busqueda = ""
+    isbn10 = isbn10.replace("-", "")
+    isbn13 = isbn13.replace("-", "")
     if isbn10:
         busqueda = isbn10
     if isbn13:
@@ -618,6 +626,8 @@ def main():
             candidates += existsInWikidata(s=resourceid)
             candidates += existsInWikidata(s=goodreadsworkid)
             candidates += existsInWikidata(s=openlibraryworkid)
+            candidates += existsInWikidata(s=goodreadseditionid)
+            candidates += existsInWikidata(s=openlibraryeditionid)
             candidates += existsInWikidata(s=fulltitle)
             candidates = list(set(candidates))
             candidates.sort()
