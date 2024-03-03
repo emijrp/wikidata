@@ -157,10 +157,10 @@ def addBNERef(repo='', claim='', bneid=''):
         refbneidclaim.setTarget(bneid)
         claim.addSources([refstatedinclaim, refretrieveddateclaim, refbneidclaim], summary='BOT - Adding 1 reference')
 
-def improveWork(item="", repo="", title="", authorq="", authorbneid=""):
-    return createWork(item=item, repo=repo, title=title, authorq=authorq, authorbneid=authorbneid)
+def improveWork(item="", repo="", title="", alternatetitle="", authorq="", authorbneid=""):
+    return createWork(item=item, repo=repo, title=title, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
 
-def createWork(item="", repo="", title="", authorq="", authorbneid=""):
+def createWork(item="", repo="", title="", alternatetitle="", authorq="", authorbneid=""):
     if not repo or not title or not authorq or not authorbneid:
         return
     lang = "es"
@@ -179,6 +179,28 @@ def createWork(item="", repo="", title="", authorq="", authorbneid=""):
         workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (lang))
     else:
         print("Ya tiene labels")
+    #descs
+    if not lang in workitem.descriptions or not "en" in workitem.descriptions:
+        authoritem = pywikibot.ItemPage(repo, authorq)
+        authoritem.get()
+        authorname = lang in authoritem.labels and authoritem.labels[lang] or ""
+        authornameen = "en" in authoritem.labels and authoritem.labels["en"] or ""
+        print("Añadiendo descripciones")
+        descriptions = workitem.descriptions
+        descriptions[lang] = "obra escrita" + (authorname and " por %s" % (authorname) or "") 
+        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (lang))
+        descriptions["en"] = "written work" + (authorname and " by %s" % (authorname) or "") 
+        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+    else:
+        print("Ya tiene descripciones")
+    #aliases
+    if alternatetitle and alternatetitle != title:
+        if lang in workitem.aliases and not alternatetitle in workitem.aliases[lang]:
+            aliases = workitem.aliases
+            aliases[lang].append(alternatetitle)
+            workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
+    else:
+        print("No conocemos titulo alternativo o es igual al titulo")
     #P31 = Q47461344 written work
     if not "P31" in workitem.claims:
         print("Añadiendo P31")
@@ -354,15 +376,15 @@ def main():
                             continue
                         elif len(candidates) == 1:
                             print("Encontrado candidato, ", candidates)
-                            improveWork(item=candidates[0], repo=repo, title=fulltitle, authorq=authorq, authorbneid=authorbneid)
+                            improveWork(item=candidates[0], repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
                             continue
                         else:
                             print("No se encontraron candidatos, saltamos")
                             continue
                     else:
                         #crear ya que no existe
-                        #workq = createWork(repo=repo, title=fulltitle, authorq=authorq, authorbneid=authorbneid)
-                        #editionq = createEdition(repo=repo, title=fulltitle, authorq=authorq, authorbneid=authorbneid, publisher=publisher, publishdate=publishdate, pages=pages, isbn10=isbn10, isbn13=isbn13, legaldeposit=legaldeposit)
+                        #workq = createWork(repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
+                        #editionq = createEdition(repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid, publisher=publisher, publishdate=publishdate, pages=pages, isbn10=isbn10, isbn13=isbn13, legaldeposit=legaldeposit)
                         #linkWorkAndEdition(workq=workq, editionq=editionq)
                         sys.exit()
 
