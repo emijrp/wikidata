@@ -95,7 +95,7 @@ def getExtensionInPages(s=""):
         pages = re.findall(r"(?im)(\d+) (?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
     return pages
 
-def getPublishDate(s=""):
+def getPublicationDate(s=""):
     if not s:
         return 
     for i in range(20):
@@ -157,13 +157,39 @@ def addBNERef(repo='', claim='', bneid=''):
         refbneidclaim.setTarget(bneid)
         claim.addSources([refstatedinclaim, refretrieveddateclaim, refbneidclaim], summary='BOT - Adding 1 reference')
 
-def improveWork(item="", repo="", title="", alternatetitle="", authorq="", authorbneid=""):
-    return createWork(item=item, repo=repo, title=title, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
+def addGoodReadsRef(repo='', claim=''):
+    if repo and claim:
+        itemgoodreads = pywikibot.ItemPage(repo, "Q2359213")
+        today = datetime.date.today()
+        year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
+    
+        refstatedinclaim = pywikibot.Claim(repo, 'P248')
+        refstatedinclaim.setTarget(itemgoodreads)
+        refretrieveddateclaim = pywikibot.Claim(repo, 'P813')
+        refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
+        claim.addSources([refstatedinclaim, refretrieveddateclaim], summary='BOT - Adding 1 reference')
 
-def createWork(item="", repo="", title="", alternatetitle="", authorq="", authorbneid=""):
+def addOpenLibraryRef(repo='', claim=''):
+    if repo and claim:
+        itemopenlibrary = pywikibot.ItemPage(repo, "Q1201876")
+        today = datetime.date.today()
+        year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
+    
+        refstatedinclaim = pywikibot.Claim(repo, 'P248')
+        refstatedinclaim.setTarget(itemopenlibrary)
+        refretrieveddateclaim = pywikibot.Claim(repo, 'P813')
+        refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
+        claim.addSources([refstatedinclaim, refretrieveddateclaim], summary='BOT - Adding 1 reference')
+
+def improveWork(item="", repo="", title="", alternatetitles=[], authorq="", publicationdate="", authorbneid="", goodreadsworkid="", openlibraryworkid=""):
+    return createWork(item=item, repo=repo, title=title, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
+
+def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publicationdate="", authorbneid="", goodreadsworkid="", openlibraryworkid=""):
     if not repo or not title or not authorq or not authorbneid:
         return
     lang = "es"
+    today = datetime.date.today()
+    year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
     if item:
         workitem = pywikibot.ItemPage(repo, item)
     else:
@@ -203,15 +229,17 @@ def createWork(item="", repo="", title="", alternatetitle="", authorq="", author
     else:
         print("Ya tiene descripciones")
     #aliases
-    if alternatetitle and alternatetitle != title:
-        if lang in workitem.aliases and not alternatetitle in workitem.aliases[lang]:
-            aliases = workitem.aliases
-            aliases[lang].append(alternatetitle)
-            workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
-        if not lang in workitem.aliases:
-            aliases = workitem.aliases
-            aliases[lang] = [alternatetitle]
-            workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
+    if alternatetitles:
+        for alternatetitle in alternatetitles:
+            if alternatetitle != title:
+                if lang in workitem.aliases and not alternatetitle in workitem.aliases[lang]:
+                    aliases = workitem.aliases
+                    aliases[lang].append(alternatetitle)
+                    workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
+                if not lang in workitem.aliases:
+                    aliases = workitem.aliases
+                    aliases[lang] = [alternatetitle]
+                    workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
     else:
         print("No conocemos titulo alternativo o es igual al titulo")
     #P31 = Q47461344 written work
@@ -254,11 +282,75 @@ def createWork(item="", repo="", title="", alternatetitle="", authorq="", author
         addBNERef(repo=repo, claim=claim, bneid=authorbneid)
     else:
         print("Ya tiene P407")
+    #P577 = publication date
+    if publicationdate > 1950 and publicationdate <= year and not "P577" in workitem.claims:
+        print("Añadiendo P577")
+        claim = pywikibot.Claim(repo, 'P577')
+        claim.setTarget(pywikibot.WbTime(year=publicationdate))
+        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
+    else:
+        print("Ya tiene P407")
+    
     #more ideas
     #country of origin	P495
     #contributor to the creative work or subject	P767
     #publication date	P577
+    
+    #P8383 = goodreads work id
+    if goodreadsworkid:
+        if not "P8383" in workitem.claims:
+            print("Añadiendo P8383")
+            claim = pywikibot.Claim(repo, 'P8383')
+            claim.setTarget(goodreadsworkid)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addGoodReadsRef(repo=repo, claim=claim)
+        else:
+            print("Ya tiene P8383")
+    
+    #P648 = openlibrary work id
+    if openlibraryworkid:
+        if not "P648" in workitem.claims:
+            print("Añadiendo P648")
+            claim = pywikibot.Claim(repo, 'P648')
+            claim.setTarget(openlibraryworkid)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addOpenLibraryRef(repo=repo, claim=claim)
+        else:
+            print("Ya tiene P648")
 
+def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
+    #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
+    if not title or (not isbn10 and not isbn13):
+        return
+    busqueda = ""
+    if isbn10:
+        busqueda = isbn10
+    if isbn13:
+        busqueda = isbn13
+    url = "https://www.goodreads.com/search?q=" + urllib.parse.quote_plus(busqueda)
+    raw = getURL(url=url)
+    goodreadsworkid = ""
+    if '"isbn":"%s"' % (isbn10) in raw or '"isbn13":"%s"' % (isbn13) in raw:
+        goodreadsworkid = "https://www.goodreads.com/work/quotes/" in raw and re.findall(r"(?im)href=\"https://www\.goodreads\.com/work/quotes/(\d+)\">", raw)[0] or ""
+    return goodreadsworkid
+            
+def getOpenLibraryWorkId(title="", isbn10="", isbn13=""):
+    #<input type="hidden" name="work_id" value="/works/OL28180208W"/>
+    if not title or (not isbn10 and not isbn13):
+        return
+    busqueda = ""
+    if isbn10:
+        busqueda = isbn10
+    if isbn13:
+        busqueda = isbn13
+    url = "https://openlibrary.org/search?q=" + urllib.parse.quote_plus(busqueda)
+    raw = getURL(url=url)
+    openlibraryworkid = ""
+    if re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn10), raw) or re.search(r'(?im)itemprop="isbn">\s*%s\s*</dd>' % (isbn13), raw):
+        openlibraryworkid = 'name="work_id" value="/works/' in raw and re.findall(r'(?im)<input type="hidden" name="work_id" value="/works/([^<>]+?)"/>', raw)[0] or ""
+    return openlibraryworkid
+            
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -317,7 +409,7 @@ def main():
             obras = raw.split('<section id="obras" class="container">')[1].split('</section>')[0]
         #cuidado distinguir entre obra, libro, dvd, recurso electrónico, etc
         for obra in obras.split("</li>"):
-            time.sleep(1)
+            time.sleep(0.1)
             resourceid = "/resource/" in obra and re.findall(r"(?im)href=\"/resource/([^<>\"]+?)\"", obra)[0] or ""
             titletruncated = "item-link" in obra and re.findall(r"(?im)class=\"item-link\">([^<>]+?)</a>", obra)[0] or ""
             urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
@@ -336,12 +428,16 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
             subtitle = m and m[0] or ""
             alternatetitle = title + " " + subtitle
+            alternatetitle2 = alternatetitle.replace(" : ", ": ")
+            alternatetitle3 = alternatetitle.replace(" : ", ", ")
+            alternatetitle4 = alternatetitle.replace(" : ", " ")
+            alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
             fulltitle = getFullTitle(title=title, subtitle=subtitle)
             
             m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
             publisher = m and getPublisher(s=m[0]) or ""
             m = re.findall(r"(?im)<ns\d:P3006>([^<>]+?)</ns\d:P3006>", rawresource)
-            publishdate = m and getPublishDate(s=m[0]) or ""
+            publicationdate = m and getPublicationDate(s=m[0]) or ""
             m = re.findall(r"(?im)<ns\d:P3017>([^<>]+?)</ns\d:P3017>", rawresource)
             edition = m and m[0] or ""
             m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
@@ -364,15 +460,23 @@ def main():
                 print("Edicion/Extension/Medio electrónico, skiping", edition+extension+mediatype)
                 continue
             
-            print(title, subtitle)
-            print(alternatetitle)
-            print(fulltitle)
-            print(pages)
-            print(publisher)
-            print(publishdate)
-            print(isbn)
-            print(isbnplain)
-            print(legaldeposit)
+            #external ids
+            #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
+            goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+            openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+            
+            print("title", title)
+            print("subtitle", subtitle)
+            print("alternatetitle", alternatetitle)
+            print("fulltitle", fulltitle)
+            print("pages", pages)
+            print("publisher", publisher)
+            print("publicationdate", publicationdate)
+            print("isbn", isbn)
+            print("isbnplain", isbnplain)
+            print("legaldeposit", legaldeposit)
+            print("goodreadsworkid", goodreadsworkid)
+            print("openlibraryworkid", openlibraryworkid)
             
             candidates = existsInWikidata(s=isbn)
             if candidates:
@@ -389,15 +493,15 @@ def main():
                             continue
                         elif len(candidates) == 1:
                             print("Encontrado candidato, ", candidates)
-                            improveWork(item=candidates[0], repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
+                            improveWork(item=candidates[0], repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
                             continue
                         else:
                             print("No se encontraron candidatos, saltamos")
                             continue
                     else:
                         #crear ya que no existe
-                        #workq = createWork(repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid)
-                        #editionq = createEdition(repo=repo, title=fulltitle, alternatetitle=alternatetitle, authorq=authorq, authorbneid=authorbneid, publisher=publisher, publishdate=publishdate, pages=pages, isbn10=isbn10, isbn13=isbn13, legaldeposit=legaldeposit)
+                        #workq = createWork(repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
+                        #editionq = createEdition(repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, publisher=publisher, publishdate=publishdate, pages=pages, isbn10=isbn10, isbn13=isbn13, legaldeposit=legaldeposit)
                         #linkWorkAndEdition(workq=workq, editionq=editionq)
                         sys.exit()
 
