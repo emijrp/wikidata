@@ -184,7 +184,7 @@ def addOpenLibraryRef(repo='', claim=''):
         refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
         claim.addSources([refstatedinclaim, refretrieveddateclaim], summary='BOT - Adding 1 reference')
 
-def improveWork(item="", repo="", title="", alternatetitles=[], authorq="", publicationdate="", authorbneid="", goodreadsworkid="", openlibraryworkid=""):
+def improveItem(p31="", item="", repo="", props={}):
     if item:
         site = pywikibot.Site('wikidata', 'wikidata')
         itempage = pywikibot.Page(site, item)
@@ -193,10 +193,10 @@ def improveWork(item="", repo="", title="", alternatetitles=[], authorq="", publ
         if not "Emijrpbot" in history:
             print("No creado por mi bot, saltando...")
             return
-    return createWork(item=item, repo=repo, title=title, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
+    return createItem(p31="", item=item, repo=repo, props={})
 
-def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publicationdate="", authorbneid="", goodreadsworkid="", openlibraryworkid=""):
-    if not repo or not title or not authorq or not authorbneid:
+def createItem(p31="", item="", repo="", props={}):
+    if not p31 or not repo or not props:
         return
     lang = "es"
     today = datetime.date.today()
@@ -204,7 +204,7 @@ def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publi
     if item:
         workitem = pywikibot.ItemPage(repo, item)
     else:
-        workitemlabels = { lang: title }
+        workitemlabels = { lang: props["title"] }
         workitem = pywikibot.ItemPage(repo)
         workitem.editLabels(labels=workitemlabels, summary="BOT - Creating item")
     workitem.get()
@@ -212,37 +212,40 @@ def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publi
     if not lang in workitem.labels:
         print("Añadiendo labels")
         labels = workitem.labels
-        labels[lang] = title
+        labels[lang] = props["title"]
         workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (lang))
     else:
         print("Ya tiene labels")
     #descs
     if not lang in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
-        authoritem = pywikibot.ItemPage(repo, authorq)
-        authoritem.get()
-        authorname = lang in authoritem.labels and authoritem.labels[lang] or ""
-        authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authorname
-        authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornameen
-        authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornameen
-        authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornameen
-        print("Añadiendo descripciones")
-        descriptions = workitem.descriptions
-        descriptions[lang] = "obra escrita" + (authorname and " por %s" % (authorname) or "") 
-        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (lang))
-        descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
-        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
-        descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
-        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
-        descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
-        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
-        descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
-        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
+        if p31 == "work":
+            authoritem = pywikibot.ItemPage(repo, props["authorq"])
+            authoritem.get()
+            authorname = lang in authoritem.labels and authoritem.labels[lang] or ""
+            authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authorname
+            authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornameen
+            authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornameen
+            authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornameen
+            print("Añadiendo descripciones")
+            descriptions = workitem.descriptions
+            descriptions[lang] = "obra escrita" + (authorname and " por %s" % (authorname) or "") 
+            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (lang))
+            descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
+            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+            descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
+            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
+            descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
+            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
+            descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
+            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
+        if p31 == "edition":
+            pass
     else:
         print("Ya tiene descripciones")
     #aliases
-    if alternatetitles:
-        for alternatetitle in alternatetitles:
-            if alternatetitle != title:
+    if props["alternatetitles"]:
+        for alternatetitle in props["alternatetitles"]:
+            if alternatetitle != props["title"]:
                 if lang in workitem.aliases and not alternatetitle in workitem.aliases[lang]:
                     aliases = workitem.aliases
                     aliases[lang].append(alternatetitle)
@@ -254,33 +257,45 @@ def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publi
     else:
         print("No conocemos titulo alternativo o es igual al titulo")
     #P31 = Q47461344 written work
-    if not "P31" in workitem.claims:
-        print("Añadiendo P31")
-        claim = pywikibot.Claim(repo, 'P31')
-        target = pywikibot.ItemPage(repo, 'Q47461344')
-        claim.setTarget(target)
-        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
-    else:
-        print("Ya tiene P31")
+    if p31 == "work":
+        if not "P31" in workitem.claims:
+            print("Añadiendo P31")
+            claim = pywikibot.Claim(repo, 'P31')
+            target = pywikibot.ItemPage(repo, 'Q47461344')
+            claim.setTarget(target)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        else:
+            print("Ya tiene P31")
+    #P31 = Q3331189 edition
+    if p31 == "edition":
+        if not "P31" in workitem.claims:
+            print("Añadiendo P31")
+            claim = pywikibot.Claim(repo, 'P31')
+            target = pywikibot.ItemPage(repo, 'Q3331189')
+            claim.setTarget(target)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+        else:
+            print("Ya tiene P31")
     #P50 = authorq
     if not "P50" in workitem.claims:
         print("Añadiendo P50")
         claim = pywikibot.Claim(repo, 'P50')
-        target = pywikibot.ItemPage(repo, authorq)
+        target = pywikibot.ItemPage(repo, props["authorq"])
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
+        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
     else:
         print("Ya tiene P50")
     #P1476 = title
     if not "P1476" in workitem.claims:
         print("Añadiendo P1476")
         claim = pywikibot.Claim(repo, 'P1476')
-        target = pywikibot.WbMonolingualText(text=title, language=lang)
+        target = pywikibot.WbMonolingualText(text=props["title"], language=lang)
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
+        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
     else:
         print("Ya tiene P1476")
     #P407 = language of work
@@ -290,44 +305,46 @@ def createWork(item="", repo="", title="", alternatetitles=[], authorq="", publi
         target = pywikibot.ItemPage(repo, languages[lang])
         claim.setTarget(target)
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
+        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
     else:
         print("Ya tiene P407")
     #P577 = publication date
-    if publicationdate > 1950 and publicationdate <= year and not "P577" in workitem.claims:
+    if not "P577" in workitem.claims:
         print("Añadiendo P577")
         claim = pywikibot.Claim(repo, 'P577')
-        claim.setTarget(pywikibot.WbTime(year=publicationdate))
+        claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
         workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=authorbneid)
+        addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
     else:
         print("Ya tiene P407")
+    
+    #P8383 = goodreads work id
+    if p31 == "work":
+        if props["goodreadsworkid"]:
+            if not "P8383" in workitem.claims:
+                print("Añadiendo P8383")
+                claim = pywikibot.Claim(repo, 'P8383')
+                claim.setTarget(props["goodreadsworkid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addGoodReadsRef(repo=repo, claim=claim)
+            else:
+                print("Ya tiene P8383")
+    
+    #P648 = openlibrary work id
+    if p31 == "work":
+        if props["openlibraryworkid"]:
+            if not "P648" in workitem.claims:
+                print("Añadiendo P648")
+                claim = pywikibot.Claim(repo, 'P648')
+                claim.setTarget(props["openlibraryworkid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addOpenLibraryRef(repo=repo, claim=claim)
+            else:
+                print("Ya tiene P648")
     
     #more ideas
     #country of origin	P495
     #contributor to the creative work or subject	P767, mejor no, puede variar con la edición (los que prologan, etc)
-    
-    #P8383 = goodreads work id
-    if goodreadsworkid:
-        if not "P8383" in workitem.claims:
-            print("Añadiendo P8383")
-            claim = pywikibot.Claim(repo, 'P8383')
-            claim.setTarget(goodreadsworkid)
-            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addGoodReadsRef(repo=repo, claim=claim)
-        else:
-            print("Ya tiene P8383")
-    
-    #P648 = openlibrary work id
-    if openlibraryworkid:
-        if not "P648" in workitem.claims:
-            print("Añadiendo P648")
-            claim = pywikibot.Claim(repo, 'P648')
-            claim.setTarget(openlibraryworkid)
-            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addOpenLibraryRef(repo=repo, claim=claim)
-        else:
-            print("Ya tiene P648")
 
 def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
     #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
@@ -482,17 +499,38 @@ def main():
             
             print("title", title)
             print("subtitle", subtitle)
-            print("alternatetitle", alternatetitle)
+            print("alternatetitles", alternatetitles)
             print("fulltitle", fulltitle)
             print("pages", pages)
             print("publisher", publisher)
             print("publicationdate", publicationdate)
             print("isbn", isbn)
+            print("isbn10", isbn10)
+            print("isbn13", isbn13)
             print("isbnplain", isbnplain)
             print("legaldeposit", legaldeposit)
             print("goodreadsworkid", goodreadsworkid)
             print("openlibraryworkid", openlibraryworkid)
+            props = {
+                "title": title, 
+                "subtitle": subtitle, 
+                "alternatetitles": alternatetitles, 
+                "fulltitle": fulltitle, 
+                "authorq": authorq, 
+                "authorbneid": authorbneid, 
+                "pages": pages, 
+                "publisher": publisher, 
+                "publicationdate": publicationdate, 
+                "isbn": isbn, 
+                "isbn10": isbn10, 
+                "isbn13": isbn13, 
+                "isbnplain": isbnplain, 
+                "legaldeposit": legaldeposit, 
+                "goodreadsworkid": goodreadsworkid, 
+                "openlibraryworkid": openlibraryworkid, 
+            }
             
+            donecandidates = []
             for method in ["isbn", "isbn10", "isbn13", "goodreadsworkid", "openlibraryworkid", "fulltitle"]:
                 candidates = ""
                 if method == "isbn":
@@ -510,22 +548,26 @@ def main():
                 if candidates:
                     #comprobar si lo cree yo y es una edicion o un work, entonces mejorar
                     for candidate in candidates:
-                        print("Encontrado candidato, ", candidate)
+                        if candidate in donecandidates:
+                            continue
+                        print("Encontrado candidato", candidate)
+                        donecandidates.append(candidate)
                         candidateitem = pywikibot.ItemPage(repo, candidate)
                         candidateitem.get()
                         if "P31" in candidateitem.claims:
                             for candidateitemp31 in candidateitem.claims["P31"]:
                                 if "Q47461344" in candidateitemp31.getTarget().title(): #work
-                                    improveWork(item=candidates[0], repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
+                                    improveItem(p31="work", item=candidate, repo=repo, props=props)
                                 elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
+                                    improveItem(p31="edition", item=candidate, repo=repo, props=props)
                                     pass
                     break
                 
             if not candidates:
-                print("No se encontraron candidatos, saltamos")
+                print("No se encontraron candidatos, creamos")
                 #crear ya que no existe
-                #workq = createWork(repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, goodreadsworkid=goodreadsworkid, openlibraryworkid=openlibraryworkid)
-                #editionq = createEdition(repo=repo, title=fulltitle, alternatetitles=alternatetitles, authorq=authorq, publicationdate=publicationdate, authorbneid=authorbneid, publisher=publisher, publicationdate=publicationdate, pages=pages, isbn10=isbn10, isbn13=isbn13, legaldeposit=legaldeposit)
+                #workq = createItem(p31="work", repo=repo, props=props)
+                #editionq = createItem(p31="edition", repo=repo, props=props)
                 #linkWorkAndEdition(workq=workq, editionq=editionq)
                 sys.exit()
 
