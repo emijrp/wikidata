@@ -184,13 +184,22 @@ def createWork(item="", repo="", title="", alternatetitle="", authorq="", author
         authoritem = pywikibot.ItemPage(repo, authorq)
         authoritem.get()
         authorname = lang in authoritem.labels and authoritem.labels[lang] or ""
-        authornameen = "en" in authoritem.labels and authoritem.labels["en"] or ""
+        authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authorname
+        authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornameen
+        authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornameen
+        authornameca = "gl" in authoritem.labels and authoritem.labels["gl"] or authornameen
         print("Añadiendo descripciones")
         descriptions = workitem.descriptions
         descriptions[lang] = "obra escrita" + (authorname and " por %s" % (authorname) or "") 
         workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (lang))
-        descriptions["en"] = "written work" + (authorname and " by %s" % (authorname) or "") 
+        descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
         workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+        descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
+        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
+        descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
+        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
+        descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
+        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
     else:
         print("Ya tiene descripciones")
     #aliases
@@ -198,6 +207,10 @@ def createWork(item="", repo="", title="", alternatetitle="", authorq="", author
         if lang in workitem.aliases and not alternatetitle in workitem.aliases[lang]:
             aliases = workitem.aliases
             aliases[lang].append(alternatetitle)
+            workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
+        if not lang in workitem.aliases:
+            aliases = workitem.aliases
+            aliases[lang] = [alternatetitle]
             workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (%s): %s" % (lang, alternatetitle))
     else:
         print("No conocemos titulo alternativo o es igual al titulo")
