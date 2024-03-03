@@ -180,14 +180,14 @@ def createWork(item="", repo="", title="", alternatetitle="", authorq="", author
     else:
         print("Ya tiene labels")
     #descs
-    if not lang in workitem.descriptions or not "en" in workitem.descriptions:
+    if not lang in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
         authoritem = pywikibot.ItemPage(repo, authorq)
         authoritem.get()
         authorname = lang in authoritem.labels and authoritem.labels[lang] or ""
         authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authorname
         authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornameen
         authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornameen
-        authornameca = "gl" in authoritem.labels and authoritem.labels["gl"] or authornameen
+        authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornameen
         print("Añadiendo descripciones")
         descriptions = workitem.descriptions
         descriptions[lang] = "obra escrita" + (authorname and " por %s" % (authorname) or "") 
