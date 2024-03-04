@@ -138,7 +138,7 @@ def getForewordTranslatorEtc(role="", repo="", authorsbneids="", s=""):
     if role == "foreword":
         foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
     elif role == "translator":
-        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
+        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]|traductora?),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
     else:
         return 
     if foreword:
@@ -409,7 +409,7 @@ def createItem(p31="", item="", repo="", props={}):
             if not "P123" in workitem.claims:
                 print("Añadiendo P123")
                 claim = pywikibot.Claim(repo, 'P123')
-                target = pywikibot.ItemPage(repo, publishers[props["publisher"]])
+                target = pywikibot.ItemPage(repo, props["publisher"])
                 claim.setTarget(target)
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
@@ -421,7 +421,7 @@ def createItem(p31="", item="", repo="", props={}):
             if not "P291" in workitem.claims:
                 print("Añadiendo P291")
                 claim = pywikibot.Claim(repo, 'P291')
-                target = pywikibot.ItemPage(repo, publishers[props["publicationlocation"]])
+                target = pywikibot.ItemPage(repo, props["publicationlocation"])
                 claim.setTarget(target)
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
@@ -624,8 +624,8 @@ def unquote(s=""):
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    qlist = ["Q93433647"]
-    qlist = ["Q5865630"]
+    qlist = ["Q93433647"] #eusebio
+    qlist = ["Q5865630"] #paco espinosa
     
     for authorq in qlist:
         time.sleep(1)
@@ -719,8 +719,8 @@ def main():
                 print("No info de autor, saltamos")
                 continue
             if ',' in authors:
-                #print("Mas de un autor, saltamos")
-                #continue
+                print("Mas de un autor, saltamos")
+                continue
                 pass
             authorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
             forewordq = getForeword(repo=repo, authorsbneids=authorsbneids, s=authors)
@@ -852,8 +852,8 @@ def main():
             if workq and editionq:
                 linkWorkAndEdition(workq=workq, editionq=editionq)
             
-            if resourceid in ["a7153685", "a5311062"]:
-                sys.exit()
+            #if resourceid in ["a7153685", "a5311062"]:
+            #    sys.exit()
 
 if __name__ == "__main__":
     main()
