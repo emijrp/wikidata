@@ -45,9 +45,10 @@ occupations = {
     "médicos": "Q39631",
 }
 publishers = {
-    "aconcagua": "Q124731301",
-    "crítica": "Q5818611",
+    "aconcagua": { "q": "Q124731301", "regexp": r"(?im)^(ed\.?|editorial)? ?(aconcagua) ?(libros?)?$" }, 
+    "crítica": { "q": "Q5818611", "regexp": r"(?im)^(ed\.?|editorial)? ?(cr[íi]tica)$" }, 
 }
+
 def getBNEid(item=""):
     if not item:
         return
@@ -161,10 +162,9 @@ def getPublisher(s=""):
     if not s:
         return
     s = cleanSymbols(s=s)
-    if re.search(r"(?im)^(ed\.?|editorial)? ?(cr[íi]tica)$", s):
-        return "crítica"
-    elif re.search(r"(?im)^(ed\.?|editorial)? ?(aconcagua) ?(libros?)?$", s):
-        return "aconcagua"
+    for publisher, props in publishers.items():
+        if re.search(props["regexp"], s):
+            return props["q"]
     return
 
 def existsInWikidata(s=""):
@@ -368,6 +368,17 @@ def createItem(p31="", item="", repo="", props={}):
         addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P407")
+    #P123 = publisher
+    if p31 == "edition":
+        if not "P123" in workitem.claims:
+            print("Añadiendo P123")
+            claim = pywikibot.Claim(repo, 'P123')
+            target = pywikibot.ItemPage(repo, publishers[props["publisher"]])
+            claim.setTarget(target)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+        else:
+            print("Ya tiene P123")
     #P577 = publication date
     if not "P577" in workitem.claims:
         print("Añadiendo P577")
