@@ -102,7 +102,45 @@ def cleanSymbols(s=""):
     for i in range(50):
         s = s.strip().strip(" ").strip(",").strip(".").strip(":").strip(";")
         s = s.strip("[").strip("]").strip("(").strip(")").strip("{").strip("}")
+        s = s.strip("©")
     return s
+
+def getTranslator(authors="", s=""):
+    if not authors or not s:
+        return
+    translatorq = ""
+    translator = re.findall(r"(?im)(traducci[óo]n|traducid[oa]) (de|por) ([^;,]+)", s)
+    if translator:
+        translator = translator[0].strip()
+        if " y " in translator:
+            return 
+    return translatorq
+
+def getForeword(authors="", s=""):
+    if not authors or not s:
+        return
+    forewordq = ""
+    foreword = re.findall(r"(?im)(pr[óo]logo|prologado) (de|por) ([^;,]+)", s)
+    if foreword:
+        foreword = foreword[0].strip()
+        if " y " in foreword:
+            return 
+        for author in authors:
+            if forewordq:
+                break
+            candidates = existsInWikidata(s=author)
+            for candidate in candidates:
+                if forewordq:
+                    break
+                q = pywikibot.ItemPage(repo, candidate)
+                q.get()
+                for k, v in q.aliases.items():
+                    if author.lower() in [x.lower() for x in v]:
+                        forewordq = q
+                for k in q.labels:
+                    if author.lower() in k.lower():
+                        forewordq = q
+    return forewordq
 
 def getPublicationDate(s=""):
     if not s:
@@ -191,6 +229,8 @@ def improveItem(p31="", item="", repo="", props={}):
     return createItem(p31=p31, item=item, repo=repo, props=props)
 
 def createItem(p31="", item="", repo="", props={}):
+    #https://www.wikidata.org/wiki/Wikidata:WikiProject_Books#Work_item_properties
+    #https://www.wikidata.org/wiki/Wikidata:WikiProject_Books#Edition_item_properties
     if not p31 or not repo or not props:
         return
     lang = "es"
@@ -326,6 +366,18 @@ def createItem(p31="", item="", repo="", props={}):
             addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
         else:
             print("Ya tiene P1104")
+    
+    #P2679 = author of foreword
+    if p31 == "edition":
+        if props["forewordq"]:
+            if not "P2679" in workitem.claims:
+                print("Añadiendo P2679")
+                claim = pywikibot.Claim(repo, 'P2679')
+                claim.setTarget(props["forewordq"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addGoodReadsRef(repo=repo, claim=claim)
+            else:
+                print("Ya tiene P2679")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -591,6 +643,17 @@ def main():
             alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
             fulltitle = getFullTitle(title=title, subtitle=subtitle)
             
+            m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
+            authors = m and unquote(m[0]) or ""
+            if not authors:
+                print("No info de autor, saltamos")
+                continue
+            if ',' in authors:
+                print("Mas de un autor, saltamos")
+                continue
+            forewordq = getForeword(s=authors)
+            translatorq = getTranslator(s=authors)
+            
             m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
             publisher = m and getPublisher(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3006>([^<>]+?)</ns\d:P3006>", rawresource)
@@ -646,6 +709,9 @@ def main():
                 "fulltitle": fulltitle, 
                 "authorq": authorq, 
                 "authorbneid": authorbneid, 
+                "forewordq": forewordq, 
+                "translatorq": translatorq, 
+                
                 "resourceid": resourceid, 
                 "pages": pages, 
                 "publisher": publisher, 
@@ -708,7 +774,7 @@ def main():
             if workq and editionq:
                 linkWorkAndEdition(workq=workq, editionq=editionq)
             
-            if resourceid == "a7153685":
+            if resourceid in ["a7153685", "a5311062"]:
                 sys.exit()
 
 if __name__ == "__main__":
