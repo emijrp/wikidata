@@ -44,6 +44,29 @@ occupations = {
     "escritores": "Q36180",
     "médicos": "Q39631",
 }
+countries = {
+    "argentina": { "q": "Q414" }, 
+    "españa": { "q": "Q29" }, 
+    "estados unidos": { "q": "Q30" }, 
+    "francia": { "q": "Q142" }, 
+    "reino unido": { "q": "Q145" }, 
+}
+locations = {
+    "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"(?im)^(barcelona)?$" }, 
+    "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"(?im)^(bilbao)?$" }, 
+    "madrid": { "q": "Q2807", "country": countries["españa"]["q"], "regexp": r"(?im)^(madrid)?$" }, 
+    "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"(?im)^(sevilla)?$" }, 
+    "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"(?im)^(valencia)?$" }, 
+    "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"(?im)^(zaragoza)?$" }, 
+    
+    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"(?im)^(buenos aires)?$" }, 
+    
+    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(?im)^(londres|london)?$" }, 
+    
+    "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(?im)^(new york|nueva york)?$" },
+     
+    "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"(?im)^(par[íi]s)?$" }, 
+}
 publishers = {
     "aconcagua": { "q": "Q124731301", "regexp": r"(?im)^(ed\.?|editorial)? ?(aconcagua) ?(libros?)?$" }, 
     "crítica": { "q": "Q5818611", "regexp": r"(?im)^(ed\.?|editorial)? ?(cr[íi]tica)$" }, 
@@ -149,6 +172,15 @@ def getTranslator(repo="", authorsbneids="", s=""):
 
 def getForeword(repo="", authorsbneids="", s=""):
     return getForewordTranslatorEtc(role="foreword", repo=repo, authorsbneids=authorsbneids, s=s)
+
+def getPublicationLocation(s=""):
+    if not s:
+        return 
+    s = cleanSymbols(s=s)
+    for location, props in locations.items():
+        if re.search(props["regexp"], s):
+            return props["q"]
+    return 
 
 def getPublicationDate(s=""):
     if not s:
