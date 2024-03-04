@@ -105,26 +105,20 @@ def cleanSymbols(s=""):
         s = s.strip("©")
     return s
 
-def getTranslator(repo="", authorsbneids="", s=""):
-    if not repo or not authorsbneids or not s:
+def getForewordTranslatorEtc(role="", repo="", authorsbneids="", s=""):
+    if not role or not repo or not authorsbneids or not s:
         return
-    translatorq = ""
-    translator = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]) (?:de|por) ([^;,]+)", s)
-    if translator:
-        translator = translator[0].strip()
-        if " y " in translator:
-            return 
-    return translatorq
-
-def getForeword(repo="", authorsbneids="", s=""):
-    print("Authors bne ids:", authorsbneids)
-    print("Authors string:", s)
     if not repo or not authorsbneids or not s:
         return
     forewordq = ""
-    foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado) (?:de|por) ([^;,]+)", s)
-    print("Buscando", foreword, "en", ",".join(authorsbneids))
+    if role == "foreword":
+        foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado) (?:de|por) ([^;,]+)", s)
+    elif role == "translator":
+        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]) (?:de|por) ([^;,]+)", s)
+    else:
+        return 
     if foreword:
+        print("Buscando", foreword, "en", ",".join(authorsbneids))
         foreword = foreword[0].strip()
         if " y " in foreword:
             return 
@@ -146,6 +140,12 @@ def getForeword(repo="", authorsbneids="", s=""):
                     if foreword.lower() in k.lower():
                         forewordq = q.title()
     return forewordq
+
+def getTranslator(repo="", authorsbneids="", s=""):
+    return getForewordTranslatorEtc(role="translator", repo=repo, authorsbneids=authorsbneids, s=s)
+
+def getForeword(repo="", authorsbneids="", s=""):
+    return getForewordTranslatorEtc(role="foreword", repo=repo, authorsbneids=authorsbneids, s=s)
 
 def getPublicationDate(s=""):
     if not s:
