@@ -92,21 +92,22 @@ def getLegalDeposit(s=""):
 def getExtensionInPages(s=""):
     if not s:
         return
-    pages = ""
-    if re.search(r"(?im)(\d+) (?:pg?s?|p[aá]gs?|páginas?)\.?", s):
-        pages = re.findall(r"(?im)(\d+) (?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
+    pages = 0
+    if re.search(r"(?im)(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s):
+        pages = re.findall(r"(?im)(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
+    pages = int(pages)
     return pages
+
+def cleanSymbols(s=""):
+    for i in range(50):
+        s = s.strip().strip(" ").strip(",").strip(".").strip(":").strip(";")
+        s = s.strip("[").strip("]").strip("(").strip(")").strip("{").strip("}")
+    return s
 
 def getPublicationDate(s=""):
     if not s:
         return 
-    for i in range(20):
-        s = s.strip()
-        s = s.strip(",")
-        s = s.strip(" ")
-        s = s.strip("[")
-        s = s.strip("]")
-        s = s.strip(".")
+    s = cleanSymbols(s=s)
     if len(s) != 4 or not re.search(r"(?im)^[12]", s):
         return 
     return int(s)
@@ -114,13 +115,7 @@ def getPublicationDate(s=""):
 def getPublisher(s=""):
     if not s:
         return
-    for i in range(20):
-        s = s.strip()
-        s = s.strip(",")
-        s = s.strip(" ")
-        s = s.strip("[")
-        s = s.strip("]")
-        s = s.strip(".")
+    s = cleanSymbols(s=s)
     if re.search(r"(?im)^(ed\.?|editorial)? ?(cr[íi]tica)$", s):
         return "crítica"
     elif re.search(r"(?im)^(ed\.?|editorial)? ?(aconcagua) ?(libros?)?$", s):
@@ -321,6 +316,16 @@ def createItem(p31="", item="", repo="", props={}):
         addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P407")
+    #P1104 = number of pages
+    if p31 == "edition":
+        if not "P1104" in workitem.claims:
+            print("Añadiendo P1104")
+            claim = pywikibot.Claim(repo, 'P1104')
+            claim.setTarget(pywikibot.WbQuantity(amount=props["pages"]))
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+        else:
+            print("Ya tiene P1104")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -401,6 +406,17 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
             else:
                 print("Ya tiene P6164")
+    #P950 = bne id
+    if p31 == "edition":
+        if props["resourceid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["resourceid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            else:
+                print("Ya tiene P950")
     
     #more ideas
     #country of origin	P495
@@ -519,7 +535,7 @@ def main():
         urlrdf = "https://datos.bne.es/resource/%s.rdf" % (authorbneid)
         rawrdf = getURL(url=urlrdf)
         m = re.findall(r"(?im)<rdfs:label>([^<>]*?)</rdfs:label>", rawrdf)
-        label = m and m[0] or ""
+        label = m and unquote(s=m[0]) or ""
         m = re.findall(r"(?im)<ns\d:P50116>(Masculino|Femenino)</ns\d:P50116>", rawrdf)
         gender = m and genders[m[0].lower()] or ""
         m = re.findall(r"(?im)<ns\d:P5024>https?://isni\.org/isni/(\d+)/?</ns\d:P5024>", rawrdf)
@@ -527,13 +543,22 @@ def main():
         m = re.findall(r"(?im)<ns\d:P5024>https?://viaf\.org/viaf/(\d+)/?</ns\d:P5024>", rawrdf)
         viafid = m and m[0] or ""
         m = re.findall(r"(?im)<ns\d:P50102>(Español|Inglés)</ns\d:P50102>", rawrdf)
-        language = m and languages[m[0].lower()] or ""
+        language = m and languages[unquote(s=m[0]).lower()] or ""
         m = re.findall(r"(?im)<ns\d:P50119>([^<>]*?)</ns\d:P50119>", rawrdf)
-        birthplace = m and m[0] or ""
+        birthplace = m and unquote(s=m[0]) or ""
+        m = re.findall(r"(?im)<ns\d:P5010>(\d{4})</ns\d:P5010>", rawrdf)
+        birthdate = m and int(m[0]) or ""
+        m = re.findall(r"(?im)<ns\d:P5011>(\d{4})</ns\d:P5011>", rawrdf)
+        deathdate = m and int(m[0]) or ""
         
         print(label)
         print(gender, language, birthplace)
+        print(birthdate, deathdate)
         print(isniid, viafid)
+        
+        if (not birthdate and not deathdate) or (birthdate and birthdate < 1900) or (deathdate and deathdate < 1980):
+            print("Autor antiguo, saltamos")
+            continue
         
         #obras, el rdf no es completo? mejor parsearlo así por html
         obras = ""
@@ -573,11 +598,17 @@ def main():
             if not publicationdate:
                 print("No se encontro anyo, es necesario para distinguir entre ediciones, saltamos")
                 continue
+            if publicationdate and ((birthdate and publicationdate < birthdate) or (deathdate and publicationdate > deathdate)):
+                print("La obra fue publicada antes del nacimiento o despues de la muerte, saltamos")
+                continue
             m = re.findall(r"(?im)<ns\d:P3017>([^<>]+?)</ns\d:P3017>", rawresource)
             edition = m and unquote(m[0]) or ""
             m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
             extension = m and unquote(m[0]) or ""
             pages = getExtensionInPages(s=extension)
+            if pages < 100 or pages > 500:
+                print("Numero de paginas raro, saltamos", pages)
+                continue
             m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
             isbn = m and unquote(m[0]) or ""
             isbnplain = isbn and isbn.replace("-", "") or ""
@@ -585,14 +616,20 @@ def main():
             isbn13 = ""
             if len(isbnplain) == 10:
                 isbn10 = isbn
-            if len(isbnplain) == 13:
+            elif len(isbnplain) == 13:
                 isbn13 = isbn
+            else:
+                isbn = ""
+                isbnplain = ""
+            if not isbn:
+                print("ISBN valido no encontrado, saltamos")
+                continue
             m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
             legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
             mediatype = m and unquote(m[0]) or ""
-            if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|rom|dig|comp|ord|internet|web|recu|l[ií]nea)", edition+extension+mediatype):
-                print("Edicion/Extension/Medio electrónico, skiping", edition+extension+mediatype)
+            if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
+                print("Extension/Medio no interesa, skiping", extension+mediatype)
                 continue
             
             #external ids
