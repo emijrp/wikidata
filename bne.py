@@ -357,15 +357,16 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             print("Ya tiene P31")
     #P50 = authorq
-    if not "P50" in workitem.claims:
-        print("Añadiendo P50")
-        claim = pywikibot.Claim(repo, 'P50')
-        target = pywikibot.ItemPage(repo, props["authorq"])
-        claim.setTarget(target)
-        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-    else:
-        print("Ya tiene P50")
+    if p31:
+        if not "P50" in workitem.claims:
+            print("Añadiendo P50")
+            claim = pywikibot.Claim(repo, 'P50')
+            target = pywikibot.ItemPage(repo, props["authorq"])
+            claim.setTarget(target)
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+        else:
+            print("Ya tiene P50")
         
     #P2679 = author of foreword
     if p31 == "edition":
@@ -381,55 +382,72 @@ def createItem(p31="", item="", repo="", props={}):
                 print("Ya tiene P2679")
     
     #P1476 = title
-    if not "P1476" in workitem.claims:
-        print("Añadiendo P1476")
-        claim = pywikibot.Claim(repo, 'P1476')
-        target = pywikibot.WbMonolingualText(text=props["fulltitle"], language=lang)
-        claim.setTarget(target)
-        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-    else:
-        print("Ya tiene P1476")
-    #P407 = language of work
-    if not "P407" in workitem.claims:
-        print("Añadiendo P407")
-        claim = pywikibot.Claim(repo, 'P407')
-        target = pywikibot.ItemPage(repo, languages[lang])
-        claim.setTarget(target)
-        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-    else:
-        print("Ya tiene P407")
-    #P123 = publisher
-    if p31 == "edition":
-        if not "P123" in workitem.claims:
-            print("Añadiendo P123")
-            claim = pywikibot.Claim(repo, 'P123')
-            target = pywikibot.ItemPage(repo, publishers[props["publisher"]])
+    if p31:
+        if not "P1476" in workitem.claims:
+            print("Añadiendo P1476")
+            claim = pywikibot.Claim(repo, 'P1476')
+            target = pywikibot.WbMonolingualText(text=props["fulltitle"], language=lang)
             claim.setTarget(target)
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
             addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
-            print("Ya tiene P123")
-    #P577 = publication date
-    if not "P577" in workitem.claims:
-        print("Añadiendo P577")
-        claim = pywikibot.Claim(repo, 'P577')
-        claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
-        workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-        addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-    else:
-        print("Ya tiene P407")
-    #P1104 = number of pages
-    if p31 == "edition":
-        if not "P1104" in workitem.claims:
-            print("Añadiendo P1104")
-            claim = pywikibot.Claim(repo, 'P1104')
-            claim.setTarget(pywikibot.WbQuantity(amount=props["pages"]))
+            print("Ya tiene P1476")
+    #P407 = language of work
+    if p31:
+        if not "P407" in workitem.claims:
+            print("Añadiendo P407")
+            claim = pywikibot.Claim(repo, 'P407')
+            target = pywikibot.ItemPage(repo, languages[lang])
+            claim.setTarget(target)
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
             addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
-            print("Ya tiene P1104")
+            print("Ya tiene P407")
+    #P123 = publisher
+    if p31 == "edition":
+        if props["publisher"]:
+            if not "P123" in workitem.claims:
+                print("Añadiendo P123")
+                claim = pywikibot.Claim(repo, 'P123')
+                target = pywikibot.ItemPage(repo, publishers[props["publisher"]])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P123")
+    #P291 = place of publication
+    if p31 == "edition":
+        if props["publicationlocation"]:
+            if not "P291" in workitem.claims:
+                print("Añadiendo P291")
+                claim = pywikibot.Claim(repo, 'P291')
+                target = pywikibot.ItemPage(repo, publishers[props["publicationlocation"]])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P291")
+    #P577 = publication date
+    if props["publicationdate"]:
+        if not "P577" in workitem.claims:
+            print("Añadiendo P577")
+            claim = pywikibot.Claim(repo, 'P577')
+            claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
+            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+        else:
+            print("Ya tiene P407")
+    #P1104 = number of pages
+    if p31 == "edition":
+        if props["pages"]:
+            if not "P1104" in workitem.claims:
+                print("Añadiendo P1104")
+                claim = pywikibot.Claim(repo, 'P1104')
+                claim.setTarget(pywikibot.WbQuantity(amount=props["pages"]))
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P1104")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -710,6 +728,8 @@ def main():
             
             m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
             publisher = m and getPublisher(s=unquote(m[0])) or ""
+            m = re.findall(r"(?im)<ns\d:P3003>([^<>]+?)</ns\d:P3003>", rawresource)
+            publicationlocation = m and getPublicationLocation(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3006>([^<>]+?)</ns\d:P3006>", rawresource)
             publicationdate = m and getPublicationDate(s=unquote(m[0])) or ""
             if not publicationdate:
@@ -761,6 +781,7 @@ def main():
                 "subtitle": subtitle, 
                 "alternatetitles": alternatetitles, 
                 "fulltitle": fulltitle, 
+                
                 "authorq": authorq, 
                 "authorbneid": authorbneid, 
                 "forewordq": forewordq, 
@@ -768,8 +789,11 @@ def main():
                 
                 "resourceid": resourceid, 
                 "pages": pages, 
+                
                 "publisher": publisher, 
+                "publicationlocation": publicationlocation, 
                 "publicationdate": publicationdate, 
+                
                 "isbn": isbn, 
                 "isbnplain": isbnplain, 
                 "isbn10": isbn10, 
