@@ -112,15 +112,16 @@ def getForewordTranslatorEtc(role="", repo="", authorsbneids="", s=""):
         return
     forewordq = ""
     if role == "foreword":
-        foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado) (?:de|por) ([^;,]+)", s)
+        foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
     elif role == "translator":
-        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]) (?:de|por) ([^;,]+)", s)
+        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
     else:
         return 
     if foreword:
         print("Buscando", foreword, "en", ",".join(authorsbneids))
         foreword = foreword[0].strip()
-        if " y " in foreword:
+        if " y " in foreword or "," in foreword:
+            print("Mas de un autor en", role, "saltamos", foreword)
             return 
         for authorbneid in authorsbneids:
             if forewordq:
@@ -134,10 +135,11 @@ def getForewordTranslatorEtc(role="", repo="", authorsbneids="", s=""):
                 if not "P950" in q.claims or not authorbneid in [x.getTarget() for x in q.claims["P950"]]:
                     continue
                 for k, v in q.aliases.items():
-                    if foreword.lower() in [x.lower() for x in v]:
-                        forewordq = q.title()
+                    for x in v:
+                        if foreword.lower() == x.lower() or foreword.lower() in x.lower() or x.lower() in foreword.lower():
+                            forewordq = q.title()
                 for k in q.labels:
-                    if foreword.lower() in k.lower():
+                    if foreword.lower() == k.lower() or foreword.lower() in k.lower() or k.lower() in foreword.lower():
                         forewordq = q.title()
     return forewordq
 
