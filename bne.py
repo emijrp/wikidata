@@ -105,41 +105,46 @@ def cleanSymbols(s=""):
         s = s.strip("©")
     return s
 
-def getTranslator(authors="", s=""):
-    if not authors or not s:
+def getTranslator(repo="", authorsbneids="", s=""):
+    if not repo or not authorsbneids or not s:
         return
     translatorq = ""
-    translator = re.findall(r"(?im)(traducci[óo]n|traducid[oa]) (de|por) ([^;,]+)", s)
+    translator = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]) (?:de|por) ([^;,]+)", s)
     if translator:
         translator = translator[0].strip()
         if " y " in translator:
             return 
     return translatorq
 
-def getForeword(authors="", s=""):
-    if not authors or not s:
+def getForeword(repo="", authorsbneids="", s=""):
+    print("Authors bne ids:", authorsbneids)
+    print("Authors string:", s)
+    if not repo or not authorsbneids or not s:
         return
     forewordq = ""
-    foreword = re.findall(r"(?im)(pr[óo]logo|prologado) (de|por) ([^;,]+)", s)
+    foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado) (?:de|por) ([^;,]+)", s)
+    print("Buscando", foreword, "en", ",".join(authorsbneids))
     if foreword:
         foreword = foreword[0].strip()
         if " y " in foreword:
             return 
-        for author in authors:
+        for authorbneid in authorsbneids:
             if forewordq:
                 break
-            candidates = existsInWikidata(s=author)
+            candidates = existsInWikidata(s=authorbneid)
             for candidate in candidates:
                 if forewordq:
                     break
                 q = pywikibot.ItemPage(repo, candidate)
                 q.get()
+                if not "P950" in q.claims or not authorbneid in [x.getTarget() for x in q.claims["P950"]]:
+                    continue
                 for k, v in q.aliases.items():
-                    if author.lower() in [x.lower() for x in v]:
-                        forewordq = q
+                    if foreword.lower() in [x.lower() for x in v]:
+                        forewordq = q.title()
                 for k in q.labels:
-                    if author.lower() in k.lower():
-                        forewordq = q
+                    if foreword.lower() in k.lower():
+                        forewordq = q.title()
     return forewordq
 
 def getPublicationDate(s=""):
@@ -303,7 +308,7 @@ def createItem(p31="", item="", repo="", props={}):
             target = pywikibot.ItemPage(repo, 'Q47461344')
             claim.setTarget(target)
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=props["authorbneid"])
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
             print("Ya tiene P31")
     #P31 = Q3331189 edition
@@ -314,7 +319,7 @@ def createItem(p31="", item="", repo="", props={}):
             target = pywikibot.ItemPage(repo, 'Q3331189')
             claim.setTarget(target)
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
             print("Ya tiene P31")
     #P50 = authorq
@@ -327,6 +332,20 @@ def createItem(p31="", item="", repo="", props={}):
         addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
     else:
         print("Ya tiene P50")
+        
+    #P2679 = author of foreword
+    if p31 == "edition":
+        if props["forewordq"]:
+            if not "P2679" in workitem.claims:
+                print("Añadiendo P2679")
+                claim = pywikibot.Claim(repo, 'P2679')
+                target = pywikibot.ItemPage(repo, props["forewordq"])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P2679")
+    
     #P1476 = title
     if not "P1476" in workitem.claims:
         print("Añadiendo P1476")
@@ -363,21 +382,9 @@ def createItem(p31="", item="", repo="", props={}):
             claim = pywikibot.Claim(repo, 'P1104')
             claim.setTarget(pywikibot.WbQuantity(amount=props["pages"]))
             workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
             print("Ya tiene P1104")
-    
-    #P2679 = author of foreword
-    if p31 == "edition":
-        if props["forewordq"]:
-            if not "P2679" in workitem.claims:
-                print("Añadiendo P2679")
-                claim = pywikibot.Claim(repo, 'P2679')
-                claim.setTarget(props["forewordq"])
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addGoodReadsRef(repo=repo, claim=claim)
-            else:
-                print("Ya tiene P2679")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -433,7 +440,7 @@ def createItem(p31="", item="", repo="", props={}):
                 claim = pywikibot.Claim(repo, 'P957')
                 claim.setTarget(props["isbn10"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P957")
     #P212 = isbn13
@@ -444,7 +451,7 @@ def createItem(p31="", item="", repo="", props={}):
                 claim = pywikibot.Claim(repo, 'P212')
                 claim.setTarget(props["isbn13"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P212")
     #P6164 = depósito legal
@@ -455,7 +462,7 @@ def createItem(p31="", item="", repo="", props={}):
                 claim = pywikibot.Claim(repo, 'P6164')
                 claim.setTarget(props["legaldeposit"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P6164")
     #P950 = bne id
@@ -466,7 +473,7 @@ def createItem(p31="", item="", repo="", props={}):
                 claim = pywikibot.Claim(repo, 'P950')
                 claim.setTarget(props["resourceid"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["resourceid"])
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P950")
     
@@ -649,10 +656,12 @@ def main():
                 print("No info de autor, saltamos")
                 continue
             if ',' in authors:
-                print("Mas de un autor, saltamos")
-                continue
-            forewordq = getForeword(s=authors)
-            translatorq = getTranslator(s=authors)
+                #print("Mas de un autor, saltamos")
+                #continue
+                pass
+            authorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
+            forewordq = getForeword(repo=repo, authorsbneids=authorsbneids, s=authors)
+            translatorq = getTranslator(repo=repo, authorsbneids=authorsbneids, s=authors)
             
             m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
             publisher = m and getPublisher(s=unquote(m[0])) or ""
