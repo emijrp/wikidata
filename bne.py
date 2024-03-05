@@ -129,49 +129,57 @@ def cleanSymbols(s=""):
         s = s.strip("©")
     return s
 
-def getForewordTranslatorEtc(role="", repo="", authorsbneids="", s=""):
-    if not role or not repo or not authorsbneids or not s:
-        return
-    if not repo or not authorsbneids or not s:
-        return
-    forewordq = ""
-    if role == "foreword":
-        foreword = re.findall(r"(?im)(?:pr[óo]logo|prologado),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
+def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
+    if not role or not repo or not contributorsbneids or not s:
+        return []
+    
+    personsq = []
+    if role == "contributor":
+        persons = re.findall(r"(?im)^([^;\[\]]{7,})", s)
+    elif role == "foreword":
+        persons = re.findall(r"(?im)(?:pr[óo]logo|prologado),? ?(?:del?|por|por el|por la)? ([^;\[\]]{7,})", s)
     elif role == "translator":
-        foreword = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]|traductora?),? ?(?:del?|por|por el|por la)? ([^;,\[\]]+)", s)
+        persons = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]|traductora?),? ?(?:del?|por|por el|por la)? ([^;\[\]]{7,})", s)
     else:
-        return 
-    if foreword:
-        print("Buscando", foreword, "en", ",".join(authorsbneids))
-        foreword = foreword[0].strip()
-        if " y " in foreword or "," in foreword:
-            print("Mas de un autor en", role, "saltamos", foreword)
-            return 
-        for authorbneid in authorsbneids:
-            if forewordq:
-                break
-            candidates = existsInWikidata(s=authorbneid)
-            for candidate in candidates:
-                if forewordq:
-                    break
-                q = pywikibot.ItemPage(repo, candidate)
-                q.get()
-                if not "P950" in q.claims or not authorbneid in [x.getTarget() for x in q.claims["P950"]]:
-                    continue
-                for k, v in q.aliases.items():
-                    for x in v:
-                        if foreword.lower() == x.lower() or foreword.lower() in x.lower() or x.lower() in foreword.lower():
-                            forewordq = q.title()
-                for k in q.labels:
-                    if foreword.lower() == k.lower() or foreword.lower() in k.lower() or k.lower() in foreword.lower():
-                        forewordq = q.title()
-    return forewordq
+        return personsq
+    
+    if persons:
+        persons = cleanSymbols(s=persons[0])
+        for person in persons.split(","):
+            personq = ""
+            person = cleanSymbols(s=person)
+            if len(person) >= 7 and " " in person: #el espacio es para detectar q es "nombre apellido" al menos
+                print("Buscando", person, "en", ",".join(contributorsbneids))
+                for contributorbneid in contributorsbneids:
+                    if personq:
+                        continue
+                    candidates = existsInWikidata(s=contributorbneid)
+                    for candidate in candidates:
+                        if personq:
+                            continue
+                        q = pywikibot.ItemPage(repo, candidate)
+                        q.get()
+                        if not "P950" in q.claims or not contributorbneid in [x.getTarget() for x in q.claims["P950"]]:
+                            continue
+                        for k, v in q.aliases.items():
+                            for x in v:
+                                if person.lower() == x.lower() or person.lower() in x.lower() or x.lower() in person.lower():
+                                    personq = q.title()
+                        for k in q.labels:
+                            if person.lower() == k.lower() or person.lower() in k.lower() or k.lower() in person.lower():
+                                personq = q.title()
+                        if personq:
+                            personsq.append(personq)
+    return personsq
 
-def getTranslator(repo="", authorsbneids="", s=""):
-    return getForewordTranslatorEtc(role="translator", repo=repo, authorsbneids=authorsbneids, s=s)
+def getContributors(repo="", contributorsbneids="", s=""):
+    return getContributorsCore(role="contributor", repo=repo, contributorsbneids=contributorsbneids, s=s)
 
-def getForeword(repo="", authorsbneids="", s=""):
-    return getForewordTranslatorEtc(role="foreword", repo=repo, authorsbneids=authorsbneids, s=s)
+def getTranslators(repo="", contributorsbneids="", s=""):
+    return getContributorsCore(role="translator", repo=repo, contributorsbneids=contributorsbneids, s=s)
+
+def getForewords(repo="", contributorsbneids="", s=""):
+    return getContributorsCore(role="foreword", repo=repo, contributorsbneids=contributorsbneids, s=s)
 
 def getPublicationLocation(s=""):
     if not s:
@@ -315,7 +323,7 @@ def createItem(p31="", item="", repo="", props={}):
         if p31 == "edition":
             print("Añadiendo descripciones")
             descriptions = workitem.descriptions
-            descriptions[lang] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authorname and " de la obra de %s" % (authorname) or "") 
+            descriptions[lang] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authorname and " de la obra escrita por %s" % (authorname) or "") 
             descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
             workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (lang))
     else:
@@ -368,18 +376,38 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             print("Ya tiene P50")
         
+    #P767 = contributor (not the main author)
+    if p31 == "edition":
+        if props["contributorsq"]:
+            for contributor in props["contributorsq"]:
+                if contributor == props["authorq"] or contributor in props["traductorsq"] or contributor in props["forewordsq"]:
+                    #no meter al autor, traductor, prologador como contributor de nuevo
+                    continue
+                if not "P767" in workitem.claims or not contributor in [x.getTarget().title() for x in workitem.claims["P767"]]:
+                    print("Añadiendo P767")
+                    claim = pywikibot.Claim(repo, 'P767')
+                    target = pywikibot.ItemPage(repo, contributor)
+                    claim.setTarget(target)
+                    workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                    addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+                else:
+                    print("Ya tiene P767")
+        
     #P2679 = author of foreword
     if p31 == "edition":
-        if props["forewordq"]:
-            if not "P2679" in workitem.claims:
-                print("Añadiendo P2679")
-                claim = pywikibot.Claim(repo, 'P2679')
-                target = pywikibot.ItemPage(repo, props["forewordq"])
-                claim.setTarget(target)
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-            else:
-                print("Ya tiene P2679")
+        if props["forewordsq"]:
+            for foreword in props["forewordsq"]:
+                #if contributor == props["authorq"]: #un autor puede prologar su propia obra
+                #    continue
+                if not "P2679" in workitem.claims:
+                    print("Añadiendo P2679")
+                    claim = pywikibot.Claim(repo, 'P2679')
+                    target = pywikibot.ItemPage(repo, foreword)
+                    claim.setTarget(target)
+                    workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                    addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+                else:
+                    print("Ya tiene P2679")
     
     #P1476 = title
     if p31:
@@ -714,17 +742,17 @@ def main():
             fulltitle = getFullTitle(title=title, subtitle=subtitle)
             
             m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
-            authors = m and unquote(m[0]) or ""
-            if not authors:
-                print("No info de autor, saltamos")
+            contributors = m and unquote(m[0]) or ""
+            if not contributors:
+                print("No info de contributor, saltamos")
                 continue
-            if ',' in authors:
-                print("Mas de un autor, saltamos")
-                continue
-                pass
-            authorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
-            forewordq = getForeword(repo=repo, authorsbneids=authorsbneids, s=authors)
-            translatorq = getTranslator(repo=repo, authorsbneids=authorsbneids, s=authors)
+            #if ',' in contributors.split(';')[0] or ' y ' in contributors.split(';')[0]:
+            #    print("Mas de un contributor, saltamos")
+            #    continue
+            contributorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
+            contributorsq = getContributors(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
+            forewordsq = getForewords(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
+            translatorsq = getTranslators(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
             
             m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
             publisher = m and getPublisher(s=unquote(m[0])) or ""
@@ -784,8 +812,9 @@ def main():
                 
                 "authorq": authorq, 
                 "authorbneid": authorbneid, 
-                "forewordq": forewordq, 
-                "translatorq": translatorq, 
+                "contributorsq": contributorsq, 
+                "forewordsq": forewordsq, 
+                "translatorsq": translatorsq, 
                 
                 "resourceid": resourceid, 
                 "pages": pages, 
