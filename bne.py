@@ -152,24 +152,28 @@ def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
                 print("Buscando", person, "en", ",".join(contributorsbneids))
                 for contributorbneid in contributorsbneids:
                     if personq:
-                        continue
+                        break
                     candidates = existsInWikidata(s=contributorbneid)
                     for candidate in candidates:
                         if personq:
-                            continue
+                            break
                         q = pywikibot.ItemPage(repo, candidate)
                         q.get()
                         if not "P950" in q.claims or not contributorbneid in [x.getTarget() for x in q.claims["P950"]]:
+                            #no tiene el bne id, aunque haya salido en la busqueda, no es este
                             continue
                         for k, v in q.aliases.items():
                             for x in v:
-                                if person.lower() == x.lower() or person.lower() in x.lower() or x.lower() in person.lower():
+                                #print(person, x)
+                                if len(v) >= 7 and (person.lower() == x.lower() or person.lower() in x.lower() or x.lower() in person.lower()):
                                     personq = q.title()
-                        for k in q.labels:
-                            if person.lower() == k.lower() or person.lower() in k.lower() or k.lower() in person.lower():
+                        for k, v in q.labels.items():
+                            #print(person, v)
+                            if len(v) >= 7 and (person.lower() == v.lower() or person.lower() in v.lower() or v.lower() in person.lower()):
                                 personq = q.title()
-                        if personq:
-                            personsq.append(personq)
+            if personq and not personq in personsq:
+                personsq.append(personq)
+    personsq = list(set(personsq))
     return personsq
 
 def getContributors(repo="", contributorsbneids="", s=""):
@@ -377,32 +381,46 @@ def createItem(p31="", item="", repo="", props={}):
             print("Ya tiene P50")
         
     #P767 = contributor (not the main author)
-    if p31 == "edition":
+    if p31: #los contributor los metemos en work y en edition
         if props["contributorsq"]:
-            for contributor in props["contributorsq"]:
-                if contributor == props["authorq"] or contributor in props["traductorsq"] or contributor in props["forewordsq"]:
+            for contributorq in props["contributorsq"]:
+                if contributorq == props["authorq"] or contributorq in props["translatorsq"] or contributorq in props["forewordsq"]:
                     #no meter al autor, traductor, prologador como contributor de nuevo
                     continue
-                if not "P767" in workitem.claims or not contributor in [x.getTarget().title() for x in workitem.claims["P767"]]:
+                if not "P767" in workitem.claims or not contributorq in [x.getTarget().title() for x in workitem.claims["P767"]]:
                     print("Añadiendo P767")
                     claim = pywikibot.Claim(repo, 'P767')
-                    target = pywikibot.ItemPage(repo, contributor)
+                    target = pywikibot.ItemPage(repo, contributorq)
                     claim.setTarget(target)
                     workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                     addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
                 else:
                     print("Ya tiene P767")
         
+    #P655 = translator
+    if p31 == "edition": #el traductor depende de la edicion
+        if props["translatorsq"]:
+            for translatorq in props["translatorsq"]:
+                if not "P655" in workitem.claims or not translatorq in [x.getTarget().title() for x in workitem.claims["P655"]]:
+                    print("Añadiendo P655")
+                    claim = pywikibot.Claim(repo, 'P655')
+                    target = pywikibot.ItemPage(repo, translatorq)
+                    claim.setTarget(target)
+                    workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                    addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+                else:
+                    print("Ya tiene P655")
+        
     #P2679 = author of foreword
-    if p31 == "edition":
+    if p31 == "edition": #el prologo depende de la edicion
         if props["forewordsq"]:
-            for foreword in props["forewordsq"]:
-                #if contributor == props["authorq"]: #un autor puede prologar su propia obra
+            for forewordq in props["forewordsq"]:
+                #if contributorq == props["authorq"]: #un autor puede prologar su propia obra, no descartar con este if
                 #    continue
-                if not "P2679" in workitem.claims:
+                if not "P2679" in workitem.claims or not forewordq in [x.getTarget().title() for x in workitem.claims["P2679"]]:
                     print("Añadiendo P2679")
                     claim = pywikibot.Claim(repo, 'P2679')
-                    target = pywikibot.ItemPage(repo, foreword)
+                    target = pywikibot.ItemPage(repo, forewordq)
                     claim.setTarget(target)
                     workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                     addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
@@ -881,8 +899,8 @@ def main():
             if workq and editionq:
                 linkWorkAndEdition(workq=workq, editionq=editionq)
             
-            #if resourceid in ["a7153685", "a5311062"]:
-            #    sys.exit()
+            if resourceid in ["a7153685", "a5311062"]:
+                sys.exit()
 
 if __name__ == "__main__":
     main()
