@@ -63,7 +63,7 @@ def generateTranslations(pubdate=''):
         'et': 'teaduslik artikkel',
         'fa': 'مقالهٔ علمی', 
         'fi': 'tieteellinen artikkeli',
-        'fr': 'article scientifique (publié %s)' % (pubdate.year),
+        'fr': 'article scientifique publié en %s' % (pubdate.year),
         'gl': 'artigo científico',
         'he': 'מאמר מדעי',
         'hu': 'tudományos cikk',
