@@ -390,6 +390,9 @@ def createItem(p31="", item="", repo="", props={}):
         return
     today = datetime.date.today()
     year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
+    overwritelabels = True
+    overwritedescriptions = True
+    overwritealiases = True
     if item:
         workitem = pywikibot.ItemPage(repo, item)
     else:
@@ -398,7 +401,7 @@ def createItem(p31="", item="", repo="", props={}):
         workitem.editLabels(labels=workitemlabels, summary="BOT - Creating item")
     workitem.get()
     #labels
-    if not props["lang"] in workitem.labels or not "en" in workitem.labels:
+    if overwritelabels or not props["lang"] in workitem.labels or not "en" in workitem.labels:
         print("Añadiendo labels")
         labels = workitem.labels
         labels[props["lang"]] = props["fulltitle"]
@@ -409,7 +412,7 @@ def createItem(p31="", item="", repo="", props={}):
     else:
         print("Ya tiene labels")
     #descs
-    if not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
+    if overwritedescriptions or not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
         print("Añadiendo descripciones")
         authoritem = pywikibot.ItemPage(repo, props["authorq"])
         authoritem.get()
@@ -440,6 +443,8 @@ def createItem(p31="", item="", repo="", props={}):
         print("Ya tiene descripciones")
     #aliases
     if props["alternatetitles"]:
+        if overwritealiases:
+            workitem.aliases = []
         for alternatetitle in props["alternatetitles"]:
             if alternatetitle != props["title"]:
                 if "es" in workitem.aliases and not alternatetitle in workitem.aliases["es"]:
