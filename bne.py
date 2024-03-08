@@ -444,7 +444,7 @@ def createItem(p31="", item="", repo="", props={}):
     #aliases
     if props["alternatetitles"]:
         if overwritealiases:
-            workitem.aliases = []
+            workitem.aliases = {}
         for alternatetitle in props["alternatetitles"]:
             if alternatetitle != props["title"]:
                 if "es" in workitem.aliases and not alternatetitle in workitem.aliases["es"]:
