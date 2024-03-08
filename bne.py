@@ -235,7 +235,7 @@ def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
     else:
         return personsq
     
-    candidates = []
+    candidates = [] #small cache for loop
     if persons:
         persons = cleanSymbols(s=persons[0])
         for person in persons.split(","):
@@ -243,7 +243,7 @@ def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
             person = cleanSymbols(s=person)
             if len(person) >= 7 and " " in person: #el espacio es para detectar q es "nombre apellido" al menos
                 print("\nBuscando", person, "en", ", ".join(contributorsbneids))
-                if not candidates:
+                if not candidates: #check if search cache available
                     candidates = searchInWikidata(l=contributorsbneids)
                 for candidate in candidates:
                     if personq:
@@ -306,10 +306,10 @@ def searchInWikidata(s="", l=[]):
     candidates = []
     if not s and not l:
         return candidates
-    print("\nSearching in Wikidata", s and s or l and l or "")
     lang = "en"
     #searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=%s&format=xml' % (urllib.parse.quote(s), lang)
     if s:
+        print("\nSearching in Wikidata", s)
         searchitemurl = 'https://www.wikidata.org/w/index.php?go=Go&search=%s' % (urllib.parse.quote(s))
     elif l:
         l2 = []
@@ -318,6 +318,7 @@ def searchInWikidata(s="", l=[]):
                 l2.append(ll)
         l = l2
         ss = " OR ".join(['"%s"' % (x) for x in l])
+        print("\nSearching in Wikidata", ss)
         searchitemurl = 'https://www.wikidata.org/w/index.php?go=Go&search=%s' % (urllib.parse.quote(ss))
     else:
         return candidates
