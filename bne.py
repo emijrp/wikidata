@@ -942,8 +942,8 @@ def main():
                 print("Idioma no entendido", lang, "saltamos")
                 continue
             m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
-            title = m and unquote(m[0]) or ""
-            title = cleanSymbols(s=title)
+            title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
+            title = title_.strip(".").strip(" ").strip(".") #no usar clearsymbols pq puede quitar un paréntesis o algo, quitar solo el punto final si hay
             m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
             subtitle = m and unquote(m[0]) or ""
             subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
@@ -952,7 +952,7 @@ def main():
             alternatetitle3 = alternatetitle.replace(" : ", ", ")
             alternatetitle4 = alternatetitle.replace(" : ", " ")
             alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
-            fulltitle = getFullTitle(title=title, subtitle=subtitle)
+            fulltitle = getFullTitle(title=title_, subtitle=subtitle)
             
             m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
             contributors = m and unquote(m[0]) or ""
