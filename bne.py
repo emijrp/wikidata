@@ -36,6 +36,24 @@ genders = {
 }
 languages = {
     
+    "ar": "Q13955", 
+    "ara": "Q13955", 
+    "árabe": "Q13955", 
+    
+    "an": "Q8765", 
+    "arg": "Q8765", 
+    "aragonés": "Q8765", 
+    
+    "eu": "Q8752", 
+    "baq": "Q8752", 
+    "vasco": "Q8752", 
+    "vascuence": "Q8752", 
+    "euskera": "Q8752", 
+    
+    "ast": "Q29507", 
+    "ast": "Q29507", 
+    "asturiano": "Q29507", 
+    
     "ca": "Q7026", 
     "cat": "Q7026", 
     "catalán": "Q7026", 
@@ -58,15 +76,56 @@ languages = {
     
 }
 languages2iso = {
+    "ara": "ar", 
+    "arg": "an", 
+    "ast": "ast", 
+    "baq": "eu", 
     "cat": "ca", 
+    "dut": "nl", 
     "eng": "en", 
     "fre": "fr", 
+    "ger": "de", 
     "glg": "gl", 
+    "ita": "it", 
+    "lat": "la", 
+    "pol": "pl", 
+    "por": "pt", 
+    "rum": "ro", 
     "spa": "es", 
+    "rus": "ru", 
+    #"mul": "", #multiple languages
+    #"zxx": "", #no language
 }
 occupations = {
+    "abogados": "Q40348",
+    "arquitectos": "Q42973",
+    "criticos literarios": "Q4263842",
+    "críticos literarios": "Q4263842",
+    "diplomaticos": "Q193391",
+    "diplomáticos": "Q193391",
+    "dramaturgos": "Q214917",
+    "economistas": "Q188094",
+    "ensayista": "Q11774202",
     "escritores": "Q36180",
+    "filologos": "Q13418253",
+    "filólogos": "Q13418253",
+    "filosofos": "Q4964182",
+    "filósofos": "Q4964182",
+    "historiadores": "Q201788",
+    "historiadores del arte": "Q1792450",
+    "ilustradores": "Q644687",
+    "linguistas": "Q14467526",
+    "medicos": "Q39631",
     "médicos": "Q39631",
+    "novelistas": "Q6625963",
+    "periodistas": "Q1930187",
+    "poetas": "Q49757",
+    "politicos": "Q82955", #viene sin tilde a veces
+    "políticos": "Q82955",
+    "profesores universitarios": "Q1622272",
+    "teologos": "Q1234713",
+    "teólogos": "Q1234713",
+    "traductores": "Q333634",
 }
 countries = {
     "argentina": { "q": "Q414" }, 
@@ -136,6 +195,15 @@ def getLegalDeposit(s=""):
         return 
     s = "DL " + s
     return s
+
+def getHeightInCM(s=""):
+    if not s:
+        return
+    height = 0
+    if re.search(r"(?im)^(\d+)\s*(?:cm|cent[íi]metros?)\.?$", s):
+        height = re.findall(r"(?im)^(\d+)\s*(?:cm|cent[íi]metros?)\.?$", s)[0]
+    height = int(height)
+    return height
 
 def getExtensionInPages(s=""):
     if not s:
@@ -453,26 +521,40 @@ def createItem(p31="", item="", repo="", props={}):
     
     #P1476 = title
     if p31:
-        if not "P1476" in workitem.claims:
-            print("Añadiendo P1476")
-            claim = pywikibot.Claim(repo, 'P1476')
-            target = pywikibot.WbMonolingualText(text=props["fulltitle"], language=props["lang"])
-            claim.setTarget(target)
-            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-        else:
-            print("Ya tiene P1476")
+        if props["title"]:
+            if not "P1476" in workitem.claims:
+                print("Añadiendo P1476")
+                claim = pywikibot.Claim(repo, 'P1476')
+                target = pywikibot.WbMonolingualText(text=props["title"], language=props["lang"])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P1476")
+    #P1680 = subtitle
+    if p31:
+        if props["subtitle"]:
+            if not "P1680" in workitem.claims:
+                print("Añadiendo P1680")
+                claim = pywikibot.Claim(repo, 'P1680')
+                target = pywikibot.WbMonolingualText(text=props["subtitle"], language=props["lang"])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P1680")
     #P407 = language of work
     if p31 == "edition": #en las ediciones si te indica el idioma, pero en las obras no, no podemos presuponer q siempre será español o q coincidirá con el idioma de la edición, además cuál edición? en todo caso la primera por fecha...
-        if not "P407" in workitem.claims:
-            print("Añadiendo P407")
-            claim = pywikibot.Claim(repo, 'P407')
-            target = pywikibot.ItemPage(repo, languages[props["lang"]])
-            claim.setTarget(target)
-            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-        else:
-            print("Ya tiene P407")
+        if props["lang"]:
+            if not "P407" in workitem.claims:
+                print("Añadiendo P407")
+                claim = pywikibot.Claim(repo, 'P407')
+                target = pywikibot.ItemPage(repo, languages[props["lang"]])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P407")
     #P123 = publisher
     if p31 == "edition":
         if props["publisher"]:
@@ -518,6 +600,17 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P1104")
+    #P2048 = height
+    if p31 == "edition":
+        if props["height"]:
+            if not "P2048" in workitem.claims:
+                print("Añadiendo P2048")
+                claim = pywikibot.Claim(repo, 'P2048')
+                claim.setTarget(pywikibot.WbQuantity(amount=props["height"]))
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P2048")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -779,8 +872,10 @@ def main():
                 continue
             m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
             title = m and unquote(m[0]) or ""
+            title = cleanSymbols(s=title)
             m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
             subtitle = m and unquote(m[0]) or ""
+            subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
             alternatetitle = title + " " + subtitle
             alternatetitle2 = alternatetitle.replace(" : ", ": ")
             alternatetitle3 = alternatetitle.replace(" : ", ", ")
@@ -821,6 +916,12 @@ def main():
             if pages < 100 or pages > 500:
                 print("Numero de paginas raro, saltamos", pages)
                 continue
+            m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
+            dimensions = m and unquote(m[0]) or ""
+            height = getHeightInCM(s=dimensions)
+            if height < 10 or pages > 35:
+                print("Altura extraña, saltamos", height)
+                height = ""
             m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
             isbn = m and unquote(m[0]) or ""
             isbnplain = isbn and isbn.replace("-", "") or ""
@@ -867,6 +968,7 @@ def main():
                 
                 "resourceid": resourceid, 
                 "pages": pages, 
+                "height": height, 
                 
                 "publisher": publisher, 
                 "publicationlocation": publicationlocation, 
@@ -929,8 +1031,8 @@ def main():
             if workq and editionq:
                 linkWorkAndEdition(workq=workq, editionq=editionq)
             
-            #if resourceid in ["a7153685", "a5311062"]:
-            #    sys.exit()
+            if resourceid in ["a7153685", "a5311062"]:
+                sys.exit()
 
 if __name__ == "__main__":
     main()
