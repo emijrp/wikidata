@@ -903,7 +903,7 @@ def main():
         isniid = m and m[0] or ""
         m = re.findall(r"(?im)<ns\d:P5024>https?://viaf\.org/viaf/(\d+)/?</ns\d:P5024>", rawrdf)
         viafid = m and m[0] or ""
-        m = re.findall(r"(?im)<ns\d:P50102>(Español|Inglés)</ns\d:P50102>", rawrdf)
+        m = re.findall(r"(?im)<ns\d:P50102>(%s)</ns\d:P50102>" % ("|".join(languages.keys())), rawrdf)
         language = m and languages[unquote(s=m[0]).lower()] or ""
         m = re.findall(r"(?im)<ns\d:P50119>([^<>]*?)</ns\d:P50119>", rawrdf)
         birthplace = m and unquote(s=m[0]) or ""
@@ -917,7 +917,7 @@ def main():
         print(birthdate, deathdate)
         print(isniid, viafid)
         
-        if (not birthdate and not deathdate) or (birthdate and birthdate < 1900) or (deathdate and deathdate < 1980):
+        if (not birthdate and not deathdate) or (birthdate and birthdate < 1900) or (deathdate and deathdate < 1970):
             print("Autor antiguo, saltamos")
             continue
         
