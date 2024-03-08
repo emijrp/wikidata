@@ -606,7 +606,8 @@ def createItem(p31="", item="", repo="", props={}):
             if not "P2048" in workitem.claims:
                 print("Añadiendo P2048")
                 claim = pywikibot.Claim(repo, 'P2048')
-                claim.setTarget(pywikibot.WbQuantity(amount=props["height"]))
+                unit = pywikibot.ItemPage(repo, "Q174728")
+                claim.setTarget(pywikibot.WbQuantity(amount=props["height"], unit=unit)) #Q174728 cm
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
