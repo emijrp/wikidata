@@ -919,7 +919,7 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
             dimensions = m and unquote(m[0]) or ""
             height = getHeightInCM(s=dimensions)
-            if height < 10 or pages > 35:
+            if height < 10 or height > 35:
                 print("Altura extraña, saltamos", height)
                 height = ""
             m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
