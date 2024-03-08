@@ -991,7 +991,7 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
             extension = m and unquote(m[0]) or ""
             pages = getExtensionInPages(s=extension)
-            if pages < 100 or pages > 500:
+            if pages < 80 or pages > 999:
                 print("Numero de paginas raro, saltamos", pages)
                 continue
             m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
