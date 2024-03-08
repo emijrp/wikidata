@@ -1087,19 +1087,19 @@ def main():
             editionq = ""
             if not workcreated:
                 print("No se encontraron candidatos para el work, creamos")
-                #workq = createItem(p31="work", repo=repo, props=props)
+                workq = createItem(p31="work", repo=repo, props=props)
             if not editionscreated:
                 print("No se encontraron candidatos para la edition, creamos")
-                #editionq = createItem(p31="edition", repo=repo, props=props)
+                editionq = createItem(p31="edition", repo=repo, props=props)
             if workq and editionq:
-                #linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
+                linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
                 pass
             if len(workcreated) == 1 and len(editionscreated) >= 1:
                 for editioncreated in editionscreated:
                     linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
             
-            if resourceid in ["a7153685", "a5311062"]:
-                sys.exit()
+            #if resourceid in ["a7153685", "a5311062"]:
+            #    sys.exit()
 
 if __name__ == "__main__":
     main()
