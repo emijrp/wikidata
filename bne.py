@@ -235,34 +235,33 @@ def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
     else:
         return personsq
     
+    candidates = []
     if persons:
         persons = cleanSymbols(s=persons[0])
         for person in persons.split(","):
             personq = ""
             person = cleanSymbols(s=person)
             if len(person) >= 7 and " " in person: #el espacio es para detectar q es "nombre apellido" al menos
-                print("Buscando", person, "en", ",".join(contributorsbneids))
-                for contributorbneid in contributorsbneids:
+                print("\nBuscando", person, "en", ", ".join(contributorsbneids))
+                if not candidates:
+                    candidates = searchInWikidata(l=contributorsbneids)
+                for candidate in candidates:
                     if personq:
                         break
-                    candidates = existsInWikidata(s=contributorbneid)
-                    for candidate in candidates:
-                        if personq:
-                            break
-                        q = pywikibot.ItemPage(repo, candidate)
-                        q.get()
-                        if not "P950" in q.claims or not contributorbneid in [x.getTarget() for x in q.claims["P950"]]:
-                            #no tiene el bne id, aunque haya salido en la busqueda, no es este
-                            continue
-                        for k, v in q.aliases.items():
-                            for x in v:
-                                #print(person, x)
-                                if len(v) >= 7 and (person.lower() == x.lower() or person.lower() in x.lower() or x.lower() in person.lower()):
-                                    personq = q.title()
-                        for k, v in q.labels.items():
-                            #print(person, v)
-                            if len(v) >= 7 and (person.lower() == v.lower() or person.lower() in v.lower() or v.lower() in person.lower()):
+                    q = pywikibot.ItemPage(repo, candidate)
+                    q.get()
+                    if not "P950" in q.claims or sum([contributorbneid in [x.getTarget() for x in q.claims["P950"]] for contributorbneid in contributorsbneids]) == 0:
+                        #no tiene el bne id, aunque haya salido en la busqueda, no es este
+                        continue
+                    for k, v in q.aliases.items():
+                        for x in v:
+                            #print(person, x)
+                            if len(v) >= 7 and (person.lower() == x.lower() or person.lower() in x.lower() or x.lower() in person.lower()):
                                 personq = q.title()
+                    for k, v in q.labels.items():
+                        #print(person, v)
+                        if len(v) >= 7 and (person.lower() == v.lower() or person.lower() in v.lower() or v.lower() in person.lower()):
+                            personq = q.title()
             if personq and not personq in personsq:
                 personsq.append(personq)
     personsq = list(set(personsq))
@@ -303,15 +302,27 @@ def getPublisher(s=""):
             return props["q"]
     return
 
-def existsInWikidata(s=""):
-    if not s:
-        return []
-    print("\nSearching in Wikidata", s)
+def searchInWikidata(s="", l=[]):
+    candidates = []
+    if not s and not l:
+        return candidates
+    print("\nSearching in Wikidata", s and s or l and l or "")
     lang = "en"
     #searchitemurl = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&language=%s&format=xml' % (urllib.parse.quote(s), lang)
-    searchitemurl = 'https://www.wikidata.org/w/index.php?go=Go&search=%s' % (urllib.parse.quote(s))
+    if s:
+        searchitemurl = 'https://www.wikidata.org/w/index.php?go=Go&search=%s' % (urllib.parse.quote(s))
+    elif l:
+        l2 = []
+        for ll in l:
+            if ll:
+                l2.append(ll)
+        l = l2
+        ss = " OR ".join(['"%s"' % (x) for x in l])
+        searchitemurl = 'https://www.wikidata.org/w/index.php?go=Go&search=%s' % (urllib.parse.quote(ss))
+    else:
+        return candidates
+    print(searchitemurl)
     raw = getURL(url=searchitemurl)
-    candidates = []
     if 'There were no results' in raw:
         print("Not found in Wikidata")
         return candidates
@@ -993,19 +1004,12 @@ def main():
             print(props.items())
             
             donecandidates = []
-            candidates = []
-            candidates += existsInWikidata(s=isbn)
-            candidates += existsInWikidata(s=isbnplain)
-            candidates += existsInWikidata(s=isbn10)
-            candidates += existsInWikidata(s=isbn13)
-            candidates += existsInWikidata(s=resourceid)
-            candidates += existsInWikidata(s=goodreadsworkid)
-            candidates += existsInWikidata(s=openlibraryworkid)
-            candidates += existsInWikidata(s=goodreadseditionid)
-            candidates += existsInWikidata(s=openlibraryeditionid)
-            candidates += existsInWikidata(s=fulltitle)
+            candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
             candidates = list(set(candidates))
             candidates.sort()
+            print(candidates)
+            sys.exit()
+            
             workcreated = []
             editionscreated = []
             for candidate in candidates:
@@ -1028,12 +1032,13 @@ def main():
             editionq = ""
             if not workcreated:
                 print("No se encontraron candidatos para el work, creamos")
-                workq = createItem(p31="work", repo=repo, props=props)
+                #workq = createItem(p31="work", repo=repo, props=props)
             if not editionscreated:
                 print("No se encontraron candidatos para la edition, creamos")
-                editionq = createItem(p31="edition", repo=repo, props=props)
+                #editionq = createItem(p31="edition", repo=repo, props=props)
             if workq and editionq:
-                linkWorkAndEdition(workq=workq, editionq=editionq)
+                #linkWorkAndEdition(workq=workq, editionq=editionq)
+                pass
             
             if resourceid in ["a7153685", "a5311062"]:
                 sys.exit()
