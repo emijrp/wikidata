@@ -201,7 +201,7 @@ def getHeightInCM(s=""):
         return
     height = 0
     if re.search(r"(?im)^(\d+)\s*(?:cm|cent[íi]metros?)\.?$", s):
-        height = re.findall(r"(?im)^(\d+)\s*(?:cm|cent[íi]metros?)\.?$", s)[0]
+        height = re.findall(r"(?im)^[\.\,\;]*(\d+)\s*(?:cm|cent?[íi]?m?e?t?r?o?s?)[\.\,\;]*$", s)[0]
     height = int(height)
     return height
 
@@ -391,6 +391,9 @@ def createItem(p31="", item="", repo="", props={}):
         labels = workitem.labels
         labels[props["lang"]] = props["fulltitle"]
         workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (props["lang"]))
+        if props["lang"] != "en":
+            labels["en"] = props["fulltitle"]
+            workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): en")
     else:
         print("Ya tiene labels")
     #descs
