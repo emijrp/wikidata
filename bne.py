@@ -229,7 +229,7 @@ def getContributorsCore(role="", repo="", contributorsbneids="", s=""):
     if role == "contributor":
         persons = re.findall(r"(?im)^([^;\[\]]{7,})", s)
     elif role == "foreword":
-        persons = re.findall(r"(?im)(?:pr[óo]logo|prologado),? ?(?:del?|por|por el|por la)? ([^;\[\]]{7,})", s)
+        persons = re.findall(r"(?im)(?:pr[óo]logo|prologado|introducci[óo]n|introducid[oa]|presentaci[óo]n|presentad[oa]),? ?(?:del?|por|por el|por la)? ([^;\[\]]{7,})", s)
     elif role == "translator":
         persons = re.findall(r"(?im)(?:traducci[óo]n|traducid[oa]|traductora?),? ?(?:del?|por|por el|por la)? ([^;\[\]]{7,})", s)
     else:
