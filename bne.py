@@ -800,6 +800,10 @@ def unquote(s=""):
     s = html.unescape(s)
     return s
 
+def linkWorkAndEdition(workq="", editionq=""):
+    
+    return
+
 def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
@@ -1039,7 +1043,9 @@ def main():
                 #editionq = createItem(p31="edition", repo=repo, props=props)
             if workq and editionq:
                 #linkWorkAndEdition(workq=workq, editionq=editionq)
-                pass
+            if len(workcreated) == 1 and len(editionscreated) >= 1:
+                for editioncreated in editionscreated:
+                    linkWorkAndEdition(workq=workcreated[0], editionq=editioncreated)
             
             if resourceid in ["a7153685", "a5311062"]:
                 sys.exit()
