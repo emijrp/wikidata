@@ -1101,12 +1101,14 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3017>([^<>]+?)</ns\d:P3017>", rawresource)
             edition = m and unquote(m[0]) or ""
             m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
+            #extension pages
             extension = m and unquote(m[0]) or ""
             pages = getExtensionInPages(s=extension)
             if pages and (pages < 80 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
                 #print("Numero de paginas raro, saltamos", pages)
                 pages = ""
                 #continue
+            #dimensions height
             m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
             dimensions = m and unquote(m[0]) or ""
             height = getHeightInCM(s=dimensions)
@@ -1114,21 +1116,30 @@ def main():
                 #print("Altura extraña, saltamos", height)
                 height = ""
                 #continue
+            #isbn
             m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
-            isbn = m and unquote(m[0]) or ""
-            isbnplain = isbn and isbn.replace("-", "") or ""
+            isbn = ""
+            isbnplain = ""
             isbn10 = ""
             isbn13 = ""
-            if len(isbnplain) == 10:
-                isbn10 = isbn
-            elif len(isbnplain) == 13:
-                isbn13 = isbn
+            for mm in m:
+                isbn = mm and unquote(mm) or ""
+                isbnplain = isbn and isbn.replace("-", "") or ""
+                if len(isbnplain) == 10:
+                    isbn10 = isbn
+                elif len(isbnplain) == 13:
+                    isbn13 = isbn
+            if isbn13:
+                isbn = isbn13
+            elif isbn10:
+                isbn = isbn10
             else:
                 isbn = ""
-                isbnplain = ""
+            isbnplain = isbn and isbn.replace("-", "") or ""
             if not isbn:
-                print("ISBN valido no encontrado, saltamos")
+                print("ISBN no encontrado, saltamos")
                 continue
+            #legal deposit
             m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
             legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
