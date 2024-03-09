@@ -151,9 +151,29 @@ locations = {
     "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"(?im)^(par[íi]s)?$" }, 
 }
 publishers = {
-    "aconcagua": { "q": "Q124731301", "regexp": r"(?im)^(ed\.?|editorial)? ?(aconcagua) ?(libros?)?$" }, 
-    "crítica": { "q": "Q5818611", "regexp": r"(?im)^(ed\.?|editorial)? ?(cr[íi]tica)$" }, 
+    "aconcagua": { "q": "Q124731301", "regexp": r"aconcagua" }, 
+    "alfaguara": { "q": "Q3324371", "regexp": r"alfaguara" }, 
+    "alianza editorial": { "q": "Q8195536", "regexp": r"alianza editorial" }, 
+    "anagrama": { "q": "Q8772125", "regexp": r"anagrama" }, 
+    "anaya": { "q": "Q5394209", "regexp": r"anaya" }, 
+    "bruguera": { "q": "Q3275000", "regexp": r"bruguera" }, 
+    "círculo de lectores": { "q": "Q45762085", "regexp": "c[íi]rculo de lectores" }, 
+    "círculo rojo": { "q": "Q5818613", "regexp": "c[íi]rculo rojo" }, 
+    "crítica": { "q": "Q5818611", "regexp": "cr[íi]tica" }, 
+    "debolsillo": { "q": "Q30103625", "regexp": "de[ -]?bolsillo" }, 
+    "destino": { "q": "Q8771933", "regexp": "destino" }, 
+    "edebe": { "q": "Q8771871", "regexp": "edeb[ée]" }, 
+    "ediciones b": { "q": "Q3047577", "regexp": "ediciones b" }, 
+    "espasa-calpe": { "q": "Q16912403", "regexp": "espasa[ -]calpe" }, 
+    "everest": { "q": "Q28324222", "regexp": "everest" }, 
+    "planeta": { "q": "Q2339634", "regexp": "planeta" }, 
+    "plaza & janes": { "q": "Q6079378", "regexp": "plaza ?[&y]? ?jan[ée]s" }, 
+    "rba": { "q": "Q5687784", "regexp": "rba" }, 
+    "santillana": { "q": "Q3118243", "regexp": "santillana" }, 
+    "salvat": { "q": "Q3817619", "regexp": "salvat" }, 
 }
+for publisher, props in publishers.items():
+    publishers[publisher]["regexp"] = r"(?im)^(?:ed\.?|editorial|ediciones|libros?)?[ \.\,]*(%s)[ \.\,]*(?:ed\.?|editorial|ediciones|libros?)?$" % (publishers[publisher]["regexp"])
 
 def getBNEid(item=""):
     if not item:
@@ -976,9 +996,9 @@ def main():
             
             m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
             contributors = m and unquote(m[0]) or ""
-            if not contributors:
-                print("No info de contributor, saltamos")
-                continue
+            #if not contributors:
+            #    print("No info de contributor, saltamos")
+            #    continue
             #if ',' in contributors.split(';')[0] or ' y ' in contributors.split(';')[0]:
             #    print("Mas de un contributor, saltamos")
             #    continue
