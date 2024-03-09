@@ -1072,6 +1072,8 @@ def main():
                     resourcesids.append(resourceid)
                     editionearliest = resourceid
             elif '<div class="text-center">Obra</div>' in obra:
+                print("Saltando obras con más de 1 edición por ahora...")
+                continue
                 url2 = "https://datos.bne.es/resource/" + resourceid
                 raw2 = getURL(url=url2)
                 if "página no encontrada, pero no estás perdido" in raw2:
@@ -1087,6 +1089,10 @@ def main():
                             editionearliest = resourceid
                     if resourceid:
                         resourcesids.append(resourceid)
+            else:
+                print("Tipo de entidad no soportada, saltando")
+                continue
+            
             print("editionearliest", editionearliest)
             print("publicationdateearliest", publicationdateearliest)
             
@@ -1269,10 +1275,10 @@ def main():
                         if "P31" in candidateitem.claims:
                             for candidateitemp31 in candidateitem.claims["P31"]:
                                 if "Q47461344" == candidateitemp31.getTarget().title(): #work
-                                    #improveItem(p31="work", item=candidate, repo=repo, props=props)
+                                    improveItem(p31="work", item=candidate, repo=repo, props=props)
                                     workcreated.append(candidate)
                                 elif "Q3331189" == candidateitemp31.getTarget().title(): #edition
-                                    #improveItem(p31="edition", item=candidate, repo=repo, props=props)
+                                    improveItem(p31="edition", item=candidate, repo=repo, props=props)
                                     editionscreated.append(candidate)
                     else:
                         print("Candidato descartado, no coinciden IDs")
@@ -1281,17 +1287,15 @@ def main():
                 editionq = ""
                 if not workcreated:
                     print("No se encontraron candidatos para el work, creamos")
-                    #workq = createItem(p31="work", repo=repo, props=props)
+                    workq = createItem(p31="work", repo=repo, props=props)
                 if not editionscreated:
                     print("No se encontraron candidatos para la edition, creamos")
-                    #editionq = createItem(p31="edition", repo=repo, props=props)
+                    editionq = createItem(p31="edition", repo=repo, props=props)
                 if workq and editionq:
-                    #linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
-                    pass
+                    linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
                 if len(workcreated) == 1 and len(editionscreated) >= 1:
                     for editioncreated in editionscreated:
-                        #linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
-                        pass
+                        linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
                 
                 #if resourceid in ["a7153685", "a5311062"]:
                 #    sys.exit()
