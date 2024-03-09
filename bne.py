@@ -457,13 +457,18 @@ def addOpenLibraryRef(repo='', claim=''):
         refretrieveddateclaim.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
         claim.addSources([refstatedinclaim, refretrieveddateclaim], summary='BOT - Adding 1 reference')
 
+def createdByMyBot(item=""):
+    if not item:
+        return
+    site = pywikibot.Site('wikidata', 'wikidata')
+    itempage = pywikibot.Page(site, item)
+    history = itempage.getVersionHistoryTable(reverse=True, total=1)
+    #print(history)
+    return "Emijrpbot" in history
+
 def improveItem(p31="", item="", repo="", props={}):
     if p31 and item and repo and props:
-        site = pywikibot.Site('wikidata', 'wikidata')
-        itempage = pywikibot.Page(site, item)
-        history = itempage.getVersionHistoryTable(reverse=True, total=1)
-        #print(history)
-        if not "Emijrpbot" in history:
+        if not createdByMyBot(item=item):
             print("No creado por mi bot, saltando...")
             return
     return createItem(p31=p31, item=item, repo=repo, props=props)
@@ -926,6 +931,10 @@ def unquote(s=""):
 def linkWorkAndEdition(repo="", workq="", editionq=""):
     if not repo or not workq or not editionq:
         return
+    
+    if not createdByMyBot(item=workq) or not createdByMyBot(item=editionq):
+        print("El work o la edition no fueron creadas por mi, saltando")
+        return 
     
     print("\nIntentando enlazar work", workq, "con edition", editionq)
     editionitem = pywikibot.ItemPage(repo, editionq)
