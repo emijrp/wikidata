@@ -390,9 +390,10 @@ def createItem(p31="", item="", repo="", props={}):
         return
     today = datetime.date.today()
     year, month, day = [int(today.strftime("%Y")), int(today.strftime("%m")), int(today.strftime("%d"))]
-    overwritelabels = True
-    overwritedescriptions = True
-    overwritealiases = True
+    overwrite = False
+    overwritelabels = overwrite
+    overwritedescriptions = overwrite
+    overwritealiases = overwrite
     if item:
         workitem = pywikibot.ItemPage(repo, item)
     else:
@@ -631,6 +632,18 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P2048")
+    #P437 = distribution format
+    if p31 == "edition":
+        if props["distributionformat"]:
+            if not "P437" in workitem.claims:
+                print("Añadiendo P437")
+                claim = pywikibot.Claim(repo, 'P437')
+                target = pywikibot.ItemPage(repo, props["distributionformat"])
+                claim.setTarget(target)
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P437")
     
     #P8383 = goodreads work id
     if p31 == "work":
@@ -1019,9 +1032,12 @@ def main():
             legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
             m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
             mediatype = m and unquote(m[0]) or ""
+            distributionformat = ""
             if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
                 print("Extension/Medio no interesa, skiping", extension+mediatype)
                 continue
+            else:
+                distributionformat = "Q11396303" #printed book
             
             #external ids
             goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
@@ -1047,6 +1063,7 @@ def main():
                 "resourceid": resourceid, 
                 "pages": pages, 
                 "height": height, 
+                "distributionformat": distributionformat,
                 
                 "publisher": publisher, 
                 "publicationlocation": publicationlocation, 
