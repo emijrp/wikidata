@@ -156,6 +156,7 @@ locations = {
         "cádiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
         "córdoba": { "q": "Q5818", "country": countries["españa"]["q"], "regexp": r"c[óo]rdoba" }, 
         "El Ejido": { "q": "Q493933", "country": countries["españa"]["q"], "regexp": r"El Ejido" }, 
+        "El Puerto de Santa María": { "q": "Q203040", "country": countries["españa"]["q"], "regexp": r"((El )?Puerto de Santa Mar[íi]a)(, C[áa]diz)?" }, 
         "granada": { "q": "Q8810", "country": countries["españa"]["q"], "regexp": r"granada" }, 
         "Humanes de Madrid": { "q": "Q281632", "country": countries["españa"]["q"], "regexp": r"Humanes de Madrid" }, 
         "Las Palmas de Gran Canaria": { "q": "Q11974", "country": countries["españa"]["q"], "regexp": r"Las Palmas de Gran Canaria" }, 
@@ -167,6 +168,7 @@ locations = {
         "Palma de Mallorca": { "q": "Q8826", "country": countries["españa"]["q"], "regexp": r"Palma de Mallorca" }, 
         "pamplona": { "q": "Q10282", "country": countries["españa"]["q"], "regexp": r"pamplona" }, 
         "Roquetas de Mar": { "q": "Q499184", "country": countries["españa"]["q"], "regexp": r"Roquetas de Mar" }, 
+        "rota": { "q": "Q15907", "country": countries["españa"]["q"], "regexp": r"(rota)(, C[áa]diz)?" }, 
         "salamanca": { "q": "Q15695", "country": countries["españa"]["q"], "regexp": r"salamanca" }, 
         "santander": { "q": "Q12233", "country": countries["españa"]["q"], "regexp": r"santander" }, 
         "San Sebastián": { "q": "Q10313", "country": countries["españa"]["q"], "regexp": r"San Sebastián" }, 
@@ -222,6 +224,7 @@ publishers = {
     "edaf": { "q": "Q124796404", "regexp": "edaf" }, 
     "edebe": { "q": "Q8771871", "regexp": "edeb[ée]" }, 
     "ediciones b": { "q": "Q3047577", "regexp": "ediciones b" }, 
+    "el boletín": { "q": "Q56703484", "regexp": "el[ -]?bolet[íi]n" }, 
     "espasa-calpe": { "q": "Q16912403", "regexp": "espasa[ -]calpe" }, 
     "everest": { "q": "Q28324222", "regexp": "everest" }, 
     "gredos": { "q": "Q3047666", "regexp": "gredos" }, 
@@ -232,6 +235,7 @@ publishers = {
     "rba": { "q": "Q5687784", "regexp": "rba" }, 
     "santillana": { "q": "Q3118243", "regexp": "santillana" }, 
     "salvat": { "q": "Q3817619", "regexp": "salvat" }, 
+    "suroeste": { "q": "Q124799804", "regexp": "suroeste" }, 
     "uned": { "q": "Q124796632", "regexp": "(uned|Universidad Nacional de Educaci[óo]n a Distancia)" }, 
     
     "universidad-autonoma-barcelona": { "q": "Q16630691", "regexp": "(Publicacione?s de la Universi[td]a[td] Aut[óòo]noma de Barcelona|Servicio de Publicaciones de la Universi[td]a[td] Aut[óòo]noma de Barcelona)" },
@@ -993,6 +997,7 @@ def main():
     repo = site.data_repository()
     qlist = ["Q93433647"] #eusebio
     qlist = ["Q5865630"] #paco espinosa
+    qlist = ["Q118122724"] #almisas
     
     for authorq in qlist:
         time.sleep(1)
@@ -1104,8 +1109,11 @@ def main():
                 rawresource = getURL(url=urlresource)
                 m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
                 lang = m and unquote(m[0]) or ""
-                if not lang in languages2iso:
-                    print("Idioma no entendido", lang, "saltamos")
+                #if not lang in languages2iso:
+                #    print("Idioma no entendido", lang, "saltamos")
+                #    continue
+                if lang != "spa":
+                    print("De momento solo importamos en espanol, saltamos")
                     continue
                 m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
                 title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
@@ -1255,6 +1263,7 @@ def main():
                 
                 workcreated = []
                 editionscreated = []
+                otherscreated = []
                 for candidate in candidates:
                     if candidate in donecandidates:
                         continue
@@ -1280,16 +1289,19 @@ def main():
                                 elif "Q3331189" == candidateitemp31.getTarget().title(): #edition
                                     improveItem(p31="edition", item=candidate, repo=repo, props=props)
                                     editionscreated.append(candidate)
+                                else:
+                                    otherscreated.append(candidate) #to avoid create when that isbn/goodreads/etc exists in an item
+                                
                     else:
                         print("Candidato descartado, no coinciden IDs")
                 
                 workq = ""
                 editionq = ""
-                if not workcreated:
-                    print("No se encontraron candidatos para el work, creamos")
+                if not workcreated and not otherscreated:
+                    print("\nNo se encontraron candidatos para el work, creamos")
                     workq = createItem(p31="work", repo=repo, props=props)
-                if not editionscreated:
-                    print("No se encontraron candidatos para la edition, creamos")
+                if not editionscreated and not otherscreated:
+                    print("\nNo se encontraron candidatos para la edition, creamos")
                     editionq = createItem(p31="edition", repo=repo, props=props)
                 if workq and editionq:
                     linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
