@@ -1247,13 +1247,15 @@ def main():
                     donecandidates.append(candidate)
                     candidateitem = pywikibot.ItemPage(repo, candidate)
                     candidateitem.get()
-                    if ("P957" in candidateitem.claims and isbn10 in [x for x in candidateitem.claims["P957"].getTarget()]) or \
-                       ("P212" in candidateitem.claims and isbn13 in [x for x in candidateitem.claims["P212"].getTarget()]) or \
-                       ("P950" in candidateitem.claims and resourceid in [x for x in candidateitem.claims["P950"].getTarget()]) or \
-                       ("P648" in candidateitem.claims and openlibraryworkid in [x for x in candidateitem.claims["P648"].getTarget()]) or \
-                       ("P648" in candidateitem.claims and openlibraryeditionid in [x for x in candidateitem.claims["P648"].getTarget()]) or \
-                       ("P8383" in candidateitem.claims and goodreadsworkid in [x for x in candidateitem.claims["P8383"].getTarget()]) or \
-                       ("P2969" in candidateitem.claims and goodreadseditionid in [x for x in candidateitem.claims["P2969"].getTarget()]):
+                    if ("P957" in candidateitem.claims and isbn10 in [x.getTarget() for x in candidateitem.claims["P957"]]) or \
+                       ("P212" in candidateitem.claims and isbn13 in [x.getTarget() for x in candidateitem.claims["P212"]]) or \
+                       ("P957" in candidateitem.claims and isbnplain in [x.getTarget() for x in candidateitem.claims["P957"]]) or \
+                       ("P212" in candidateitem.claims and isbnplain in [x.getTarget() for x in candidateitem.claims["P212"]]) or \
+                       ("P950" in candidateitem.claims and resourceid in [x.getTarget() for x in candidateitem.claims["P950"]]) or \
+                       ("P648" in candidateitem.claims and openlibraryworkid in [x.getTarget() for x in candidateitem.claims["P648"]]) or \
+                       ("P648" in candidateitem.claims and openlibraryeditionid in [x.getTarget() for x in candidateitem.claims["P648"]]) or \
+                       ("P8383" in candidateitem.claims and goodreadsworkid in [x.getTarget() for x in candidateitem.claims["P8383"]]) or \
+                       ("P2969" in candidateitem.claims and goodreadseditionid in [x.getTarget() for x in candidateitem.claims["P2969"]]):
                         print("Candidato coincide algun ID")
                         if "P31" in candidateitem.claims:
                             for candidateitemp31 in candidateitem.claims["P31"]:
