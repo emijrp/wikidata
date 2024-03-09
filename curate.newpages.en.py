@@ -200,7 +200,7 @@ def pageReferences(page='', lang=''):
 
 def pageIsBiography(page='', lang=''):
     if lang == 'en':
-        if re.search('(?im)Category\s*:\s*\d+ animal (births|deaths)', page.text):
+        if re.search('(?im)(Category\s*:\s*\d+ animal (births|deaths)|Infobox[ _]animal|Category\s*:\s*Individual)', page.text):
             return False
         elif not page.title().startswith('List ') and not page.title().startswith('Lists '):
             if len(page.title().split(' ')) <= 5:
