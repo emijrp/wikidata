@@ -488,18 +488,20 @@ def createItem(p31="", item="", repo="", props={}):
     workitem.get()
     #labels
     if overwritelabels or not props["lang"] in workitem.labels or not "en" in workitem.labels:
-        print("Añadiendo labels")
         labels = workitem.labels
-        labels[props["lang"]] = props["fulltitle"]
-        workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (props["lang"]))
-        if props["lang"] != "en":
+        if overwritelabels or not props["lang"] in labels:
+            print("Añadiendo label", props["lang"])
+            labels[props["lang"]] = props["fulltitle"]
+            workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (props["lang"]))
+        labels = workitem.labels
+        if overwritelabels or (props["lang"] != "en" and not "en" in labels):
+            print("Añadiendo label en")
             labels["en"] = props["fulltitle"]
             workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): en")
     else:
         print("Ya tiene labels")
     #descs
     if overwritedescriptions or not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
-        print("Añadiendo descripciones")
         authoritem = pywikibot.ItemPage(repo, props["authorq"])
         authoritem.get()
         authornamees = "es" in authoritem.labels and authoritem.labels["es"] or props["authorname"]
@@ -509,22 +511,36 @@ def createItem(p31="", item="", repo="", props={}):
         authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornamees
         if p31 == "work":
             descriptions = workitem.descriptions
-            descriptions["es"] = "obra escrita" + (authornamees and " por %s" % (authornamees) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-            descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
-            descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
-            descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
-            descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
+            if overwritedescriptions or not "es" in workitem.descriptions:
+                print("Añadiendo description es")
+                descriptions["es"] = "obra escrita" + (authornamees and " por %s" % (authornamees) or "")
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
+            if overwritedescriptions or not "en" in workitem.descriptions:
+                print("Añadiendo description en")
+                descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+            if overwritedescriptions or not "fr" in workitem.descriptions:
+                print("Añadiendo description fr")
+                descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
+            if overwritedescriptions or not "ca" in workitem.descriptions:
+                print("Añadiendo description ca")
+                descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
+            if overwritedescriptions or not "gl" in workitem.descriptions:
+                print("Añadiendo description gl")
+                descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
         if p31 == "edition":
             descriptions = workitem.descriptions
-            descriptions["es"] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornamees and " de la obra escrita por %s" % (authornamees) or "")
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-            descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
-            workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+            if overwritedescriptions or not "es" in workitem.descriptions:
+                print("Añadiendo description es")
+                descriptions["es"] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornamees and " de la obra escrita por %s" % (authornamees) or "")
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
+            if overwritedescriptions or not "en" in workitem.descriptions:
+                print("Añadiendo description en")
+                descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
+                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
     else:
         print("Ya tiene descripciones")
     #aliases
@@ -821,9 +837,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P950")
     
-    #more ideas
-    #country of origin	P495
-    #contributor to the creative work or subject	P767, mejor no, puede variar con la edición (los que prologan, etc)
+    return workitem.title() #para enlazar work/edition
 
 def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
     #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
@@ -1204,7 +1218,6 @@ def main():
                 editionq = createItem(p31="edition", repo=repo, props=props)
             if workq and editionq:
                 linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
-                pass
             if len(workcreated) == 1 and len(editionscreated) >= 1:
                 for editioncreated in editionscreated:
                     linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
