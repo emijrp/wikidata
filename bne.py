@@ -263,7 +263,7 @@ def getFullTitle(title="", subtitle=""):
         return ""
     if not subtitle:
         return title
-    titlefull = title + " " + subtitle
+    titlefull = title.strip(".").strip(" ").strip(".").strip(":").strip(" ") + ". " + subtitle[0].upper()+subtitle[1:]
     titlefull = re.sub(r"(?im)  +", " ", titlefull)
     chunks = []
     for chunk in titlefull.split(" : "):
@@ -1076,6 +1076,8 @@ def main():
                         if publicationdate and (not publicationdateearliest or publicationdateearliest > publicationdate):
                             publicationdateearliest = publicationdate
                             editionearliest = resourceid
+                    if resourceid:
+                        resourcesids.append(resourceid)
             print("editionearliest", editionearliest)
             print("publicationdateearliest", publicationdateearliest)
             
@@ -1084,9 +1086,6 @@ def main():
                 print('\n=== %s ===' % (resourceid))
                 urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
                 print(urlresource)
-                continue
-                
-                
                 rawresource = getURL(url=urlresource)
                 m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
                 lang = m and unquote(m[0]) or ""
@@ -1244,32 +1243,44 @@ def main():
                 for candidate in candidates:
                     if candidate in donecandidates:
                         continue
-                    print("Encontrado candidato", candidate)
+                    print("Analizando candidato", candidate)
                     donecandidates.append(candidate)
                     candidateitem = pywikibot.ItemPage(repo, candidate)
                     candidateitem.get()
-                    if "P31" in candidateitem.claims:
-                        for candidateitemp31 in candidateitem.claims["P31"]:
-                            if "Q47461344" in candidateitemp31.getTarget().title(): #work
-                                improveItem(p31="work", item=candidate, repo=repo, props=props)
-                                workcreated.append(candidate)
-                            elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
-                                improveItem(p31="edition", item=candidate, repo=repo, props=props)
-                                editionscreated.append(candidate)
+                    if ("P957" in candidateitem.claims and isbn10 in [x for x in candidateitem.claims["P957"].getTarget()]) or \
+                       ("P212" in candidateitem.claims and isbn13 in [x for x in candidateitem.claims["P212"].getTarget()]) or \
+                       ("P950" in candidateitem.claims and resourceid in [x for x in candidateitem.claims["P950"].getTarget()]) or \
+                       ("P648" in candidateitem.claims and openlibraryworkid in [x for x in candidateitem.claims["P648"].getTarget()]) or \
+                       ("P648" in candidateitem.claims and openlibraryeditionid in [x for x in candidateitem.claims["P648"].getTarget()]) or \
+                       ("P8383" in candidateitem.claims and goodreadsworkid in [x for x in candidateitem.claims["P8383"].getTarget()]) or \
+                       ("P2969" in candidateitem.claims and goodreadseditionid in [x for x in candidateitem.claims["P2969"].getTarget()]):
+                        print("Candidato coincide algun ID")
+                        if "P31" in candidateitem.claims:
+                            for candidateitemp31 in candidateitem.claims["P31"]:
+                                if "Q47461344" == candidateitemp31.getTarget().title(): #work
+                                    #improveItem(p31="work", item=candidate, repo=repo, props=props)
+                                    workcreated.append(candidate)
+                                elif "Q3331189" == candidateitemp31.getTarget().title(): #edition
+                                    #improveItem(p31="edition", item=candidate, repo=repo, props=props)
+                                    editionscreated.append(candidate)
+                    else:
+                        print("Candidato descartado, no coinciden IDs")
                 
                 workq = ""
                 editionq = ""
                 if not workcreated:
                     print("No se encontraron candidatos para el work, creamos")
-                    workq = createItem(p31="work", repo=repo, props=props)
+                    #workq = createItem(p31="work", repo=repo, props=props)
                 if not editionscreated:
                     print("No se encontraron candidatos para la edition, creamos")
-                    editionq = createItem(p31="edition", repo=repo, props=props)
+                    #editionq = createItem(p31="edition", repo=repo, props=props)
                 if workq and editionq:
-                    linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
+                    #linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
+                    pass
                 if len(workcreated) == 1 and len(editionscreated) >= 1:
                     for editioncreated in editionscreated:
-                        linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
+                        #linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
+                        pass
                 
                 #if resourceid in ["a7153685", "a5311062"]:
                 #    sys.exit()
