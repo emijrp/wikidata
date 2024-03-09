@@ -132,9 +132,15 @@ countries = {
     "españa": { "q": "Q29" }, 
     "estados unidos": { "q": "Q30" }, 
     "francia": { "q": "Q142" }, 
+    "méxico": { "q": "Q96" }, 
     "reino unido": { "q": "Q145" }, 
 }
 locations = {
+    
+    "argentina": { "q": countries["argentina"]["q"], "country": countries["argentina"]["q"], "regexp": r"argentina" }, 
+    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
+    
+    "españa": { "q": countries["españa"]["q"], "country": countries["españa"]["q"], "regexp": r"españa" }, 
     "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"barcelona" }, 
     "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"bilbao" }, 
     "cadiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
@@ -147,13 +153,17 @@ locations = {
     "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
     "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
     
-    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
-    
-    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
-    
+    "estados unidos": { "q": countries["estados unidos"]["q"], "country": countries["estados unidos"]["q"], "regexp": r"(estados unidos|united states)" },
     "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new york|nueva york)" },
      
+    "francia": { "q": countries["francia"]["q"], "country": countries["francia"]["q"], "regexp": r"(francia|france)" }, 
     "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"par[íi]s" }, 
+    
+    "méxico": { "q": countries["méxico"]["q"], "country": countries["méxico"]["q"], "regexp": r"m[ée][xj]ico" }, 
+    
+    "reino unido": { "q": countries["reino unido"]["q"], "country": countries["reino unido"]["q"], "regexp": r"reino unido" }, 
+    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
+    
 }
 for location, props in locations.items():
     locations[location]["regexp"] = r"(?im)^[ \.\,\[\]\(\)]*(%s)[ \.\,\[\]\(\)]*$" % (locations[location]["regexp"])
