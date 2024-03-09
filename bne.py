@@ -482,85 +482,91 @@ def createItem(p31="", item="", repo="", props={}):
     if item:
         workitem = pywikibot.ItemPage(repo, item)
     else:
-        workitemlabels = { props["lang"]: props["fulltitle"] }
-        workitem = pywikibot.ItemPage(repo)
-        workitem.editLabels(labels=workitemlabels, summary="BOT - Creating item")
+        if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
+            workitemlabels = { props["lang"]: props["fulltitle"] }
+            workitem = pywikibot.ItemPage(repo)
+            workitem.editLabels(labels=workitemlabels, summary="BOT - Creating item")
+        else:
+            return
     workitem.get()
     #labels
-    if overwritelabels or not props["lang"] in workitem.labels or not "en" in workitem.labels:
-        labels = workitem.labels
-        if overwritelabels or not props["lang"] in labels:
-            print("Añadiendo label", props["lang"])
-            labels[props["lang"]] = props["fulltitle"]
-            workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (props["lang"]))
-        labels = workitem.labels
-        if overwritelabels or (props["lang"] != "en" and not "en" in labels):
-            print("Añadiendo label en")
-            labels["en"] = props["fulltitle"]
-            workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): en")
-    else:
-        print("Ya tiene labels")
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
+        if overwritelabels or not props["lang"] in workitem.labels or not "en" in workitem.labels:
+            labels = workitem.labels
+            if overwritelabels or not props["lang"] in labels:
+                print("Añadiendo label", props["lang"])
+                labels[props["lang"]] = props["fulltitle"]
+                workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): %s" % (props["lang"]))
+            labels = workitem.labels
+            if overwritelabels or (props["lang"] != "en" and not "en" in labels):
+                print("Añadiendo label en")
+                labels["en"] = props["fulltitle"]
+                workitem.editLabels(labels=labels, summary="BOT - Adding labels (1 languages): en")
+        else:
+            print("Ya tiene labels")
     #descs
-    if overwritedescriptions or not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
-        authoritem = pywikibot.ItemPage(repo, props["authorq"])
-        authoritem.get()
-        authornamees = "es" in authoritem.labels and authoritem.labels["es"] or props["authorname"]
-        authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authornamees
-        authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornamees
-        authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornamees
-        authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornamees
-        if p31 == "work":
-            descriptions = workitem.descriptions
-            if overwritedescriptions or not "es" in workitem.descriptions:
-                print("Añadiendo description es")
-                descriptions["es"] = "obra escrita" + (authornamees and " por %s" % (authornamees) or "")
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-            if overwritedescriptions or not "en" in workitem.descriptions:
-                print("Añadiendo description en")
-                descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
-            if overwritedescriptions or not "fr" in workitem.descriptions:
-                print("Añadiendo description fr")
-                descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
-            if overwritedescriptions or not "ca" in workitem.descriptions:
-                print("Añadiendo description ca")
-                descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
-            if overwritedescriptions or not "gl" in workitem.descriptions:
-                print("Añadiendo description gl")
-                descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
-        if p31 == "edition":
-            descriptions = workitem.descriptions
-            if overwritedescriptions or not "es" in workitem.descriptions:
-                print("Añadiendo description es")
-                descriptions["es"] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornamees and " de la obra escrita por %s" % (authornamees) or "")
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-            if overwritedescriptions or not "en" in workitem.descriptions:
-                print("Añadiendo description en")
-                descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
-                workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
-    else:
-        print("Ya tiene descripciones")
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
+        if overwritedescriptions or not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
+            authoritem = pywikibot.ItemPage(repo, props["authorq"])
+            authoritem.get()
+            authornamees = "es" in authoritem.labels and authoritem.labels["es"] or props["authorname"]
+            authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authornamees
+            authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornamees
+            authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornamees
+            authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornamees
+            if p31 == "work":
+                descriptions = workitem.descriptions
+                if overwritedescriptions or not "es" in workitem.descriptions:
+                    print("Añadiendo description es")
+                    descriptions["es"] = "obra escrita" + (authornamees and " por %s" % (authornamees) or "")
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
+                if overwritedescriptions or not "en" in workitem.descriptions:
+                    print("Añadiendo description en")
+                    descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+                if overwritedescriptions or not "fr" in workitem.descriptions:
+                    print("Añadiendo description fr")
+                    descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
+                if overwritedescriptions or not "ca" in workitem.descriptions:
+                    print("Añadiendo description ca")
+                    descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
+                if overwritedescriptions or not "gl" in workitem.descriptions:
+                    print("Añadiendo description gl")
+                    descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
+            if p31 == "edition":
+                descriptions = workitem.descriptions
+                if overwritedescriptions or not "es" in workitem.descriptions:
+                    print("Añadiendo description es")
+                    descriptions["es"] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornamees and " de la obra escrita por %s" % (authornamees) or "")
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
+                if overwritedescriptions or not "en" in workitem.descriptions:
+                    print("Añadiendo description en")
+                    descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
+                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+        else:
+            print("Ya tiene descripciones")
     #aliases
-    if props["alternatetitles"]:
-        if overwritealiases:
-            workitem.aliases = {}
-        for alternatetitle in props["alternatetitles"]:
-            if alternatetitle != props["title"]:
-                if "es" in workitem.aliases and not alternatetitle in workitem.aliases["es"]:
-                    aliases = workitem.aliases
-                    aliases["es"].append(alternatetitle)
-                    workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (es): %s" % (alternatetitle))
-                if not "es" in workitem.aliases:
-                    aliases = workitem.aliases
-                    aliases["es"] = [alternatetitle]
-                    workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (es): %s" % (alternatetitle))
-    else:
-        print("No conocemos titulo alternativo o es igual al titulo")
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
+        if props["alternatetitles"]:
+            if overwritealiases:
+                workitem.aliases = {}
+            for alternatetitle in props["alternatetitles"]:
+                if alternatetitle != props["title"]:
+                    if "es" in workitem.aliases and not alternatetitle in workitem.aliases["es"]:
+                        aliases = workitem.aliases
+                        aliases["es"].append(alternatetitle)
+                        workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (es): %s" % (alternatetitle))
+                    if not "es" in workitem.aliases:
+                        aliases = workitem.aliases
+                        aliases["es"] = [alternatetitle]
+                        workitem.editAliases(aliases=aliases, summary="BOT - Adding 1 aliases (es): %s" % (alternatetitle))
+        else:
+            print("No conocemos titulo alternativo o es igual al titulo")
     #P31 = Q47461344 written work
-    if p31 == "work":
+    if p31 == "work" and props["resourceid"] == editionearliest:
         if not "P31" in workitem.claims:
             print("Añadiendo P31")
             claim = pywikibot.Claim(repo, 'P31')
@@ -582,7 +588,7 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             print("Ya tiene P31")
     #P50 = authorq
-    if p31:
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
         if not "P50" in workitem.claims:
             print("Añadiendo P50")
             claim = pywikibot.Claim(repo, 'P50')
@@ -594,7 +600,7 @@ def createItem(p31="", item="", repo="", props={}):
             print("Ya tiene P50")
         
     #P767 = contributor (not the main author)
-    if p31: #los contributor los metemos en work y en edition
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest): #los contributor los metemos en work y en edition
         if props["contributorsq"]:
             for contributorq in props["contributorsq"]:
                 if contributorq == props["authorq"] or contributorq in props["translatorsq"] or contributorq in props["forewordsq"]:
@@ -641,7 +647,7 @@ def createItem(p31="", item="", repo="", props={}):
                     print("Ya tiene P2679")
     
     #P1476 = title
-    if p31:
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
         if props["title"]:
             if not "P1476" in workitem.claims:
                 print("Añadiendo P1476")
@@ -653,7 +659,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P1476")
     #P1680 = subtitle
-    if p31:
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
         if props["subtitle"]:
             if not "P1680" in workitem.claims:
                 print("Añadiendo P1680")
@@ -665,7 +671,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P1680")
     #P407 = language of work
-    if p31 == "edition": #en las ediciones si te indica el idioma, pero en las obras no, no podemos presuponer q siempre será español o q coincidirá con el idioma de la edición, además cuál edición? en todo caso la primera por fecha...
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
         if props["lang"]:
             if not "P407" in workitem.claims:
                 print("Añadiendo P407")
@@ -701,22 +707,12 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P291")
     #P577 = publication date
-    if p31 == "edition":
+    if p31 == "edition" or (p31 == "work" and props["resourceid"] == editionearliest):
         if props["publicationdate"]:
             if not "P577" in workitem.claims:
                 print("Añadiendo P577")
                 claim = pywikibot.Claim(repo, 'P577')
                 claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-            else:
-                print("Ya tiene P577")
-    if p31 == "work":
-        if props["publicationdateearliest"] or props["publicationdate"]:
-            if not "P577" in workitem.claims:
-                print("Añadiendo P577")
-                claim = pywikibot.Claim(repo, 'P577')
-                claim.setTarget(pywikibot.WbTime(year=props["publicationdateearliest"] and props["publicationdateearliest"] or props["publicationdate"]))
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
@@ -758,7 +754,7 @@ def createItem(p31="", item="", repo="", props={}):
                 print("Ya tiene P437")
     
     #P8383 = goodreads work id
-    if p31 == "work":
+    if p31 == "work" and props["resourceid"] == editionearliest:
         if props["goodreadsworkid"]:
             if not "P8383" in workitem.claims:
                 print("Añadiendo P8383")
@@ -769,7 +765,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P8383")
     #P648 = openlibrary work id
-    if p31 == "work":
+    if p31 == "work" and props["resourceid"] == editionearliest:
         if props["openlibraryworkid"]:
             if not "P648" in workitem.claims:
                 print("Añadiendo P648")
@@ -1053,27 +1049,44 @@ def main():
             time.sleep(0.1)
             resourcesids = []
             resourceid = "/resource/" in obra and re.findall(r"(?im)href=\"/resource/([^<>\"]+?)\"", obra)[0] or ""
+            titletruncated = "item-link" in obra and unquote(re.findall(r"(?im)class=\"item-link\">([^<>]+?)</a>", obra)[0]) or ""
+            if not resourceid:
+                continue
+            print('\n== %s ==' % (resourceid))
+            print(titletruncated)
+            
+            #coger la edición más temprana a partir de la cual se creará el work
+            editionearliest = ""
             publicationdateearliest = ""
             if '<div class="text-center">Libro</div>' in obra:
                 if resourceid:
                     resourcesids.append(resourceid)
+                    editionearliest = resourceid
             elif '<div class="text-center">Obra</div>' in obra:
                 url2 = "https://datos.bne.es/resource/" + resourceid
                 raw2 = getURL(url=url2)
                 if "página no encontrada, pero no estás perdido" in raw2:
                     print("Error resourceid", resourceid)
                     continue
-                resourcesids = "/edicion/" in raw2 and re.findall(r"(?im)href=\"/edicion/([^<>\"]+?)\"", raw2) or []
-                m = re.findall(r"(?im)<strong>\s*Fecha de publicación\s*</strong>\s*</td>\s*<td>([^<>]*?)</td>", raw2)
-                for mm in m:
-                    publicationdate = mm and getPublicationDate(s=unquote(mm)) or ""
-                    if publicationdate and (not publicationdateearliest or publicationdateearliest > publicationdate):
-                        publicationdateearliest = publicationdate
+                for edition in raw2.split('<div class="media-body">'):
+                    resourceid = "/edicion/" in edition and re.findall(r"(?im)href=\"/edicion/([^<>\"]+?)\"", edition)[0] or ""
+                    m = "Fecha de publicación" in edition and re.findall(r"(?im)<strong>\s*Fecha de publicación\s*</strong>\s*</td>\s*<td>([^<>]*?)</td>", edition)[0] or ""
+                    publicationdate = m and getPublicationDate(s=unquote(m)) or ""
+                    if resourceid and publicationdate:
+                        if publicationdate and (not publicationdateearliest or publicationdateearliest > publicationdate):
+                            publicationdateearliest = publicationdate
+                            editionearliest = resourceid
+            print("editionearliest", editionearliest)
+            print("publicationdateearliest", publicationdateearliest)
             
+            #ediciones
             for resourceid in resourcesids:
-                print('\n== %s ==' % (resourceid))
+                print('\n=== %s ===' % (resourceid))
                 urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
                 print(urlresource)
+                continue
+                
+                
                 rawresource = getURL(url=urlresource)
                 m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
                 lang = m and unquote(m[0]) or ""
@@ -1202,6 +1215,8 @@ def main():
                     "publisher": publisher, 
                     "publicationlocation": publicationlocation, 
                     "publicationdate": publicationdate, 
+                    
+                    "editionearliest": editionearliest, 
                     "publicationdateearliest": publicationdateearliest, 
                     
                     "isbn": isbn, 
