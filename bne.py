@@ -152,20 +152,24 @@ locations = {
 }
 publishers = {
     "aconcagua": { "q": "Q124731301", "regexp": r"aconcagua" }, 
+    "akal": { "q": "Q5817833", "regexp": r"akal" }, 
     "alfaguara": { "q": "Q3324371", "regexp": r"alfaguara" }, 
     "alianza editorial": { "q": "Q8195536", "regexp": r"alianza editorial" }, 
     "anagrama": { "q": "Q8772125", "regexp": r"anagrama" }, 
     "anaya": { "q": "Q5394209", "regexp": r"anaya" }, 
+    "booket": { "q": "Q124796493", "regexp": r"booket" }, 
     "bruguera": { "q": "Q3275000", "regexp": r"bruguera" }, 
     "círculo de lectores": { "q": "Q45762085", "regexp": "c[íi]rculo de lectores" }, 
     "círculo rojo": { "q": "Q5818613", "regexp": "c[íi]rculo rojo" }, 
     "crítica": { "q": "Q5818611", "regexp": "cr[íi]tica" }, 
     "debolsillo": { "q": "Q30103625", "regexp": "de[ -]?bolsillo" }, 
     "destino": { "q": "Q8771933", "regexp": "destino" }, 
+    "edaf": { "q": "Q124796404", "regexp": "edaf" }, 
     "edebe": { "q": "Q8771871", "regexp": "edeb[ée]" }, 
     "ediciones b": { "q": "Q3047577", "regexp": "ediciones b" }, 
     "espasa-calpe": { "q": "Q16912403", "regexp": "espasa[ -]calpe" }, 
     "everest": { "q": "Q28324222", "regexp": "everest" }, 
+    "paraninfo": { "q": "Q21036714", "regexp": "paraninfo" }, 
     "planeta": { "q": "Q2339634", "regexp": "planeta" }, 
     "plaza & janes": { "q": "Q6079378", "regexp": "plaza ?[&y]? ?jan[ée]s" }, 
     "rba": { "q": "Q5687784", "regexp": "rba" }, 
@@ -173,7 +177,7 @@ publishers = {
     "salvat": { "q": "Q3817619", "regexp": "salvat" }, 
 }
 for publisher, props in publishers.items():
-    publishers[publisher]["regexp"] = r"(?im)^(?:ed\.?|editorial|ediciones|libros?)?[ \.\,]*(%s)[ \.\,]*(?:ed\.?|editorial|ediciones|libros?)?$" % (publishers[publisher]["regexp"])
+    publishers[publisher]["regexp"] = r"(?im)^(?:ed\.?|editorial|ediciones|libros?|publicaciones)?[ \.\,]*(%s)[ \.\,]*(?:ed\.?|editorial|ediciones|libros?|publicaciones)?$" % (publishers[publisher]["regexp"])
 
 def getBNEid(item=""):
     if not item:
