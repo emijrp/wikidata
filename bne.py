@@ -263,7 +263,7 @@ def getFullTitle(title="", subtitle=""):
         return ""
     if not subtitle:
         return title
-    titlefull = title.strip(".").strip(" ").strip(".").strip(":").strip(" ") + ". " + subtitle[0].upper()+subtitle[1:]
+    titlefull = title.strip(".").strip(" ").strip(".").strip(":").strip(" ") + (subtitle.startswith("(") and " " or ". ") + subtitle[0].upper()+subtitle[1:]
     titlefull = re.sub(r"(?im)  +", " ", titlefull)
     chunks = []
     for chunk in titlefull.split(" : "):
