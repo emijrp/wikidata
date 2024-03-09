@@ -180,6 +180,7 @@ publishers = {
     "rba": { "q": "Q5687784", "regexp": "rba" }, 
     "santillana": { "q": "Q3118243", "regexp": "santillana" }, 
     "salvat": { "q": "Q3817619", "regexp": "salvat" }, 
+    "uned": { "q": "Q124796632", "regexp": "(uned|Universidad Nacional de Educaci[óo]n a Distancia)" }, 
     
     "universidad-autonoma-barcelona": { "q": "Q16630691", "regexp": "(Publicacione?s de la Universi[td]a[td] Aut[óòo]noma de Barcelona|Servicio de Publicaciones de la Universi[td]a[td] Aut[óòo]noma de Barcelona)" },
     "universidad-complutense-madrid": { "q": "Q613189", "regexp": "(Editorial de la Universidad Complutense|Servicio de Publicaciones de la Universidad Complutense de Madrid)" },
