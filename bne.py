@@ -1089,15 +1089,17 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
             extension = m and unquote(m[0]) or ""
             pages = getExtensionInPages(s=extension)
-            if pages < 80 or pages > 999:
-                print("Numero de paginas raro, saltamos", pages)
-                continue
+            if pages and (pages < 80 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
+                #print("Numero de paginas raro, saltamos", pages)
+                pages = ""
+                #continue
             m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
             dimensions = m and unquote(m[0]) or ""
             height = getHeightInCM(s=dimensions)
-            if height < 10 or height > 35:
-                print("Altura extraña, saltamos", height)
+            if height and height < 10 or height > 35: #si la altura es rara, la blanqueamos y seguimos
+                #print("Altura extraña, saltamos", height)
                 height = ""
+                #continue
             m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
             isbn = m and unquote(m[0]) or ""
             isbnplain = isbn and isbn.replace("-", "") or ""
