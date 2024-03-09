@@ -1096,7 +1096,7 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
             dimensions = m and unquote(m[0]) or ""
             height = getHeightInCM(s=dimensions)
-            if height and height < 10 or height > 35: #si la altura es rara, la blanqueamos y seguimos
+            if height and (height < 10 or height > 35): #si la altura es rara, la blanqueamos y seguimos
                 #print("Altura extraña, saltamos", height)
                 height = ""
                 #continue
