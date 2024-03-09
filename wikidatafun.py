@@ -50,6 +50,7 @@ def getURL(url='', retry=True, timeout=60):
             print('Retry in %s seconds...' % (sleep))
             time.sleep(sleep)
             try:
+                req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0' })
                 raw = urllib.request.urlopen(req, timeout=timeout).read().strip().decode('utf-8')
             except:
                 pass
