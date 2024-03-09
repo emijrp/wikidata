@@ -135,21 +135,29 @@ countries = {
     "reino unido": { "q": "Q145" }, 
 }
 locations = {
-    "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"(?im)^(barcelona)?$" }, 
-    "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"(?im)^(bilbao)?$" }, 
-    "madrid": { "q": "Q2807", "country": countries["españa"]["q"], "regexp": r"(?im)^(madrid)?$" }, 
-    "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"(?im)^(sevilla)?$" }, 
-    "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"(?im)^(valencia)?$" }, 
-    "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"(?im)^(zaragoza)?$" }, 
+    "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"barcelona" }, 
+    "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"bilbao" }, 
+    "cadiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
+    "granada": { "q": "Q8810", "country": countries["españa"]["q"], "regexp": r"granada" }, 
+    "malaga": { "q": "Q8851", "country": countries["españa"]["q"], "regexp": r"m[áa]laga" }, 
+    "pamplona": { "q": "Q10282", "country": countries["españa"]["q"], "regexp": r"pamplona" }, 
+    "salamanca": { "q": "Q15695", "country": countries["españa"]["q"], "regexp": r"salamanca" }, 
+    "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"sevilla" }, 
+    "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"valencia" }, 
+    "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
+    "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
     
-    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"(?im)^(buenos aires)?$" }, 
+    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
     
-    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(?im)^(londres|london)?$" }, 
+    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
     
-    "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(?im)^(new york|nueva york)?$" },
+    "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new york|nueva york)" },
      
-    "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"(?im)^(par[íi]s)?$" }, 
+    "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"par[íi]s" }, 
 }
+for location, props in locations.items():
+    locations[location]["regexp"] = r"(?im)^[ \.\,\[\]\(\)]*(%s)[ \.\,\[\]\(\)]*$" % (locations[location]["regexp"])
+
 publishers = {
     "aconcagua": { "q": "Q124731301", "regexp": r"aconcagua" }, 
     "akal": { "q": "Q5817833", "regexp": r"akal" }, 
