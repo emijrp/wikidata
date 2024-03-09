@@ -155,29 +155,37 @@ publishers = {
     "akal": { "q": "Q5817833", "regexp": r"akal" }, 
     "alfaguara": { "q": "Q3324371", "regexp": r"alfaguara" }, 
     "alianza editorial": { "q": "Q8195536", "regexp": r"alianza editorial" }, 
+    "altaya": { "q": "Q124796624", "regexp": r"altaya" }, 
     "anagrama": { "q": "Q8772125", "regexp": r"anagrama" }, 
     "anaya": { "q": "Q5394209", "regexp": r"anaya" }, 
     "booket": { "q": "Q124796493", "regexp": r"booket" }, 
     "bruguera": { "q": "Q3275000", "regexp": r"bruguera" }, 
+    "catedra": { "q": "Q3009634", "regexp": r"c[áa]tedra" }, 
     "círculo de lectores": { "q": "Q45762085", "regexp": "c[íi]rculo de lectores" }, 
     "círculo rojo": { "q": "Q5818613", "regexp": "c[íi]rculo rojo" }, 
     "crítica": { "q": "Q5818611", "regexp": "cr[íi]tica" }, 
     "debolsillo": { "q": "Q30103625", "regexp": "de[ -]?bolsillo" }, 
     "destino": { "q": "Q8771933", "regexp": "destino" }, 
+    "deusto": { "q": "Q124796614", "regexp": "deusto" }, 
     "edaf": { "q": "Q124796404", "regexp": "edaf" }, 
     "edebe": { "q": "Q8771871", "regexp": "edeb[ée]" }, 
     "ediciones b": { "q": "Q3047577", "regexp": "ediciones b" }, 
     "espasa-calpe": { "q": "Q16912403", "regexp": "espasa[ -]calpe" }, 
     "everest": { "q": "Q28324222", "regexp": "everest" }, 
+    "gredos": { "q": "Q3047666", "regexp": "gredos" }, 
     "paraninfo": { "q": "Q21036714", "regexp": "paraninfo" }, 
     "planeta": { "q": "Q2339634", "regexp": "planeta" }, 
+    "planeta-deagostini": { "q": "Q2526307", "regexp": "planeta[ -]?de[ -]?agostini" }, 
     "plaza & janes": { "q": "Q6079378", "regexp": "plaza ?[&y]? ?jan[ée]s" }, 
     "rba": { "q": "Q5687784", "regexp": "rba" }, 
     "santillana": { "q": "Q3118243", "regexp": "santillana" }, 
     "salvat": { "q": "Q3817619", "regexp": "salvat" }, 
+    
+    "universidad-autonoma-barcelona": { "q": "Q16630691", "regexp": "(Publicacione?s de la Universi[td]a[td] Aut[óòo]noma de Barcelona|Servicio de Publicaciones de la Universi[td]a[td] Aut[óòo]noma de Barcelona)" },
+    "universidad-complutense-madrid": { "q": "Q613189", "regexp": "(Editorial de la Universidad Complutense|Servicio de Publicaciones de la Universidad Complutense de Madrid)" },
 }
 for publisher, props in publishers.items():
-    publishers[publisher]["regexp"] = r"(?im)^(?:ed\.?|editorial|ediciones|libros?|publicaciones)?[ \.\,]*(%s)[ \.\,]*(?:ed\.?|editorial|ediciones|libros?|publicaciones)?$" % (publishers[publisher]["regexp"])
+    publishers[publisher]["regexp"] = r"(?im)^(?:ed\.?|editorial|ediciones|libros?|publicaciones)?[ \.\,]*(%s)[ \.\,]*(?:ed\.?|editorial|ediciones|libros?|publicaciones|S\.A\.|SA|S\.L\.|SL)?$" % (publishers[publisher]["regexp"])
 
 def getBNEid(item=""):
     if not item:
