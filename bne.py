@@ -701,15 +701,26 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P291")
     #P577 = publication date
-    if props["publicationdate"]:
-        if not "P577" in workitem.claims:
-            print("Añadiendo P577")
-            claim = pywikibot.Claim(repo, 'P577')
-            claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
-            workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-            addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-        else:
-            print("Ya tiene P407")
+    if p31 == "edition":
+        if props["publicationdate"]:
+            if not "P577" in workitem.claims:
+                print("Añadiendo P577")
+                claim = pywikibot.Claim(repo, 'P577')
+                claim.setTarget(pywikibot.WbTime(year=props["publicationdate"]))
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P577")
+    if p31 == "work":
+        if props["publicationdateearliest"] or props["publicationdate"]:
+            if not "P577" in workitem.claims:
+                print("Añadiendo P577")
+                claim = pywikibot.Claim(repo, 'P577')
+                claim.setTarget(pywikibot.WbTime(year=props["publicationdateearliest"] and props["publicationdateearliest"] or props["publicationdate"]))
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P577")
     #P1104 = number of pages
     if p31 == "edition":
         if props["pages"]:
@@ -1040,201 +1051,213 @@ def main():
         #cuidado distinguir entre obra, libro, dvd, recurso electrónico, etc
         for obra in obras.split("</li>"):
             time.sleep(0.1)
+            resourcesids = []
             resourceid = "/resource/" in obra and re.findall(r"(?im)href=\"/resource/([^<>\"]+?)\"", obra)[0] or ""
-            titletruncated = "item-link" in obra and unquote(re.findall(r"(?im)class=\"item-link\">([^<>]+?)</a>", obra)[0]) or ""
-            urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
-            if not resourceid:
-                continue
-            print('\n== %s ==' % (resourceid))
-            print(titletruncated)
-            print(urlresource)
-            if not '<div class="text-center">Libro</div>' in obra:
-                print("Por ahora solo libros. Saltando obras tb")
-                continue
-            rawresource = getURL(url=urlresource)
-            
-            m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
-            lang = m and unquote(m[0]) or ""
-            if not lang in languages2iso:
-                print("Idioma no entendido", lang, "saltamos")
-                continue
-            m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
-            title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
-            title_ = title_.replace(" : ", ": ")
-            title = title_.strip(" ").strip(".").strip(":").strip(",").strip(" ") #no usar clearsymbols pq puede quitar (), solo quitar ,.: finales si hay
-            m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
-            subtitle = m and unquote(m[0]) or ""
-            subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
-            subtitle = subtitle.replace(" : ", ": ")
-            alternatetitle = title + " " + subtitle
-            alternatetitle2 = alternatetitle.replace(" : ", ": ")
-            alternatetitle3 = alternatetitle.replace(" : ", ", ")
-            alternatetitle4 = alternatetitle.replace(" : ", " ")
-            alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
-            fulltitle = getFullTitle(title=title_, subtitle=subtitle)
-            
-            m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
-            contributors = m and unquote(m[0]) or ""
-            #if not contributors:
-            #    print("No info de contributor, saltamos")
-            #    continue
-            #if ',' in contributors.split(';')[0] or ' y ' in contributors.split(';')[0]:
-            #    print("Mas de un contributor, saltamos")
-            #    continue
-            contributorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
-            contributorsq = getContributors(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
-            forewordsq = getForewords(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
-            translatorsq = getTranslators(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
-            
-            m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
-            publisher = m and getPublisher(s=unquote(m[0])) or ""
-            m = re.findall(r"(?im)<ns\d:P3003>([^<>]+?)</ns\d:P3003>", rawresource)
-            publicationlocation = m and getPublicationLocation(s=unquote(m[0])) or ""
-            m = re.findall(r"(?im)<ns\d:P3006>([^<>]+?)</ns\d:P3006>", rawresource)
-            publicationdate = m and getPublicationDate(s=unquote(m[0])) or ""
-            if not publicationdate:
-                print("No se encontro anyo, es necesario para distinguir entre ediciones, saltamos")
-                continue
-            if publicationdate and ((birthdate and publicationdate < birthdate) or (deathdate and publicationdate > deathdate)):
-                print("La obra fue publicada antes del nacimiento o despues de la muerte, saltamos")
-                continue
-            m = re.findall(r"(?im)<ns\d:P3017>([^<>]+?)</ns\d:P3017>", rawresource)
-            edition = m and unquote(m[0]) or ""
-            m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
-            #extension pages
-            extension = m and unquote(m[0]) or ""
-            pages = getExtensionInPages(s=extension)
-            if pages and (pages < 80 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
-                #print("Numero de paginas raro, saltamos", pages)
-                pages = ""
-                #continue
-            #dimensions height
-            m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
-            dimensions = m and unquote(m[0]) or ""
-            height = getHeightInCM(s=dimensions)
-            if height and (height < 10 or height > 35): #si la altura es rara, la blanqueamos y seguimos
-                #print("Altura extraña, saltamos", height)
-                height = ""
-                #continue
-            #isbn
-            m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
-            isbn = ""
-            isbnplain = ""
-            isbn10 = ""
-            isbn13 = ""
-            for mm in m:
-                isbn = mm and unquote(mm) or ""
-                isbnplain = isbn and isbn.replace("-", "") or ""
-                if len(isbnplain) == 10:
-                    isbn10 = isbn
-                elif len(isbnplain) == 13:
-                    isbn13 = isbn
-            if isbn13:
-                isbn = isbn13
-            elif isbn10:
-                isbn = isbn10
-            else:
-                isbn = ""
-            isbnplain = isbn and isbn.replace("-", "") or ""
-            if not isbn:
-                print("ISBN no encontrado, saltamos")
-                continue
-            #legal deposit
-            m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
-            legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
-            m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
-            mediatype = m and unquote(m[0]) or ""
-            distributionformat = ""
-            if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
-                print("Extension/Medio no interesa, skiping", extension+mediatype)
-                continue
-            else:
-                distributionformat = "Q11396303" #printed book
-            
-            #external ids
-            goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
-            openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
-            
-            goodreadseditionid = getGoodReadsEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
-            openlibraryeditionid = getOpenLibraryEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
-            
-            props = {
-                "lang": languages2iso[lang], 
-                "langq": languages[languages2iso[lang]], 
-                "title": title, 
-                "subtitle": subtitle, 
-                "alternatetitles": alternatetitles, 
-                "fulltitle": fulltitle, 
-                
-                "authorq": authorq, 
-                "authorbneid": authorbneid, 
-                "contributorsq": contributorsq, 
-                "forewordsq": forewordsq, 
-                "translatorsq": translatorsq, 
-                
-                "resourceid": resourceid, 
-                "pages": pages, 
-                "height": height, 
-                "distributionformat": distributionformat,
-                
-                "publisher": publisher, 
-                "publicationlocation": publicationlocation, 
-                "publicationdate": publicationdate, 
-                
-                "isbn": isbn, 
-                "isbnplain": isbnplain, 
-                "isbn10": isbn10, 
-                "isbn13": isbn13, 
-                "legaldeposit": legaldeposit, 
-                
-                "goodreadsworkid": goodreadsworkid, 
-                "openlibraryworkid": openlibraryworkid, 
-                
-                "goodreadseditionid": goodreadseditionid, 
-                "openlibraryeditionid": openlibraryeditionid, 
-            }
-            print(props.items())
-            
-            donecandidates = []
-            candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
-            candidates = list(set(candidates))
-            candidates.sort()
-            #print(candidates)
-            
-            workcreated = []
-            editionscreated = []
-            for candidate in candidates:
-                if candidate in donecandidates:
+            publicationdateearliest = ""
+            if '<div class="text-center">Libro</div>' in obra:
+                if resourceid:
+                    resourcesids.append(resourceid)
+            elif '<div class="text-center">Obra</div>' in obra:
+                url2 = "https://datos.bne.es/resource/" + resourceid
+                raw2 = getURL(url=url2)
+                if "página no encontrada, pero no estás perdido" in raw2:
+                    print("Error resourceid", resourceid)
                     continue
-                print("Encontrado candidato", candidate)
-                donecandidates.append(candidate)
-                candidateitem = pywikibot.ItemPage(repo, candidate)
-                candidateitem.get()
-                if "P31" in candidateitem.claims:
-                    for candidateitemp31 in candidateitem.claims["P31"]:
-                        if "Q47461344" in candidateitemp31.getTarget().title(): #work
-                            improveItem(p31="work", item=candidate, repo=repo, props=props)
-                            workcreated.append(candidate)
-                        elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
-                            improveItem(p31="edition", item=candidate, repo=repo, props=props)
-                            editionscreated.append(candidate)
+                resourcesids = "/edicion/" in raw2 and re.findall(r"(?im)href=\"/edicion/([^<>\"]+?)\"", raw2) or []
+                m = re.findall(r"(?im)<strong>\s*Fecha de publicación\s*</strong>\s*</td>\s*<td>([^<>]*?)</td>", raw2)
+                for mm in m:
+                    publicationdate = mm and getPublicationDate(s=unquote(mm)) or ""
+                    if publicationdate and (not publicationdateearliest or publicationdateearliest > publicationdate):
+                        publicationdateearliest = publicationdate
             
-            workq = ""
-            editionq = ""
-            if not workcreated:
-                print("No se encontraron candidatos para el work, creamos")
-                workq = createItem(p31="work", repo=repo, props=props)
-            if not editionscreated:
-                print("No se encontraron candidatos para la edition, creamos")
-                editionq = createItem(p31="edition", repo=repo, props=props)
-            if workq and editionq:
-                linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
-            if len(workcreated) == 1 and len(editionscreated) >= 1:
-                for editioncreated in editionscreated:
-                    linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
-            
-            #if resourceid in ["a7153685", "a5311062"]:
-            #    sys.exit()
+            for resourceid in resourcesids:
+                print('\n== %s ==' % (resourceid))
+                urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
+                print(urlresource)
+                rawresource = getURL(url=urlresource)
+                m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
+                lang = m and unquote(m[0]) or ""
+                if not lang in languages2iso:
+                    print("Idioma no entendido", lang, "saltamos")
+                    continue
+                m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
+                title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
+                title_ = title_.replace(" : ", ": ")
+                title = title_.strip(" ").strip(".").strip(":").strip(",").strip(" ") #no usar clearsymbols pq puede quitar (), solo quitar ,.: finales si hay
+                m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
+                subtitle = m and unquote(m[0]) or ""
+                subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
+                subtitle = subtitle.replace(" : ", ": ")
+                alternatetitle = title + " " + subtitle
+                alternatetitle2 = alternatetitle.replace(" : ", ": ")
+                alternatetitle3 = alternatetitle.replace(" : ", ", ")
+                alternatetitle4 = alternatetitle.replace(" : ", " ")
+                alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
+                fulltitle = getFullTitle(title=title_, subtitle=subtitle)
+                
+                m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
+                contributors = m and unquote(m[0]) or ""
+                #if not contributors:
+                #    print("No info de contributor, saltamos")
+                #    continue
+                #if ',' in contributors.split(';')[0] or ' y ' in contributors.split(';')[0]:
+                #    print("Mas de un contributor, saltamos")
+                #    continue
+                contributorsbneids = re.findall(r"(?im)<ns\d:OP3006 rdf:resource=\"https://datos\.bne\.es/resource/([^<>]+?)\"\s*/>", rawresource)
+                contributorsq = getContributors(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
+                forewordsq = getForewords(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
+                translatorsq = getTranslators(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
+                
+                m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
+                publisher = m and getPublisher(s=unquote(m[0])) or ""
+                m = re.findall(r"(?im)<ns\d:P3003>([^<>]+?)</ns\d:P3003>", rawresource)
+                publicationlocation = m and getPublicationLocation(s=unquote(m[0])) or ""
+                m = re.findall(r"(?im)<ns\d:P3006>([^<>]+?)</ns\d:P3006>", rawresource)
+                publicationdate = m and getPublicationDate(s=unquote(m[0])) or ""
+                if not publicationdate:
+                    print("No se encontro anyo, es necesario para distinguir entre ediciones, saltamos")
+                    continue
+                if publicationdate and ((birthdate and publicationdate < birthdate) or (deathdate and publicationdate > deathdate)):
+                    print("La obra fue publicada antes del nacimiento o despues de la muerte, saltamos")
+                    continue
+                m = re.findall(r"(?im)<ns\d:P3017>([^<>]+?)</ns\d:P3017>", rawresource)
+                edition = m and unquote(m[0]) or ""
+                m = re.findall(r"(?im)<ns\d:P3004>([^<>]+?)</ns\d:P3004>", rawresource)
+                #extension pages
+                extension = m and unquote(m[0]) or ""
+                pages = getExtensionInPages(s=extension)
+                if pages and (pages < 80 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
+                    #print("Numero de paginas raro, saltamos", pages)
+                    pages = ""
+                    #continue
+                #dimensions height
+                m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
+                dimensions = m and unquote(m[0]) or ""
+                height = getHeightInCM(s=dimensions)
+                if height and (height < 10 or height > 35): #si la altura es rara, la blanqueamos y seguimos
+                    #print("Altura extraña, saltamos", height)
+                    height = ""
+                    #continue
+                #isbn
+                m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
+                isbn = ""
+                isbnplain = ""
+                isbn10 = ""
+                isbn13 = ""
+                for mm in m:
+                    isbn = mm and unquote(mm) or ""
+                    isbnplain = isbn and isbn.replace("-", "") or ""
+                    if len(isbnplain) == 10:
+                        isbn10 = isbn
+                    elif len(isbnplain) == 13:
+                        isbn13 = isbn
+                if isbn13:
+                    isbn = isbn13
+                elif isbn10:
+                    isbn = isbn10
+                else:
+                    isbn = ""
+                isbnplain = isbn and isbn.replace("-", "") or ""
+                if not isbn:
+                    print("ISBN no encontrado, saltamos")
+                    continue
+                #legal deposit
+                m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
+                legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
+                m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
+                mediatype = m and unquote(m[0]) or ""
+                distributionformat = ""
+                if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
+                    print("Extension/Medio no interesa, skiping", extension+mediatype)
+                    continue
+                else:
+                    distributionformat = "Q11396303" #printed book
+                
+                #external ids
+                goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+                openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+                
+                goodreadseditionid = getGoodReadsEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+                openlibraryeditionid = getOpenLibraryEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+                
+                props = {
+                    "lang": languages2iso[lang], 
+                    "langq": languages[languages2iso[lang]], 
+                    "title": title, 
+                    "subtitle": subtitle, 
+                    "alternatetitles": alternatetitles, 
+                    "fulltitle": fulltitle, 
+                    
+                    "authorq": authorq, 
+                    "authorbneid": authorbneid, 
+                    "contributorsq": contributorsq, 
+                    "forewordsq": forewordsq, 
+                    "translatorsq": translatorsq, 
+                    
+                    "resourceid": resourceid, 
+                    "pages": pages, 
+                    "height": height, 
+                    "distributionformat": distributionformat,
+                    
+                    "publisher": publisher, 
+                    "publicationlocation": publicationlocation, 
+                    "publicationdate": publicationdate, 
+                    "publicationdateearliest": publicationdateearliest, 
+                    
+                    "isbn": isbn, 
+                    "isbnplain": isbnplain, 
+                    "isbn10": isbn10, 
+                    "isbn13": isbn13, 
+                    "legaldeposit": legaldeposit, 
+                    
+                    "goodreadsworkid": goodreadsworkid, 
+                    "openlibraryworkid": openlibraryworkid, 
+                    
+                    "goodreadseditionid": goodreadseditionid, 
+                    "openlibraryeditionid": openlibraryeditionid, 
+                }
+                print(props.items())
+                
+                donecandidates = []
+                candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
+                candidates = list(set(candidates))
+                candidates.sort()
+                #print(candidates)
+                
+                workcreated = []
+                editionscreated = []
+                for candidate in candidates:
+                    if candidate in donecandidates:
+                        continue
+                    print("Encontrado candidato", candidate)
+                    donecandidates.append(candidate)
+                    candidateitem = pywikibot.ItemPage(repo, candidate)
+                    candidateitem.get()
+                    if "P31" in candidateitem.claims:
+                        for candidateitemp31 in candidateitem.claims["P31"]:
+                            if "Q47461344" in candidateitemp31.getTarget().title(): #work
+                                improveItem(p31="work", item=candidate, repo=repo, props=props)
+                                workcreated.append(candidate)
+                            elif "Q3331189" in candidateitemp31.getTarget().title(): #edition
+                                improveItem(p31="edition", item=candidate, repo=repo, props=props)
+                                editionscreated.append(candidate)
+                
+                workq = ""
+                editionq = ""
+                if not workcreated:
+                    print("No se encontraron candidatos para el work, creamos")
+                    workq = createItem(p31="work", repo=repo, props=props)
+                if not editionscreated:
+                    print("No se encontraron candidatos para la edition, creamos")
+                    editionq = createItem(p31="edition", repo=repo, props=props)
+                if workq and editionq:
+                    linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
+                if len(workcreated) == 1 and len(editionscreated) >= 1:
+                    for editioncreated in editionscreated:
+                        linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
+                
+                #if resourceid in ["a7153685", "a5311062"]:
+                #    sys.exit()
 
 if __name__ == "__main__":
     main()
