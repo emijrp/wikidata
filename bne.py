@@ -962,7 +962,7 @@ def main():
             m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
             title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
             title_ = title_.replace(" : ", ": ")
-            title = title_.strip(" ").strip(".").strip(":").strip(" ") #no usar clearsymbols pq puede quitar paréntesis, solo quitar . o : finales si hay
+            title = title_.strip(" ").strip(".").strip(":").strip(",").strip(" ") #no usar clearsymbols pq puede quitar (), solo quitar ,.: finales si hay
             m = re.findall(r"(?im)<ns\d:P3014>([^<>]+?)</ns\d:P3014>", rawresource)
             subtitle = m and unquote(m[0]) or ""
             subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
