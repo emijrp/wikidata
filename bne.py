@@ -128,45 +128,64 @@ occupations = {
     "traductores": "Q333634",
 }
 countries = {
+    "alemania": { "q": "Q183" }, 
     "argentina": { "q": "Q414" }, 
     "españa": { "q": "Q29" }, 
     "estados unidos": { "q": "Q30" }, 
     "francia": { "q": "Q142" }, 
+    "italia": { "q": "Q220" }, 
     "méxico": { "q": "Q96" }, 
     "reino unido": { "q": "Q145" }, 
 }
 locations = {
     
+    "alemania": { "q": countries["alemania"]["q"], "country": countries["alemania"]["q"], "regexp": r"(alemania|germany)" }, 
+        "leipzig": { "q": "Q2079", "country": countries["alemania"]["q"], "regexp": r"leipzig" }, 
+    
     "argentina": { "q": countries["argentina"]["q"], "country": countries["argentina"]["q"], "regexp": r"argentina" }, 
-    "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
+        "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
     
     "españa": { "q": countries["españa"]["q"], "country": countries["españa"]["q"], "regexp": r"españa" }, 
-    "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"barcelona" }, 
-    "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"bilbao" }, 
-    "cadiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
-    "granada": { "q": "Q8810", "country": countries["españa"]["q"], "regexp": r"granada" }, 
-    "malaga": { "q": "Q8851", "country": countries["españa"]["q"], "regexp": r"m[áa]laga" }, 
-    "pamplona": { "q": "Q10282", "country": countries["españa"]["q"], "regexp": r"pamplona" }, 
-    "salamanca": { "q": "Q15695", "country": countries["españa"]["q"], "regexp": r"salamanca" }, 
-    "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"sevilla" }, 
-    "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"valencia" }, 
-    "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
-    "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
+        "almería": { "q": "Q10400", "country": countries["españa"]["q"], "regexp": r"almer[íi]a" }, 
+        "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"barcelona" }, 
+        "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"bilbao" }, 
+        "cádiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
+        "córdoba": { "q": "Q5818", "country": countries["españa"]["q"], "regexp": r"c[óo]rdoba" }, 
+        "granada": { "q": "Q8810", "country": countries["españa"]["q"], "regexp": r"granada" }, 
+        "león": { "q": "Q15699", "country": countries["españa"]["q"], "regexp": r"le[óo]n" }, 
+        "malaga": { "q": "Q8851", "country": countries["españa"]["q"], "regexp": r"m[áa]laga" }, 
+        "murcia": { "q": "Q12225", "country": countries["españa"]["q"], "regexp": r"murcia" }, 
+        "oviedo": { "q": "Q14317", "country": countries["españa"]["q"], "regexp": r"oviedo" }, 
+        "Palma de Mallorca": { "q": "Q8826", "country": countries["españa"]["q"], "regexp": r"Palma de Mallorca" }, 
+        "pamplona": { "q": "Q10282", "country": countries["españa"]["q"], "regexp": r"pamplona" }, 
+        "Roquetas de Mar": { "q": "Q499184", "country": countries["españa"]["q"], "regexp": r"Roquetas de Mar" }, 
+        "salamanca": { "q": "Q15695", "country": countries["españa"]["q"], "regexp": r"salamanca" }, 
+        "santander": { "q": "Q12233", "country": countries["españa"]["q"], "regexp": r"santander" }, 
+        "San Sebastián": { "q": "Q10313", "country": countries["españa"]["q"], "regexp": r"San Sebastián" }, 
+        "Santiago de Compostela": { "q": "Q14314", "country": countries["españa"]["q"], "regexp": r"Santiago de Compostela" }, 
+        "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"sevilla" }, 
+        "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"val[èe]ncia" }, 
+        "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
+        "vigo": { "q": "Q8745", "country": countries["españa"]["q"], "regexp": r"vigo" }, 
+        "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
     
     "estados unidos": { "q": countries["estados unidos"]["q"], "country": countries["estados unidos"]["q"], "regexp": r"(estados unidos|united states)" },
-    "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new york|nueva york)" },
+        "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new york|nueva york)" },
      
     "francia": { "q": countries["francia"]["q"], "country": countries["francia"]["q"], "regexp": r"(francia|france)" }, 
-    "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"par[íi]s" }, 
+        "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"par[íi]s" }, 
+    
+    "italia": { "q": countries["italia"]["q"], "country": countries["italia"]["q"], "regexp": r"(italia|italy)" }, 
+        "roma": { "q": "Q220", "country": countries["italia"]["q"], "regexp": r"rom[ae]" }, 
     
     "méxico": { "q": countries["méxico"]["q"], "country": countries["méxico"]["q"], "regexp": r"m[ée][xj]ico" }, 
     
     "reino unido": { "q": countries["reino unido"]["q"], "country": countries["reino unido"]["q"], "regexp": r"reino unido" }, 
-    "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
+        "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
     
 }
 for location, props in locations.items():
-    locations[location]["regexp"] = r"(?im)^[ \.\,\[\]\(\)]*(%s)[ \.\,\[\]\(\)]*$" % (locations[location]["regexp"])
+    locations[location]["regexp"] = r"(?im)^[ \.\,\[\]\(\)]*(?:en )?(%s)[ \.\,\[\]\(\)]*$" % (locations[location]["regexp"])
 
 publishers = {
     "aconcagua": { "q": "Q124731301", "regexp": r"aconcagua" }, 
