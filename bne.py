@@ -301,8 +301,8 @@ def getExtensionInPages(s=""):
     if not s:
         return
     pages = 0
-    if re.search(r"(?im)^\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s):
-        pages = re.findall(r"(?im)^\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
+    if re.search(r"(?im)^\s*[a-z\,\.]*\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s):
+        pages = re.findall(r"(?im)^\s*[a-z\,\.]*\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
     pages = int(pages)
     return pages
 
@@ -1013,8 +1013,8 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     qlist = ["Q93433647"] #eusebio
-    qlist = ["Q5865630"] #paco espinosa
     qlist = ["Q118122724"] #almisas
+    qlist = ["Q5865630"] #paco espinosa
     
     for authorq in qlist:
         time.sleep(1)
@@ -1086,6 +1086,9 @@ def main():
             print('\n== %s ==' % (resourceid))
             print(titletruncated)
             
+            if resourceid != "XX3163913":
+                continue
+            
             #coger la edición más temprana a partir de la cual se creará el work
             editionearliest = ""
             publicationdateearliest = ""
@@ -1094,8 +1097,8 @@ def main():
                     resourcesids.append(resourceid)
                     editionearliest = resourceid
             elif '<div class="text-center">Obra</div>' in obra:
-                print("Saltando obras con más de 1 edición por ahora...")
-                continue
+                #print("Saltando obras con más de 1 edición por ahora...")
+                #continue
                 url2 = "https://datos.bne.es/resource/" + resourceid
                 raw2 = getURL(url=url2)
                 if "página no encontrada, pero no estás perdido" in raw2:
@@ -1118,6 +1121,9 @@ def main():
             print("editionearliest", editionearliest)
             print("publicationdateearliest", publicationdateearliest)
             
+            workcreated = []
+            editionscreated = []
+            otherscreated = []
             #ediciones
             for resourceid in resourcesids:
                 print('\n=== %s ===' % (resourceid))
@@ -1297,9 +1303,6 @@ def main():
                 candidates.sort()
                 #print(candidates)
                 
-                workcreated = []
-                editionscreated = []
-                otherscreated = []
                 for candidate in candidates:
                     if candidate in donecandidates:
                         continue
@@ -1336,9 +1339,13 @@ def main():
                 if not workcreated and not editionscreated and not otherscreated: #no crear work si existen editions, puede q no sea capaz de encontrar el work y cree duplicado (a veces creo los work sin ningun ID)
                     print("\nNo se encontraron candidatos para el work, creamos")
                     workq = createItem(p31="work", repo=repo, props=props)
+                    if workq:
+                        workcreated.append(workq)
                 if not editionscreated and not otherscreated:
                     print("\nNo se encontraron candidatos para la edition, creamos")
                     editionq = createItem(p31="edition", repo=repo, props=props)
+                    if editionq:
+                        editionscreated.append(editionq)
                 if workq and editionq:
                     linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
                 if len(workcreated) == 1 and len(editionscreated) >= 1:
