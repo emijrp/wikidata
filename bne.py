@@ -867,7 +867,7 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P950")
-    
+    print("Creado/Modificado https://www.wikidata.org/wiki/%s" % (workitem.title()))
     return workitem.title() #para enlazar work/edition
 
 def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
@@ -955,7 +955,7 @@ def linkWorkAndEdition(repo="", workq="", editionq=""):
         print("El work o la edition no fueron creadas por mi, saltando")
         return 
     
-    print("\nIntentando enlazar work", workq, "con edition", editionq)
+    print("\nIntentando enlazar work https://www.wikidata.org/wiki/%s con edition https://www.wikidata.org/wiki/%s" % (workq, editionq))
     editionitem = pywikibot.ItemPage(repo, editionq)
     editionitem.get()
     resourceid = "" #use edition bneid for both properties P629 and P747
@@ -1121,9 +1121,9 @@ def main():
             print("editionearliest", editionearliest)
             print("publicationdateearliest", publicationdateearliest)
             
-            workcreated = []
+            workscreated = []
             editionscreated = []
-            otherscreated = []
+            editionsavailable2 = [] #2 es global a la obra, sin2 es dentro de la edicion
             #ediciones
             for resourceid in resourcesids:
                 print('\n=== %s ===' % (resourceid))
@@ -1303,6 +1303,9 @@ def main():
                 candidates.sort()
                 #print(candidates)
                 
+                worksavailable = []
+                editionsavailable = []
+                othersavailable = []
                 for candidate in candidates:
                     if candidate in donecandidates:
                         continue
@@ -1324,33 +1327,36 @@ def main():
                             for candidateitemp31 in candidateitem.claims["P31"]:
                                 if "Q47461344" == candidateitemp31.getTarget().title(): #work
                                     improveItem(p31="work", item=candidate, repo=repo, props=props)
-                                    workcreated.append(candidate)
+                                    worksavailable.append(candidate)
                                 elif "Q3331189" == candidateitemp31.getTarget().title(): #edition
                                     improveItem(p31="edition", item=candidate, repo=repo, props=props)
-                                    editionscreated.append(candidate)
+                                    editionsavailable.append(candidate)
+                                    editionsavailable2.append(candidate)
                                 else:
-                                    otherscreated.append(candidate) #to avoid create when that isbn/goodreads/etc exists in an item
+                                    othersavailable.append(candidate) #to avoid create when that isbn/goodreads/etc exists in an item
                                 
                     else:
                         print("Candidato descartado, no coinciden IDs")
                 
                 workq = ""
                 editionq = ""
-                if not workcreated and not editionscreated and not otherscreated: #no crear work si existen editions, puede q no sea capaz de encontrar el work y cree duplicado (a veces creo los work sin ningun ID)
+                if not workscreated and not worksavailable and not editionsavailable and not editionsavailable2 and not othersavailable: #no crear work si ya existían editions, puede q no sea capaz de encontrar el work y cree duplicado (a veces creo los work sin ningun ID)
                     print("\nNo se encontraron candidatos para el work, creamos")
                     workq = createItem(p31="work", repo=repo, props=props)
                     if workq:
-                        workcreated.append(workq)
-                if not editionscreated and not otherscreated:
+                        workscreated.append(workq)
+                if not editionsavailable and not othersavailable:
                     print("\nNo se encontraron candidatos para la edition, creamos")
                     editionq = createItem(p31="edition", repo=repo, props=props)
                     if editionq:
                         editionscreated.append(editionq)
                 if workq and editionq:
                     linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
-                if len(workcreated) == 1 and len(editionscreated) >= 1:
-                    for editioncreated in editionscreated:
-                        linkWorkAndEdition(repo=repo, workq=workcreated[0], editionq=editioncreated)
+                #repasa las editions por si alguna no esta enlazada al work y viceversa
+                if len(workscreated+worksavailable) == 1 and len(editionscreated+editionsavailable2) >= 1:
+                    workq = workscreated and workscreated[0] or worksavailable and worksavailable[0]
+                    for editionq in editionscreated+editionsavailable2:
+                        linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
                 
                 #if resourceid in ["a7153685", "a5311062"]:
                 #    sys.exit()
