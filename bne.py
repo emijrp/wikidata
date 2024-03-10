@@ -368,6 +368,40 @@ def getTranslators(repo="", contributorsbneids="", s=""):
 def getForewords(repo="", contributorsbneids="", s=""):
     return getContributorsCore(role="foreword", repo=repo, contributorsbneids=contributorsbneids, s=s)
 
+def getTopicQ(topicbneid=""):
+    if not topicbneid:
+        return
+    site = pywikibot.Site('wikidata', 'wikidata')
+    repo = site.data_repository()
+    candidates = searchInWikidata(s=topicbneid)
+    for candidate in candidates:
+        item = pywikibot.ItemPage(repo, candidate)
+        item.get()
+        if "P950" in item.claims and topicbneid in [x.getTarget() for x in item.claims["P950"]]:
+            print("Found https://www.wikidata.org/wiki/%s for topic https://datos.bne.es/resource/%s" % (candidate, topicbneid))
+            return candidate
+    return 
+
+def getTopics(s=""):
+    if not s:
+        return
+    #print(s)
+    topics = []
+    m = re.findall(r"(?im)/resource/([^<>]+?)\"", s)
+    m = list(set(m))
+    topicsbneids = []
+    for mm in m:
+        topicsurl = "https://datos.bne.es/resource/" + mm
+        topicraw = getURL(url=topicsurl)
+        topicsbneids += re.findall(r"(?im)resource/([^<>]+?)\"[^<>]*?semanticRelation", topicraw)
+    topicsbneids = list(set(topicsbneids))
+    #print(topicsbneids)
+    for topicbneid in topicsbneids:
+        topicq = getTopicQ(topicbneid=topicbneid)
+        if topicq and not topicq in topics:
+            topics.append(topicq)
+    return topics
+
 def getPublicationLocation(s=""):
     if not s:
         return 
@@ -418,7 +452,7 @@ def searchInWikidata(s="", l=[]):
         return candidates
     print(searchitemurl)
     raw = getURL(url=searchitemurl)
-    if 'There were no results' in raw:
+    if 'were no results' in raw:
         print("Not found in Wikidata")
         return candidates
     else:
@@ -776,6 +810,19 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P437")
+    #P921 main subject
+    if p31 == "work" and props["resourceid"] == props["editionearliest"]: #solo en works
+        if props["topics"]:
+            for topicq in props["topics"]:
+                if not "P921" in workitem.claims or not topicq in [topicx.getTarget().title() for topicx in workitem.claims["P921"]]:
+                    print("Añadiendo P921")
+                    claim = pywikibot.Claim(repo, 'P921')
+                    target = pywikibot.ItemPage(repo, topicq)
+                    claim.setTarget(target)
+                    workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                    addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+                else:
+                    print("Ya tiene P921")
     
     #P8383 = goodreads work id
     if p31 == "work" and props["resourceid"] == props["editionearliest"]:
@@ -1128,8 +1175,13 @@ def main():
             for resourceid in resourcesids:
                 print('\n=== %s ===' % (resourceid))
                 urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
+                urlresourcehtml = "https://datos.bne.es/resource/%s" % (resourceid)
                 print(urlresource)
+                print(urlresourcehtml)
                 rawresource = getURL(url=urlresource)
+                #esto era para los topics, pero salen demasiado genericos https://www.wikidata.org/w/index.php?title=Q124805629&diff=2098727818&oldid=2098641541
+                #time.sleep(1)
+                #rawresourcehtml = getURL(url=urlresourcehtml)
                 m = re.findall(r"(?im)<ns\d:language rdf:resource=\"https?://id\.loc\.gov/vocabulary/languages/([^<>]+?)\"\s*/>", rawresource)
                 lang = m and unquote(m[0]) or ""
                 #if not lang in languages2iso:
@@ -1187,7 +1239,7 @@ def main():
                 #extension pages
                 extension = m and unquote(m[0]) or ""
                 pages = getExtensionInPages(s=extension)
-                if pages and (pages < 80 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
+                if pages and (pages < 70 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
                     #print("Numero de paginas raro, saltamos", pages)
                     pages = ""
                     #continue
@@ -1199,6 +1251,9 @@ def main():
                     #print("Altura extraña, saltamos", height)
                     height = ""
                     #continue
+                #topics
+                #m = '<div class="temas">' in rawresourcehtml and rawresourcehtml.split('<div class="temas">')[1].split('</div>')[0] or ""
+                #topics = getTopics(s=m)
                 #isbn
                 m = re.findall(r"(?im)<ns\d:P3013>([^<>]+?)</ns\d:P3013>", rawresource)
                 isbn = ""
@@ -1282,6 +1337,8 @@ def main():
                     
                     "editionearliest": editionearliest, 
                     "publicationdateearliest": publicationdateearliest, 
+                    
+                    #"topics": topics,
                     
                     "isbn": isbn, 
                     "isbnplain": isbnplain, 
