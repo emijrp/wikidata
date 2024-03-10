@@ -30,6 +30,9 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
+usedisbns = []
+usedlegaldeposits = []
+usedlabelsdescspairs = []
 genders = {
     "femenino": "Q6581072", 
     "masculino": "Q6581097", 
@@ -298,8 +301,8 @@ def getExtensionInPages(s=""):
     if not s:
         return
     pages = 0
-    if re.search(r"(?im)(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s):
-        pages = re.findall(r"(?im)(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
+    if re.search(r"(?im)^\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s):
+        pages = re.findall(r"(?im)^\s*(\d+)\s*(?:pg?s?|p[aá]gs?|páginas?)\.?", s)[0]
     pages = int(pages)
     return pages
 
@@ -378,6 +381,8 @@ def getPublicationDate(s=""):
     if not s:
         return 
     s = cleanSymbols(s=s)
+    s = re.sub(r"(?im)^D\?.L\.? *", "", s)
+    s = s.strip()
     if len(s) != 4 or not re.search(r"(?im)^[12]", s):
         return 
     return int(s)
@@ -478,6 +483,7 @@ def improveItem(p31="", item="", repo="", props={}):
     return createItem(p31=p31, item=item, repo=repo, props=props)
 
 def createItem(p31="", item="", repo="", props={}):
+    global usedlabelsdescspairs
     #https://www.wikidata.org/wiki/Wikidata:WikiProject_Books#Work_item_properties
     #https://www.wikidata.org/wiki/Wikidata:WikiProject_Books#Edition_item_properties
     if not p31 or not repo or not props:
@@ -498,7 +504,9 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             return
     workitem.get()
+    langs = ["es", "en", "fr", "ca", "gl"] #'es' first always
     #labels
+    labels = workitem.labels #no quitar esta linea, se usa mas abajo para coger el label es
     if p31 == "edition" or (p31 == "work" and props["resourceid"] == props["editionearliest"]):
         if overwritelabels or not props["lang"] in workitem.labels or not "en" in workitem.labels:
             labels = workitem.labels
@@ -514,47 +522,54 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             print("Ya tiene labels")
     #descs
+    descriptions = workitem.descriptions
     if p31 == "edition" or (p31 == "work" and props["resourceid"] == props["editionearliest"]):
-        if overwritedescriptions or not props["lang"] in workitem.descriptions or not "en" in workitem.descriptions or not "fr" in workitem.descriptions or not "ca" in workitem.descriptions or not "gl" in workitem.descriptions:
+        if overwritedescriptions or sum([x not in workitem.descriptions for x in langs]):
             authoritem = pywikibot.ItemPage(repo, props["authorq"])
             authoritem.get()
-            authornamees = "es" in authoritem.labels and authoritem.labels["es"] or props["authorname"]
-            authornameen = "en" in authoritem.labels and authoritem.labels["en"] or authornamees
-            authornamefr = "fr" in authoritem.labels and authoritem.labels["fr"] or authornamees
-            authornameca = "ca" in authoritem.labels and authoritem.labels["ca"] or authornamees
-            authornamegl = "gl" in authoritem.labels and authoritem.labels["gl"] or authornamees
+            authornames = {}
+            for langx in langs:
+                if langx == "es":
+                    authornames[langx] = langx in authoritem.labels and authoritem.labels[langx] or props["authorname"]
+                else:
+                    authornames[langx] = langx in authoritem.labels and authoritem.labels[langx] or authornames["es"]
+            suffix = " (ISBN %s)" % (props["isbn"] and props["isbn"] or "???") #suffix for disambig editions in same year and same work, we use isbn
             if p31 == "work":
                 descriptions = workitem.descriptions
-                if overwritedescriptions or not "es" in workitem.descriptions:
-                    print("Añadiendo description es")
-                    descriptions["es"] = "obra escrita" + (authornamees and " por %s" % (authornamees) or "")
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-                if overwritedescriptions or not "en" in workitem.descriptions:
-                    print("Añadiendo description en")
-                    descriptions["en"] = "written work" + (authornameen and " by %s" % (authornameen) or "") 
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
-                if overwritedescriptions or not "fr" in workitem.descriptions:
-                    print("Añadiendo description fr")
-                    descriptions["fr"] = "ouvrage écrit" + (authornamefr and " par %s" % (authornamefr) or "") 
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): fr")
-                if overwritedescriptions or not "ca" in workitem.descriptions:
-                    print("Añadiendo description ca")
-                    descriptions["ca"] = "obra escrita" + (authornameca and " per %s" % (authornameca) or "") 
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): ca")
-                if overwritedescriptions or not "gl" in workitem.descriptions:
-                    print("Añadiendo description gl")
-                    descriptions["gl"] = "obra escrita" + (authornamegl and " por %s" % (authornamegl) or "") 
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): gl")
+                for langx in langs:
+                    if overwritedescriptions or not langx in workitem.descriptions:
+                        print("Añadiendo description", langx)
+                        if langx == "es":
+                            descriptions[langx] = "obra escrita" + (authornames[langx] and " por %s" % (authornames[langx]) or "")
+                        elif langx == "en":
+                            descriptions[langx] = "written work" + (authornames[langx] and " by %s" % (authornames[langx]) or "") 
+                        elif langx == "fr":
+                            descriptions[langx] = "ouvrage écrit" + (authornames[langx] and " par %s" % (authornames[langx]) or "")
+                        elif langx == "ca":
+                            descriptions[langx] = "obra escrita" + (authornames[langx] and " per %s" % (authornames[langx]) or "") 
+                        elif langx == "gl":
+                            descriptions[langx] = "obra escrita" + (authornames[langx] and " por %s" % (authornames[langx]) or "")
+                        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (langx))
             if p31 == "edition":
                 descriptions = workitem.descriptions
-                if overwritedescriptions or not "es" in workitem.descriptions:
-                    print("Añadiendo description es")
-                    descriptions["es"] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornamees and " de la obra escrita por %s" % (authornamees) or "")
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): es")
-                if overwritedescriptions or not "en" in workitem.descriptions:
-                    print("Añadiendo description en")
-                    descriptions["en"] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornameen and " of written work by %s" % (authornameen) or "") 
-                    workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): en")
+                for langx in langs:
+                    if overwritedescriptions or not langx in workitem.descriptions:
+                        print("Añadiendo description", langx)
+                        if langx == "es":
+                            descriptions[langx] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornames[langx] and " de la obra escrita por %s" % (authornames[langx]) or "")
+                        elif langx == "en":
+                            descriptions[langx] = (props["publicationdate"] and "%s " % (props["publicationdate"])) + "edition" + (authornames[langx] and " of written work by %s" % (authornames[langx]) or "") 
+                        elif langx == "fr":
+                            descriptions[langx] = "édition" + (props["publicationdate"] and " publiée en %s" % (props["publicationdate"])) + (authornames[langx] and " de l'ouvrage écrit par %s" % (authornames[langx]) or "")
+                        elif langx == "ca":
+                            descriptions[langx] = "edició" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornames[langx] and " de l'obra escrita per %s" % (authornames[langx]) or "")
+                        elif langx == "gl":
+                            descriptions[langx] = "edición" + (props["publicationdate"] and " publicada en %s" % (props["publicationdate"])) + (authornames[langx] and " da obra escrita por %s" % (authornames[langx]) or "")
+                        labeldescpair = labels["es"]+"#"+langx+"#"+descriptions[langx] #usar label es y desc langx, ya q no pongo label a todos los langx
+                        if labeldescpair in usedlabelsdescspairs: #if desc already in other item, add isbn suffix
+                            descriptions[langx] += suffix
+                        usedlabelsdescspairs.append(labeldescpair)
+                        workitem.editDescriptions(descriptions=descriptions, summary="BOT - Adding descriptions (1 languages): %s" % (langx))
         else:
             print("Ya tiene descripciones")
     #aliases
@@ -993,6 +1008,8 @@ def linkWorkAndEdition(repo="", workq="", editionq=""):
     return
 
 def main():
+    global usedisbns
+    global usedlegaldeposits
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     qlist = ["Q93433647"] #eusebio
@@ -1055,10 +1072,10 @@ def main():
             continue
         
         #obras, el rdf no es completo? mejor parsearlo así por html
+        #solo las que sean de su autoría, no las que haya participado o sean sobre esa persona (tema)
         obras = ""
         if '<section id="obras" class="container">' in raw:
             obras = raw.split('<section id="obras" class="container">')[1].split('</section>')[0]
-        #cuidado distinguir entre obra, libro, dvd, recurso electrónico, etc
         for obra in obras.split("</li>"):
             time.sleep(0.1)
             resourcesids = []
@@ -1115,6 +1132,7 @@ def main():
                 if lang != "spa":
                     print("De momento solo importamos en espanol, saltamos")
                     continue
+                #title, subtitle, alternatetitles
                 m = re.findall(r"(?im)<ns\d:P3002>([^<>]+?)</ns\d:P3002>", rawresource)
                 title_ = m and unquote(m[0]) or "" #se usa para el fulltitle
                 title_ = title_.replace(" : ", ": ")
@@ -1130,6 +1148,7 @@ def main():
                 alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
                 fulltitle = getFullTitle(title=title_, subtitle=subtitle)
                 
+                #contributors
                 m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
                 contributors = m and unquote(m[0]) or ""
                 #if not contributors:
@@ -1143,6 +1162,7 @@ def main():
                 forewordsq = getForewords(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
                 translatorsq = getTranslators(repo=repo, contributorsbneids=contributorsbneids, s=contributors)
                 
+                #publisher, date, location
                 m = re.findall(r"(?im)<ns\d:P3001>([^<>]+?)</ns\d:P3001>", rawresource)
                 publisher = m and getPublisher(s=unquote(m[0])) or ""
                 m = re.findall(r"(?im)<ns\d:P3003>([^<>]+?)</ns\d:P3003>", rawresource)
@@ -1196,11 +1216,27 @@ def main():
                 if not isbn:
                     print("ISBN no encontrado, saltamos")
                     continue
+                if isbn and isbn in usedisbns:
+                    print("ISBN usado ya en otra edicion, saltamos", isbn)
+                    continue
+                usedisbns.append(isbn) #no meter isbn10 pq puede ser vacio y luego la comparacion dice q si siempre
+                if isbn10 and not isbn10.startswith("84"):
+                    print("ISBN10 no de Espana, saltamos", isbn10)
+                    continue
+                if isbn13 and not isbn13.startswith("978-84") and not isbn13.startswith("97884"):
+                    print("ISBN13 no de Espana, saltamos", isbn13)
+                    continue
                 #legal deposit
                 m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
                 legaldeposit = m and getLegalDeposit(s=unquote(m[0])) or ""
+                if legaldeposit in usedlegaldeposits:
+                    print("Legaldeposit usado ya en otra edicion, saltamos", legaldeposit)
+                    continue
+                usedlegaldeposits += [legaldeposit]
+                #mediatype
                 m = re.findall(r"(?im)<ns\d:P3062>([^<>]+?)</ns\d:P3062>", rawresource)
                 mediatype = m and unquote(m[0]) or ""
+                #distributionformat
                 distributionformat = ""
                 if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
                     print("Extension/Medio no interesa, skiping", extension+mediatype)
@@ -1297,7 +1333,7 @@ def main():
                 
                 workq = ""
                 editionq = ""
-                if not workcreated and not otherscreated:
+                if not workcreated and not editionscreated and not otherscreated: #no crear work si existen editions, puede q no sea capaz de encontrar el work y cree duplicado (a veces creo los work sin ningun ID)
                     print("\nNo se encontraron candidatos para el work, creamos")
                     workq = createItem(p31="work", repo=repo, props=props)
                 if not editionscreated and not otherscreated:
