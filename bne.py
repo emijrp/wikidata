@@ -1338,7 +1338,7 @@ def main():
                     "editionearliest": editionearliest, 
                     "publicationdateearliest": publicationdateearliest, 
                     
-                    #"topics": topics,
+                    "topics": [], #topics,
                     
                     "isbn": isbn, 
                     "isbnplain": isbnplain, 
