@@ -1133,8 +1133,8 @@ def main():
             print('\n== %s ==' % (resourceid))
             print(titletruncated)
             
-            if resourceid != "XX3163913":
-                continue
+            #if resourceid != "XX5929043":
+            #    continue
             
             #coger la edición más temprana a partir de la cual se creará el work
             editionearliest = ""
