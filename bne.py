@@ -903,7 +903,7 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P6164")
-    #P950 = bne id
+    #P950 = bne id (edition)
     if p31 == "edition":
         if props["resourceid"]:
             if not "P950" in workitem.claims:
@@ -912,6 +912,17 @@ def createItem(p31="", item="", repo="", props={}):
                 claim.setTarget(props["resourceid"])
                 workitem.addClaim(claim, summary='BOT - Adding 1 claim')
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P950")
+    #P950 = bne id (work)
+    if p31 == "work":
+        if props["workbneid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["workbneid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["workbneid"])
             else:
                 print("Ya tiene P950")
     print("Creado/Modificado https://www.wikidata.org/wiki/%s" % (workitem.title()))
@@ -1136,6 +1147,7 @@ def main():
             #if resourceid != "XX5929043":
             #    continue
             
+            workbneid = ""
             #coger la edición más temprana a partir de la cual se creará el work
             editionearliest = ""
             publicationdateearliest = ""
@@ -1146,6 +1158,7 @@ def main():
             elif '<div class="text-center">Obra</div>' in obra:
                 #print("Saltando obras con más de 1 edición por ahora...")
                 #continue
+                workbneid = resourceid
                 url2 = "https://datos.bne.es/resource/" + resourceid
                 raw2 = getURL(url=url2)
                 if "página no encontrada, pero no estás perdido" in raw2:
@@ -1326,6 +1339,7 @@ def main():
                     "forewordsq": forewordsq, 
                     "translatorsq": translatorsq, 
                     
+                    "workbneid": workbneid, 
                     "resourceid": resourceid, 
                     "pages": pages, 
                     "height": height, 
