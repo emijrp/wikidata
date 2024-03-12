@@ -1371,7 +1371,7 @@ def main():
                 print(props.items())
                 
                 donecandidates = []
-                candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
+                candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, workbneid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
                 candidates = list(set(candidates))
                 candidates.sort()
                 #print(candidates)
@@ -1390,6 +1390,7 @@ def main():
                        ("P212" in candidateitem.claims and isbn13 in [x.getTarget() for x in candidateitem.claims["P212"]]) or \
                        ("P957" in candidateitem.claims and isbnplain in [x.getTarget() for x in candidateitem.claims["P957"]]) or \
                        ("P212" in candidateitem.claims and isbnplain in [x.getTarget() for x in candidateitem.claims["P212"]]) or \
+                       ("P950" in candidateitem.claims and workbneid and workbneid in [x.getTarget() for x in candidateitem.claims["P950"]]) or \
                        ("P950" in candidateitem.claims and resourceid in [x.getTarget() for x in candidateitem.claims["P950"]]) or \
                        ("P648" in candidateitem.claims and openlibraryworkid in [x.getTarget() for x in candidateitem.claims["P648"]]) or \
                        ("P648" in candidateitem.claims and openlibraryeditionid in [x.getTarget() for x in candidateitem.claims["P648"]]) or \
