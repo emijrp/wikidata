@@ -765,7 +765,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P291")
     #P577 = publication date
-    if p31 == "edition" or (p31 == "work" and props["resourceid"] == props["editionearliest"]):
+    if p31 == "edition":# or (p31 == "work" and props["resourceid"] == props["editionearliest"]):
         if props["publicationdate"]:
             if not "P577" in workitem.claims:
                 print("Añadiendo P577")
@@ -1073,6 +1073,7 @@ def main():
     qlist = ["Q93433647"] #eusebio
     qlist = ["Q118122724"] #almisas
     qlist = ["Q5865630"] #paco espinosa
+    qlist = ["Q124800393"] #fernando romero
     
     for authorq in qlist:
         time.sleep(1)
@@ -1213,9 +1214,10 @@ def main():
                 subtitle = subtitle and (subtitle[0].upper() + subtitle[1:]) or ""
                 subtitle = subtitle.replace(" : ", ": ")
                 alternatetitle = title + " " + subtitle
-                alternatetitle2 = alternatetitle.replace(" : ", ": ")
-                alternatetitle3 = alternatetitle.replace(" : ", ", ")
-                alternatetitle4 = alternatetitle.replace(" : ", " ")
+                alternatetitle = alternatetitle.strip()
+                alternatetitle2 = alternatetitle.replace(" : ", ": ").strip()
+                alternatetitle3 = alternatetitle.replace(" : ", ", ").strip()
+                alternatetitle4 = alternatetitle.replace(" : ", " ").strip()
                 alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
                 fulltitle = getFullTitle(title=title_, subtitle=subtitle)
                 
