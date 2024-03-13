@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2021-2023 emijrp <emijrp@gmail.com>
+# Copyright (C) 2021-2024 emijrp <emijrp@gmail.com>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -129,6 +129,8 @@ def main():
     targetlangs += ["la", ]
     targetlangs += ["en-gb", "en-ca", "en-us", ] #seguir metiendo de este labelslist https://www.wikidata.org/wiki/Q15110845
     targetlangs += ["af", "co", "cy", "da", "de-at", "de-ch", "et", "fi", "frp", "fur"]
+    targetlangs += ["gd", "gsw", "guc", "guw", "gv", "hr", "hsb", "ht", "hu", "ilo", "is", "jam", "jv", "kaa", "kab", "ksh", "ku", "kw"]
+    targetlangs += ["lb", "li", "lld", "lmo", ]
     targetlangs = list(set(targetlangs))
     targetlangs.sort()
     if method == 'all' or method == 'method1':
