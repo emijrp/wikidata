@@ -415,7 +415,7 @@ def getPublicationDate(s=""):
     if not s:
         return 
     s = cleanSymbols(s=s)
-    s = re.sub(r"(?im)^D\?.L\.? *", "", s)
+    s = re.sub(r"(?im)^D\s*\.?\s*L\s*\.?\s*", "", s)
     s = s.strip()
     if len(s) != 4 or not re.search(r"(?im)^[12]", s):
         return 
@@ -538,6 +538,31 @@ def createItem(p31="", item="", repo="", props={}):
         else:
             return
     workitem.get()
+    
+    #metemos bne id enseguida tras crear el item, por si falla algo poder usarlo en la búsqueda para reanudar
+    #P950 = bne id (edition)
+    if p31 == "edition":
+        if props["resourceid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["resourceid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P950")
+    #P950 = bne id (work)
+    if p31 == "work":
+        if props["workbneid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["workbneid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["workbneid"])
+            else:
+                print("Ya tiene P950")
+    
     langs = ["es", "en", "fr", "ca", "gl"] #'es' first always
     #labels
     labels = workitem.labels #no quitar esta linea, se usa mas abajo para coger el label es
@@ -903,28 +928,7 @@ def createItem(p31="", item="", repo="", props={}):
                 addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
             else:
                 print("Ya tiene P6164")
-    #P950 = bne id (edition)
-    if p31 == "edition":
-        if props["resourceid"]:
-            if not "P950" in workitem.claims:
-                print("Añadiendo P950")
-                claim = pywikibot.Claim(repo, 'P950')
-                claim.setTarget(props["resourceid"])
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-            else:
-                print("Ya tiene P950")
-    #P950 = bne id (work)
-    if p31 == "work":
-        if props["workbneid"]:
-            if not "P950" in workitem.claims:
-                print("Añadiendo P950")
-                claim = pywikibot.Claim(repo, 'P950')
-                claim.setTarget(props["workbneid"])
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["workbneid"])
-            else:
-                print("Ya tiene P950")
+    
     print("Creado/Modificado https://www.wikidata.org/wiki/%s" % (workitem.title()))
     return workitem.title() #para enlazar work/edition
 
@@ -1074,6 +1078,7 @@ def main():
     qlist = ["Q118122724"] #almisas
     qlist = ["Q5865630"] #paco espinosa
     qlist = ["Q124800393"] #fernando romero
+    qlist = ["Q16300815"] #grimaldos
     
     for authorq in qlist:
         time.sleep(1)
@@ -1143,6 +1148,7 @@ def main():
             if not resourceid:
                 continue
             print('\n== %s ==' % (resourceid))
+            print("https://datos.bne.es/resource/%s" % (resourceid))
             print(titletruncated)
             
             #if resourceid != "XX5929043":
@@ -1323,6 +1329,9 @@ def main():
                 #external ids
                 goodreadsworkid = getGoodReadsWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
                 openlibraryworkid = getOpenLibraryWorkId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
+                if not workbneid and not goodreadsworkid and not openlibraryworkid:
+                    print("BNE no tiene workid individual, ni lo hemos encontrado en GoodReads ni OpenLibrary, no creamos este libro, para evitar crear un written work sin IDs")
+                    break
                 
                 goodreadseditionid = getGoodReadsEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
                 openlibraryeditionid = getOpenLibraryEditionId(title=fulltitle, isbn10=isbn10, isbn13=isbn13)
@@ -1371,7 +1380,7 @@ def main():
                 print(props.items())
                 
                 donecandidates = []
-                candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, workbneid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid, fulltitle])
+                candidates = searchInWikidata(l=[isbn, isbnplain, isbn10, isbn13, resourceid, workbneid, goodreadsworkid, openlibraryworkid, goodreadseditionid, openlibraryeditionid]) #no poner fulltitle ni title
                 candidates = list(set(candidates))
                 candidates.sort()
                 #print(candidates)
@@ -1414,7 +1423,7 @@ def main():
                 
                 workq = ""
                 editionq = ""
-                if not workscreated and not worksavailable and not editionsavailable and not editionsavailable2 and not othersavailable: #no crear work si ya existían editions, puede q no sea capaz de encontrar el work y cree duplicado (a veces creo los work sin ningun ID)
+                if not workscreated and not worksavailable and not othersavailable and editionearliest == resourceid: #no crear work si existen items relacionados (othersavailable) q no son ni written work ni editions, para evitar crear duplicados
                     print("\nNo se encontraron candidatos para el work, creamos")
                     workq = createItem(p31="work", repo=repo, props=props)
                     if workq:
