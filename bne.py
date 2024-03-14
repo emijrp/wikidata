@@ -1186,6 +1186,7 @@ def main():
                 print("Tipo de entidad no soportada, saltando")
                 continue
             
+            resourcesids.reverse() #invertimos orden para empezar a crear ediciones desde la más antigua, por si falla algo, q el written work quede hecho
             print("editionearliest", editionearliest)
             print("publicationdateearliest", publicationdateearliest)
             
