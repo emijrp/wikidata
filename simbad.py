@@ -130,7 +130,6 @@ def main():
     targetlangs += ["en-gb", "en-ca", "en-us", ] #seguir metiendo de este labelslist https://www.wikidata.org/wiki/Q15110845
     targetlangs += ["af", "co", "cy", "da", "de-at", "de-ch", "et", "fi", "frp", "fur"]
     targetlangs += ["gd", "gsw", "guc", "guw", "gv", "hr", "hsb", "ht", "hu", "ilo", "is", "jam", "jv", "kaa", "kab", "ksh", "ku", "kw"]
-    targetlangs += ["lb", "li", "lld", "lmo", ]
     targetlangs = list(set(targetlangs))
     targetlangs.sort()
     if method == 'all' or method == 'method1':
