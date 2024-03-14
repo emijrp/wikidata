@@ -539,30 +539,6 @@ def createItem(p31="", item="", repo="", props={}):
             return
     workitem.get()
     
-    #metemos bne id enseguida tras crear el item, por si falla algo poder usarlo en la búsqueda para reanudar
-    #P950 = bne id (edition)
-    if p31 == "edition":
-        if props["resourceid"]:
-            if not "P950" in workitem.claims:
-                print("Añadiendo P950")
-                claim = pywikibot.Claim(repo, 'P950')
-                claim.setTarget(props["resourceid"])
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
-            else:
-                print("Ya tiene P950")
-    #P950 = bne id (work)
-    if p31 == "work" and props["resourceid"] == props["editionearliest"]:
-        if props["workbneid"]:
-            if not "P950" in workitem.claims:
-                print("Añadiendo P950")
-                claim = pywikibot.Claim(repo, 'P950')
-                claim.setTarget(props["workbneid"])
-                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
-                addBNERef(repo=repo, claim=claim, bneid=props["workbneid"])
-            else:
-                print("Ya tiene P950")
-    
     langs = ["es", "en", "fr", "ca", "gl"] #'es' first always
     #labels
     labels = workitem.labels #no quitar esta linea, se usa mas abajo para coger el label es
@@ -670,6 +646,31 @@ def createItem(p31="", item="", repo="", props={}):
             addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
         else:
             print("Ya tiene P31")
+    
+    #metemos bne id enseguida tras crear el item (y habiendo definido el P31, q se usa en las busquedas para separar), por si falla algo poder usarlo en la búsqueda para reanudar
+    #P950 = bne id (edition)
+    if p31 == "edition":
+        if props["resourceid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["resourceid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=p31 == "work" and props["authorbneid"] or props["resourceid"])
+            else:
+                print("Ya tiene P950")
+    #P950 = bne id (work)
+    if p31 == "work" and props["resourceid"] == props["editionearliest"]:
+        if props["workbneid"]:
+            if not "P950" in workitem.claims:
+                print("Añadiendo P950")
+                claim = pywikibot.Claim(repo, 'P950')
+                claim.setTarget(props["workbneid"])
+                workitem.addClaim(claim, summary='BOT - Adding 1 claim')
+                addBNERef(repo=repo, claim=claim, bneid=props["workbneid"])
+            else:
+                print("Ya tiene P950")
+    
     #P50 = authorq
     if p31 == "edition" or (p31 == "work" and props["resourceid"] == props["editionearliest"]):
         if not "P50" in workitem.claims:
