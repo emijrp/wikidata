@@ -552,7 +552,7 @@ def createItem(p31="", item="", repo="", props={}):
             else:
                 print("Ya tiene P950")
     #P950 = bne id (work)
-    if p31 == "work":
+    if p31 == "work" and props["resourceid"] == props["editionearliest"]:
         if props["workbneid"]:
             if not "P950" in workitem.claims:
                 print("Añadiendo P950")
@@ -965,7 +965,7 @@ def getGoodReadsEditionId(title="", isbn10="", isbn13=""):
     raw = getURL(url=url)
     goodreadseditionid = ""
     if '"isbn":"%s"' % (isbn10) in raw or '"isbn13":"%s"' % (isbn13) in raw:
-        goodreadseditionid = "https://www.goodreads.com/es/book/show/" in raw and re.findall(r"(?im)href=\"https://www\.goodreads\.com/es/book/show/(\d+)\"", raw)[0] or ""
+        goodreadseditionid = "https://www.goodreads.com/review/edit/" in raw and re.findall(r"(?im)\"https://www\.goodreads\.com/review/edit/(\d+)\"", raw)[0] or ""
     return goodreadseditionid
             
 def getOpenLibraryWorkId(title="", isbn10="", isbn13=""):
