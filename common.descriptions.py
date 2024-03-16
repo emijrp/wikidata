@@ -1014,8 +1014,14 @@ def main():
             'zh-tw': '化合物',
         }, 
         'clinical trial': { 
+            'ca': 'assaig clínic',
             'en': 'clinical trial',
+            'en-ca': 'clinical trial',
+            'en-gb': 'clinical trial',
+            'en-us': 'clinical trial',
             'es': 'ensayo clínico',
+            'fr': 'essai clinique',
+            'gl': 'ensaio clínico',
         }, 
         'date in Gregorian calendar': { 
             'en': 'date in Gregorian calendar',
@@ -1665,6 +1671,16 @@ def main():
             'pt': 'número primo',
             'pt-br': 'número primo',
         },
+        'research project': { 
+            'ca': 'projecte de recerca',
+            'en': 'research project',
+            'en-ca': 'research project',
+            'en-gb': 'research project',
+            'en-us': 'research project',
+            'es': 'proyecto de investigación',
+            'fr': 'projet de recherche',
+            'gl': 'proxecto de investigación',
+        }, 
         'researcher': {
             'ast': 'investigador',
             'ca': 'investigador',
@@ -2485,7 +2501,7 @@ def main():
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 400000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 500000, querylimit)
         ],
         
         'date in Gregorian calendar': [
@@ -2879,6 +2895,21 @@ def main():
         """
         ], 
         
+        'research project': [
+        """
+        SELECT ?item
+        WHERE {
+            ?item wdt:P31 wd:Q1298668 ;
+                  wdt:P31 ?instance .
+            ?item schema:description "research project"@en.
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        LIMIT %s
+        OFFSET %s
+        """ % (str(querylimit), str(offset)) for offset in range(1, 500000, querylimit)
+        ],
+        
         'researcher': [
         """
         SELECT ?item
@@ -3235,6 +3266,7 @@ def main():
         
         'prime number',
         
+        'research project',
         'researcher',
         'researcher female',
         'researcher male',
