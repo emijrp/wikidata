@@ -1326,7 +1326,7 @@ def main():
                 mediatype = m and unquote(m[0]) or ""
                 #distributionformat
                 distributionformat = ""
-                if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
+                if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|case|nega|partitura|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype): #no poner lámina, hojas, etc pq entonces se deja ediciones válidas en papel https://datos.bne.es/edicion/a6503577.html
                     print("Extension/Medio no interesa, saltamos edicion pero no work", extension+mediatype)
                     isdigital = True
                 else:
