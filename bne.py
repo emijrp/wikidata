@@ -19,6 +19,7 @@ import datetime
 import html
 import os
 import pickle
+import random
 import re
 import sys
 import time
@@ -232,6 +233,7 @@ publishers = {
     "everest": { "q": "Q28324222", "regexp": "everest" }, 
     "gredos": { "q": "Q3047666", "regexp": "gredos" }, 
     "paraninfo": { "q": "Q21036714", "regexp": "paraninfo" }, 
+    "península": { "q": "Q124872671", "regexp": "pen[íi]nsula" }, 
     "planeta": { "q": "Q2339634", "regexp": "planeta" }, 
     "planeta-deagostini": { "q": "Q2526307", "regexp": "planeta[ -]?de[ -]?agostini" }, 
     "plaza & janes": { "q": "Q6079378", "regexp": "plaza ?[&y]? ?jan[ée]s" }, 
@@ -937,7 +939,7 @@ def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
     #<a class="DiscussionCard" href="https://www.goodreads.com/work/quotes/97295167">
     if not title or (not isbn10 and not isbn13):
         return
-    busqueda = ""
+    busqueda = " "*random.randint(1,20)
     isbn10 = isbn10.replace("-", "")
     isbn13 = isbn13.replace("-", "")
     if isbn10:
@@ -955,7 +957,7 @@ def getGoodReadsEditionId(title="", isbn10="", isbn13=""):
     #href="https://www.goodreads.com/es/book/show/61688544"
     if not title or (not isbn10 and not isbn13):
         return
-    busqueda = ""
+    busqueda = " "*random.randint(1,20)
     isbn10 = isbn10.replace("-", "")
     isbn13 = isbn13.replace("-", "")
     if isbn10:
@@ -1076,10 +1078,11 @@ def main():
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     qlist = ["Q93433647"] #eusebio
-    qlist = ["Q118122724"] #almisas
-    qlist = ["Q5865630"] #paco espinosa
-    qlist = ["Q124800393"] #fernando romero
-    qlist = ["Q16300815"] #grimaldos
+    qlist += ["Q118122724"] #almisas
+    qlist += ["Q5865630"] #paco espinosa
+    qlist += ["Q124800393"] #fernando romero
+    qlist += ["Q16300815"] #grimaldos
+    qlist = ["Q63213321"] #demiguel
     
     for authorq in qlist:
         time.sleep(1)
@@ -1195,6 +1198,7 @@ def main():
             editionsavailable2 = [] #2 es global a la obra, sin2 es dentro de la edicion
             #ediciones
             for resourceid in resourcesids:
+                isdigital = False
                 print('\n=== %s ===' % (resourceid))
                 urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
                 urlresourcehtml = "https://datos.bne.es/resource/%s" % (resourceid)
@@ -1262,7 +1266,7 @@ def main():
                 #extension pages
                 extension = m and unquote(m[0]) or ""
                 pages = getExtensionInPages(s=extension)
-                if pages and (pages < 70 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
+                if pages and (pages < 50 or pages > 999): #si el numero de paginas es raro, lo blanqueamos y seguimos
                     #print("Numero de paginas raro, saltamos", pages)
                     pages = ""
                     #continue
@@ -1270,7 +1274,7 @@ def main():
                 m = re.findall(r"(?im)<ns\d:P3007>([^<>]+?)</ns\d:P3007>", rawresource)
                 dimensions = m and unquote(m[0]) or ""
                 height = getHeightInCM(s=dimensions)
-                if height and (height < 10 or height > 35): #si la altura es rara, la blanqueamos y seguimos
+                if height and (height < 10 or height > 40): #si la altura es rara, la blanqueamos y seguimos
                     #print("Altura extraña, saltamos", height)
                     height = ""
                     #continue
@@ -1323,8 +1327,8 @@ def main():
                 #distributionformat
                 distributionformat = ""
                 if re.search(r"(?im)(e[ -]?book|elec|cd|dvd|disco|rom|dig|comp|ord|internet|web|recu|l[ií]nea|plano|foto|mapa|cartel|case|nega|partitura|mina|hoja|online|micro|v[íi]deo|sono|carpe|carta|piano|rollo)", extension+mediatype):
-                    print("Extension/Medio no interesa, skiping", extension+mediatype)
-                    continue
+                    print("Extension/Medio no interesa, saltamos edicion pero no work", extension+mediatype)
+                    isdigital = True
                 else:
                     distributionformat = "Q11396303" #printed book
                 
@@ -1357,6 +1361,7 @@ def main():
                     "pages": pages, 
                     "height": height, 
                     "distributionformat": distributionformat,
+                    "isdigital": isdigital,
                     
                     "publisher": publisher, 
                     "publicationlocation": publicationlocation, 
@@ -1414,7 +1419,8 @@ def main():
                                     improveItem(p31="work", item=candidate, repo=repo, props=props)
                                     worksavailable.append(candidate)
                                 elif "Q3331189" == candidateitemp31.getTarget().title(): #edition
-                                    improveItem(p31="edition", item=candidate, repo=repo, props=props)
+                                    if not isdigital:
+                                        improveItem(p31="edition", item=candidate, repo=repo, props=props)
                                     editionsavailable.append(candidate)
                                     editionsavailable2.append(candidate)
                                 else:
@@ -1430,7 +1436,7 @@ def main():
                     workq = createItem(p31="work", repo=repo, props=props)
                     if workq:
                         workscreated.append(workq)
-                if not editionsavailable and not othersavailable:
+                if not isdigital and not editionsavailable and not othersavailable:
                     print("\nNo se encontraron candidatos para la edition, creamos")
                     editionq = createItem(p31="edition", repo=repo, props=props)
                     if editionq:
