@@ -152,36 +152,61 @@ locations = {
         "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
     
     "españa": { "q": countries["españa"]["q"], "country": countries["españa"]["q"], "regexp": r"españa" }, 
-        "a coruña": { "q": "Q8757", "country": countries["españa"]["q"], "regexp": r"l?a coruña" }, 
-        "almería": { "q": "Q10400", "country": countries["españa"]["q"], "regexp": r"almer[íi]a" }, 
+        "a coruna": { "q": "Q8757", "country": countries["españa"]["q"], "regexp": r"l?a coru[ñn]a" }, 
+        "albacete": { "q": "Q15095", "country": countries["españa"]["q"], "regexp": r"albacete" }, 
+        "alicante": { "q": "Q11959", "country": countries["españa"]["q"], "regexp": r"alicante" }, 
+        "almeria": { "q": "Q10400", "country": countries["españa"]["q"], "regexp": r"almer[íi]a" }, 
+        "avila": { "q": "Q15688", "country": countries["españa"]["q"], "regexp": r"[áa]vila" }, 
+        "badajoz": { "q": "Q15679", "country": countries["españa"]["q"], "regexp": r"badajoz" }, 
         "barcelona": { "q": "Q1492", "country": countries["españa"]["q"], "regexp": r"barcelona" }, 
         "bilbao": { "q": "Q8692", "country": countries["españa"]["q"], "regexp": r"bilbao" }, 
         "burgos": { "q": "Q9580", "country": countries["españa"]["q"], "regexp": r"burgos" }, 
-        "cádiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
-        "córdoba": { "q": "Q5818", "country": countries["españa"]["q"], "regexp": r"c[óo]rdoba" }, 
-        "El Ejido": { "q": "Q493933", "country": countries["españa"]["q"], "regexp": r"El Ejido" }, 
-        "El Puerto de Santa María": { "q": "Q203040", "country": countries["españa"]["q"], "regexp": r"((El )?Puerto de Santa Mar[íi]a)(, C[áa]diz)?" }, 
+        "caceres": { "q": "Q15678", "country": countries["españa"]["q"], "regexp": r"c[áa]ceres" }, 
+        "cadiz": { "q": "Q15682", "country": countries["españa"]["q"], "regexp": r"c[áa]diz" }, 
+        "castellon de la plana": { "q": "Q15092", "country": countries["españa"]["q"], "regexp": r"castell[óo]n de la plana" }, 
+        "ciudad real": { "q": "Q15093", "country": countries["españa"]["q"], "regexp": r"ciudad real" }, 
+        "cordoba": { "q": "Q5818", "country": countries["españa"]["q"], "regexp": r"c[óo]rdoba" }, 
+        "cuenca": { "q": "Q15098", "country": countries["españa"]["q"], "regexp": r"cuenca" }, 
+        "el ejido": { "q": "Q493933", "country": countries["españa"]["q"], "regexp": r"El Ejido" }, 
+        "el puerto de santa maria": { "q": "Q203040", "country": countries["españa"]["q"], "regexp": r"((El )?Puerto de Santa Mar[íi]a)(, C[áa]diz)?" }, 
+        "girona": { "q": "Q7038", "country": countries["españa"]["q"], "regexp": r"g[ie]rona" }, 
         "granada": { "q": "Q8810", "country": countries["españa"]["q"], "regexp": r"granada" }, 
-        "Humanes de Madrid": { "q": "Q281632", "country": countries["españa"]["q"], "regexp": r"Humanes de Madrid" }, 
-        "Las Palmas de Gran Canaria": { "q": "Q11974", "country": countries["españa"]["q"], "regexp": r"Las Palmas de Gran Canaria" }, 
-        "león": { "q": "Q15699", "country": countries["españa"]["q"], "regexp": r"le[óo]n" }, 
+        "guadalajara": { "q": "Q11953", "country": countries["españa"]["q"], "regexp": r"guadalajara" }, 
+        "huelva": { "q": "Q12246", "country": countries["españa"]["q"], "regexp": r"huelva" }, 
+        "huesca": { "q": "Q11967", "country": countries["españa"]["q"], "regexp": r"huesca" }, 
+        "humanes de madrid": { "q": "Q281632", "country": countries["españa"]["q"], "regexp": r"Humanes de Madrid" }, 
+        "jaen": { "q": "Q15681", "country": countries["españa"]["q"], "regexp": r"ja[ée]n" }, 
+        "las palmas de gran canaria": { "q": "Q11974", "country": countries["españa"]["q"], "regexp": r"(Las )?Palmas de Gran Canaria" }, 
+        "leon": { "q": "Q15699", "country": countries["españa"]["q"], "regexp": r"le[óo]n" }, 
         "lleida": { "q": "Q15090", "country": countries["españa"]["q"], "regexp": r"(lleida|l[ée]rida)" }, 
+        "logrono": { "q": "Q14325", "country": countries["españa"]["q"], "regexp": r"logro[ñn]o" }, 
+        "lugo": { "q": "Q11125", "country": countries["españa"]["q"], "regexp": r"lugo" }, 
         "malaga": { "q": "Q8851", "country": countries["españa"]["q"], "regexp": r"m[áa]laga" }, 
         "murcia": { "q": "Q12225", "country": countries["españa"]["q"], "regexp": r"murcia" }, 
+        "ourense": { "q": "Q99151", "country": countries["españa"]["q"], "regexp": r"ou?rense" }, 
         "oviedo": { "q": "Q14317", "country": countries["españa"]["q"], "regexp": r"oviedo" }, 
-        "Palma de Mallorca": { "q": "Q8826", "country": countries["españa"]["q"], "regexp": r"Palma de Mallorca" }, 
+        "palencia": { "q": "Q8378", "country": countries["españa"]["q"], "regexp": r"palencia" }, 
+        "palma de mallorca": { "q": "Q8826", "country": countries["españa"]["q"], "regexp": r"Palma de Mallorca" }, 
         "pamplona": { "q": "Q10282", "country": countries["españa"]["q"], "regexp": r"pamplona" }, 
-        "Roquetas de Mar": { "q": "Q499184", "country": countries["españa"]["q"], "regexp": r"Roquetas de Mar" }, 
+        "pontevedra": { "q": "Q12411", "country": countries["españa"]["q"], "regexp": r"pontevedra" }, 
+        "roquetas de mar": { "q": "Q499184", "country": countries["españa"]["q"], "regexp": r"Roquetas de Mar" }, 
         "rota": { "q": "Q15907", "country": countries["españa"]["q"], "regexp": r"(rota)(, C[áa]diz)?" }, 
         "salamanca": { "q": "Q15695", "country": countries["españa"]["q"], "regexp": r"salamanca" }, 
         "santander": { "q": "Q12233", "country": countries["españa"]["q"], "regexp": r"santander" }, 
-        "San Sebastián": { "q": "Q10313", "country": countries["españa"]["q"], "regexp": r"San Sebastián" }, 
-        "Santiago de Compostela": { "q": "Q14314", "country": countries["españa"]["q"], "regexp": r"Santiago de Compostela" }, 
+        "san sebastian": { "q": "Q10313", "country": countries["españa"]["q"], "regexp": r"san sebasti[áa]n" }, 
+        "santa cruz de tenerife": { "q": "Q14328", "country": countries["españa"]["q"], "regexp": r"santa cruz de tenerife" }, 
+        "santiago de compostela": { "q": "Q14314", "country": countries["españa"]["q"], "regexp": r"Santiago de Compostela" }, 
+        "segovia": { "q": "Q15684", "country": countries["españa"]["q"], "regexp": r"segovia" }, 
         "sevilla": { "q": "Q8717", "country": countries["españa"]["q"], "regexp": r"sevilla" }, 
-        "Tarragona": { "q": "Q15088", "country": countries["españa"]["q"], "regexp": r"Tarragona" }, 
+        "soria": { "q": "Q12155", "country": countries["españa"]["q"], "regexp": r"soria" }, 
+        "tarragona": { "q": "Q15088", "country": countries["españa"]["q"], "regexp": r"tarragona" }, 
+        "teruel": { "q": "Q14336", "country": countries["españa"]["q"], "regexp": r"teruel" }, 
+        "toledo": { "q": "Q5836", "country": countries["españa"]["q"], "regexp": r"toledo" }, 
         "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"val[èe]ncia" }, 
         "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
         "vigo": { "q": "Q8745", "country": countries["españa"]["q"], "regexp": r"vigo" }, 
+        "vitoria": { "q": "Q14318", "country": countries["españa"]["q"], "regexp": r"vitoria(-?gasteiz)?" }, 
+        "zamora": { "q": "Q15696", "country": countries["españa"]["q"], "regexp": r"zamora" }, 
         "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
     
     "estados unidos": { "q": countries["estados unidos"]["q"], "country": countries["estados unidos"]["q"], "regexp": r"(estados unidos|united states)" },
@@ -216,6 +241,7 @@ publishers = {
     "altaya": { "q": "Q124796624", "regexp": r"altaya" }, 
     "anagrama": { "q": "Q8772125", "regexp": r"anagrama" }, 
     "anaya": { "q": "Q5394209", "regexp": r"anaya" }, 
+    "atrapasueños": { "q": "Q124898383", "regexp": r"atrapasue[ñn]os" }, 
     "booket": { "q": "Q124796493", "regexp": r"booket" }, 
     "bruguera": { "q": "Q3275000", "regexp": r"bruguera" }, 
     "catedra": { "q": "Q3009634", "regexp": r"c[áa]tedra" }, 
@@ -1082,7 +1108,8 @@ def main():
     qlist += ["Q5865630"] #paco espinosa
     qlist += ["Q124800393"] #fernando romero
     qlist += ["Q16300815"] #grimaldos
-    qlist = ["Q63213321"] #demiguel
+    qlist += ["Q63213321"] #demiguel
+    qlist = ["Q5859788"] #Redonet
     
     for authorq in qlist:
         time.sleep(1)
@@ -1174,6 +1201,9 @@ def main():
                 raw2 = getURL(url=url2)
                 if "página no encontrada, pero no estás perdido" in raw2:
                     print("Error resourceid", resourceid)
+                    continue
+                if not "<h2>Español" in raw2:
+                    print("No seccion en espanol", resourceid)
                     continue
                 for edition in raw2.split('<div class="media-body">'):
                     resourceid = "/edicion/" in edition and re.findall(r"(?im)href=\"/edicion/([^<>\"]+?)\"", edition)[0] or ""
