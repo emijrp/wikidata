@@ -1098,6 +1098,54 @@ def linkWorkAndEdition(repo="", workq="", editionq=""):
     
     return
 
+def getAuthorsByDate(month=0, day=0):
+    authors = []
+    if not month or not day or month < 1 or month > 12 or day < 1 or day > 31:
+        today = datetime.date.today()
+        month, day = today.month, today.day
+    site = pywikibot.Site('wikidata', 'wikidata')
+    repo = site.data_repository()
+    queries = [
+        """
+        SELECT ?item
+        WHERE {
+          ?item wdt:P31 wd:Q5.
+          ?item wdt:P569 ?birthdate.
+          ?item wdt:P27 wd:Q29.
+          ?item wdt:P106 wd:Q36180. #writer
+          ?item wdt:P950 ?bne.
+          FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
+          FILTER (MONTH(?birthdate) = %d && DAY(?birthdate) = %d).
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        }
+        ORDER BY ?birthdate
+        """ % (month, day), 
+    ]
+    for query in queries:
+        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
+        url = '%s&format=json' % (url)
+        print("Loading...", url)
+        sparql = getURL(url=url)
+        json1 = loadSPARQL(sparql=sparql)
+        
+        for result in json1['results']['bindings']:
+            q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+            if not q:
+                break
+            #print('\n== %s ==' % (q))
+            #print("https://www.wikidata.org/wiki/%s" % (q))
+            item = pywikibot.ItemPage(repo, q)
+            try: #to detect Redirect because .isRedirectPage fails
+                item.get()
+            except:
+                print('Error while .get()')
+                continue
+            
+            if item.claims:
+                if 'P950' in item.claims and len(item.claims["P950"]) == 1:
+                    authors.append(q)
+    return authors
+
 def main():
     global usedisbns
     global usedlegaldeposits
@@ -1110,7 +1158,10 @@ def main():
     qlist += ["Q16300815"] #grimaldos
     qlist += ["Q63213321"] #demiguel
     qlist = ["Q5859788"] #Redonet
+    qlist = getAuthorsByDate()
     
+    print("\n".join(qlist))
+    print("%d authors" % (len(qlist)))
     for authorq in qlist:
         time.sleep(1)
         print('\n== %s ==' % (authorq))
@@ -1162,7 +1213,10 @@ def main():
         print(birthdate, deathdate)
         print(isniid, viafid)
         
-        if (not birthdate and not deathdate) or (birthdate and birthdate < 1900) or (deathdate and deathdate < 1970):
+        if not birthdate and not deathdate:
+            print("Autor sin fecha de nacimiento ni falleciento conocida, saltamos")
+            continue
+        if (birthdate and birthdate < 1900) or (deathdate and deathdate < 1970):
             print("Autor antiguo, saltamos")
             continue
         
@@ -1262,6 +1316,12 @@ def main():
                 alternatetitle4 = alternatetitle.replace(" : ", " ").strip()
                 alternatetitles = list(set([alternatetitle, alternatetitle2, alternatetitle3, alternatetitle4]))
                 fulltitle = getFullTitle(title=title_, subtitle=subtitle)
+                if re.search(r"(?im)[\[\]]", fulltitle):
+                    print("Caracteres extranos en titulo, saltamos", fulltitle)
+                    continue
+                if re.search(r"(?im)(expo|ed[oó]f|sex|asesi|erroris)", fulltitle):
+                    print("Titulo no valido, saltamos", fulltitle)
+                    continue
                 
                 #contributors
                 m = re.findall(r"(?im)<ns\d:P3008>([^<>]+?)</ns\d:P3008>", rawresource)
