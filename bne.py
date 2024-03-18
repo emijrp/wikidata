@@ -1103,6 +1103,8 @@ def getAuthorsByDate(month=0, day=0):
     if not month or not day or month < 1 or month > 12 or day < 1 or day > 31:
         today = datetime.date.today()
         month, day = today.month, today.day
+        if month == 1 and day == 1: #january 1st includes people form all the year
+            day = 2
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     queries = [
