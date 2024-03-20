@@ -1109,16 +1109,19 @@ def getAuthorsByDate(month=0, day=0):
     repo = site.data_repository()
     queries = [
         """
-        SELECT ?item
+        SELECT DISTINCT ?item
         WHERE {
           ?item wdt:P31 wd:Q5.
           ?item wdt:P569 ?birthdate.
           ?item wdt:P27 wd:Q29.
-          ?item wdt:P106 wd:Q36180. #writer
+          ?item wdt:P106 ?occupation.
+          VALUES ?occupation {wd:Q36180 wd:Q11774202 wd:Q201788 wd:Q1930187 wd:Q1622272 wd:Q4964182 wd:Q6625963 
+                              wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 }.
+                              #wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
+                              #wd:Q170790 wd:Q2516866 wd:Q2306091}.
           ?item wdt:P950 ?bne.
           FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
           FILTER (MONTH(?birthdate) = %d && DAY(?birthdate) = %d).
-          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
         }
         ORDER BY ?birthdate
         """ % (month, day), 
@@ -1207,8 +1210,20 @@ def main():
         birthplace = m and unquote(s=m[0]) or ""
         m = re.findall(r"(?im)<ns\d:P5010>(\d{4})</ns\d:P5010>", rawrdf)
         birthdate = m and int(m[0]) or ""
+        if not birthdate:
+            if "P569" in item.claims:
+                try:
+                    birthdate = item.claims["P569"][0].getTarget().year
+                except:
+                    birthdate = ""
         m = re.findall(r"(?im)<ns\d:P5011>(\d{4})</ns\d:P5011>", rawrdf)
         deathdate = m and int(m[0]) or ""
+        if not deathdate:
+            if "P570" in item.claims:
+                try:
+                    deathdate = item.claims["P570"][0].getTarget().year
+                except:
+                    deathdate = ""
         
         print(label)
         print(gender, language, birthplace)
@@ -1240,7 +1255,7 @@ def main():
             
             #if resourceid != "XX5929043":
             #    continue
-            
+            workq = ""
             workbneid = ""
             if '<div class="text-center">Libro</div>' in obra:
                 if resourceid:
@@ -1503,7 +1518,7 @@ def main():
                     else:
                         print("Candidato descartado, no coinciden IDs")
                 
-                workq = ""
+                #workq = "" el workq lo creamos en el bucle de la obra para que lo mantenga si lo hemos creado
                 editionq = ""
                 if not workscreated and not worksavailable and not othersavailable: #no crear work si existen items relacionados (othersavailable) q no son ni written work ni editions, para evitar crear duplicados
                     print("\nNo se encontraron candidatos para el work, creamos")
@@ -1522,9 +1537,6 @@ def main():
                     workq = workscreated and workscreated[0] or worksavailable and worksavailable[0]
                     for editionq in editionscreated+editionsavailable2:
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
-                
-                #if resourceid in ["a7153685", "a5311062"]:
-                #    sys.exit()
 
 if __name__ == "__main__":
     main()
