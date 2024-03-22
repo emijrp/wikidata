@@ -37,23 +37,24 @@ def removeAccents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
 
-def getURL(url='', retry=True, timeout=60):
+def getURL(url='', retry=False, timeout=30):
     raw = ''
-    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0' })
+    version = 110
+    req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/%d.0' % (version) })
     try:
         raw = urllib.request.urlopen(req, timeout=timeout).read().strip().decode('utf-8')
     except:
         sleep = 10 # seconds
-        maxsleep = 900
+        maxsleep = 60
         while retry and sleep <= maxsleep:
             print('Error while retrieving: %s' % (url))
             print('Retry in %s seconds...' % (sleep))
             time.sleep(sleep)
             try:
-                req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/123.0' })
+                req = urllib.request.Request(url, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:123.0) Gecko/20100101 Firefox/%d.0' % (version) })
                 raw = urllib.request.urlopen(req, timeout=timeout).read().strip().decode('utf-8')
             except:
-                pass
+                version += 1
             sleep = sleep * 2
     return raw
 
