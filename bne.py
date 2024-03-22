@@ -969,9 +969,9 @@ def getGoodReadsWorkId(title="", isbn10="", isbn13=""):
     isbn10 = isbn10.replace("-", "")
     isbn13 = isbn13.replace("-", "")
     if isbn10:
-        busqueda = isbn10
+        busqueda += isbn10
     if isbn13:
-        busqueda = isbn13
+        busqueda += isbn13
     url = "https://www.goodreads.com/search?q=" + urllib.parse.quote_plus(busqueda)
     raw = getURL(url=url)
     goodreadsworkid = ""
@@ -987,9 +987,9 @@ def getGoodReadsEditionId(title="", isbn10="", isbn13=""):
     isbn10 = isbn10.replace("-", "")
     isbn13 = isbn13.replace("-", "")
     if isbn10:
-        busqueda = isbn10
+        busqueda += isbn10
     if isbn13:
-        busqueda = isbn13
+        busqueda += isbn13
     url = "https://www.goodreads.com/search?q=" + urllib.parse.quote_plus(busqueda)
     raw = getURL(url=url)
     goodreadseditionid = ""
