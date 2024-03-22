@@ -1098,12 +1098,15 @@ def linkWorkAndEdition(repo="", workq="", editionq=""):
     
     return
 
-def getAuthorsByDate(month=0, day=0):
+def getAuthorsByDate(month=0, day=0, daysfromtoday=0):
     authors = []
     if not month or not day or month < 1 or month > 12 or day < 1 or day > 31:
         today = datetime.date.today()
+        if daysfromtoday and daysfromtoday >= 1 and daysfromtoday < 365:
+            delta = datetime.timedelta(days=daysfromtoday)
+            today = today + delta
         month, day = today.month, today.day
-        if month == 1 and day == 1: #january 1st includes people form all the year
+        if month == 1 and day == 1: #january 1st includes people from all the year
             day = 2
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
