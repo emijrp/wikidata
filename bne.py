@@ -1154,23 +1154,27 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0):
                     authors.append(q)
     return authors
 
-def main():
+def sleep(t=1):
+    if t > 0 and t < 3600:
+        time.sleep(t)
+    while (datetime.datetime.today().isoweekday() in range(1, 5+1) and datetime.datetime.now().hour in range(7, 14+1)) or \
+          (datetime.datetime.today().isoweekday() == 4 and datetime.datetime.now().hour in range(7, 18+1)):
+        time.sleep(60)
+
+def bne(qlist=[]):
+    print("\n".join(qlist))
+    print("%d authors" % (len(qlist)))
+    for authorq in qlist:
+        try:
+            bneCore(qlist=[authorq])
+        except:
+            time.sleep(60)
+
+def bneCore(qlist=[]):
     global usedisbns
     global usedlegaldeposits
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
-    qlist = ["Q93433647"] #eusebio
-    qlist += ["Q118122724"] #almisas
-    qlist += ["Q5865630"] #paco espinosa
-    qlist += ["Q124800393"] #fernando romero
-    qlist += ["Q16300815"] #grimaldos
-    qlist += ["Q63213321"] #demiguel
-    qlist = ["Q5859788"] #Redonet
-    qlist = ["Q125056276"] #enrique
-    qlist = getAuthorsByDate()
-    
-    print("\n".join(qlist))
-    print("%d authors" % (len(qlist)))
     for authorq in qlist:
         time.sleep(1)
         print('\n== %s ==' % (authorq))
@@ -1288,6 +1292,7 @@ def main():
             editionsavailable2 = [] #2 es global a la obra, sin2 es dentro de la edicion
             #ediciones
             for resourceid in resourcesids:
+                sleep()
                 isdigital = False
                 print('\n=== %s ===' % (resourceid))
                 urlresource = "https://datos.bne.es/resource/%s.rdf" % (resourceid)
@@ -1541,6 +1546,19 @@ def main():
                     workq = workscreated and workscreated[0] or worksavailable and worksavailable[0]
                     for editionq in editionscreated+editionsavailable2:
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
+
+def main():
+    qlist = ["Q93433647"] #eusebio
+    qlist += ["Q118122724"] #almisas
+    qlist += ["Q5865630"] #paco espinosa
+    qlist += ["Q124800393"] #fernando romero
+    qlist += ["Q16300815"] #grimaldos
+    qlist += ["Q63213321"] #demiguel
+    qlist = ["Q5859788"] #Redonet
+    qlist = ["Q125056276"] #enrique
+    qlist = getAuthorsByDate(daysfromtoday=1)
+    #qlist += getAuthorsByDate(daysfromtoday=180)
+    bne(qlist=qlist)
 
 if __name__ == "__main__":
     main()
