@@ -1152,6 +1152,8 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0):
             if item.claims:
                 if 'P950' in item.claims and len(item.claims["P950"]) == 1:
                     authors.append(q)
+    authors = list(set(authors))
+    authors.sort()
     return authors
 
 def sleep(t=1):
@@ -1557,7 +1559,8 @@ def main():
     qlist = ["Q5859788"] #Redonet
     qlist = ["Q125056276"] #enrique
     qlist = getAuthorsByDate(daysfromtoday=1)
-    #qlist += getAuthorsByDate(daysfromtoday=180)
+    bne(qlist=qlist)
+    qlist = getAuthorsByDate(daysfromtoday=180)
     bne(qlist=qlist)
 
 if __name__ == "__main__":
