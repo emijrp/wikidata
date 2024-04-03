@@ -1560,7 +1560,11 @@ def main():
     qlist = ["Q125056276"] #enrique
     qlist = getAuthorsByDate(daysfromtoday=1)
     bne(qlist=qlist)
+    qlist = getAuthorsByDate(daysfromtoday=90)
+    bne(qlist=qlist)
     qlist = getAuthorsByDate(daysfromtoday=180)
+    bne(qlist=qlist)
+    qlist = getAuthorsByDate(daysfromtoday=270)
     bne(qlist=qlist)
 
 if __name__ == "__main__":
