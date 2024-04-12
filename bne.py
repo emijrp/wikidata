@@ -1191,7 +1191,7 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
               FILTER (MONTH(?birthdate) = 1 && DAY(?birthdate) = 1).
             }
             ORDER BY ?birthdate
-            LIMIT 5
+            LIMIT 25
             """ % (year, year+1), 
         ]
         
@@ -1624,11 +1624,11 @@ def main():
     qlist += ["Q63213321"] #demiguel
     qlist = ["Q5859788"] #Redonet
     qlist = ["Q125056276"] #enrique
-    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1) - set(getAuthorsDone())))
-    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90) - set(getAuthorsDone())))
-    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180) - set(getAuthorsDone())))
-    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone()))) #cambiar de 5 a 50 tras la prueba
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone())))
 
 if __name__ == "__main__":
     main()
