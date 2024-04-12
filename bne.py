@@ -1098,7 +1098,51 @@ def linkWorkAndEdition(repo="", workq="", editionq=""):
     
     return
 
-def getAuthorsByDate(month=0, day=0, daysfromtoday=0):
+def getAuthorsDone():
+    authors = []
+    queries = [
+        """
+        #SELECT ?item ?itemLabel ?authorLabel (YEAR(?pubdate) AS ?pubyear) ?publisherLabel ?pubplaceLabel ?bneid ?isbn10 ?isbn13 ?deplegal ?openlibraryid ?goodreadsid
+        SELECT DISTINCT ?author
+        WHERE {
+          ?item wdt:P31 wd:Q3331189.
+          ?item wdt:P50 ?author.
+          ?item wdt:P577 ?pubdate.
+          OPTIONAL { ?item wdt:P123 ?publisher. }
+          OPTIONAL { ?item wdt:P291 ?pubplace. }
+          ?item wdt:P950 ?bneid.
+          OPTIONAL { ?item wdt:P957 ?isbn10. }
+          OPTIONAL { ?item wdt:P212 ?isbn13. }
+          OPTIONAL { ?item wdt:P6164 ?deplegal. }
+          OPTIONAL { ?item wdt:P648 ?openlibraryid. }
+          OPTIONAL { ?item wdt:P2969 ?goodreadsid. }
+          OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) = "es"). }
+          FILTER (BOUND(?itemDescription)).
+          FILTER(STRSTARTS(?itemDescription, "edición publicada en ")).
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en"}
+        }
+        #ORDER BY ASC(?itemLabel)
+        #LIMIT 100
+        """
+    ]
+    for query in queries:
+        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
+        url = '%s&format=json' % (url)
+        print("Loading...", url)
+        sparql = getURL(url=url)
+        json1 = loadSPARQL(sparql=sparql)
+        
+        for result in json1['results']['bindings']:
+            q = 'author' in result and result['author']['value'].split('/entity/')[1] or ''
+            #q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+            if not q:
+                break
+            authors.append(q)
+    authors = list(set(authors))
+    authors.sort()
+    return authors
+
+def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
     authors = []
     if not month or not day or month < 1 or month > 12 or day < 1 or day > 31:
         today = datetime.date.today()
@@ -1129,6 +1173,28 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0):
         ORDER BY ?birthdate
         """ % (month, day), 
     ]
+    if year and year >= 1900 and year < 2000:
+        queries = [
+            """
+            SELECT DISTINCT ?item
+            WHERE {
+              ?item wdt:P31 wd:Q5.
+              ?item wdt:P569 ?birthdate.
+              ?item wdt:P27 wd:Q29.
+              ?item wdt:P106 ?occupation.
+              VALUES ?occupation {wd:Q36180 wd:Q11774202 wd:Q201788 wd:Q1930187 wd:Q1622272 wd:Q4964182 wd:Q6625963 
+                                  wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 }.
+                                  #wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
+                                  #wd:Q170790 wd:Q2516866 wd:Q2306091}.
+              ?item wdt:P950 ?bne.
+              FILTER (?birthdate >= "%d-01-01"^^xsd:dateTime && ?birthdate < "%d-01-01"^^xsd:dateTime).
+              FILTER (MONTH(?birthdate) = 1 && DAY(?birthdate) = 1).
+            }
+            ORDER BY ?birthdate
+            LIMIT 5
+            """ % (year, year+1), 
+        ]
+        
     for query in queries:
         url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
         url = '%s&format=json' % (url)
@@ -1332,7 +1398,7 @@ def bneCore(qlist=[]):
                 if re.search(r"(?im)[\[\]]", fulltitle):
                     print("Caracteres extranos en titulo, saltamos", fulltitle)
                     continue
-                if re.search(r"(?im)(expo|ed[oó]f|sex|asesi|erroris)", fulltitle):
+                if re.search(r"(?im)(expo|ed[oó]f|sex|asesi|erroris|publicad[oa])", fulltitle):
                     print("Titulo no valido, saltamos", fulltitle)
                     continue
                 
@@ -1558,14 +1624,11 @@ def main():
     qlist += ["Q63213321"] #demiguel
     qlist = ["Q5859788"] #Redonet
     qlist = ["Q125056276"] #enrique
-    qlist = getAuthorsByDate(daysfromtoday=1)
-    bne(qlist=qlist)
-    qlist = getAuthorsByDate(daysfromtoday=90)
-    bne(qlist=qlist)
-    qlist = getAuthorsByDate(daysfromtoday=180)
-    bne(qlist=qlist)
-    qlist = getAuthorsByDate(daysfromtoday=270)
-    bne(qlist=qlist)
+    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1) - set(getAuthorsDone())))
+    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90) - set(getAuthorsDone())))
+    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180) - set(getAuthorsDone())))
+    #bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone()))) #cambiar de 5 a 50 tras la prueba
 
 if __name__ == "__main__":
     main()
