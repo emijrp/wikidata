@@ -1176,7 +1176,7 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
     if year and year >= 1900 and year < 2000:
         queries = [
             """
-            SELECT DISTINCT ?item
+            SELECT DISTINCT ?item (MD5(CONCAT(str(?item),str(RAND()))) as ?random)
             WHERE {
               ?item wdt:P31 wd:Q5.
               ?item wdt:P569 ?birthdate.
@@ -1190,9 +1190,10 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
               FILTER (?birthdate >= "%d-01-01"^^xsd:dateTime && ?birthdate < "%d-01-01"^^xsd:dateTime).
               FILTER (MONTH(?birthdate) = 1 && DAY(?birthdate) = 1).
             }
-            ORDER BY ?birthdate
-            LIMIT 25
-            """ % (year, year+1), 
+            ORDER BY ?random
+            LIMIT 50
+            #random%d
+            """ % (year, year+1, random.randint(1,9999999)), 
         ]
         
     for query in queries:
@@ -1236,7 +1237,7 @@ def bne(qlist=[]):
         try:
             bneCore(qlist=[authorq])
         except:
-            time.sleep(60)
+            time.sleep(600)
 
 def bneCore(qlist=[]):
     global usedisbns
@@ -1398,7 +1399,7 @@ def bneCore(qlist=[]):
                 if re.search(r"(?im)[\[\]]", fulltitle):
                     print("Caracteres extranos en titulo, saltamos", fulltitle)
                     continue
-                if re.search(r"(?im)(expo|ed[oó]f|sex|asesi|erroris|publicad[oa])", fulltitle):
+                if re.search(r"(?im)(expo|ed[oó]f|sex|asesi|erroris|publicad[oa]|pronunciad[oa]|conferencia|coloquio)", fulltitle):
                     print("Titulo no valido, saltamos", fulltitle)
                     continue
                 
@@ -1616,14 +1617,6 @@ def bneCore(qlist=[]):
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
 
 def main():
-    qlist = ["Q93433647"] #eusebio
-    qlist += ["Q118122724"] #almisas
-    qlist += ["Q5865630"] #paco espinosa
-    qlist += ["Q124800393"] #fernando romero
-    qlist += ["Q16300815"] #grimaldos
-    qlist += ["Q63213321"] #demiguel
-    qlist = ["Q5859788"] #Redonet
-    qlist = ["Q125056276"] #enrique
     bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1) - set(getAuthorsDone())))
     bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90) - set(getAuthorsDone())))
     bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180) - set(getAuthorsDone())))
