@@ -2466,23 +2466,35 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q3863 ;
-                  wdt:P31 ?instance .
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q3863 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+            ?item wdt:P31 ?instance .
             ?item schema:description "asteroid"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 300000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 250000, querylimit)
         ],
         
         'chemical compound': [
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P279 wd:Q11173 .
+            SERVICE bd:sample {
+                ?item wdt:P279 wd:Q11173 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
             ?item schema:description "chemical compound"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         LIMIT %s
         OFFSET %s
@@ -2493,42 +2505,60 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q30612 ;
-                  wdt:P31 ?instance .
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q30612 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+            ?item wdt:P31 ?instance .
             ?item schema:description "clinical trial"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 500000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 400000, querylimit)
         ],
         
         'date in Gregorian calendar': [
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q47150325 .
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q47150325 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
             ?item schema:description "date in Gregorian calendar"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 500000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 200000, querylimit)
         ],
         
         'douar in Morocco': [
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q23925393 ;
-                  wdt:P31 ?instance .
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q23925393 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+            ?item wdt:P31 ?instance .
             ?item schema:description "douar in Morocco"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
         LIMIT %s
         OFFSET %s
-        """ % (str(querylimit), str(offset)) for offset in range(1, 50000, querylimit)
+        """ % (str(querylimit), str(offset)) for offset in range(1, 32000, querylimit)
         ],
         
         'encyclopedic article': [
@@ -2886,9 +2916,15 @@ def main():
         """
         SELECT ?item
         WHERE {
-            ?item wdt:P31 wd:Q49008 ;
-                  wdt:P31 ?instance .
+            SERVICE bd:sample {
+                ?item wdt:P31 wd:Q49008 .
+                bd:serviceParam bd:sample.limit 10000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+            ?item wdt:P31 ?instance .
             ?item schema:description "prime number"@en.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "es"). }
+            FILTER (!BOUND(?itemDescTarget))
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
