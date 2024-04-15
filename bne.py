@@ -1617,10 +1617,10 @@ def bneCore(qlist=[]):
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
 
 def main():
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1)) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90)) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180)) - set(getAuthorsDone())))
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270)) - set(getAuthorsDone())))
     bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone())))
 
 if __name__ == "__main__":
