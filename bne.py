@@ -134,25 +134,50 @@ occupations = {
 countries = {
     "alemania": { "q": "Q183" }, 
     "argentina": { "q": "Q414" }, 
+    "bélgica": { "q": "Q31" }, 
+    "chile": { "q": "Q298" }, 
+    "colombia": { "q": "Q739" }, 
+    "cuba": { "q": "Q241" }, 
+    "ecuador": { "q": "Q736" }, 
     "españa": { "q": "Q29" }, 
     "estados unidos": { "q": "Q30" }, 
     "francia": { "q": "Q142" }, 
     "italia": { "q": "Q220" }, 
     "méxico": { "q": "Q96" }, 
+    "países bajos": { "q": "Q55" }, 
+    "perú": { "q": "Q419" }, 
     "portugal": { "q": "Q45" }, 
     "reino unido": { "q": "Q145" }, 
+    "uruguay": { "q": "Q77" }, 
     "venezuela": { "q": "Q717" }, 
 }
 locations = {
     
     "alemania": { "q": countries["alemania"]["q"], "country": countries["alemania"]["q"], "regexp": r"(alemania|germany)" }, 
+        "berlín": { "q": "Q64", "country": countries["alemania"]["q"], "regexp": r"berl[íi]n" }, 
         "leipzig": { "q": "Q2079", "country": countries["alemania"]["q"], "regexp": r"leipzig" }, 
+        "múnich": { "q": "Q1726", "country": countries["alemania"]["q"], "regexp": r"(m[úu]nich|münchen)" }, 
     
-    "argentina": { "q": countries["argentina"]["q"], "country": countries["argentina"]["q"], "regexp": r"argentina" }, 
-        "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos aires" }, 
+    "argentina": { "q": countries["argentina"]["q"], "country": countries["argentina"]["q"], "regexp": r"argentin[ae]" }, 
+        "buenos aires": { "q": "Q1486", "country": countries["argentina"]["q"], "regexp": r"buenos[ -]?aires" }, 
+    
+    "bélgica": { "q": countries["bélgica"]["q"], "country": countries["bélgica"]["q"], "regexp": r"(b[ée]lgica|belgium)" }, 
+        "bruselas": { "q": "Q239", "country": countries["bélgica"]["q"], "regexp": r"(bruselas|bruss?els|bruxell?es)" }, 
+    
+    "chile": { "q": countries["chile"]["q"], "country": countries["chile"]["q"], "regexp": r"chile" }, 
+        "santiago de chile": { "q": "Q2887", "country": countries["chile"]["q"], "regexp": r"santiago de chile" }, 
+    
+    "colombia": { "q": countries["colombia"]["q"], "country": countries["colombia"]["q"], "regexp": r"colombia" }, 
+        "bogotá": { "q": "Q2841", "country": countries["colombia"]["q"], "regexp": r"(bogot[áa]|bogot[áa],? d\.?c\.?|santa f[ée] de bogot[áa])" }, 
+    
+    "cuba": { "q": countries["cuba"]["q"], "country": countries["cuba"]["q"], "regexp": r"cuba" }, 
+        "la habana": { "q": "Q1563", "country": countries["cuba"]["q"], "regexp": r"(la habana|ha[bv]ana)" }, 
+    
+    "ecuador": { "q": countries["ecuador"]["q"], "country": countries["ecuador"]["q"], "regexp": r"ecuador" }, 
+        "quito": { "q": "Q2900", "country": countries["ecuador"]["q"], "regexp": r"quito" }, 
     
     "españa": { "q": countries["españa"]["q"], "country": countries["españa"]["q"], "regexp": r"españa" }, 
-        "a coruna": { "q": "Q8757", "country": countries["españa"]["q"], "regexp": r"l?a coru[ñn]a" }, 
+        "a coruna": { "q": "Q8757", "country": countries["españa"]["q"], "regexp": r"l?a[ -]?coru[ñn]a" }, 
         "albacete": { "q": "Q15095", "country": countries["españa"]["q"], "regexp": r"albacete" }, 
         "alicante": { "q": "Q11959", "country": countries["españa"]["q"], "regexp": r"alicante" }, 
         "almeria": { "q": "Q10400", "country": countries["españa"]["q"], "regexp": r"almer[íi]a" }, 
@@ -205,12 +230,12 @@ locations = {
         "valencia": { "q": "Q8818", "country": countries["españa"]["q"], "regexp": r"val[èe]ncia" }, 
         "valladolid": { "q": "Q8356", "country": countries["españa"]["q"], "regexp": r"valladolid" }, 
         "vigo": { "q": "Q8745", "country": countries["españa"]["q"], "regexp": r"vigo" }, 
-        "vitoria": { "q": "Q14318", "country": countries["españa"]["q"], "regexp": r"vitoria(-?gasteiz)?" }, 
+        "vitoria": { "q": "Q14318", "country": countries["españa"]["q"], "regexp": r"vitoria([ -]?gasteiz)?" }, 
         "zamora": { "q": "Q15696", "country": countries["españa"]["q"], "regexp": r"zamora" }, 
         "zaragoza": { "q": "Q10305", "country": countries["españa"]["q"], "regexp": r"zaragoza" }, 
     
-    "estados unidos": { "q": countries["estados unidos"]["q"], "country": countries["estados unidos"]["q"], "regexp": r"(estados unidos|united states)" },
-        "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new york|nueva york)" },
+    "estados unidos": { "q": countries["estados unidos"]["q"], "country": countries["estados unidos"]["q"], "regexp": r"(estados[ -]?unidos|united[ -]?states)" },
+        "nueva york": { "q": "Q60", "country": countries["estados unidos"]["q"], "regexp": r"(new[ -]?york|nueva[ -]?york)" },
      
     "francia": { "q": countries["francia"]["q"], "country": countries["francia"]["q"], "regexp": r"(francia|france)" }, 
         "parís": { "q": "Q90", "country": countries["francia"]["q"], "regexp": r"par[íi]s" }, 
@@ -219,12 +244,24 @@ locations = {
         "roma": { "q": "Q220", "country": countries["italia"]["q"], "regexp": r"rom[ae]" }, 
     
     "méxico": { "q": countries["méxico"]["q"], "country": countries["méxico"]["q"], "regexp": r"m[ée][xj]ico" }, 
+        "méxico df": { "q": "Q1489", "country": countries["méxico"]["q"], "regexp": r"(m[ée][xj]ico,? d\.?f\.?|ciudad de m[ée][xj]ico)" }, 
+    
+    "países bajos": { "q": countries["países bajos"]["q"], "country": countries["países bajos"]["q"], "regexp": r"(pa[íi]ses[ -]?bajos|netherlands)" }, 
+        "ámsterdam": { "q": "Q727", "country": countries["países bajos"]["q"], "regexp": r"[áa]msterda[mn]" }, 
+    
+    "perú": { "q": countries["perú"]["q"], "country": countries["perú"]["q"], "regexp": r"per[úu]" }, 
+        "lima": { "q": "Q2868", "country": countries["perú"]["q"], "regexp": r"lima" }, 
     
     "portugal": { "q": countries["portugal"]["q"], "country": countries["portugal"]["q"], "regexp": r"portugal" }, 
         "lisboa": { "q": "Q597", "country": countries["portugal"]["q"], "regexp": r"lisboa" }, 
     
-    "reino unido": { "q": countries["reino unido"]["q"], "country": countries["reino unido"]["q"], "regexp": r"reino unido" }, 
+    "reino unido": { "q": countries["reino unido"]["q"], "country": countries["reino unido"]["q"], "regexp": r"reino[ -]?unido" }, 
+        "cambridge": { "q": "Q350", "country": countries["reino unido"]["q"], "regexp": r"cambridge" }, 
         "londres": { "q": "Q84", "country": countries["reino unido"]["q"], "regexp": r"(londres|london)" }, 
+        "oxford": { "q": "Q34217", "country": countries["reino unido"]["q"], "regexp": r"oxford" }, 
+    
+    "uruguay": { "q": countries["uruguay"]["q"], "country": countries["uruguay"]["q"], "regexp": r"uruguay" }, 
+        "montevideo": { "q": "Q1335", "country": countries["uruguay"]["q"], "regexp": r"montevideo" }, 
     
     "venezuela": { "q": countries["venezuela"]["q"], "country": countries["venezuela"]["q"], "regexp": r"venezuela" }, 
         "caracas": { "q": "Q1533", "country": countries["venezuela"]["q"], "regexp": r"caracas" }, 
