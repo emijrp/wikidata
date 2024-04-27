@@ -1166,7 +1166,7 @@ def getAuthorsDone():
         url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
         url = '%s&format=json' % (url)
         print("Loading...", url)
-        sparql = getURL(url=url)
+        sparql = getURL(url=url, retry=True)
         json1 = loadSPARQL(sparql=sparql)
         
         for result in json1['results']['bindings']:
@@ -1237,7 +1237,7 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
         url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
         url = '%s&format=json' % (url)
         print("Loading...", url)
-        sparql = getURL(url=url)
+        sparql = getURL(url=url, retry=True)
         json1 = loadSPARQL(sparql=sparql)
         
         for result in json1['results']['bindings']:
@@ -1654,11 +1654,15 @@ def bneCore(qlist=[]):
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
 
 def main():
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=1)) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=90)) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=180)) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=270)) - set(getAuthorsDone())))
-    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone())))
+    days = [1, 90, 180, 270]
+    for day in days:
+        try:
+            bne(qlist=list(set(getAuthorsByDate(daysfromtoday=day)) - set(getAuthorsDone())))
+        except:
+            pass
+        time.sleep(60)
+    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone()))) #fechas de nacimiento con solo año
+    bne(qlist=list(set(getAuthorsByDate(daysfromtoday=-30)))) #repasar los que hayan podido fallar, con un retraso de 30 días
 
 if __name__ == "__main__":
     main()
