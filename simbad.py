@@ -123,6 +123,7 @@ def main():
     if len(sys.argv) > 1:
         method = sys.argv[1]
     
+    #only langs with latin chars
     targetlangs = ["es", "ast", "ca", "gl", "ext", "eu", "oc", "an", ]
     targetlangs += ["fr", "de", "it", "pt", "pt-br", "nl", "ga", "pl", ]
     targetlangs += ["eo", "io", "ia", "ie", "vo", ]
@@ -130,14 +131,21 @@ def main():
     targetlangs += ["en-gb", "en-ca", "en-us", ] #seguir metiendo de este labelslist https://www.wikidata.org/wiki/Q15110845
     targetlangs += ["af", "co", "cy", "da", "de-at", "de-ch", "et", "fi", "frp", "fur"]
     targetlangs += ["gd", "gsw", "guc", "guw", "gv", "hr", "hsb", "ht", "hu", "ilo", "is", "jam", "jv", "kaa", "kab", "ksh", "ku", "kw"]
+    
+    targetlangs += ["lb", "li", "lld", "lmo", "lt", "lv", ]
+    targetlangs += ["min", "ms", "mt", "mwl", ]
+    targetlangs += ["nap", "no", "nds", "nia", ]
+    targetlangs += ["pms", "rmy", "ro", "sc", "scn", "sco", "se", "sh", "sk", "sl", "sq", "srn", "stq", "su", "sv", "sw", ]
+    targetlangs += ["tk", "tl", "tr", "vec", "vi", "vls", "war", "yo", "zu"]
+    
     targetlangs = list(set(targetlangs))
     targetlangs.sort()
     if method == 'all' or method == 'method1':
         #method 1
         random.shuffle(constellations)
         #for constellation in constellations:
-        for i in range(10000):
-            time.sleep(1)
+        for i in range(100000):
+            time.sleep(5)
             random.shuffle(targetlangs)
             skip = ''
             """query = 
@@ -203,11 +211,14 @@ def main():
                             print("Label (en) not found in claim P528")
                             continue
                 
+                maxlangsperedit = 12
                 addedlangs = []
                 for targetlang in targetlangs:
                     if not targetlang in labels:
                         labels[targetlang] = labels['en']
                         addedlangs.append(targetlang)
+                        if len(addedlangs) >= maxlangsperedit:
+                            break
                 
                 if len(addedlangs) < 1:
                     continue
