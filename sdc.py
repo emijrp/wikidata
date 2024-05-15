@@ -18,6 +18,8 @@
 import pywikibot
 import json
 
+imageinfocache = {}
+
 def getClaims(site, mid):
     payload = {
       'action' : 'wbgetclaims',
@@ -37,6 +39,7 @@ def addClaims(site, mid, claims, comments):
     #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
     csrf_token = site.tokens['csrf']
     data = '{"claims":[%s]}' % (",".join(claims))
+    comments.sort()
     payload = {
       'action' : 'wbeditentity',
       'format' : 'json',
@@ -51,47 +54,37 @@ def addClaims(site, mid, claims, comments):
       r = request.submit()
     except pywikibot.data.api.APIError as e:
       print("ERROR:", e)
-    
+
+def getImageInfo(site, pagetitle):
+    global imageinfocache
+    if not pagetitle in imageinfocache:
+        request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="mime|size|sha1")
+        result = request.submit()
+        imageinfocache[pagetitle] = result
+    return imageinfocache[pagetitle]
+
 def getMIMEtype(site, pagetitle):
+    global imageinfocache
     mimetype = False
-    request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="mime")
-    result = request.submit()
+    result = getImageInfo(site=site, pagetitle=pagetitle)
     pages = result["query"]["pages"]
     for pageid, pagedata in pages.items():
         mimetype = pagedata["imageinfo"][0]["mime"]
     return mimetype
 
-def getHeight(site, pagetitle):
-    height = False
-    request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="size")
-    result = request.submit()
+def getSize(site, pagetitle, size):
+    global imageinfocache
+    value = False
+    result = getImageInfo(site=site, pagetitle=pagetitle)
     pages = result["query"]["pages"]
     for pageid, pagedata in pages.items():
-        height = pagedata["imageinfo"][0]["height"]
-    return height
-
-def getWidth(site, pagetitle):
-    width = False
-    request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="size")
-    result = request.submit()
-    pages = result["query"]["pages"]
-    for pageid, pagedata in pages.items():
-        width = pagedata["imageinfo"][0]["width"]
-    return width
-
-def getSize(site, pagetitle):
-    size = False
-    request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="size")
-    result = request.submit()
-    pages = result["query"]["pages"]
-    for pageid, pagedata in pages.items():
-        size = pagedata["imageinfo"][0]["size"]
-    return size
+        value = pagedata["imageinfo"][0][size]
+    return value
 
 def getSHA1(site, pagetitle):
+    global imageinfocache
     sha1 = False
-    request = site.simple_request(action="query", titles=pagetitle, prop="imageinfo", iiprop="sha1")
-    result = request.submit()
+    result = getImageInfo(site=site, pagetitle=pagetitle)
     pages = result["query"]["pages"]
     for pageid, pagedata in pages.items():
         sha1 = pagedata["imageinfo"][0]["sha1"]
@@ -106,21 +99,21 @@ def genP1163(site, page): #media type
     
 def genP2048(site, page): #height
     prop = "P2048"
-    height = getHeight(site, page.title())
+    height = getSize(site, page.title(), size="height")
     claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q355198"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, height)
     comment = "height"
     return claim, comment
 
 def genP2049(site, page): #width
     prop = "P2049"
-    width = getWidth(site, page.title())
+    width = getSize(site, page.title(), size="width")
     claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q355198"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, width)
     comment = "width"
     return claim, comment
 
 def genP3575(site, page): #size
     prop = "P3575"
-    size = getSize(site, page.title())
+    size = getSize(site, page.title(), size="size")
     claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q8799"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, size)
     comment = "size"
     return claim, comment
@@ -150,6 +143,7 @@ def main():
     site = pywikibot.Site('commons', 'commons')
     pagetitles = [
         "File:Champlain_Quebec_city.jpg", 
+        "File:Parque de El Retiro de Madrid en mayo de 2023 17.jpg", 
         "File:Parque de El Retiro de Madrid en mayo de 2023 18.jpg", 
     ]
     props = [
@@ -169,7 +163,7 @@ def main():
             continue
         
         claims = getClaims(site=site, mid=mid)
-        print(claims["claims"]["P4092"])
+        #print(claims["claims"]["P4092"])
         claimstoadd = []
         comments = []
         
