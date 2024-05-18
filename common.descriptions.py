@@ -2704,12 +2704,12 @@ def main():
         
         'prime number',
         
-        'research project',
-        'researcher',
-        'researcher female',
-        'researcher male',
+        #'research project',
+        #'researcher',
+        #'researcher female',
+        #'researcher male',
         
-        'shipwreck off the Scottish coast',
+        #'shipwreck off the Scottish coast',
         
         'species of alga',
         'species of amphibian',
