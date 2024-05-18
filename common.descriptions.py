@@ -24,6 +24,718 @@ import urllib.parse
 import pywikibot
 from wikidatafun import *
 
+
+def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'):
+    if (not p31 and not p279 and not p105) or not desc or not desclang:
+        print('Error genQuery', p31, p279, p105, desc, desclang)
+        sys.exit()
+    if type(targetdesclang) is list:
+        random.shuffle(targetdesclang)
+        targetdesclang = targetdesclang[0]
+    elif type(targetdesclang) is str:
+        pass
+    else:
+        return []
+    p = ""
+    instance = ""
+    if p31:
+        p = "?item wdt:P31 wd:%s ." % (p31)
+        instance = "?item wdt:P31 ?instance ."
+    elif p279:
+        p = "?item wdt:P279 wd:%s ." % (p279)
+        instance = "?item wdt:P279 ?instance ."
+    elif p105:
+        p = "?item wdt:P105 wd:%s ." % (p105)
+        instance = "?item wdt:P105 ?instance ."
+    else:
+        return []
+    query = [
+        """
+        SELECT ?item
+        WHERE {
+            SERVICE bd:sample {
+                %s
+                bd:serviceParam bd:sample.limit 100000 .
+                bd:serviceParam bd:sample.sampleType "RANDOM" .
+            }
+            %s
+            ?item schema:description "%s"@%s.
+            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
+            FILTER (!BOUND(?itemDescTarget))
+        }
+        GROUP BY ?item
+        HAVING(COUNT(?instance) = 1)
+        #random%s
+        """ % (p, instance, desc, desclang, targetdesclang, random.randint(1, 9999999)) for i in range(100)
+    ]
+    return query
+
+def genQueriesByConstellation(p31='', desc='', desclang=''):
+    #https://query.wikidata.org/#SELECT%20%3FitemDescBase%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%23%3Fitem%20wdt%3AP31%20%3Fp31%20.%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ523%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20100000%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%7D%0A%20%20%23%3Fitem%20wdt%3AP21%20wd%3AQ6581097.%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescBase.%20FILTER%28LANG%28%3FitemDescBase%29%20%3D%20%22en%22%29.%20%20%7D%0A%20%20FILTER%20%28BOUND%28%3FitemDescBase%29%29%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescTarget.%20FILTER%28LANG%28%3FitemDescTarget%29%20%3D%20%22es%22%29.%20%20%7D%0A%20%20FILTER%20%28%21BOUND%28%3FitemDescTarget%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescBase%0AORDER%20BY%20DESC%28%3Fcount%29%0ALIMIT%20100
+    queries = {}
+    queries[desc.replace('~', 'Andromeda')] = genQuery(p31=p31, desc=desc.replace('~', 'Andromeda'), desclang=desclang)
+    queries[desc.replace('~', 'Aquarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquarius'), desclang=desclang)
+    queries[desc.replace('~', 'Aquila')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquila'), desclang=desclang)
+    queries[desc.replace('~', 'Aries')] = genQuery(p31=p31, desc=desc.replace('~', 'Aries'), desclang=desclang)
+    queries[desc.replace('~', 'Auriga')] = genQuery(p31=p31, desc=desc.replace('~', 'Auriga'), desclang=desclang)
+    queries[desc.replace('~', 'Camelopardalis')] = genQuery(p31=p31, desc=desc.replace('~', 'Camelopardalis'), desclang=desclang)
+    queries[desc.replace('~', 'Cancer')] = genQuery(p31=p31, desc=desc.replace('~', 'Cancer'), desclang=desclang)
+    queries[desc.replace('~', 'Capricornus')] = genQuery(p31=p31, desc=desc.replace('~', 'Capricornus'), desclang=desclang)
+    queries[desc.replace('~', 'Carina')] = genQuery(p31=p31, desc=desc.replace('~', 'Carina'), desclang=desclang)
+    queries[desc.replace('~', 'Cassiopeia')] = genQuery(p31=p31, desc=desc.replace('~', 'Cassiopeia'), desclang=desclang)
+    queries[desc.replace('~', 'Cepheus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cepheus'), desclang=desclang)
+    queries[desc.replace('~', 'Centaurus')] = genQuery(p31=p31, desc=desc.replace('~', 'Centaurus'), desclang=desclang)
+    queries[desc.replace('~', 'Cygnus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cygnus'), desclang=desclang)
+    queries[desc.replace('~', 'Draco')] = genQuery(p31=p31, desc=desc.replace('~', 'Draco'), desclang=desclang)
+    queries[desc.replace('~', 'Gemini')] = genQuery(p31=p31, desc=desc.replace('~', 'Gemini'), desclang=desclang)
+    queries[desc.replace('~', 'Hercules')] = genQuery(p31=p31, desc=desc.replace('~', 'Hercules'), desclang=desclang)
+    queries[desc.replace('~', 'Hydra')] = genQuery(p31=p31, desc=desc.replace('~', 'Hydra'), desclang=desclang)
+    queries[desc.replace('~', 'Leo')] = genQuery(p31=p31, desc=desc.replace('~', 'Leo'), desclang=desclang)
+    queries[desc.replace('~', 'Libra')] = genQuery(p31=p31, desc=desc.replace('~', 'Libra'), desclang=desclang)
+    queries[desc.replace('~', 'Monoceros')] = genQuery(p31=p31, desc=desc.replace('~', 'Monoceros'), desclang=desclang)
+    queries[desc.replace('~', 'Ophiuchus')] = genQuery(p31=p31, desc=desc.replace('~', 'Ophiuchus'), desclang=desclang)
+    queries[desc.replace('~', 'Orion')] = genQuery(p31=p31, desc=desc.replace('~', 'Orion'), desclang=desclang)
+    queries[desc.replace('~', 'Pegasus')] = genQuery(p31=p31, desc=desc.replace('~', 'Pegasus'), desclang=desclang)
+    queries[desc.replace('~', 'Perseus')] = genQuery(p31=p31, desc=desc.replace('~', 'Perseus'), desclang=desclang)
+    queries[desc.replace('~', 'Puppis')] = genQuery(p31=p31, desc=desc.replace('~', 'Puppis'), desclang=desclang)
+    queries[desc.replace('~', 'Sagittarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Sagittarius'), desclang=desclang)
+    queries[desc.replace('~', 'Scorpius')] = genQuery(p31=p31, desc=desc.replace('~', 'Scorpius'), desclang=desclang)
+    queries[desc.replace('~', 'Sextans')] = genQuery(p31=p31, desc=desc.replace('~', 'Sextans'), desclang=desclang)
+    queries[desc.replace('~', 'Taurus')] = genQuery(p31=p31, desc=desc.replace('~', 'Taurus'), desclang=desclang)
+    queries[desc.replace('~', 'Vela')] = genQuery(p31=p31, desc=desc.replace('~', 'Vela'), desclang=desclang)
+    queries[desc.replace('~', 'Virgo')] = genQuery(p31=p31, desc=desc.replace('~', 'Virgo'), desclang=desclang)
+    return queries
+
+def genQueriesByCountry(p31='', desc='', desclang=''):
+    queries = {}
+    queries[desc.replace('~', 'Afghanistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Afghanistan'), desclang=desclang)
+    queries[desc.replace('~', 'Angola')] = genQuery(p31=p31, desc=desc.replace('~', 'Angola'), desclang=desclang)
+    queries[desc.replace('~', 'Armenia')] = genQuery(p31=p31, desc=desc.replace('~', 'Armenia'), desclang=desclang)
+    queries[desc.replace('~', 'Australia')] = genQuery(p31=p31, desc=desc.replace('~', 'Australia'), desclang=desclang)
+    queries[desc.replace('~', 'Bangladesh')] = genQuery(p31=p31, desc=desc.replace('~', 'Bangladesh'), desclang=desclang)
+    queries[desc.replace('~', 'Belarus')] = genQuery(p31=p31, desc=desc.replace('~', 'Belarus'), desclang=desclang)
+    queries[desc.replace('~', 'Belgium')] = genQuery(p31=p31, desc=desc.replace('~', 'Belgium'), desclang=desclang)
+    queries[desc.replace('~', 'Benin')] = genQuery(p31=p31, desc=desc.replace('~', 'Benin'), desclang=desclang)
+    queries[desc.replace('~', 'Bolivia')] = genQuery(p31=p31, desc=desc.replace('~', 'Bolivia'), desclang=desclang)
+    queries[desc.replace('~', 'Bosnia and Herzegovina')] = genQuery(p31=p31, desc=desc.replace('~', 'Bosnia and Herzegovina'), desclang=desclang)
+    queries[desc.replace('~', 'Botswana')] = genQuery(p31=p31, desc=desc.replace('~', 'Botswana'), desclang=desclang)
+    queries[desc.replace('~', 'Brazil')] = genQuery(p31=p31, desc=desc.replace('~', 'Brazil'), desclang=desclang)
+    queries[desc.replace('~', 'Brunei')] = genQuery(p31=p31, desc=desc.replace('~', 'Brunei'), desclang=desclang)
+    queries[desc.replace('~', 'Bulgaria')] = genQuery(p31=p31, desc=desc.replace('~', 'Bulgaria'), desclang=desclang)
+    queries[desc.replace('~', 'Burkina Faso')] = genQuery(p31=p31, desc=desc.replace('~', 'Burkina Faso'), desclang=desclang)
+    queries[desc.replace('~', 'Canada')] = genQuery(p31=p31, desc=desc.replace('~', 'Canada'), desclang=desclang)
+    queries[desc.replace('~', 'Chile')] = genQuery(p31=p31, desc=desc.replace('~', 'Chile'), desclang=desclang)
+    queries[desc.replace('~', 'Colombia')] = genQuery(p31=p31, desc=desc.replace('~', 'Colombia'), desclang=desclang)
+    queries[desc.replace('~', 'Croatia')] = genQuery(p31=p31, desc=desc.replace('~', 'Croatia'), desclang=desclang)
+    queries[desc.replace('~', 'Cuba')] = genQuery(p31=p31, desc=desc.replace('~', 'Cuba'), desclang=desclang)
+    queries[desc.replace('~', 'Cyprus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cyprus'), desclang=desclang)
+    queries[desc.replace('~', 'Democratic Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Democratic Republic of the Congo'), desclang=desclang)
+    queries[desc.replace('~', 'Equatorial Guinea')] = genQuery(p31=p31, desc=desc.replace('~', 'Equatorial Guinea'), desclang=desclang)
+    queries[desc.replace('~', 'Ethiopia')] = genQuery(p31=p31, desc=desc.replace('~', 'Ethiopia'), desclang=desclang)
+    queries[desc.replace('~', 'Fiji')] = genQuery(p31=p31, desc=desc.replace('~', 'Fiji'), desclang=desclang)
+    queries[desc.replace('~', 'Gabon')] = genQuery(p31=p31, desc=desc.replace('~', 'Gabon'), desclang=desclang)
+    queries[desc.replace('~', 'Germany')] = genQuery(p31=p31, desc=desc.replace('~', 'Germany'), desclang=desclang)
+    queries[desc.replace('~', 'Ghana')] = genQuery(p31=p31, desc=desc.replace('~', 'Ghana'), desclang=desclang)
+    queries[desc.replace('~', 'Guyana')] = genQuery(p31=p31, desc=desc.replace('~', 'Guyana'), desclang=desclang)
+    queries[desc.replace('~', 'India')] = genQuery(p31=p31, desc=desc.replace('~', 'India'), desclang=desclang)
+    queries[desc.replace('~', 'Indonesia')] = genQuery(p31=p31, desc=desc.replace('~', 'Indonesia'), desclang=desclang)
+    queries[desc.replace('~', 'Iran')] = genQuery(p31=p31, desc=desc.replace('~', 'Iran'), desclang=desclang)
+    queries[desc.replace('~', 'Japan')] = genQuery(p31=p31, desc=desc.replace('~', 'Japan'), desclang=desclang)
+    queries[desc.replace('~', 'Latvia')] = genQuery(p31=p31, desc=desc.replace('~', 'Latvia'), desclang=desclang)
+    queries[desc.replace('~', 'Lebanon')] = genQuery(p31=p31, desc=desc.replace('~', 'Lebanon'), desclang=desclang)
+    queries[desc.replace('~', 'Lithuania')] = genQuery(p31=p31, desc=desc.replace('~', 'Lithuania'), desclang=desclang)
+    queries[desc.replace('~', 'Malaysia')] = genQuery(p31=p31, desc=desc.replace('~', 'Malaysia'), desclang=desclang)
+    queries[desc.replace('~', 'Mexico')] = genQuery(p31=p31, desc=desc.replace('~', 'Mexico'), desclang=desclang)
+    queries[desc.replace('~', 'Mozambique')] = genQuery(p31=p31, desc=desc.replace('~', 'Mozambique'), desclang=desclang)
+    queries[desc.replace('~', 'New Zealand')] = genQuery(p31=p31, desc=desc.replace('~', 'New Zealand'), desclang=desclang)
+    queries[desc.replace('~', 'North Korea')] = genQuery(p31=p31, desc=desc.replace('~', 'North Korea'), desclang=desclang)
+    queries[desc.replace('~', 'Norway')] = genQuery(p31=p31, desc=desc.replace('~', 'Norway'), desclang=desclang)
+    queries[desc.replace('~', 'Pakistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Pakistan'), desclang=desclang)
+    queries[desc.replace('~', "People's Republic of China")] = genQuery(p31=p31, desc=desc.replace('~', "People's Republic of China"), desclang=desclang)
+    queries[desc.replace('~', 'Poland')] = genQuery(p31=p31, desc=desc.replace('~', 'Poland'), desclang=desclang)
+    queries[desc.replace('~', 'Portugal')] = genQuery(p31=p31, desc=desc.replace('~', 'Portugal'), desclang=desclang)
+    queries[desc.replace('~', 'Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Republic of the Congo'), desclang=desclang)
+    queries[desc.replace('~', 'Romania')] = genQuery(p31=p31, desc=desc.replace('~', 'Romania'), desclang=desclang)
+    queries[desc.replace('~', 'Russia')] = genQuery(p31=p31, desc=desc.replace('~', 'Russia'), desclang=desclang)
+    queries[desc.replace('~', 'Serbia')] = genQuery(p31=p31, desc=desc.replace('~', 'Serbia'), desclang=desclang)
+    queries[desc.replace('~', 'Sierra Leone')] = genQuery(p31=p31, desc=desc.replace('~', 'Sierra Leone'), desclang=desclang)
+    queries[desc.replace('~', 'Slovakia')] = genQuery(p31=p31, desc=desc.replace('~', 'Slovakia'), desclang=desclang)
+    queries[desc.replace('~', 'South Africa')] = genQuery(p31=p31, desc=desc.replace('~', 'South Africa'), desclang=desclang)
+    queries[desc.replace('~', 'South Sudan')] = genQuery(p31=p31, desc=desc.replace('~', 'South Sudan'), desclang=desclang)
+    queries[desc.replace('~', 'Spain')] = genQuery(p31=p31, desc=desc.replace('~', 'Spain'), desclang=desclang)
+    queries[desc.replace('~', 'Sweden')] = genQuery(p31=p31, desc=desc.replace('~', 'Sweden'), desclang=desclang)
+    queries[desc.replace('~', 'Taiwan')] = genQuery(p31=p31, desc=desc.replace('~', 'Taiwan'), desclang=desclang)
+    queries[desc.replace('~', 'Turkey')] = genQuery(p31=p31, desc=desc.replace('~', 'Turkey'), desclang=desclang)
+    queries[desc.replace('~', 'the Central African Republic')] = genQuery(p31=p31, desc=desc.replace('~', 'the Central African Republic'), desclang=desclang)
+    queries[desc.replace('~', 'the Philippines')] = genQuery(p31=p31, desc=desc.replace('~', 'the Philippines'), desclang=desclang)
+    queries[desc.replace('~', 'the United Kingdom')] = genQuery(p31=p31, desc=desc.replace('~', 'the United Kingdom'), desclang=desclang)
+    queries[desc.replace('~', 'United States of America')] = genQuery(p31=p31, desc=desc.replace('~', 'United States of America'), desclang=desclang)
+    queries[desc.replace('~', 'Ukraine')] = genQuery(p31=p31, desc=desc.replace('~', 'Ukraine'), desclang=desclang)
+    queries[desc.replace('~', 'Uganda')] = genQuery(p31=p31, desc=desc.replace('~', 'Uganda'), desclang=desclang)
+    queries[desc.replace('~', 'Uruguay')] = genQuery(p31=p31, desc=desc.replace('~', 'Uruguay'), desclang=desclang)
+    queries[desc.replace('~', 'Venezuela')] = genQuery(p31=p31, desc=desc.replace('~', 'Venezuela'), desclang=desclang)
+    queries[desc.replace('~', 'Vietnam')] = genQuery(p31=p31, desc=desc.replace('~', 'Vietnam'), desclang=desclang)
+    queries[desc.replace('~', 'Zambia')] = genQuery(p31=p31, desc=desc.replace('~', 'Zambia'), desclang=desclang)
+    return queries
+
+def genTranslationsByConstellationCore(desc='', desclang=''):
+    translations = {
+        'astronomical galaxy in the constellation ~': { 
+            'en': 'astronomical galaxy in the constellation ~', 
+            'es': 'galaxia de la constelación ~', 
+        }, 
+        'astronomical radio source in the constellation ~': { 
+            'en': 'astronomical radio source in the constellation ~', 
+            'es': 'radiofuente de la constelación ~', 
+        }, 
+        'astrophysical X-ray source in the constellation ~': { 
+            'en': 'astrophysical X-ray source in the constellation ~', 
+            'es': 'fuente de rayos X de la constelación ~', 
+        }, 
+        'eclipsing binary star in the constellation ~': { 
+            'en': 'eclipsing binary star in the constellation ~', 
+            'es': 'binaria eclipsante de la constelación ~', 
+        }, 
+        'galaxy in the constellation ~': { 
+            'en': 'galaxy in the constellation ~', 
+            'es': 'galaxia de la constelación ~', 
+        }, 
+        'globular cluster in the constellation ~': { 
+            'en': 'globular cluster in the constellation ~', 
+            'es': 'cúmulo globular de la constelación ~', 
+        }, 
+        'high proper-motion star in the constellation ~': { 
+            'en': 'high proper-motion star in the constellation ~', 
+            'es': 'estrella con movimiento propio alto de la constelación ~', 
+        }, 
+        'nova in the constellation ~': { 
+            'en': 'nova in the constellation ~', 
+            'es': 'nova de la constelación ~', 
+        }, 
+        'pulsar in the constellation ~': { 
+            'en': 'pulsar in the constellation ~', 
+            'es': 'pulsar de la constelación ~', 
+        }, 
+        'quasar in the constellation ~': { 
+            'en': 'quasar in the constellation ~', 
+            'es': 'quasar de la constelación ~', 
+        }, 
+        'radio source in the constellation ~': { 
+            'en': 'radio source in the constellation ~', 
+            'es': 'radiofuente de la constelación ~', 
+        }, 
+        'star in the constellation ~': { 
+            'en': 'star in the constellation ~', 
+            'es': 'estrella de la constelación ~', 
+        }, 
+        'star cluster in the constellation ~': { 
+            'en': 'star cluster in the constellation ~', 
+            'es': 'cúmulo estelar de la constelación ~', 
+        }, 
+        'supernova in the constellation ~': { 
+            'en': 'supernova in the constellation ~', 
+            'es': 'supernova de la constelación ~', 
+        }, 
+    }
+    return translations[desc][desclang]
+
+def genTranslationsByCountryCore(desc='', desclang=''):
+    translations = {
+        'bay in ~': { 
+            'en': 'bay in ~', 
+            'es': 'bahía de ~', 
+        }, 
+        'bight in ~': { 
+            'en': 'bight in ~', 
+            'es': 'ancón de ~', 
+        }, 
+        'cape in ~': { 
+            'en': 'cape in ~', 
+            'es': 'cabo de ~', 
+        }, 
+        'cave in ~': { 
+            'en': 'cave in ~', 
+            'es': 'cueva de ~', 
+        }, 
+        'dune in ~': { 
+            'en': 'dune in ~', 
+            'es': 'duna de ~', 
+        }, 
+        'glacier in ~': { 
+            'en': 'glacier in ~', 
+            'es': 'glaciar de ~', 
+        }, 
+        'hill in ~': { 
+            'en': 'hill in ~', 
+            'es': 'colina de ~', 
+        }, 
+        'island in ~': { 
+            'en': 'island in ~', 
+            'es': 'isla de ~', 
+        }, 
+        'lagoon in ~': { 
+            'en': 'lagoon in ~', 
+            'es': 'laguna de ~', 
+        }, 
+        'lake in ~': { 
+            'en': 'lake in ~', 
+            'es': 'lago de ~', 
+        }, 
+        'mine in ~': { 
+            'en': 'mine in ~', 
+            'es': 'mina de ~', 
+        }, 
+        'mountain in ~': { 
+            'en': 'mountain in ~', 
+            'es': 'montaña de ~', 
+        }, 
+        'plain in ~': { 
+            'en': 'plain in ~', 
+            'es': 'llanura de ~', 
+        }, 
+        'reef in ~': { 
+            'en': 'reef in ~', 
+            'es': 'arrecife de ~', 
+        }, 
+        'reservoir in ~': { 
+            'en': 'reservoir in ~', 
+            'es': 'embalse de ~', 
+        }, 
+        'river in ~': { 
+            'en': 'river in ~', 
+            'es': 'río de ~', 
+        }, 
+        'road in ~': { 
+            'en': 'road in ~', 
+            'es': 'carretera de ~', 
+        }, 
+        'spring in ~': { 
+            'en': 'spring in ~', 
+            'es': 'manantial de ~', 
+        }, 
+        'stream in ~': { 
+            'en': 'stream in ~', 
+            'es': 'arroyo de ~', 
+        }, 
+        'swamp in ~': { 
+            'en': 'swamp in ~', 
+            'es': 'pantano de ~', 
+        }, 
+        'valley in ~': { 
+            'en': 'valley in ~', 
+            'es': 'valle de ~', 
+        }, 
+        'watercourse in ~': { 
+            'en': 'watercourse in ~', 
+            'es': 'curso de agua de ~', 
+        }, 
+    }
+    return translations[desc][desclang]
+
+def genTranslationsByConstellation(desc=''):
+    translations = {}
+    translations[desc.replace('~', 'Andromeda')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Andromeda'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Andrómeda'), 
+    }
+    translations[desc.replace('~', 'Aquarius')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aquarius'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Acuario'), 
+    }
+    translations[desc.replace('~', 'Aquila')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aquila'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Águila'), 
+    }
+    translations[desc.replace('~', 'Aries')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aries'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Aries'), 
+    }
+    translations[desc.replace('~', 'Auriga')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Auriga'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Auriga'), 
+    }
+    translations[desc.replace('~', 'Camelopardalis')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Camelopardalis'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Camelopardalis'), 
+    }
+    translations[desc.replace('~', 'Cancer')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cancer'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Cáncer'), 
+    }
+    translations[desc.replace('~', 'Capricornus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Capricornus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Capricornio'), 
+    }
+    translations[desc.replace('~', 'Carina')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Carina'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Carina'), 
+    }
+    translations[desc.replace('~', 'Cassiopeia')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cassiopeia'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Casiopea'), 
+    }
+    translations[desc.replace('~', 'Cepheus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cepheus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Cefeo'), 
+    }
+    translations[desc.replace('~', 'Centaurus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Centaurus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Centauro'), 
+    }
+    translations[desc.replace('~', 'Cygnus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cygnus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Cisne'), 
+    }
+    translations[desc.replace('~', 'Draco')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Draco'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Draco'), 
+    }
+    translations[desc.replace('~', 'Gemini')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Gemini'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Géminis'), 
+    }
+    translations[desc.replace('~', 'Hercules')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Hercules'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Hércules'), 
+    }
+    translations[desc.replace('~', 'Hydra')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Hydra'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de la Hidra'), 
+    }
+    translations[desc.replace('~', 'Leo')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Leo'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Leo'), 
+    }
+    translations[desc.replace('~', 'Libra')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Libra'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Libra'), 
+    }
+    translations[desc.replace('~', 'Monoceros')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Monoceros'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Monoceros'), 
+    }
+    translations[desc.replace('~', 'Ophiuchus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Ophiuchus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Ofiuco'), 
+    }
+    translations[desc.replace('~', 'Orion')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Orion'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Orión'), 
+    }
+    translations[desc.replace('~', 'Pegasus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Pegasus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Pegaso'), 
+    }
+    translations[desc.replace('~', 'Perseus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Perseus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Perseo'), 
+    }
+    translations[desc.replace('~', 'Puppis')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Puppis'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de la Popa'), 
+    }
+    translations[desc.replace('~', 'Sagittarius')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sagittarius'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Sagitario'), 
+    }
+    translations[desc.replace('~', 'Scorpius')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Scorpius'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Escorpio'), 
+    }
+    translations[desc.replace('~', 'Sextans')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sextans'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Sextante'), 
+    }
+    translations[desc.replace('~', 'Taurus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Taurus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Tauro'), 
+    }
+    translations[desc.replace('~', 'Vela')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Vela'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Vela'), 
+    }
+    translations[desc.replace('~', 'Virgo')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Virgo'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Virgo'), 
+    }
+    return translations
+
+def genTranslationsByCountry(desc=''):
+    translations = {}
+    translations[desc.replace('~', 'Afghanistan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Afghanistan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Afganistán'), 
+    }
+    translations[desc.replace('~', 'Angola')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Angola'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Angola'), 
+    }
+    translations[desc.replace('~', 'Armenia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Armenia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Armenia'), 
+    }
+    translations[desc.replace('~', 'Australia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'), 
+    }
+    translations[desc.replace('~', 'Bangladesh')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bangladesh'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bangladesh'), 
+    }
+    translations[desc.replace('~', 'Belarus')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belarus'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bielorrusia'), 
+    }
+    translations[desc.replace('~', 'Belgium')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belgium'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bélgica'), 
+    }
+    translations[desc.replace('~', 'Benin')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Benin'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Benín'), 
+    }
+    translations[desc.replace('~', 'Bolivia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'), 
+    }
+    translations[desc.replace('~', 'Bosnia and Herzegovina')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bosnia and Herzegovina'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bosnia y Herzegovina'), 
+    }
+    translations[desc.replace('~', 'Botswana')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Botswana'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Botsuana'), 
+    }
+    translations[desc.replace('~', 'Brazil')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'), 
+    }
+    translations[desc.replace('~', 'Brunei')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brunei'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brunéi'), 
+    }
+    translations[desc.replace('~', 'Bulgaria')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bulgaria'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bulgaria'), 
+    }
+    translations[desc.replace('~', 'Burkina Faso')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Burkina Faso'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Burkina Faso'), 
+    }
+    translations[desc.replace('~', 'Canada')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Canada'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Canadá'), 
+    }
+    translations[desc.replace('~', 'Chile')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Chile'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chile'), 
+    }
+    translations[desc.replace('~', 'Colombia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Colombia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Colombia'), 
+    }
+    translations[desc.replace('~', 'Croatia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Croatia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Croacia'), 
+    }
+    translations[desc.replace('~', 'Cuba')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cuba'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Cuba'), 
+    }
+    translations[desc.replace('~', 'Cyprus')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cyprus'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chipre'), 
+    }
+    translations[desc.replace('~', 'Democratic Republic of the Congo')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Democratic Republic of the Congo'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Democrática del Congo'), 
+    }
+    translations[desc.replace('~', 'Equatorial Guinea')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Equatorial Guinea'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guinea Ecuatorial'), 
+    }
+    translations[desc.replace('~', 'Ethiopia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ethiopia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Etiopía'), 
+    }
+    translations[desc.replace('~', 'Fiji')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'), 
+    }
+    translations[desc.replace('~', 'Gabon')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Gabon'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Gabón'), 
+    }
+    translations[desc.replace('~', 'Germany')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Alemania'), 
+    }
+    translations[desc.replace('~', 'Ghana')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ghana'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ghana'), 
+    }
+    translations[desc.replace('~', 'Guyana')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Guyana'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guyana'), 
+    }
+    translations[desc.replace('~', 'India')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'), 
+    }
+    translations[desc.replace('~', 'Indonesia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'), 
+    }
+    translations[desc.replace('~', 'Iran')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Iran'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Irán'), 
+    }
+    translations[desc.replace('~', 'Japan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Japan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Japón'), 
+    }
+    translations[desc.replace('~', 'Latvia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Latvia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Letonia'), 
+    }
+    translations[desc.replace('~', 'Lebanon')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lebanon'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Líbano'), 
+    }
+    translations[desc.replace('~', 'Lithuania')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lithuania'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Lituania'), 
+    }
+    translations[desc.replace('~', 'Malaysia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Malaysia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Malasia'), 
+    }
+    translations[desc.replace('~', 'Mexico')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mexico'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'México'), 
+    }
+    translations[desc.replace('~', 'Mozambique')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mozambique'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Mozambique'), 
+    }
+    translations[desc.replace('~', 'New Zealand')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'), 
+    }
+    translations[desc.replace('~', 'North Korea')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'North Korea'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Corea del Norte'), 
+    }
+    translations[desc.replace('~', 'Norway')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Norway'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Noruega'), 
+    }
+    translations[desc.replace('~', 'Pakistan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'), 
+    }
+    translations[desc.replace('~', "People's Republic of China")] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', "People's Republic of China"), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la República Popular China'), 
+    }
+    translations[desc.replace('~', 'Poland')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Poland'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Polonia'), 
+    }
+    translations[desc.replace('~', 'Portugal')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Portugal'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Portugal'), 
+    }
+    translations[desc.replace('~', 'Republic of the Congo')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Republic of the Congo'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República del Congo'), 
+    }
+    translations[desc.replace('~', 'Romania')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rumanía'), 
+    }
+    translations[desc.replace('~', 'Russia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'), 
+    }
+    translations[desc.replace('~', 'Serbia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Serbia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Serbia'), 
+    }
+    translations[desc.replace('~', 'Sierra Leone')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sierra Leone'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sierra Leona'), 
+    }
+    translations[desc.replace('~', 'Slovakia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Slovakia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Eslovaquia'), 
+    }
+    translations[desc.replace('~', 'South Africa')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Africa'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudáfrica'), 
+    }
+    translations[desc.replace('~', 'South Sudan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Sudan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudán del Sur'), 
+    }
+    translations[desc.replace('~', 'Spain')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Spain'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'España'), 
+    }
+    translations[desc.replace('~', 'Sweden')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sweden'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Suecia'), 
+    }
+    translations[desc.replace('~', 'Taiwan')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Taiwan'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Taiwán'), 
+    }
+    translations[desc.replace('~', 'Turkey')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Turkey'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Turquía'), 
+    }
+    translations[desc.replace('~', 'the Central African Republic')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'), 
+    }
+    translations[desc.replace('~', 'the Philippines')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
+    }
+    translations[desc.replace('~', 'the United Kingdom')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United Kingdom'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Reino Unido'), 
+    }
+    translations[desc.replace('~', 'United States of America')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'United States of America'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'), 
+    }
+    translations[desc.replace('~', 'Ukraine')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ukraine'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ucrania'), 
+    }
+    translations[desc.replace('~', 'Uganda')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uganda'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uganda'), 
+    }
+    translations[desc.replace('~', 'Uruguay')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uruguay'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uruguay'), 
+    }
+    translations[desc.replace('~', 'Venezuela')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Venezuela'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Venezuela'), 
+    }
+    translations[desc.replace('~', 'Vietnam')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Vietnam'), 
+    }
+    translations[desc.replace('~', 'Zambia')] = {
+        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Zambia'), 
+        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Zambia'), 
+    }
+    return translations
+
 ####################################
 # TRANSLATIONS
 ####################################
@@ -1945,718 +2657,9 @@ for autoquery in autoqueries:
     for k, v in autoquery.items():
         queries[k] = v
 
-def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'):
-    if (not p31 and not p279 and not p105) or not desc or not desclang:
-        print('Error genQuery', p31, p279, p105, desc, desclang)
-        sys.exit()
-    if type(targetdesclang) is list:
-        random.shuffle(targetdesclang)
-        targetdesclang = targetdesclang[0]
-    elif type(targetdesclang) is str:
-        pass
-    else:
-        return []
-    p = ""
-    instance = ""
-    if p31:
-        p = "?item wdt:P31 wd:%s ." % (p31)
-        instance = "?item wdt:P31 ?instance ."
-    elif p279:
-        p = "?item wdt:P279 wd:%s ." % (p279)
-        instance = "?item wdt:P279 ?instance ."
-    elif p105:
-        p = "?item wdt:P105 wd:%s ." % (p105)
-        instance = "?item wdt:P105 ?instance ."
-    else:
-        return []
-    query = [
-        """
-        SELECT ?item
-        WHERE {
-            SERVICE bd:sample {
-                %s
-                bd:serviceParam bd:sample.limit 100000 .
-                bd:serviceParam bd:sample.sampleType "RANDOM" .
-            }
-            %s
-            ?item schema:description "%s"@%s.
-            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
-            FILTER (!BOUND(?itemDescTarget))
-        }
-        GROUP BY ?item
-        HAVING(COUNT(?instance) = 1)
-        #random%s
-        """ % (p, instance, desc, desclang, targetdesclang, random.randint(1, 9999999)) for i in range(100)
-    ]
-    return query
-
-def genQueriesByConstellation(p31='', desc='', desclang=''):
-    #https://query.wikidata.org/#SELECT%20%3FitemDescBase%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%23%3Fitem%20wdt%3AP31%20%3Fp31%20.%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ523%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20100000%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%7D%0A%20%20%23%3Fitem%20wdt%3AP21%20wd%3AQ6581097.%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescBase.%20FILTER%28LANG%28%3FitemDescBase%29%20%3D%20%22en%22%29.%20%20%7D%0A%20%20FILTER%20%28BOUND%28%3FitemDescBase%29%29%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescTarget.%20FILTER%28LANG%28%3FitemDescTarget%29%20%3D%20%22es%22%29.%20%20%7D%0A%20%20FILTER%20%28%21BOUND%28%3FitemDescTarget%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescBase%0AORDER%20BY%20DESC%28%3Fcount%29%0ALIMIT%20100
-    queries = {}
-    queries[desc.replace('~', 'Andromeda')] = genQuery(p31=p31, desc=desc.replace('~', 'Andromeda'), desclang=desclang)
-    queries[desc.replace('~', 'Aquarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquarius'), desclang=desclang)
-    queries[desc.replace('~', 'Aquila')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquila'), desclang=desclang)
-    queries[desc.replace('~', 'Aries')] = genQuery(p31=p31, desc=desc.replace('~', 'Aries'), desclang=desclang)
-    queries[desc.replace('~', 'Auriga')] = genQuery(p31=p31, desc=desc.replace('~', 'Auriga'), desclang=desclang)
-    queries[desc.replace('~', 'Camelopardalis')] = genQuery(p31=p31, desc=desc.replace('~', 'Camelopardalis'), desclang=desclang)
-    queries[desc.replace('~', 'Cancer')] = genQuery(p31=p31, desc=desc.replace('~', 'Cancer'), desclang=desclang)
-    queries[desc.replace('~', 'Capricornus')] = genQuery(p31=p31, desc=desc.replace('~', 'Capricornus'), desclang=desclang)
-    queries[desc.replace('~', 'Carina')] = genQuery(p31=p31, desc=desc.replace('~', 'Carina'), desclang=desclang)
-    queries[desc.replace('~', 'Cassiopeia')] = genQuery(p31=p31, desc=desc.replace('~', 'Cassiopeia'), desclang=desclang)
-    queries[desc.replace('~', 'Cepheus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cepheus'), desclang=desclang)
-    queries[desc.replace('~', 'Centaurus')] = genQuery(p31=p31, desc=desc.replace('~', 'Centaurus'), desclang=desclang)
-    queries[desc.replace('~', 'Cygnus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cygnus'), desclang=desclang)
-    queries[desc.replace('~', 'Draco')] = genQuery(p31=p31, desc=desc.replace('~', 'Draco'), desclang=desclang)
-    queries[desc.replace('~', 'Gemini')] = genQuery(p31=p31, desc=desc.replace('~', 'Gemini'), desclang=desclang)
-    queries[desc.replace('~', 'Hercules')] = genQuery(p31=p31, desc=desc.replace('~', 'Hercules'), desclang=desclang)
-    queries[desc.replace('~', 'Hydra')] = genQuery(p31=p31, desc=desc.replace('~', 'Hydra'), desclang=desclang)
-    queries[desc.replace('~', 'Leo')] = genQuery(p31=p31, desc=desc.replace('~', 'Leo'), desclang=desclang)
-    queries[desc.replace('~', 'Libra')] = genQuery(p31=p31, desc=desc.replace('~', 'Libra'), desclang=desclang)
-    queries[desc.replace('~', 'Monoceros')] = genQuery(p31=p31, desc=desc.replace('~', 'Monoceros'), desclang=desclang)
-    queries[desc.replace('~', 'Ophiuchus')] = genQuery(p31=p31, desc=desc.replace('~', 'Ophiuchus'), desclang=desclang)
-    queries[desc.replace('~', 'Orion')] = genQuery(p31=p31, desc=desc.replace('~', 'Orion'), desclang=desclang)
-    queries[desc.replace('~', 'Pegasus')] = genQuery(p31=p31, desc=desc.replace('~', 'Pegasus'), desclang=desclang)
-    queries[desc.replace('~', 'Perseus')] = genQuery(p31=p31, desc=desc.replace('~', 'Perseus'), desclang=desclang)
-    queries[desc.replace('~', 'Puppis')] = genQuery(p31=p31, desc=desc.replace('~', 'Puppis'), desclang=desclang)
-    queries[desc.replace('~', 'Sagittarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Sagittarius'), desclang=desclang)
-    queries[desc.replace('~', 'Scorpius')] = genQuery(p31=p31, desc=desc.replace('~', 'Scorpius'), desclang=desclang)
-    queries[desc.replace('~', 'Sextans')] = genQuery(p31=p31, desc=desc.replace('~', 'Sextans'), desclang=desclang)
-    queries[desc.replace('~', 'Taurus')] = genQuery(p31=p31, desc=desc.replace('~', 'Taurus'), desclang=desclang)
-    queries[desc.replace('~', 'Vela')] = genQuery(p31=p31, desc=desc.replace('~', 'Vela'), desclang=desclang)
-    queries[desc.replace('~', 'Virgo')] = genQuery(p31=p31, desc=desc.replace('~', 'Virgo'), desclang=desclang)
-    return queries
-
-def genQueriesByCountry(p31='', desc='', desclang=''):
-    queries = {}
-    queries[desc.replace('~', 'Afghanistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Afghanistan'), desclang=desclang)
-    queries[desc.replace('~', 'Angola')] = genQuery(p31=p31, desc=desc.replace('~', 'Angola'), desclang=desclang)
-    queries[desc.replace('~', 'Armenia')] = genQuery(p31=p31, desc=desc.replace('~', 'Armenia'), desclang=desclang)
-    queries[desc.replace('~', 'Australia')] = genQuery(p31=p31, desc=desc.replace('~', 'Australia'), desclang=desclang)
-    queries[desc.replace('~', 'Bangladesh')] = genQuery(p31=p31, desc=desc.replace('~', 'Bangladesh'), desclang=desclang)
-    queries[desc.replace('~', 'Belarus')] = genQuery(p31=p31, desc=desc.replace('~', 'Belarus'), desclang=desclang)
-    queries[desc.replace('~', 'Belgium')] = genQuery(p31=p31, desc=desc.replace('~', 'Belgium'), desclang=desclang)
-    queries[desc.replace('~', 'Benin')] = genQuery(p31=p31, desc=desc.replace('~', 'Benin'), desclang=desclang)
-    queries[desc.replace('~', 'Bolivia')] = genQuery(p31=p31, desc=desc.replace('~', 'Bolivia'), desclang=desclang)
-    queries[desc.replace('~', 'Bosnia and Herzegovina')] = genQuery(p31=p31, desc=desc.replace('~', 'Bosnia and Herzegovina'), desclang=desclang)
-    queries[desc.replace('~', 'Botswana')] = genQuery(p31=p31, desc=desc.replace('~', 'Botswana'), desclang=desclang)
-    queries[desc.replace('~', 'Brazil')] = genQuery(p31=p31, desc=desc.replace('~', 'Brazil'), desclang=desclang)
-    queries[desc.replace('~', 'Brunei')] = genQuery(p31=p31, desc=desc.replace('~', 'Brunei'), desclang=desclang)
-    queries[desc.replace('~', 'Bulgaria')] = genQuery(p31=p31, desc=desc.replace('~', 'Bulgaria'), desclang=desclang)
-    queries[desc.replace('~', 'Burkina Faso')] = genQuery(p31=p31, desc=desc.replace('~', 'Burkina Faso'), desclang=desclang)
-    queries[desc.replace('~', 'Canada')] = genQuery(p31=p31, desc=desc.replace('~', 'Canada'), desclang=desclang)
-    queries[desc.replace('~', 'Chile')] = genQuery(p31=p31, desc=desc.replace('~', 'Chile'), desclang=desclang)
-    queries[desc.replace('~', 'Colombia')] = genQuery(p31=p31, desc=desc.replace('~', 'Colombia'), desclang=desclang)
-    queries[desc.replace('~', 'Croatia')] = genQuery(p31=p31, desc=desc.replace('~', 'Croatia'), desclang=desclang)
-    queries[desc.replace('~', 'Cuba')] = genQuery(p31=p31, desc=desc.replace('~', 'Cuba'), desclang=desclang)
-    queries[desc.replace('~', 'Cyprus')] = genQuery(p31=p31, desc=desc.replace('~', 'Cyprus'), desclang=desclang)
-    queries[desc.replace('~', 'Democratic Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Democratic Republic of the Congo'), desclang=desclang)
-    queries[desc.replace('~', 'Equatorial Guinea')] = genQuery(p31=p31, desc=desc.replace('~', 'Equatorial Guinea'), desclang=desclang)
-    queries[desc.replace('~', 'Ethiopia')] = genQuery(p31=p31, desc=desc.replace('~', 'Ethiopia'), desclang=desclang)
-    queries[desc.replace('~', 'Fiji')] = genQuery(p31=p31, desc=desc.replace('~', 'Fiji'), desclang=desclang)
-    queries[desc.replace('~', 'Gabon')] = genQuery(p31=p31, desc=desc.replace('~', 'Gabon'), desclang=desclang)
-    queries[desc.replace('~', 'Germany')] = genQuery(p31=p31, desc=desc.replace('~', 'Germany'), desclang=desclang)
-    queries[desc.replace('~', 'Ghana')] = genQuery(p31=p31, desc=desc.replace('~', 'Ghana'), desclang=desclang)
-    queries[desc.replace('~', 'Guyana')] = genQuery(p31=p31, desc=desc.replace('~', 'Guyana'), desclang=desclang)
-    queries[desc.replace('~', 'India')] = genQuery(p31=p31, desc=desc.replace('~', 'India'), desclang=desclang)
-    queries[desc.replace('~', 'Indonesia')] = genQuery(p31=p31, desc=desc.replace('~', 'Indonesia'), desclang=desclang)
-    queries[desc.replace('~', 'Iran')] = genQuery(p31=p31, desc=desc.replace('~', 'Iran'), desclang=desclang)
-    queries[desc.replace('~', 'Japan')] = genQuery(p31=p31, desc=desc.replace('~', 'Japan'), desclang=desclang)
-    queries[desc.replace('~', 'Latvia')] = genQuery(p31=p31, desc=desc.replace('~', 'Latvia'), desclang=desclang)
-    queries[desc.replace('~', 'Lebanon')] = genQuery(p31=p31, desc=desc.replace('~', 'Lebanon'), desclang=desclang)
-    queries[desc.replace('~', 'Lithuania')] = genQuery(p31=p31, desc=desc.replace('~', 'Lithuania'), desclang=desclang)
-    queries[desc.replace('~', 'Malaysia')] = genQuery(p31=p31, desc=desc.replace('~', 'Malaysia'), desclang=desclang)
-    queries[desc.replace('~', 'Mexico')] = genQuery(p31=p31, desc=desc.replace('~', 'Mexico'), desclang=desclang)
-    queries[desc.replace('~', 'Mozambique')] = genQuery(p31=p31, desc=desc.replace('~', 'Mozambique'), desclang=desclang)
-    queries[desc.replace('~', 'New Zealand')] = genQuery(p31=p31, desc=desc.replace('~', 'New Zealand'), desclang=desclang)
-    queries[desc.replace('~', 'North Korea')] = genQuery(p31=p31, desc=desc.replace('~', 'North Korea'), desclang=desclang)
-    queries[desc.replace('~', 'Norway')] = genQuery(p31=p31, desc=desc.replace('~', 'Norway'), desclang=desclang)
-    queries[desc.replace('~', 'Pakistan')] = genQuery(p31=p31, desc=desc.replace('~', 'Pakistan'), desclang=desclang)
-    queries[desc.replace('~', "People's Republic of China")] = genQuery(p31=p31, desc=desc.replace('~', "People's Republic of China"), desclang=desclang)
-    queries[desc.replace('~', 'Poland')] = genQuery(p31=p31, desc=desc.replace('~', 'Poland'), desclang=desclang)
-    queries[desc.replace('~', 'Portugal')] = genQuery(p31=p31, desc=desc.replace('~', 'Portugal'), desclang=desclang)
-    queries[desc.replace('~', 'Republic of the Congo')] = genQuery(p31=p31, desc=desc.replace('~', 'Republic of the Congo'), desclang=desclang)
-    queries[desc.replace('~', 'Romania')] = genQuery(p31=p31, desc=desc.replace('~', 'Romania'), desclang=desclang)
-    queries[desc.replace('~', 'Russia')] = genQuery(p31=p31, desc=desc.replace('~', 'Russia'), desclang=desclang)
-    queries[desc.replace('~', 'Serbia')] = genQuery(p31=p31, desc=desc.replace('~', 'Serbia'), desclang=desclang)
-    queries[desc.replace('~', 'Sierra Leone')] = genQuery(p31=p31, desc=desc.replace('~', 'Sierra Leone'), desclang=desclang)
-    queries[desc.replace('~', 'Slovakia')] = genQuery(p31=p31, desc=desc.replace('~', 'Slovakia'), desclang=desclang)
-    queries[desc.replace('~', 'South Africa')] = genQuery(p31=p31, desc=desc.replace('~', 'South Africa'), desclang=desclang)
-    queries[desc.replace('~', 'South Sudan')] = genQuery(p31=p31, desc=desc.replace('~', 'South Sudan'), desclang=desclang)
-    queries[desc.replace('~', 'Spain')] = genQuery(p31=p31, desc=desc.replace('~', 'Spain'), desclang=desclang)
-    queries[desc.replace('~', 'Sweden')] = genQuery(p31=p31, desc=desc.replace('~', 'Sweden'), desclang=desclang)
-    queries[desc.replace('~', 'Taiwan')] = genQuery(p31=p31, desc=desc.replace('~', 'Taiwan'), desclang=desclang)
-    queries[desc.replace('~', 'Turkey')] = genQuery(p31=p31, desc=desc.replace('~', 'Turkey'), desclang=desclang)
-    queries[desc.replace('~', 'the Central African Republic')] = genQuery(p31=p31, desc=desc.replace('~', 'the Central African Republic'), desclang=desclang)
-    queries[desc.replace('~', 'the Philippines')] = genQuery(p31=p31, desc=desc.replace('~', 'the Philippines'), desclang=desclang)
-    queries[desc.replace('~', 'the United Kingdom')] = genQuery(p31=p31, desc=desc.replace('~', 'the United Kingdom'), desclang=desclang)
-    queries[desc.replace('~', 'United States of America')] = genQuery(p31=p31, desc=desc.replace('~', 'United States of America'), desclang=desclang)
-    queries[desc.replace('~', 'Ukraine')] = genQuery(p31=p31, desc=desc.replace('~', 'Ukraine'), desclang=desclang)
-    queries[desc.replace('~', 'Uganda')] = genQuery(p31=p31, desc=desc.replace('~', 'Uganda'), desclang=desclang)
-    queries[desc.replace('~', 'Uruguay')] = genQuery(p31=p31, desc=desc.replace('~', 'Uruguay'), desclang=desclang)
-    queries[desc.replace('~', 'Venezuela')] = genQuery(p31=p31, desc=desc.replace('~', 'Venezuela'), desclang=desclang)
-    queries[desc.replace('~', 'Vietnam')] = genQuery(p31=p31, desc=desc.replace('~', 'Vietnam'), desclang=desclang)
-    queries[desc.replace('~', 'Zambia')] = genQuery(p31=p31, desc=desc.replace('~', 'Zambia'), desclang=desclang)
-    return queries
-
-def genTranslationsByConstellationCore(desc='', desclang=''):
-    translations = {
-        'astronomical galaxy in the constellation ~': { 
-            'en': 'astronomical galaxy in the constellation ~', 
-            'es': 'galaxia de la constelación ~', 
-        }, 
-        'astronomical radio source in the constellation ~': { 
-            'en': 'astronomical radio source in the constellation ~', 
-            'es': 'radiofuente de la constelación ~', 
-        }, 
-        'astrophysical X-ray source in the constellation ~': { 
-            'en': 'astrophysical X-ray source in the constellation ~', 
-            'es': 'fuente de rayos X de la constelación ~', 
-        }, 
-        'eclipsing binary star in the constellation ~': { 
-            'en': 'eclipsing binary star in the constellation ~', 
-            'es': 'binaria eclipsante de la constelación ~', 
-        }, 
-        'galaxy in the constellation ~': { 
-            'en': 'galaxy in the constellation ~', 
-            'es': 'galaxia de la constelación ~', 
-        }, 
-        'globular cluster in the constellation ~': { 
-            'en': 'globular cluster in the constellation ~', 
-            'es': 'cúmulo globular de la constelación ~', 
-        }, 
-        'high proper-motion star in the constellation ~': { 
-            'en': 'high proper-motion star in the constellation ~', 
-            'es': 'estrella con movimiento propio alto de la constelación ~', 
-        }, 
-        'nova in the constellation ~': { 
-            'en': 'nova in the constellation ~', 
-            'es': 'nova de la constelación ~', 
-        }, 
-        'pulsar in the constellation ~': { 
-            'en': 'pulsar in the constellation ~', 
-            'es': 'pulsar de la constelación ~', 
-        }, 
-        'quasar in the constellation ~': { 
-            'en': 'quasar in the constellation ~', 
-            'es': 'quasar de la constelación ~', 
-        }, 
-        'radio source in the constellation ~': { 
-            'en': 'radio source in the constellation ~', 
-            'es': 'radiofuente de la constelación ~', 
-        }, 
-        'star in the constellation ~': { 
-            'en': 'star in the constellation ~', 
-            'es': 'estrella de la constelación ~', 
-        }, 
-        'star cluster in the constellation ~': { 
-            'en': 'star cluster in the constellation ~', 
-            'es': 'cúmulo estelar de la constelación ~', 
-        }, 
-        'supernova in the constellation ~': { 
-            'en': 'supernova in the constellation ~', 
-            'es': 'supernova de la constelación ~', 
-        }, 
-    }
-    return translations[desc][desclang]
-
-def genTranslationsByCountryCore(desc='', desclang=''):
-    translations = {
-        'bay in ~': { 
-            'en': 'bay in ~', 
-            'es': 'bahía de ~', 
-        }, 
-        'bight in ~': { 
-            'en': 'bight in ~', 
-            'es': 'ancón de ~', 
-        }, 
-        'cape in ~': { 
-            'en': 'cape in ~', 
-            'es': 'cabo de ~', 
-        }, 
-        'cave in ~': { 
-            'en': 'cave in ~', 
-            'es': 'cueva de ~', 
-        }, 
-        'dune in ~': { 
-            'en': 'dune in ~', 
-            'es': 'duna de ~', 
-        }, 
-        'glacier in ~': { 
-            'en': 'glacier in ~', 
-            'es': 'glaciar de ~', 
-        }, 
-        'hill in ~': { 
-            'en': 'hill in ~', 
-            'es': 'colina de ~', 
-        }, 
-        'island in ~': { 
-            'en': 'island in ~', 
-            'es': 'isla de ~', 
-        }, 
-        'lagoon in ~': { 
-            'en': 'lagoon in ~', 
-            'es': 'laguna de ~', 
-        }, 
-        'lake in ~': { 
-            'en': 'lake in ~', 
-            'es': 'lago de ~', 
-        }, 
-        'mine in ~': { 
-            'en': 'mine in ~', 
-            'es': 'mina de ~', 
-        }, 
-        'mountain in ~': { 
-            'en': 'mountain in ~', 
-            'es': 'montaña de ~', 
-        }, 
-        'plain in ~': { 
-            'en': 'plain in ~', 
-            'es': 'llanura de ~', 
-        }, 
-        'reef in ~': { 
-            'en': 'reef in ~', 
-            'es': 'arrecife de ~', 
-        }, 
-        'reservoir in ~': { 
-            'en': 'reservoir in ~', 
-            'es': 'embalse de ~', 
-        }, 
-        'river in ~': { 
-            'en': 'river in ~', 
-            'es': 'río de ~', 
-        }, 
-        'road in ~': { 
-            'en': 'road in ~', 
-            'es': 'carretera de ~', 
-        }, 
-        'spring in ~': { 
-            'en': 'spring in ~', 
-            'es': 'manantial de ~', 
-        }, 
-        'stream in ~': { 
-            'en': 'stream in ~', 
-            'es': 'arroyo de ~', 
-        }, 
-        'swamp in ~': { 
-            'en': 'swamp in ~', 
-            'es': 'pantano de ~', 
-        }, 
-        'valley in ~': { 
-            'en': 'valley in ~', 
-            'es': 'valle de ~', 
-        }, 
-        'watercourse in ~': { 
-            'en': 'watercourse in ~', 
-            'es': 'curso de agua de ~', 
-        }, 
-    }
-    return translations[desc][desclang]
-
-def genTranslationsByConstellation(desc=''):
-    translations = {}
-    translations[desc.replace('~', 'Andromeda')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Andromeda'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Andrómeda'), 
-    }
-    translations[desc.replace('~', 'Aquarius')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aquarius'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Acuario'), 
-    }
-    translations[desc.replace('~', 'Aquila')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aquila'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Águila'), 
-    }
-    translations[desc.replace('~', 'Aries')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aries'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Aries'), 
-    }
-    translations[desc.replace('~', 'Auriga')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Auriga'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Auriga'), 
-    }
-    translations[desc.replace('~', 'Camelopardalis')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Camelopardalis'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Camelopardalis'), 
-    }
-    translations[desc.replace('~', 'Cancer')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cancer'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Cáncer'), 
-    }
-    translations[desc.replace('~', 'Capricornus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Capricornus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Capricornio'), 
-    }
-    translations[desc.replace('~', 'Carina')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Carina'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Carina'), 
-    }
-    translations[desc.replace('~', 'Cassiopeia')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cassiopeia'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Casiopea'), 
-    }
-    translations[desc.replace('~', 'Cepheus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cepheus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Cefeo'), 
-    }
-    translations[desc.replace('~', 'Centaurus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Centaurus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Centauro'), 
-    }
-    translations[desc.replace('~', 'Cygnus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cygnus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Cisne'), 
-    }
-    translations[desc.replace('~', 'Draco')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Draco'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Draco'), 
-    }
-    translations[desc.replace('~', 'Gemini')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Gemini'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Géminis'), 
-    }
-    translations[desc.replace('~', 'Hercules')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Hercules'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Hércules'), 
-    }
-    translations[desc.replace('~', 'Hydra')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Hydra'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de la Hidra'), 
-    }
-    translations[desc.replace('~', 'Leo')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Leo'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Leo'), 
-    }
-    translations[desc.replace('~', 'Libra')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Libra'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Libra'), 
-    }
-    translations[desc.replace('~', 'Monoceros')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Monoceros'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Monoceros'), 
-    }
-    translations[desc.replace('~', 'Ophiuchus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Ophiuchus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Ofiuco'), 
-    }
-    translations[desc.replace('~', 'Orion')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Orion'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Orión'), 
-    }
-    translations[desc.replace('~', 'Pegasus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Pegasus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Pegaso'), 
-    }
-    translations[desc.replace('~', 'Perseus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Perseus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Perseo'), 
-    }
-    translations[desc.replace('~', 'Puppis')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Puppis'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de la Popa'), 
-    }
-    translations[desc.replace('~', 'Sagittarius')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sagittarius'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Sagitario'), 
-    }
-    translations[desc.replace('~', 'Scorpius')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Scorpius'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Escorpio'), 
-    }
-    translations[desc.replace('~', 'Sextans')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sextans'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Sextante'), 
-    }
-    translations[desc.replace('~', 'Taurus')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Taurus'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Tauro'), 
-    }
-    translations[desc.replace('~', 'Vela')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Vela'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Vela'), 
-    }
-    translations[desc.replace('~', 'Virgo')] = {
-        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Virgo'), 
-        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Virgo'), 
-    }
-    return translations
-
-def genTranslationsByCountry(desc=''):
-    translations = {}
-    translations[desc.replace('~', 'Afghanistan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Afghanistan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Afganistán'), 
-    }
-    translations[desc.replace('~', 'Angola')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Angola'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Angola'), 
-    }
-    translations[desc.replace('~', 'Armenia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Armenia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Armenia'), 
-    }
-    translations[desc.replace('~', 'Australia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Australia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Australia'), 
-    }
-    translations[desc.replace('~', 'Bangladesh')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bangladesh'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bangladesh'), 
-    }
-    translations[desc.replace('~', 'Belarus')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belarus'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bielorrusia'), 
-    }
-    translations[desc.replace('~', 'Belgium')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Belgium'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bélgica'), 
-    }
-    translations[desc.replace('~', 'Benin')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Benin'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Benín'), 
-    }
-    translations[desc.replace('~', 'Bolivia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bolivia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bolivia'), 
-    }
-    translations[desc.replace('~', 'Bosnia and Herzegovina')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bosnia and Herzegovina'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bosnia y Herzegovina'), 
-    }
-    translations[desc.replace('~', 'Botswana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Botswana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Botsuana'), 
-    }
-    translations[desc.replace('~', 'Brazil')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brazil'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brasil'), 
-    }
-    translations[desc.replace('~', 'Brunei')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Brunei'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Brunéi'), 
-    }
-    translations[desc.replace('~', 'Bulgaria')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Bulgaria'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Bulgaria'), 
-    }
-    translations[desc.replace('~', 'Burkina Faso')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Burkina Faso'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Burkina Faso'), 
-    }
-    translations[desc.replace('~', 'Canada')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Canada'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Canadá'), 
-    }
-    translations[desc.replace('~', 'Chile')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Chile'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chile'), 
-    }
-    translations[desc.replace('~', 'Colombia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Colombia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Colombia'), 
-    }
-    translations[desc.replace('~', 'Croatia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Croatia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Croacia'), 
-    }
-    translations[desc.replace('~', 'Cuba')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cuba'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Cuba'), 
-    }
-    translations[desc.replace('~', 'Cyprus')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Cyprus'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Chipre'), 
-    }
-    translations[desc.replace('~', 'Democratic Republic of the Congo')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Democratic Republic of the Congo'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Democrática del Congo'), 
-    }
-    translations[desc.replace('~', 'Equatorial Guinea')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Equatorial Guinea'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guinea Ecuatorial'), 
-    }
-    translations[desc.replace('~', 'Ethiopia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ethiopia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Etiopía'), 
-    }
-    translations[desc.replace('~', 'Fiji')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Fiji'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Fiji'), 
-    }
-    translations[desc.replace('~', 'Gabon')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Gabon'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Gabón'), 
-    }
-    translations[desc.replace('~', 'Germany')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Germany'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Alemania'), 
-    }
-    translations[desc.replace('~', 'Ghana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ghana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ghana'), 
-    }
-    translations[desc.replace('~', 'Guyana')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Guyana'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Guyana'), 
-    }
-    translations[desc.replace('~', 'India')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'India'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la India'), 
-    }
-    translations[desc.replace('~', 'Indonesia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Indonesia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Indonesia'), 
-    }
-    translations[desc.replace('~', 'Iran')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Iran'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Irán'), 
-    }
-    translations[desc.replace('~', 'Japan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Japan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Japón'), 
-    }
-    translations[desc.replace('~', 'Latvia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Latvia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Letonia'), 
-    }
-    translations[desc.replace('~', 'Lebanon')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lebanon'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Líbano'), 
-    }
-    translations[desc.replace('~', 'Lithuania')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Lithuania'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Lituania'), 
-    }
-    translations[desc.replace('~', 'Malaysia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Malaysia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Malasia'), 
-    }
-    translations[desc.replace('~', 'Mexico')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mexico'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'México'), 
-    }
-    translations[desc.replace('~', 'Mozambique')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Mozambique'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Mozambique'), 
-    }
-    translations[desc.replace('~', 'New Zealand')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'New Zealand'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Nueva Zelanda'), 
-    }
-    translations[desc.replace('~', 'North Korea')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'North Korea'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Corea del Norte'), 
-    }
-    translations[desc.replace('~', 'Norway')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Norway'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Noruega'), 
-    }
-    translations[desc.replace('~', 'Pakistan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Pakistan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Pakistán'), 
-    }
-    translations[desc.replace('~', "People's Republic of China")] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', "People's Republic of China"), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'la República Popular China'), 
-    }
-    translations[desc.replace('~', 'Poland')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Poland'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Polonia'), 
-    }
-    translations[desc.replace('~', 'Portugal')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Portugal'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Portugal'), 
-    }
-    translations[desc.replace('~', 'Republic of the Congo')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Republic of the Congo'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República del Congo'), 
-    }
-    translations[desc.replace('~', 'Romania')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Romania'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rumanía'), 
-    }
-    translations[desc.replace('~', 'Russia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Russia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Rusia'), 
-    }
-    translations[desc.replace('~', 'Serbia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Serbia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Serbia'), 
-    }
-    translations[desc.replace('~', 'Sierra Leone')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sierra Leone'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sierra Leona'), 
-    }
-    translations[desc.replace('~', 'Slovakia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Slovakia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Eslovaquia'), 
-    }
-    translations[desc.replace('~', 'South Africa')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Africa'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudáfrica'), 
-    }
-    translations[desc.replace('~', 'South Sudan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'South Sudan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Sudán del Sur'), 
-    }
-    translations[desc.replace('~', 'Spain')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Spain'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'España'), 
-    }
-    translations[desc.replace('~', 'Sweden')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Sweden'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Suecia'), 
-    }
-    translations[desc.replace('~', 'Taiwan')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Taiwan'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Taiwán'), 
-    }
-    translations[desc.replace('~', 'Turkey')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Turkey'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Turquía'), 
-    }
-    translations[desc.replace('~', 'the Central African Republic')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Central African Republic'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'República Centroafricana'), 
-    }
-    translations[desc.replace('~', 'the Philippines')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the Philippines'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Filipinas'), 
-    }
-    translations[desc.replace('~', 'the United Kingdom')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'the United Kingdom'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Reino Unido'), 
-    }
-    translations[desc.replace('~', 'United States of America')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'United States of America'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Estados Unidos'), 
-    }
-    translations[desc.replace('~', 'Ukraine')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Ukraine'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Ucrania'), 
-    }
-    translations[desc.replace('~', 'Uganda')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uganda'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uganda'), 
-    }
-    translations[desc.replace('~', 'Uruguay')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Uruguay'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Uruguay'), 
-    }
-    translations[desc.replace('~', 'Venezuela')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Venezuela'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Venezuela'), 
-    }
-    translations[desc.replace('~', 'Vietnam')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Vietnam'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Vietnam'), 
-    }
-    translations[desc.replace('~', 'Zambia')] = {
-        'en': genTranslationsByCountryCore(desc=desc, desclang='en').replace('~', 'Zambia'), 
-        'es': genTranslationsByCountryCore(desc=desc, desclang='es').replace('~', 'Zambia'), 
-    }
-    return translations
-
 def main():
+    global translations
+    global queries
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     queries_list = [x for x in queries.keys()]
