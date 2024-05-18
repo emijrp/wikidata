@@ -2729,7 +2729,6 @@ def main():
     if len(sys.argv) > 1:
         topicarg = sys.argv[1].strip()
     for topic in queries_list:
-        print("%s\nTOPIC: %s\n%s" % ("-"*50, topic, "-"*50))
         topic_ = re.sub(' ', '-', topic.lower())
         topicarg_ = re.sub(' ', '-', topicarg.lower())
         if topicarg:
@@ -2739,9 +2738,11 @@ def main():
         elif not topic in topics:
             continue
         
+        print("%s\nTOPIC: %s\n%s" % ("-"*50, topic, "-"*50))
         c = 0
         ctotal = 0
         for url in queries[topic]:
+            time.sleep(5)
             url = url.strip()
             if not url.startswith('http'):
                 url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(url))
