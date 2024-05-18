@@ -60,8 +60,9 @@ def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'
         }
         GROUP BY ?item
         HAVING(COUNT(?instance) = 1)
+        LIMIT 1000
         #random%s
-        """ % (p, instance, desc, desclang, targetdesclang, random.randint(1, 9999999)) for i in range(100)
+        """ % (p, instance, desc, desclang, targetdesclang, random.randint(1, 9999999)) for i in range(10)
     ]
     return query
 
