@@ -24,7 +24,6 @@ import urllib.parse
 import pywikibot
 from wikidatafun import *
 
-
 def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'):
     if (not p31 and not p279 and not p105) or not desc or not desclang:
         print('Error genQuery', p31, p279, p105, desc, desclang)
@@ -32,10 +31,6 @@ def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'
     if type(targetdesclang) is list:
         random.shuffle(targetdesclang)
         targetdesclang = targetdesclang[0]
-    elif type(targetdesclang) is str:
-        pass
-    else:
-        return []
     p = ""
     instance = ""
     if p31:
