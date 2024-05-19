@@ -28,43 +28,46 @@ def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'
     if (not p31 and not p279 and not p105) or not desc or not desclang:
         print('Error genQuery', p31, p279, p105, desc, desclang)
         sys.exit()
-    if type(targetdesclang) is list:
-        random.shuffle(targetdesclang)
-        targetdesclang = targetdesclang[0]
-    p = ""
-    instance = ""
-    if p31:
-        p = "?item wdt:P31 wd:%s ." % (p31)
-        instance = "?item wdt:P31 ?instance ."
-    elif p279:
-        p = "?item wdt:P279 wd:%s ." % (p279)
-        instance = "?item wdt:P279 ?instance ."
-    elif p105:
-        p = "?item wdt:P105 wd:%s ." % (p105)
-        instance = "?item wdt:P105 ?instance ."
-    else:
-        return []
-    query = [
-        """
-        SELECT ?item
-        WHERE {
-            SERVICE bd:sample {
+    queries = []
+    for i in range(10):
+        if type(targetdesclang) is list:
+            random.shuffle(targetdesclang)
+            targetdesclang2 = targetdesclang[0]
+        else:
+            targetdesclang2 = targetdesclang
+        p = ""
+        instance = ""
+        if p31:
+            p = "?item wdt:P31 wd:%s ." % (p31)
+            instance = "?item wdt:P31 ?instance ."
+        elif p279:
+            p = "?item wdt:P279 wd:%s ." % (p279)
+            instance = "?item wdt:P279 ?instance ."
+        elif p105:
+            p = "?item wdt:P105 wd:%s ." % (p105)
+            instance = "?item wdt:P105 ?instance ."
+        else:
+            return []
+        query = """
+            SELECT ?item
+            WHERE {
+                SERVICE bd:sample {
+                    %s
+                    bd:serviceParam bd:sample.limit 100000 .
+                    bd:serviceParam bd:sample.sampleType "RANDOM" .
+                }
                 %s
-                bd:serviceParam bd:sample.limit 100000 .
-                bd:serviceParam bd:sample.sampleType "RANDOM" .
+                ?item schema:description "%s"@%s.
+                OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
+                FILTER (!BOUND(?itemDescTarget))
             }
-            %s
-            ?item schema:description "%s"@%s.
-            OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
-            FILTER (!BOUND(?itemDescTarget))
-        }
-        GROUP BY ?item
-        HAVING(COUNT(?instance) = 1)
-        LIMIT 1000
-        #random%s
-        """ % (p, instance, desc, desclang, targetdesclang, random.randint(1, 9999999)) for i in range(10)
-    ]
-    return query
+            GROUP BY ?item
+            HAVING(COUNT(?instance) = 1)
+            LIMIT 1000
+            #random%s
+            """ % (p, instance, desc, desclang, targetdesclang2, random.randint(1, 9999999))
+        queries.append(query)
+    return queries
 
 def genQueriesByConstellation(p31='', desc='', desclang=''):
     #https://query.wikidata.org/#SELECT%20%3FitemDescBase%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%23%3Fitem%20wdt%3AP31%20%3Fp31%20.%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ523%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20100000%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%7D%0A%20%20%23%3Fitem%20wdt%3AP21%20wd%3AQ6581097.%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescBase.%20FILTER%28LANG%28%3FitemDescBase%29%20%3D%20%22en%22%29.%20%20%7D%0A%20%20FILTER%20%28BOUND%28%3FitemDescBase%29%29%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescTarget.%20FILTER%28LANG%28%3FitemDescTarget%29%20%3D%20%22es%22%29.%20%20%7D%0A%20%20FILTER%20%28%21BOUND%28%3FitemDescTarget%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescBase%0AORDER%20BY%20DESC%28%3Fcount%29%0ALIMIT%20100
