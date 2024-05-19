@@ -2673,7 +2673,7 @@ def main():
     random.shuffle(queries_list)
     skip = ''
     topics = [ #uncomment topics you want to run the bot on
-        #'asteroid',
+        'asteroid',
         'chemical compound',
         'clinical trial',
         
