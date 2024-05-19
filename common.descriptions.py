@@ -1056,6 +1056,8 @@ translations = {
         'es': 'douar de Marruecos',
         'fr': 'douar marocain',
         'nl': 'douar in Marokko',
+        'sl': 'douar v Maroku',
+        'vi': 'douar của Maroc',
     }, 
     'encyclopedic article': { #Q17329259
         'ar': 'مقالة موسوعية',
