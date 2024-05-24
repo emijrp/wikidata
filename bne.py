@@ -1191,38 +1191,42 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
             day = 2
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
+    countries = [ # de momento solo hispanohablantes, los libros de nativos en otros idiomas cuidado
+        "Q29", #españa
+        "Q96", #mexico
+    ]
     queries = [
         """
         SELECT DISTINCT ?item
         WHERE {
           ?item wdt:P31 wd:Q5.
           ?item wdt:P569 ?birthdate.
-          ?item wdt:P27 wd:Q29.
+          ?item wdt:P27 wd:%s.
           ?item wdt:P106 ?occupation.
           VALUES ?occupation {wd:Q36180 wd:Q11774202 wd:Q201788 wd:Q1930187 wd:Q1622272 wd:Q4964182 wd:Q6625963 
-                              wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 }.
-                              #wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
-                              #wd:Q170790 wd:Q2516866 wd:Q2306091}.
+                              wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 
+                              wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
+                              wd:Q170790 wd:Q2516866 wd:Q2306091}.
           ?item wdt:P950 ?bne.
-          FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
+          FILTER (?birthdate >= "1880-01-01"^^xsd:dateTime && ?birthdate < "2004-01-01"^^xsd:dateTime).
           FILTER (MONTH(?birthdate) = %d && DAY(?birthdate) = %d).
         }
         ORDER BY ?birthdate
-        """ % (month, day), 
+        """ % (country, month, day) for country in countries 
     ]
-    if year and year >= 1900 and year < 2000:
+    if year and year >= 1880 and year < 2004:
         queries = [
             """
             SELECT DISTINCT ?item (MD5(CONCAT(str(?item),str(RAND()))) as ?random)
             WHERE {
               ?item wdt:P31 wd:Q5.
               ?item wdt:P569 ?birthdate.
-              ?item wdt:P27 wd:Q29.
+              ?item wdt:P27 wd:%s.
               ?item wdt:P106 ?occupation.
               VALUES ?occupation {wd:Q36180 wd:Q11774202 wd:Q201788 wd:Q1930187 wd:Q1622272 wd:Q4964182 wd:Q6625963 
-                                  wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 }.
-                                  #wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
-                                  #wd:Q170790 wd:Q2516866 wd:Q2306091}.
+                                  wd:Q214917 wd:Q1792450 wd:Q37226 wd:Q14467526 wd:Q13418253 wd:Q4263842 wd:Q193391 
+                                  wd:Q188094 wd:Q1650915 wd:Q182436 wd:Q121594 wd:Q4853732 wd:Q3621491 wd:Q482980 
+                                  wd:Q170790 wd:Q2516866 wd:Q2306091}.
               ?item wdt:P950 ?bne.
               FILTER (?birthdate >= "%d-01-01"^^xsd:dateTime && ?birthdate < "%d-01-01"^^xsd:dateTime).
               FILTER (MONTH(?birthdate) = 1 && DAY(?birthdate) = 1).
@@ -1230,7 +1234,7 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
             ORDER BY ?random
             LIMIT 50
             #random%d
-            """ % (year, year+1, random.randint(1,9999999)), 
+            """ % (country, year, year+1, random.randint(1,9999999)) for country in countries
         ]
         
     for query in queries:
@@ -1515,11 +1519,14 @@ def bneCore(qlist=[]):
                     print("ISBN usado ya en otra edicion, saltamos", isbn)
                     continue
                 usedisbns.append(isbn) #no meter isbn10 pq puede ser vacio y luego la comparacion dice q si siempre
-                if isbn10 and not isbn10.startswith("84"):
-                    print("ISBN10 no de Espana, saltamos", isbn10)
-                    continue
-                if isbn13 and not isbn13.startswith("978-84") and not isbn13.startswith("97884"):
-                    print("ISBN13 no de Espana, saltamos", isbn13)
+                #quito comprobacion isbn10 al ir metiendo otros paises a parte de españa
+                #if isbn10 and not isbn10.startswith("84"):
+                #    print("ISBN10 no de Espana, saltamos", isbn10)
+                #    continue
+                #if isbn13 and not isbn13.startswith("978-84") and not isbn13.startswith("97884"):
+                if isbn13 and not isbn13.startswith("978"):
+                    #print("ISBN13 no de Espana, saltamos", isbn13)
+                    print("ISBN13 no 978, saltamos", isbn13)
                     continue
                 #legal deposit
                 m = re.findall(r"(?im)<ns\d:P3009>([^<>]+?)</ns\d:P3009>", rawresource)
