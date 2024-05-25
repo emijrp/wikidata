@@ -210,6 +210,10 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
             'en': 'astronomical galaxy in the constellation ~', 
             'es': 'galaxia de la constelación ~', 
         }, 
+        'astronomical object in the constellation ~': { 
+            'en': 'astronomical object in the constellation ~', 
+            'es': 'objeto astronómico de la constelación ~', 
+        }, 
         'astronomical radio source in the constellation ~': { 
             'en': 'astronomical radio source in the constellation ~', 
             'es': 'radiofuente de la constelación ~', 
@@ -2613,6 +2617,7 @@ autotranslations.append(genTranslationsByCountry(desc='watercourse in ~'))
 autotranslations.append(genTranslationsByConstellation(desc='active galactic nucleus in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='asterism in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='astronomical galaxy in the constellation ~'))
+autotranslations.append(genTranslationsByConstellation(desc='astronomical object in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='astrophysical X-ray source in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='astronomical radio source in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='eclipsing binary star in the constellation ~'))
@@ -2800,6 +2805,7 @@ autoqueries.append(genQueriesByConstellation(p31='Q318', desc='galaxy in the con
 autoqueries.append(genQueriesByConstellation(p31='Q11276', desc='globular cluster in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q2247863', desc='high proper-motion star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q6458', desc='nova in the constellation ~', desclang='en'))
+autoqueries.append(genQueriesByConstellation(p31='Q6999', desc='astronomical object in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q4360', desc='pulsar in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q83373', desc='quasar in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q1931185', desc='radio source in the constellation ~', desclang='en'))
