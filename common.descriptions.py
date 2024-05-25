@@ -73,6 +73,8 @@ def genQueriesByConstellation(p31='', desc='', desclang=''):
     #https://query.wikidata.org/#SELECT%20%3FitemDescBase%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%23%3Fitem%20wdt%3AP31%20%3Fp31%20.%0A%20%20%20%20%3Fitem%20wdt%3AP31%20wd%3AQ523%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20100000%20.%0A%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%7D%0A%20%20%23%3Fitem%20wdt%3AP21%20wd%3AQ6581097.%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescBase.%20FILTER%28LANG%28%3FitemDescBase%29%20%3D%20%22en%22%29.%20%20%7D%0A%20%20FILTER%20%28BOUND%28%3FitemDescBase%29%29%0A%20%20OPTIONAL%20%7B%20%3Fitem%20schema%3Adescription%20%3FitemDescTarget.%20FILTER%28LANG%28%3FitemDescTarget%29%20%3D%20%22es%22%29.%20%20%7D%0A%20%20FILTER%20%28%21BOUND%28%3FitemDescTarget%29%29%0A%7D%0AGROUP%20BY%20%3FitemDescBase%0AORDER%20BY%20DESC%28%3Fcount%29%0ALIMIT%20100
     queries = {}
     queries[desc.replace('~', 'Andromeda')] = genQuery(p31=p31, desc=desc.replace('~', 'Andromeda'), desclang=desclang)
+    queries[desc.replace('~', 'Antlia')] = genQuery(p31=p31, desc=desc.replace('~', 'Antlia'), desclang=desclang)
+    queries[desc.replace('~', 'Apus')] = genQuery(p31=p31, desc=desc.replace('~', 'Apus'), desclang=desclang)
     queries[desc.replace('~', 'Aquarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquarius'), desclang=desclang)
     queries[desc.replace('~', 'Aquila')] = genQuery(p31=p31, desc=desc.replace('~', 'Aquila'), desclang=desclang)
     queries[desc.replace('~', 'Ara')] = genQuery(p31=p31, desc=desc.replace('~', 'Ara'), desclang=desclang)
@@ -81,7 +83,9 @@ def genQueriesByConstellation(p31='', desc='', desclang=''):
     queries[desc.replace('~', 'Boötes')] = genQuery(p31=p31, desc=desc.replace('~', 'Boötes'), desclang=desclang)
     queries[desc.replace('~', 'Camelopardalis')] = genQuery(p31=p31, desc=desc.replace('~', 'Camelopardalis'), desclang=desclang)
     queries[desc.replace('~', 'Cancer')] = genQuery(p31=p31, desc=desc.replace('~', 'Cancer'), desclang=desclang)
+    queries[desc.replace('~', 'Canes Venatici‎')] = genQuery(p31=p31, desc=desc.replace('~', 'Canes Venatici‎'), desclang=desclang)
     queries[desc.replace('~', 'Canis Major')] = genQuery(p31=p31, desc=desc.replace('~', 'Canis Major'), desclang=desclang)
+    queries[desc.replace('~', 'Canis Minor')] = genQuery(p31=p31, desc=desc.replace('~', 'Canis Minor'), desclang=desclang)
     queries[desc.replace('~', 'Capricornus')] = genQuery(p31=p31, desc=desc.replace('~', 'Capricornus'), desclang=desclang)
     queries[desc.replace('~', 'Carina')] = genQuery(p31=p31, desc=desc.replace('~', 'Carina'), desclang=desclang)
     queries[desc.replace('~', 'Cassiopeia')] = genQuery(p31=p31, desc=desc.replace('~', 'Cassiopeia'), desclang=desclang)
@@ -346,6 +350,14 @@ def genTranslationsByConstellation(desc=''):
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Andromeda'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Andrómeda'), 
     }
+    translations[desc.replace('~', 'Antlia')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Antlia'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Antlia'), 
+    }
+    translations[desc.replace('~', 'Apus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Apus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Apus'), 
+    }
     translations[desc.replace('~', 'Aquarius')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Aquarius'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Acuario'), 
@@ -378,9 +390,17 @@ def genTranslationsByConstellation(desc=''):
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Cancer'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Cáncer'), 
     }
+    translations[desc.replace('~', 'Canes Venatici‎')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Canes Venatici‎'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Canes Venatici‎'), 
+    }
     translations[desc.replace('~', 'Canis Major')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Canis Major'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Can Mayor'), 
+    }
+    translations[desc.replace('~', 'Canis Minor')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Canis Minor'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Can Menor'), 
     }
     translations[desc.replace('~', 'Capricornus')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Capricornus'), 
