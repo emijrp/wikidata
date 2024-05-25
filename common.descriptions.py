@@ -222,6 +222,10 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
             'en': 'astrophysical X-ray source in the constellation ~', 
             'es': 'fuente de rayos X de la constelación ~', 
         }, 
+        'brightest cluster galaxy in the constellation ~': { 
+            'en': 'brightest cluster galaxy in the constellation ~', 
+            'es': 'galaxia más brillante de cúmulo de la constelación ~', 
+        }, 
         'eclipsing binary star in the constellation ~': { 
             'en': 'eclipsing binary star in the constellation ~', 
             'es': 'binaria eclipsante de la constelación ~', 
@@ -2620,6 +2624,7 @@ autotranslations.append(genTranslationsByConstellation(desc='astronomical galaxy
 autotranslations.append(genTranslationsByConstellation(desc='astronomical object in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='astrophysical X-ray source in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='astronomical radio source in the constellation ~'))
+autotranslations.append(genTranslationsByConstellation(desc='brightest cluster galaxy in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='eclipsing binary star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='galaxy in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='globular cluster in the constellation ~'))
@@ -2800,6 +2805,7 @@ autoqueries.append(genQueriesByConstellation(p31='Q9262', desc='asterism in the 
 autoqueries.append(genQueriesByConstellation(p31='Q318', desc='astronomical galaxy in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q1931185', desc='astronomical radio source in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q2154519', desc='astrophysical X-ray source in the constellation ~', desclang='en'))
+autoqueries.append(genQueriesByConstellation(p31='Q1151284', desc='brightest cluster galaxy in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q1457376', desc='eclipsing binary star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q318', desc='galaxy in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q11276', desc='globular cluster in the constellation ~', desclang='en'))
