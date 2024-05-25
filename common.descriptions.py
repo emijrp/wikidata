@@ -794,6 +794,20 @@ fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
     'galaxy': {
         'es': ['galaxy'], 
     },
+    'researcher female': {
+        'ast': ['investigador/a'],
+        'ca': ['investigador/a'],
+        'es': ['investigador/a'],
+        'gl': ['investigador/a'],
+        'pt': ['investigador/a'],
+    },
+    'researcher male': {
+        'ast': ['investigador/a'],
+        'ca': ['investigador/a'],
+        'es': ['investigador/a'],
+        'gl': ['investigador/a'],
+        'pt': ['investigador/a'],
+    },
     'species of insect': {
         'sq': ['specie e insekteve'], #https://github.com/emijrp/wikidata/pull/47
     },
@@ -1790,25 +1804,19 @@ translations = {
         'gl': 'proxecto de investigación',
     }, 
     'researcher': {
-        'ast': 'investigador',
-        'ca': 'investigador',
+        'ast': 'investigador/a',
+        'ca': 'investigador/a',
         'en': 'researcher',
-        'en-ca': 'researcher',
-        'en-gb': 'researcher',
-        'en-us': 'researcher',
         'es': 'investigador/a',
-        'fr': 'chercheur',
-        'gl': 'investigador',
-        'it': 'ricercatore',
-        'pt': 'investigador',
+        #'fr': 'chercheur', French: chercheur (fr) m, chercheuse (fr) f
+        'gl': 'investigador/a',
+        #'it': 'ricercatore', Italian: ricercatore (it) m, ricercatrice (it) f
+        'pt': 'investigador/a',
     },
     'researcher female': {
         'ast': 'investigadora',
         'ca': 'investigadora',
         'en': 'researcher',
-        'en-ca': 'researcher',
-        'en-gb': 'researcher',
-        'en-us': 'researcher',
         'es': 'investigadora',
         'fr': 'chercheuse',
         'gl': 'investigadora',
@@ -1819,9 +1827,6 @@ translations = {
         'ast': 'investigador',
         'ca': 'investigador',
         'en': 'researcher',
-        'en-ca': 'researcher',
-        'en-gb': 'researcher',
-        'en-us': 'researcher',
         'es': 'investigador',
         'fr': 'chercheur',
         'gl': 'investigador',
@@ -2614,41 +2619,57 @@ queries = {
     """
     SELECT ?item
     WHERE {
+      SERVICE bd:sample {
         ?item wdt:P31 wd:Q5 .
-        OPTIONAL { ?item wdt:P21 ?instance . }
-        ?item schema:description "researcher"@en.
+        bd:serviceParam bd:sample.limit 100000 .
+        bd:serviceParam bd:sample.sampleType "RANDOM" .
+      }
+      OPTIONAL { ?item wdt:P21 ?instance . }
+      ?item schema:description "researcher"@en.
+      OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
+      FILTER (!BOUND(?itemDescTarget))
     }
     GROUP BY ?item
     HAVING(COUNT(?instance) = 0)
-    LIMIT %s
-    OFFSET %s
-    """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
+    """ % (itemDescTargetLang) for itemDescTargetLang in translations["researcher"].keys()
     ], 
     
     'researcher female': [
     """
     SELECT ?item
     WHERE {
+      SERVICE bd:sample {
         ?item wdt:P31 wd:Q5 .
-        ?item wdt:P21 wd:Q6581072 .
-        ?item schema:description "researcher"@en.
+        bd:serviceParam bd:sample.limit 100000 .
+        bd:serviceParam bd:sample.sampleType "RANDOM" .
+      }
+      ?item wdt:P21 wd:Q6581072 .
+      ?item schema:description "researcher"@en.
+      OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
+      FILTER (!BOUND(?itemDescTarget))
     }
-    LIMIT %s
-    OFFSET %s
-    """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
+    GROUP BY ?item
+    HAVING(COUNT(?instance) = 0)
+    """ % (itemDescTargetLang) for itemDescTargetLang in translations["researcher"].keys()
     ], 
     
     'researcher male': [
     """
     SELECT ?item
     WHERE {
+      SERVICE bd:sample {
         ?item wdt:P31 wd:Q5 .
-        ?item wdt:P21 wd:Q6581097 .
-        ?item schema:description "researcher"@en.
+        bd:serviceParam bd:sample.limit 100000 .
+        bd:serviceParam bd:sample.sampleType "RANDOM" .
+      }
+      ?item wdt:P21 wd:Q6581097 .
+      ?item schema:description "researcher"@en.
+      OPTIONAL { ?item schema:description ?itemDescTarget. FILTER(LANG(?itemDescTarget) = "%s"). }
+      FILTER (!BOUND(?itemDescTarget))
     }
-    LIMIT %s
-    OFFSET %s
-    """ % (str(querylimit), str(offset)) for offset in range(0, 5000000, querylimit)
+    GROUP BY ?item
+    HAVING(COUNT(?instance) = 0)
+    """ % (itemDescTargetLang) for itemDescTargetLang in translations["researcher"].keys()
     ], 
     
     #'scientific article': [''], # use scientific.articles.py // hay quien pone la fecha https://www.wikidata.org/wiki/Q19983493
@@ -2776,9 +2797,9 @@ def main():
         'prime number',
         
         #'research project',
-        #'researcher',
-        #'researcher female',
-        #'researcher male',
+        'researcher',
+        'researcher female',
+        'researcher male',
         
         #'shipwreck off the Scottish coast',
         
