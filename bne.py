@@ -1661,14 +1661,15 @@ def bneCore(qlist=[]):
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
 
 def main():
-    days = [1, 90, 180, 270]
+    #days = [1, 90, 180, 270]
+    days = [1] # revisando pq algunos los crea sin propiedades < 1000 bytes https://www.wikidata.org/wiki/Special:NewPages?namespace=0&tagfilter=&username=Emijrpbot&size-mode=max&size=1000&wpFormIdentifier=newpagesform
     for day in days:
         try:
             bne(qlist=list(set(getAuthorsByDate(daysfromtoday=day)) - set(getAuthorsDone())))
         except:
             pass
         time.sleep(60)
-    bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone()))) #fechas de nacimiento con solo año
+    #bne(qlist=list(set(getAuthorsByDate(year=random.randint(1900, 2000))) - set(getAuthorsDone()))) #fechas de nacimiento con solo año
     bne(qlist=list(set(getAuthorsByDate(daysfromtoday=-30)))) #repasar los que hayan podido fallar, con un retraso de 30 días
 
 if __name__ == "__main__":
