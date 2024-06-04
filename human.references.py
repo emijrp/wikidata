@@ -521,7 +521,7 @@ def main():
                 
                 try:
                     addHumanRef(repo=repo, item=item) #bne, orcid, google scholar...
-                    addGenderRef(repo=repo, item=item)
+                    #addGenderRef(repo=repo, item=item)
                     #addCitizenshipRef(repo=repo, item=item)
                     addGivennameRef(repo=repo, item=item)
                     addFamilynameRef(repo=repo, item=item)
