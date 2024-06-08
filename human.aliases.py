@@ -146,7 +146,8 @@ def main():
                     if re.search(r"\'\'\' ?[\"\']? ?\'\'\'", page.text):
                         print("Lio de ''' en el nombre")
                         continue
-                    m = re.findall(r"(?im)^\'\'\'([A-Za-z \-]+?)\'\'\'", page.text)
+                    #el [a-z] del comienzo es para General, Captain, etc
+                    m = re.findall(r"(?im)^[a-z]{0,10} ?\'\'\'([a-záéíóúàèìòùñ \-]+?)\'\'\'", page.text)
                     print(m)
                     if len(m) < 1:
                         print('No encontramos candidatos, saltamos')
