@@ -85,7 +85,7 @@ def main():
                     year = ""
                     month = ""
                     day = ""
-                    if m:
+                    if m and len(m) == 1:
                         pointintime = m[0]
                         if pointintime.endswith("-00") or pointintime.endswith("-01"):
                             print("Probable fecha redondeada, saltamos")
@@ -94,13 +94,19 @@ def main():
                         year = int(pointintime.split('-')[0])
                         month = int(pointintime.split('-')[1])
                         day = int(pointintime.split('-')[2])
+                        
                         #comparar SDC inception con los metadatos de la foto, sino tiene metadatos o no coincide, saltamos
                         #ejemplo https://commons.wikimedia.org/wiki/File%3AGustavBergmann_berg1.jpg
                         metadata = r'(?im)<tr class="exif-datetimeoriginal"><th>Date and time of data generation</th><td>\d\d:\d\d, %d %s %d</td></tr>' % (day, number2month[month], year)
                         #print(raw)
-                        print(metadata)
+                        #print(metadata)
                         if not re.search(metadata, raw):
                             print("No coincide con metadata, saltamos")
+                            continue
+                        
+                        #comparar con la fecha de la infobox, sino coincide saltamos
+                        if not re.search(r"(?im)\|\s*date\s*=\s*%s" % (pointintime), filename.text):
+                            print("No coincide con infobox date, saltamos")
                             continue
                     else:
                         print("Inception not found, skiping")
