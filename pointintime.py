@@ -29,95 +29,97 @@ def main():
     repo = site.data_repository()
     number2month = { 1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December" }
     
-    querywd = """
-    SELECT DISTINCT ?item
-    WHERE {
-      SERVICE bd:sample {
-        ?item wdt:P31 wd:Q5 .
-        bd:serviceParam bd:sample.limit 100000 .
-        bd:serviceParam bd:sample.sampleType "RANDOM" .
-      }
-      ?item p:P18 ?p18.
-      OPTIONAL { ?p18 pq:P585 ?pointintime. }
-      FILTER(!BOUND(?pointintime))
-      ?item wdt:P569 ?birthdate.
-      FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
-    }
-    LIMIT 10000
-    #random%s
-    """ % (random.randint(1,1000000))
-    
-    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(querywd))
-    url = '%s&format=json' % (url)
-    print("Loading...", url)
-    sparql = getURL(url=url)
-    json1 = loadSPARQL(sparql=sparql)
-    
-    for result in json1['results']['bindings']:
-        q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-        if not q:
-            break
-        print('\n== %s ==' % (q))
+    for loop in range(100):
+        time.sleep(10)
+        querywd = """
+        SELECT DISTINCT ?item
+        WHERE {
+          SERVICE bd:sample {
+            ?item wdt:P31 wd:Q5 .
+            bd:serviceParam bd:sample.limit 100000 .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+          }
+          ?item p:P18 ?p18.
+          OPTIONAL { ?p18 pq:P585 ?pointintime. }
+          FILTER(!BOUND(?pointintime))
+          ?item wdt:P569 ?birthdate.
+          FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
+        }
+        LIMIT 10000
+        #random%s
+        """ % (random.randint(1,1000000))
         
-        item = pywikibot.ItemPage(repo, q)
-        try: #to detect Redirect because .isRedirectPage fails
-            item.get()
-        except:
-            print('Error while .get()')
-            continue
+        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(querywd))
+        url = '%s&format=json' % (url)
+        print("Loading...", url)
+        sparql = getURL(url=url)
+        json1 = loadSPARQL(sparql=sparql)
         
-        if item.claims:
-            if not 'P18' in item.claims:
-                print("P18 not found")
+        for result in json1['results']['bindings']:
+            q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+            if not q:
+                break
+            print('\n== %s ==' % (q))
+            
+            item = pywikibot.ItemPage(repo, q)
+            try: #to detect Redirect because .isRedirectPage fails
+                item.get()
+            except:
+                print('Error while .get()')
                 continue
-            if 'P18' in item.claims:
-                for p18claim in item.claims['P18']: #p18 image
-                    if p18claim.qualifiers and 'P585' in p18claim.qualifiers: #p585 point in time
-                        print("Ya tiene point in time P585, saltamos")
-                        continue
-                    filename = p18claim.getTarget()
-                    print(filename.title())
-                    commonsfileurl = "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(filename.title().replace(" ", "_"))
-                    print(commonsfileurl)
-                    raw = getURL(url=commonsfileurl)
-                    #cuidado con los parametros generados para quickstatements, esta foto no tiene SDC inception pero tiene un P571 generado al vuelo, los excluyo parseando desde "P571":[{"mainsnak":  https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-1987-0411-019,_1._FC_Union_Berlin_-_FC_Karl-Marx-Stadt_4-2.jpg
-                    m = re.findall(r'(?im)"P571":\[\{"mainsnak":[^Z]*?(\d\d\d\d-\d\d-\d\d)T', raw)
-                    year = ""
-                    month = ""
-                    day = ""
-                    if m and len(m) == 1:
-                        pointintime = m[0]
-                        if pointintime.endswith("-00") or pointintime.endswith("-01"):
-                            print("Probable fecha redondeada, saltamos")
+            
+            if item.claims:
+                if not 'P18' in item.claims:
+                    print("P18 not found")
+                    continue
+                if 'P18' in item.claims:
+                    for p18claim in item.claims['P18']: #p18 image
+                        if p18claim.qualifiers and 'P585' in p18claim.qualifiers: #p585 point in time
+                            print("Ya tiene point in time P585, saltamos")
+                            continue
+                        filename = p18claim.getTarget()
+                        print(filename.title())
+                        commonsfileurl = "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(filename.title().replace(" ", "_"))
+                        print(commonsfileurl)
+                        raw = getURL(url=commonsfileurl)
+                        #cuidado con los parametros generados para quickstatements, esta foto no tiene SDC inception pero tiene un P571 generado al vuelo, los excluyo parseando desde "P571":[{"mainsnak":  https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-1987-0411-019,_1._FC_Union_Berlin_-_FC_Karl-Marx-Stadt_4-2.jpg
+                        m = re.findall(r'(?im)"P571":\[\{"mainsnak":[^Z]*?(\d\d\d\d-\d\d-\d\d)T', raw)
+                        year = ""
+                        month = ""
+                        day = ""
+                        if m and len(m) == 1:
+                            pointintime = m[0]
+                            if pointintime.endswith("-00") or pointintime.endswith("-01"):
+                                print("Probable fecha redondeada, saltamos")
+                                continue
+                            
+                            year = int(pointintime.split('-')[0])
+                            month = int(pointintime.split('-')[1])
+                            day = int(pointintime.split('-')[2])
+                            
+                            #comparar SDC inception con los metadatos de la foto, sino tiene metadatos o no coincide, saltamos
+                            #ejemplo https://commons.wikimedia.org/wiki/File%3AGustavBergmann_berg1.jpg
+                            metadata = r'(?im)<tr class="exif-datetimeoriginal"><th>Date and time of data generation</th><td>\d\d:\d\d, %d %s %d</td></tr>' % (day, number2month[month], year)
+                            #print(raw)
+                            #print(metadata)
+                            if not re.search(metadata, raw):
+                                print("No coincide con metadata, saltamos")
+                                continue
+                            
+                            #comparar con la fecha de la infobox, sino coincide saltamos
+                            if not re.search(r"(?im)\|\s*date\s*=\s*%s" % (pointintime), filename.text):
+                                print("No coincide con infobox date, saltamos")
+                                continue
+                        else:
+                            print("Inception not found, skiping")
                             continue
                         
-                        year = int(pointintime.split('-')[0])
-                        month = int(pointintime.split('-')[1])
-                        day = int(pointintime.split('-')[2])
-                        
-                        #comparar SDC inception con los metadatos de la foto, sino tiene metadatos o no coincide, saltamos
-                        #ejemplo https://commons.wikimedia.org/wiki/File%3AGustavBergmann_berg1.jpg
-                        metadata = r'(?im)<tr class="exif-datetimeoriginal"><th>Date and time of data generation</th><td>\d\d:\d\d, %d %s %d</td></tr>' % (day, number2month[month], year)
-                        #print(raw)
-                        #print(metadata)
-                        if not re.search(metadata, raw):
-                            print("No coincide con metadata, saltamos")
-                            continue
-                        
-                        #comparar con la fecha de la infobox, sino coincide saltamos
-                        if not re.search(r"(?im)\|\s*date\s*=\s*%s" % (pointintime), filename.text):
-                            print("No coincide con infobox date, saltamos")
-                            continue
-                    else:
-                        print("Inception not found, skiping")
-                        continue
-                    
-                    if year and month and day:
-                        print("Adding pointintime", pointintime)
-                        qualifierP585 = pywikibot.Claim(repo, "P585")
-                        qualifierP585.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
-                        p18claim.addQualifier(qualifierP585, summary="BOT - Adding 1 qualifier")
-                        time.sleep(1)
+                        if year and month and day:
+                            print("Adding pointintime", pointintime)
+                            qualifierP585 = pywikibot.Claim(repo, "P585")
+                            qualifierP585.setTarget(pywikibot.WbTime(year=year, month=month, day=day))
+                            p18claim.addQualifier(qualifierP585, summary="BOT - Adding 1 qualifier")
+                            time.sleep(1)
                     
 if __name__ == '__main__':
     main()
