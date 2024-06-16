@@ -920,6 +920,7 @@ fixthiswhenfound = { #fix (overwrite) old, wrong or poor translations
     }, 
     'Wikimedia disambiguation page': {
         'bn': ['উইকিমিডিয়া দ্ব্যর্থতা নিরসন পাতা'],
+        'bs': ['čvor stranica na Wikimediji'], #https://www.wikidata.org/w/index.php?title=Wikidata:Bot_requests&diff=prev&oldid=2163251283
         'el': ['σελίδα αποσαφήνισης'],#https://www.wikidata.org/w/index.php?title=Q29449981&diff=prev&oldid=567203989
         'es': ['desambiguación de Wikipedia'], 
         'fy': ['Betsjuttingsside'], #https://www.wikidata.org/w/index.php?title=User:Emijrp/Wikimedia_project_pages_matrix&curid=30597789&diff=499110338&oldid=498167178
@@ -2219,7 +2220,7 @@ translations = {
         'as': 'ৱিকিমিডিয়া দ্ব্যৰ্থতা দূৰীকৰণ পৃষ্ঠা',
         'bg': 'Уикимедия пояснителна страница',
         'bn': 'উইকিমিডিয়ার দ্ব্যর্থতা নিরসন পাতা',
-        'bs': 'čvor stranica na Wikimediji',
+        'bs': 'višeznačna odrednica na Wikimediji',
         'ca': 'pàgina de desambiguació de Wikimedia',
         'ckb': 'پەڕەی ڕوونکردنەوەی ویکیمیدیا',
         'cs': 'rozcestník na projektech Wikimedia',
@@ -2907,9 +2908,9 @@ def main():
         'prime number',
         
         #'research project',
-        'researcher',
-        'researcher female',
-        'researcher male',
+        #'researcher',
+        #'researcher female',
+        #'researcher male',
         
         #'shipwreck off the Scottish coast',
         
