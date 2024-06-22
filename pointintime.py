@@ -42,8 +42,12 @@ def main():
           ?item p:P18 ?p18.
           OPTIONAL { ?p18 pq:P585 ?pointintime. }
           FILTER(!BOUND(?pointintime))
+          
           ?item wdt:P569 ?birthdate.
           FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
+          
+          OPTIONAL { ?item wdt:P570 ?deathdate. }
+          FILTER(!BOUND(?deathdate)).
         }
         LIMIT 10000
         #random%s
