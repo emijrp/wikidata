@@ -66,6 +66,7 @@ def addClaims(site, mid, claims, comments):
       'token' : csrf_token,
       'bot' : True, 
       'summary': "BOT - Adding [[Commons:Structured data|structured data]] based on file information: %s" % (", ".join(comments)),
+      'tags': 'BotSDC',
     }
     request = site.simple_request(**payload)
     try:
@@ -259,12 +260,16 @@ def genClaim(site, page, prop):
 def main():
     site = pywikibot.Site('commons', 'commons')
     props = [
-        "P1163", #media type
+        #cuidado con los modelos de camara q a veces son redirecciones a modelos genericos
+        #ver https://commons.wikimedia.org/wiki/File:Tower_Hill_stn_entrance_Tower.JPG
+        #FinePix A900 -> Fujifilm FinePix A series
         
-        "P2048", #height
-        "P2049", #width
-        "P3575", #size
-        "P4092", #sha1
+        #"P1163", #media type
+        
+        #"P2048", #height
+        #"P2049", #width
+        #"P3575", #size
+        #"P4092", #sha1
         
         "P6789", #iso
         "P6757", #exposure time
@@ -300,7 +305,6 @@ def main():
                     comments.append(comment)
         
         if claimstoadd and comments and len(claimstoadd) == len(comments):
-            pass
             addClaims(site=site, mid=mid, claims=claimstoadd, comments=comments)
 
 if __name__ == '__main__':
