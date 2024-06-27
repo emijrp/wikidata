@@ -276,8 +276,9 @@ def main():
         "P6790", #f number
         "P2151", #focal length
     ]
-    category = pywikibot.Category(site, 'Images by User:Emijrp by date')
-    category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
+    category = pywikibot.Category(site, 'Images by User:Emijrp')
+    #category = pywikibot.Category(site, 'Images by User:Emijrp by date')
+    #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
     gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     for page in gen:
         print('==', page.title(), '==')
