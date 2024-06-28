@@ -285,11 +285,7 @@ def main():
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
-    pre = pagegenerators.PreloadingGenerator(gen, pageNumber=50)
-    
-    sys.exit()
-    
-    for page in pre:
+    for page in gen:
         print('==', page.title(), '==')
         if page.namespace() != 6:
             print("No es File:, saltamos")
