@@ -17,6 +17,7 @@
 
 import random
 import re
+import string
 import pywikibot
 from pywikibot import pagegenerators
 import json
@@ -278,12 +279,21 @@ def main():
         "P2151", #focal length
     ]
     #category = pywikibot.Category(site, 'Images by User:Emijrp')
-    category = pywikibot.Category(site, 'Images by User:Emijrp taken in %d' % (random.randint(2005, 2024)))
+    #category = pywikibot.Category(site, 'Images by User:Emijrp taken in %d' % (random.randint(2005, 2024)))
     #category = pywikibot.Category(site, 'Images by User:Emijrp by date')
     #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
-    gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
-    for page in gen:
+    #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
+    randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
+    pre = pagegenerators.PreloadingGenerator(gen, pageNumber=50)
+    
+    sys.exit()
+    
+    for page in pre:
         print('==', page.title(), '==')
+        if page.namespace() != 6:
+            print("No es File:, saltamos")
+            continue
         page = pywikibot.Page(site, page.title())
         print(page.full_url())
         mid = "M" + str(page.pageid)
