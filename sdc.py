@@ -296,8 +296,11 @@ def main():
     #category = pywikibot.Category(site, 'Images by User:Emijrp by date')
     #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
-    randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    
+    #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    randomstart = ''.join(random.choice(string.ascii_uppercase) for _ in range(4))
     gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
+    
     for page in gen:
         print('==', page.title(), '==')
         if page.namespace() != 6:
@@ -312,6 +315,9 @@ def main():
             continue
         
         claims = getClaims(site=site, mid=mid)
+        if not claims:
+            print("No tiene claims, no inicializado, saltamos")
+            continue
         #print(claims["claims"]["P2151"])
         claimstoadd = []
         comments = []
