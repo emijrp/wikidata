@@ -172,7 +172,7 @@ def genP2048(site, page): #height
     comment = False
     prop = "P2048"
     height = getSize(site, page.title(), size="height")
-    if height:
+    if height and height != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q355198"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, height)
         comment = "height"
     return claim, comment
@@ -182,7 +182,7 @@ def genP2049(site, page): #width
     comment = False
     prop = "P2049"
     width = getSize(site, page.title(), size="width")
-    if width:
+    if width and width != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q355198"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, width)
         comment = "width"
     return claim, comment
@@ -192,7 +192,7 @@ def genP3575(site, page): #size
     comment = False
     prop = "P3575"
     size = getSize(site, page.title(), size="size")
-    if size:
+    if size and size != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q8799"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, size)
         comment = "size"
     return claim, comment
@@ -202,7 +202,7 @@ def genP4092(site, page): #sha1
     comment = False
     prop = "P4092"
     sha1 = getSHA1(site, page.title())
-    if sha1:
+    if sha1 and sha1 != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": "%s", "type":"string"} }, "type": "statement", "qualifiers": {"P459": [{"snaktype": "value", "property": "P459", "datavalue": {"value": {"entity-type": "item", "numeric-id": 13414952, "id": "Q13414952"}, "type": "wikibase-entityid"}, "datatype": "wikibase-item"}]}, "rank": "normal" }""" % (prop, sha1)
         comment = "sha1"
     return claim, comment
@@ -212,7 +212,7 @@ def genP6789(site, page): #iso
     comment = False
     prop = "P6789"
     iso = getISO(site, page.full_url())
-    if iso:
+    if iso and iso != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "1"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, iso)
         comment = "iso speed"
     return claim, comment
@@ -222,7 +222,7 @@ def genP6757(site, page): #exposure time
     comment = False
     prop = "P6757"
     exposuretime = getExposureTime(site, page.full_url())
-    if exposuretime:
+    if exposuretime and exposuretime != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q11574"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, exposuretime)
         comment = "exposure time"
     return claim, comment
@@ -232,7 +232,7 @@ def genP6790(site, page): #f number
     comment = False
     prop = "P6790"
     fnumber = getFNumber(site, page.full_url())
-    if fnumber:
+    if fnumber and fnumber != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "1"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, fnumber)
         comment = "f-number"
     return claim, comment
@@ -242,7 +242,7 @@ def genP2151(site, page): #focal length
     comment = False
     prop = "P2151"
     focallength = getFocalLength(site, page.full_url())
-    if focallength:
+    if focallength and focallength != "0":
         claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"amount": "+%s", "unit": "http://www.wikidata.org/entity/Q174789"}, "type":"quantity"} }, "type": "statement", "rank": "normal" }""" % (prop, focallength)
         comment = "focal length"
     return claim, comment
