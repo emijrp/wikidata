@@ -39,8 +39,8 @@ def getClaims(site, mid):
         r = request.submit()
         #return json.loads(r)
         return r
-    except pywikibot.data.api.APIError as e:
-        print("ERROR:", e)
+    except:
+        print("ERROR wbgetclaims")
     return {}
 
 def getHTML(pagelink):
