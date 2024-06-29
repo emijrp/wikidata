@@ -18,6 +18,8 @@
 import random
 import re
 import string
+import sys
+import time
 import pywikibot
 from pywikibot import pagegenerators
 import json
@@ -43,16 +45,27 @@ def getClaims(site, mid):
 
 def getHTML(pagelink):
     global imagehtmlcache
-    if not pagelink in imagehtmlcache:
-        try:
-            req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-            pagehtml = urllib.request.urlopen(req).read().strip().decode('utf-8')
-        except:
-            time.sleep(60)
-            req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
-            pagehtml = urllib.request.urlopen(req).read().strip().decode('utf-8')
-        if pagelink:
-            imagehtmlcache[pagelink] = pagehtml
+    pagehtml = ""
+    if pagelink:
+        if not pagelink in imagehtmlcache:
+            try:
+                req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+                pagehtml = urllib.request.urlopen(req).read().strip().decode('utf-8')
+            except:
+                for i in range(10):
+                    time.sleep(60)
+                    try:
+                        req = urllib.request.Request(pagelink, headers={ 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0' })
+                        pagehtml = urllib.request.urlopen(req).read().strip().decode('utf-8')
+                        break
+                    except:
+                        pass
+            if pagehtml:
+                imagehtmlcache[pagelink] = pagehtml
+            else:
+                sys.exit()
+    else:
+        sys.exit()
     return imagehtmlcache[pagelink]
 
 def addClaims(site, mid, claims, comments):
