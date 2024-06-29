@@ -115,8 +115,8 @@ def main():
                         continue
                     
                     if "claims" in claims:
-                        if "P180" in claims["claims"]:
-                            print("Ya tiene claim depict, saltamos")
+                        if "P180" in claims["claims"]: #p180 depicts
+                            print("Ya tiene claim depicts, saltamos")
                             continue
                         else:
                             claimstoadd = []
