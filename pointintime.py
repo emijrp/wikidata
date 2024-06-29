@@ -31,6 +31,7 @@ def main():
     
     for loop in range(100):
         time.sleep(10)
+        #le tengo puesto en la query que sean solo personas vivas, pq a veces las fechas de las fotos en commons están mal y pone pointintimte 20XX para gente que murió hace décadas. Otra forma sería controlar q la fecha fallecimiento si la hay sea superior a la fecha de la foto
         querywd = """
         SELECT DISTINCT ?item
         WHERE {
@@ -108,6 +109,11 @@ def main():
                             #print(metadata)
                             if not re.search(metadata, raw):
                                 print("No coincide con metadata, saltamos")
+                                continue
+                            
+                            #no es una camara digital, (posible scan? analógica? saltamos)
+                            if not re.search(r"(?im)<th>Camera manufacturer</th>", raw):
+                                print("No es una camara digital")
                                 continue
                             
                             #comparar con la fecha de la infobox, sino coincide saltamos
