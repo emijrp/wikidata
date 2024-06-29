@@ -86,8 +86,8 @@ def addClaims(site, mid, claims, comments):
     request = site.simple_request(**payload)
     try:
       r = request.submit()
-    except pywikibot.data.api.APIError as e:
-      print("ERROR:", e)
+    except:
+      print("ERROR while saving")
 
 def getImageInfo(site, pagetitle):
     global imageinfocache
@@ -325,6 +325,7 @@ def main():
         for prop in props:
             if prop in claims["claims"]:
                 print("Ya tiene", prop)
+                continue
             else:
                 claim, comment = genClaim(site=site, page=page, prop=prop)
                 if claim and comment:
