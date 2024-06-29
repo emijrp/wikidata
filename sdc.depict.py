@@ -104,7 +104,7 @@ def main():
                 for p18claim in item.claims['P18']: #p18 image
                     filename = p18claim.getTarget()
                     print(filename.title())
-                    filepage = pywikibot.Page(site, filename.title())
+                    filepage = pywikibot.Page(sitecommons, filename.title())
                     print(filepage.full_url())
                     mid = "M" + str(filepage.pageid)
                     print(mid)
