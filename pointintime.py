@@ -32,6 +32,9 @@ def main():
     for loop in range(100):
         time.sleep(10)
         #le tengo puesto en la query que sean solo personas vivas, pq a veces las fechas de las fotos en commons están mal y pone pointintimte 20XX para gente que murió hace décadas. Otra forma sería controlar q la fecha fallecimiento si la hay sea superior a la fecha de la foto
+        #posteriormente añado que hayan nacido desde 1950 (antes empezaba en 1900), para quitar mas casos de fotos antiguas
+        #https://www.wikidata.org/w/index.php?diff=2181498523
+        #https://commons.wikimedia.org/w/index.php?title=&oldid=882216141
         querywd = """
         SELECT DISTINCT ?item
         WHERE {
@@ -45,7 +48,7 @@ def main():
           FILTER(!BOUND(?pointintime))
           
           ?item wdt:P569 ?birthdate.
-          FILTER (?birthdate >= "1900-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
+          FILTER (?birthdate >= "1950-01-01"^^xsd:dateTime && ?birthdate < "2000-01-01"^^xsd:dateTime).
           
           OPTIONAL { ?item wdt:P570 ?deathdate. }
           FILTER(!BOUND(?deathdate)).
