@@ -298,7 +298,8 @@ def main():
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
     #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-    randomstart = ''.join(random.choice(string.ascii_uppercase) for _ in range(4))
+    randomstart = ''.join("!¡()" + random.choice(string.ascii_letters + string.digits) for _ in range(4))
+    randomstart = randomstart[0].upper() + randomstart[1:]
     gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
     
     for page in gen:
