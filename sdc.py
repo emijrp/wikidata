@@ -297,8 +297,8 @@ def main():
     #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
-    #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
-    randomstart = ''.join("!¡()" + random.choice(string.ascii_letters + string.digits) for _ in range(4))
+    #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
+    randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(4))
     randomstart = randomstart[0].upper() + randomstart[1:]
     gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
     
