@@ -123,6 +123,17 @@ def main():
                             if not re.search(r"(?im)\|\s*date\s*=\s*%s" % (pointintime), filename.text):
                                 print("No coincide con infobox date, saltamos")
                                 continue
+                            
+                            #buscar anyos distintos en nombre fichero o texto, sino es el anyo saltamos
+                            n = re.findall(r"\b(19\d\d|20\d\d)\b", filename.text + " " + filename.title())
+                            otheryears = False
+                            for nn in n:
+                                if str(nn).strip() != str(year).strip():
+                                    otheryears = True
+                                    break
+                            if otheryears:
+                                print("El anyo %s es distinto de %s, saltamos" % (str(nn), str(year)))
+                                continue
                         else:
                             print("Inception not found, skiping")
                             continue
