@@ -124,15 +124,17 @@ def main():
                                 print("No coincide con infobox date, saltamos")
                                 continue
                             
-                            #buscar anyos distintos en nombre fichero o texto, sino es el anyo saltamos
-                            n = re.findall(r"\b(19\d\d|20\d\d)\b", filename.text + " " + filename.title())
+                            #buscar anyos distintos en nombre fichero o texto, sino coincide con el anyo parseado saltamos
+                            filenametext2 = filename.title() + " "
+                            filenametext2 += re.sub(r"(?im)\{\{\s*(FlickreviewR|Flickr[ _]upload[ _]bot)[^\{\}]*\}\}", " ", filename.text)
+                            n = re.findall(r"\b(19\d\d|20\d\d)\b", filenametext2)
                             otheryears = False
                             for nn in n:
                                 if str(nn).strip() != str(year).strip():
                                     otheryears = True
                                     break
                             if otheryears:
-                                print("El anyo %s es distinto de %s, saltamos" % (str(nn), str(year)))
+                                print("Hay anyo distintos en nombre o texto, saltamos")
                                 continue
                         else:
                             print("Inception not found, skiping")
