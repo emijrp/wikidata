@@ -29,7 +29,7 @@ def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'
         print('Error genQuery', p31, p279, p105, desc, desclang)
         sys.exit()
     queries = []
-    for i in range(100):
+    for i in range(10):
         if type(targetdesclang) is list:
             random.shuffle(targetdesclang)
             targetdesclang2 = targetdesclang[0]
