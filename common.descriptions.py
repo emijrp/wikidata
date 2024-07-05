@@ -29,7 +29,7 @@ def genQuery(p31='', p279='', p105='', desc='', desclang='', targetdesclang='es'
         print('Error genQuery', p31, p279, p105, desc, desclang)
         sys.exit()
     queries = []
-    for i in range(10):
+    for i in range(100):
         if type(targetdesclang) is list:
             random.shuffle(targetdesclang)
             targetdesclang2 = targetdesclang[0]
@@ -116,12 +116,14 @@ def genQueriesByConstellation(p31='', desc='', desclang=''):
     queries[desc.replace('~', 'Sagittarius')] = genQuery(p31=p31, desc=desc.replace('~', 'Sagittarius'), desclang=desclang)
     queries[desc.replace('~', 'Scorpius')] = genQuery(p31=p31, desc=desc.replace('~', 'Scorpius'), desclang=desclang)
     queries[desc.replace('~', 'Sculptor')] = genQuery(p31=p31, desc=desc.replace('~', 'Sculptor'), desclang=desclang)
+    queries[desc.replace('~', 'Serpens')] = genQuery(p31=p31, desc=desc.replace('~', 'Serpens'), desclang=desclang)
     queries[desc.replace('~', 'Sextans')] = genQuery(p31=p31, desc=desc.replace('~', 'Sextans'), desclang=desclang)
     queries[desc.replace('~', 'Taurus')] = genQuery(p31=p31, desc=desc.replace('~', 'Taurus'), desclang=desclang)
     queries[desc.replace('~', 'Tucana')] = genQuery(p31=p31, desc=desc.replace('~', 'Tucana'), desclang=desclang)
     queries[desc.replace('~', 'Ursa Major')] = genQuery(p31=p31, desc=desc.replace('~', 'Ursa Major'), desclang=desclang)
     queries[desc.replace('~', 'Vela')] = genQuery(p31=p31, desc=desc.replace('~', 'Vela'), desclang=desclang)
     queries[desc.replace('~', 'Virgo')] = genQuery(p31=p31, desc=desc.replace('~', 'Virgo'), desclang=desclang)
+    queries[desc.replace('~', 'Vulpecula')] = genQuery(p31=p31, desc=desc.replace('~', 'Vulpecula'), desclang=desclang)
     return queries
 
 def genQueriesByCountry(p31='', desc='', desclang=''):
@@ -568,6 +570,10 @@ def genTranslationsByConstellation(desc=''):
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sculptor'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Escultor'), 
     }
+    translations[desc.replace('~', 'Serpens')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Serpens'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Serpens'), 
+    }
     translations[desc.replace('~', 'Sextans')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Sextans'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'del Sextante'), 
@@ -591,6 +597,10 @@ def genTranslationsByConstellation(desc=''):
     translations[desc.replace('~', 'Virgo')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Virgo'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Virgo'), 
+    }
+    translations[desc.replace('~', 'Vulpecula')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Vulpecula'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Vulpecula'), 
     }
     return translations
 
