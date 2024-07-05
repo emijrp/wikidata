@@ -136,6 +136,7 @@ def genQueriesByConstellation(p31='', desc='', desclang=''):
     queries[desc.replace('~', 'Phoenix')] = genQuery(p31=p31, desc=desc.replace('~', 'Phoenix'), desclang=desclang)
     queries[desc.replace('~', 'Pictor')] = genQuery(p31=p31, desc=desc.replace('~', 'Pictor'), desclang=desclang)
     queries[desc.replace('~', 'Pisces')] = genQuery(p31=p31, desc=desc.replace('~', 'Pisces'), desclang=desclang)
+    queries[desc.replace('~', 'Piscis Austrinus')] = genQuery(p31=p31, desc=desc.replace('~', 'Piscis Austrinus'), desclang=desclang)
     queries[desc.replace('~', 'Puppis')] = genQuery(p31=p31, desc=desc.replace('~', 'Puppis'), desclang=desclang)
     queries[desc.replace('~', 'Pyxis')] = genQuery(p31=p31, desc=desc.replace('~', 'Pyxis'), desclang=desclang)
     queries[desc.replace('~', 'Sagitta')] = genQuery(p31=p31, desc=desc.replace('~', 'Sagitta'), desclang=desclang)
@@ -681,6 +682,10 @@ def genTranslationsByConstellation(desc=''):
     translations[desc.replace('~', 'Pisces')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Pisces'), 
         'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Piscis'), 
+    }
+    translations[desc.replace('~', 'Piscis Austrinus')] = {
+        'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Piscis Austrinus'), 
+        'es': genTranslationsByConstellationCore(desc=desc, desclang='es').replace('~', 'de Piscis Austrinus'), 
     }
     translations[desc.replace('~', 'Puppis')] = {
         'en': genTranslationsByConstellationCore(desc=desc, desclang='en').replace('~', 'Puppis'), 
