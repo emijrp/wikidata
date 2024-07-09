@@ -109,6 +109,26 @@ def main():
                     mid = "M" + str(filepage.pageid)
                     print(mid)
                     
+                    #exclude images porbably not portraits
+                    personnames = []
+                    for labellang in item.labels:
+                        if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-z ]", item.labels[labellang]):
+                            personnames.append(item.labels[labellang])
+                    personnames = list(set(personnames))
+                    isportrait = False
+                    for personname in personnames:
+                        symbols = "[0-9\-\.\,\!\"\$\&\(\) ]*?"
+                        personnamex = personname.replace(".", " ") #primero convierto los puntos en espacios, pq hay puntos en symbols
+                        personnamex = personnamex.replace(" ", symbols)
+                        portraitregexp = r"(?im)^File:%s(%s|%s)%s(in|en|at|on)?%s\.jpe?g$" % (symbols, personname, personnamex, symbols, symbols)
+                        #print(portraitregexp)
+                        if re.search(portraitregexp, filename.title()):
+                            isportrait = True
+                            break
+                    if not isportrait:
+                        print("Puede que no sea retrato, saltamos")
+                        continue
+                    
                     claims = getClaims(site=sitecommons, mid=mid)
                     if not claims:
                         print("No tiene claims, no inicializado, saltamos")
