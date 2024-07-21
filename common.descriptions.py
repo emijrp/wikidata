@@ -301,6 +301,10 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
             'en': 'high proper-motion star in the constellation ~', 
             'es': 'estrella con movimiento propio alto de la constelación ~', 
         }, 
+        'Mira variable star in the constellation ~': { 
+            'en': 'Mira variable star in the constellation ~', 
+            'es': 'estrella variable Mira de la constelación ~', 
+        }, 
         'nova in the constellation ~': { 
             'en': 'nova in the constellation ~', 
             'es': 'nova de la constelación ~', 
@@ -2847,6 +2851,7 @@ autotranslations.append(genTranslationsByConstellation(desc='galaxy cluster in t
 autotranslations.append(genTranslationsByConstellation(desc='galaxy group in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='globular cluster in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='high proper-motion star in the constellation ~'))
+autotranslations.append(genTranslationsByConstellation(desc='Mira variable star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='nova in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='possible red giant branch star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='pulsar in the constellation ~'))
@@ -3037,6 +3042,7 @@ autoqueries.append(genQueriesByConstellation(p31='Q204107', desc='galaxy cluster
 autoqueries.append(genQueriesByConstellation(p31='Q1491746', desc='galaxy group in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q11276', desc='globular cluster in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q2247863', desc='high proper-motion star in the constellation ~', desclang='en'))
+autoqueries.append(genQueriesByConstellation(p31='Q744691', desc='Mira variable star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q6458', desc='nova in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q6999', desc='astronomical object in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q72802727', desc='possible red giant branch star in the constellation ~', desclang='en'))
