@@ -269,6 +269,10 @@ def genTranslationsByConstellationCore(desc='', desclang=''):
             'en': 'classical Cepheid variable star in the constellation ~', 
             'es': 'estrella variable cefeida clásica de la constelación ~', 
         }, 
+        'Delta Scuti variable star in the constellation ~': { 
+            'en': 'Delta Scuti variable star in the constellation ~', 
+            'es': 'estrella variable Delta Scuti de la constelación ~', 
+        }, 
         'eclipsing binary star in the constellation ~': { 
             'en': 'eclipsing binary star in the constellation ~', 
             'es': 'binaria eclipsante de la constelación ~', 
@@ -2851,6 +2855,7 @@ autotranslations.append(genTranslationsByConstellation(desc='astronomical radio 
 autotranslations.append(genTranslationsByConstellation(desc='brightest cluster galaxy in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='carbon star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='classical Cepheid variable star in the constellation ~'))
+autotranslations.append(genTranslationsByConstellation(desc='Delta Scuti variable star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='eclipsing binary star in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='emission-line galaxy in the constellation ~'))
 autotranslations.append(genTranslationsByConstellation(desc='far-IR source in the constellation ~'))
@@ -3044,6 +3049,7 @@ autoqueries.append(genQueriesByConstellation(p31='Q2154519', desc='astrophysical
 autoqueries.append(genQueriesByConstellation(p31='Q1151284', desc='brightest cluster galaxy in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q130019', desc='carbon star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q10451997', desc='classical Cepheid variable star in the constellation ~', desclang='en'))
+autoqueries.append(genQueriesByConstellation(p31='Q836976', desc='Delta Scuti variable star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q1457376', desc='eclipsing binary star in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q72802508', desc='emission-line galaxy in the constellation ~', desclang='en'))
 autoqueries.append(genQueriesByConstellation(p31='Q67206701', desc='far-IR source in the constellation ~', desclang='en'))
