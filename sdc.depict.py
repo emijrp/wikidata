@@ -109,20 +109,23 @@ def main():
                     mid = "M" + str(filepage.pageid)
                     print(mid)
                     
-                    #exclude images porbably not portraits
+                    #exclude images probably not portraits
                     personnames = []
                     for labellang in item.labels:
-                        if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-z ]", item.labels[labellang]):
+                        #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
+                        if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
                             personnames.append(item.labels[labellang])
                     personnames = list(set(personnames))
                     isportrait = False
                     for personname in personnames:
-                        symbols = "[0-9\-\.\,\!\"\$\&\(\) ]*?"
-                        personnamex = personname.replace(".", " ") #primero convierto los puntos en espacios, pq hay puntos en symbols
+                        symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@ ]*?"
+                        #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
+                        personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
                         personnamex = personnamex.replace(" ", symbols)
-                        portraitregexp = r"(?im)^File:%s(%s|%s)%s(in|en|at|on)?%s\.jpe?g$" % (symbols, personname, personnamex, symbols, symbols)
+                        portraitregexp = r"(?im)^File:%s(%s|%s)%s\.jpe?g$" % (symbols, personname, personnamex, symbols)
+                        filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|in|on|at|en)\b", "", filename.title())
                         #print(portraitregexp)
-                        if re.search(portraitregexp, filename.title()):
+                        if re.search(portraitregexp, filenameclean):
                             isportrait = True
                             break
                     if not isportrait:
@@ -150,3 +153,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+#si este script va bien, pedir autorizacion para hacer lo mismo con taxon, edificios, iglesias, etc, ver ideas en https://query.wikidata.org/#SELECT%20%3Fp31%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%20%20%3Fitem%20wdt%3AP18%20%3Fimage.%0A%20%20%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20120000%20.%0A%20%20%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%20%20%7D%0A%20%20%20%20%3Fitem%20wdt%3AP31%20%3Fp31.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Ces%22.%20%7D%0A%7D%0AGROUP%20BY%20%3Fp31%0AORDER%20BY%20DESC%28%3Fcount%29
+
