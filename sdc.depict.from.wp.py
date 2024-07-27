@@ -79,7 +79,7 @@ def main():
         print("==", page.title().encode('utf-8'), "==")
         wtext = page.text
         #print(wtext)
-        m = re.findall(r"(?im)\[\[\s*File\s*:\s*([^\|\]]+?)(?:\|(?:thumb|right|left|upright|upleft))*\s*\|\s*(?:(?:The))?\s*\[\[([^\[\]]+?)(?:\|[\[\]]*?)?\]\]\s*\.?\s*\]\]", wtext)
+        m = re.findall(r"(?im)\[\[\s*(?:File|Image)\s*:\s*([^\|\[\]]+?)(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright|upleft|\d+px)\s*)*\s*\|\s*(?:(?:The|Oldtown of))?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d+\)))?\s*\.?\s*\]\]", wtext)
         for mm in m:
             filename = mm[0].strip()
             thumblink = mm[1].split("|")[0].strip()
