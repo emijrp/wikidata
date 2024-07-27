@@ -105,6 +105,8 @@ def main():
                     filename = p18claim.getTarget()
                     print(filename.title())
                     filepage = pywikibot.Page(sitecommons, filename.title())
+                    if filepage.isRedirectPage():
+                        filepage = filepage.getRedirectTarget()
                     print(filepage.full_url())
                     mid = "M" + str(filepage.pageid)
                     print(mid)
