@@ -47,6 +47,9 @@ def generateTranslations(pubdate=''):
         'pt': ['artigo científico'], 
         'pt-br': ['artigo científico'],
     }
+    fixthiswhenfound = {
+        'es': ['artículo científico'], 
+    }
     translations = {
         'ar': 'مقالة علمية',
         'ast': 'artículu científicu',
@@ -110,6 +113,10 @@ def generateTranslations(pubdate=''):
         'zh-sg': '%s年学术文章' % (pubdate.year),
         'zh-tw': '%s年學術文章' % (pubdate.year),
     }
+    translations = {
+        'es': 'artículo científico publicado en %s' % (pubdate.year),
+    }
+    #temp patch reduced to spanish, while split graph is solved
     return fixthiswhenfound, translations
 
 def main():
