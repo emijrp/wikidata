@@ -156,3 +156,7 @@ if __name__ == '__main__':
 
 #si este script va bien, pedir autorizacion para hacer lo mismo con taxon, edificios, iglesias, etc, ver ideas en https://query.wikidata.org/#SELECT%20%3Fp31%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%0AWHERE%20%7B%0A%20%20%20%20SERVICE%20bd%3Asample%20%7B%0A%20%20%20%20%20%20%3Fitem%20wdt%3AP18%20%3Fimage.%0A%20%20%20%20%20%20bd%3AserviceParam%20bd%3Asample.limit%20120000%20.%0A%20%20%20%20%20%20bd%3AserviceParam%20bd%3Asample.sampleType%20%22RANDOM%22%20.%0A%20%20%20%20%7D%0A%20%20%20%20%3Fitem%20wdt%3AP31%20%3Fp31.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Ces%22.%20%7D%0A%7D%0AGROUP%20BY%20%3Fp31%0AORDER%20BY%20DESC%28%3Fcount%29
 
+#tb hacer este https://commons.wikimedia.org/wiki/Commons:Bots/Requests/Emijrpbot_12
+#para las descs q sean simplemente un ^[[link]]\.?$, o sean ^The [[link]], o ^[[link]] viewed https://en.wikipedia.org/w/index.php?title=Murray_River&oldid=1231417560#Murray_mouth
+
+#despues otro para las imagenes en categorias de commons con el nombre PERSONA in YEAR, cuidado con este q no tiene pq ser prominent, puede haber mas de una persona en la foto
