@@ -64,94 +64,99 @@ def main():
     sitewd = pywikibot.Site('wikidata', 'wikidata')
     sitecommons = pywikibot.Site('commons', 'commons')
     repowd = sitewd.data_repository()
-    querywd = """
-    SELECT DISTINCT ?item
-    WHERE {
-      SERVICE bd:sample {
-        ?item wdt:P31 wd:Q5 .
-        bd:serviceParam bd:sample.limit 100000 .
-        bd:serviceParam bd:sample.sampleType "RANDOM" .
-      }
-      ?item p:P18 ?p18.
-    }
-    LIMIT 10000
-    #random%s
-    """ % (random.randint(1,1000000))
-    url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(querywd))
-    url = '%s&format=json' % (url)
-    print("Loading...", url)
-    sparql = getURL(url=url)
-    json1 = loadSPARQL(sparql=sparql)
     
-    for result in json1['results']['bindings']:
-        q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
-        if not q:
-            break
-        print('\n== %s ==' % (q))
+    for loop in range(10):
+        time.sleep(5)
+        querywd = """
+        SELECT DISTINCT ?item
+        WHERE {
+          SERVICE bd:sample {
+            ?item wdt:P31 wd:Q5 .
+            bd:serviceParam bd:sample.limit 100000 .
+            bd:serviceParam bd:sample.sampleType "RANDOM" .
+          }
+          ?item p:P18 ?p18.
+        }
+        LIMIT 10000
+        #random%s
+        """ % (random.randint(1,1000000))
+        url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(querywd))
+        url = '%s&format=json' % (url)
+        print("Loading...", url)
+        sparql = getURL(url=url)
+        json1 = loadSPARQL(sparql=sparql)
         
-        item = pywikibot.ItemPage(repowd, q)
-        try: #to detect Redirect because .isRedirectPage fails
-            item.get()
-        except:
-            print('Error while .get()')
-            continue
-        
-        if item.claims:
-            if not 'P18' in item.claims:
-                print("P18 not found")
+        for result in json1['results']['bindings']:
+            q = 'item' in result and result['item']['value'].split('/entity/')[1] or ''
+            if not q:
+                break
+            print('\n== %s ==' % (q))
+            
+            item = pywikibot.ItemPage(repowd, q)
+            try: #to detect Redirect because .isRedirectPage fails
+                item.get()
+            except:
+                print('Error while .get()')
                 continue
-            if 'P18' in item.claims:
-                for p18claim in item.claims['P18']: #p18 image
-                    filename = p18claim.getTarget()
-                    print(filename.title())
-                    filepage = pywikibot.Page(sitecommons, filename.title())
-                    if filepage.isRedirectPage():
-                        filepage = filepage.getRedirectTarget()
-                    print(filepage.full_url())
-                    mid = "M" + str(filepage.pageid)
-                    print(mid)
-                    
-                    #exclude images probably not portraits
-                    personnames = []
-                    for labellang in item.labels:
-                        #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
-                        if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
-                            personnames.append(item.labels[labellang])
-                    personnames = list(set(personnames))
-                    isportrait = False
-                    for personname in personnames:
-                        symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@ ]*?"
-                        #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
-                        personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
-                        personnamex = personnamex.replace(" ", symbols)
-                        portraitregexp = r"(?im)^File:%s(%s|%s)%s\.jpe?g$" % (symbols, personname, personnamex, symbols)
-                        filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|in|on|at|en)\b", "", filename.title())
-                        #print(portraitregexp)
-                        if re.search(portraitregexp, filenameclean):
-                            isportrait = True
-                            break
-                    if not isportrait:
-                        print("Puede que no sea retrato, saltamos")
-                        continue
-                    
-                    claims = getClaims(site=sitecommons, mid=mid)
-                    if not claims:
-                        print("No tiene claims, no inicializado, saltamos")
-                        continue
-                    
-                    if "claims" in claims:
-                        if "P180" in claims["claims"]: #p180 depicts
-                            print("Ya tiene claim depicts, saltamos")
+            
+            if item.claims:
+                if not 'P18' in item.claims:
+                    print("P18 not found")
+                    continue
+                if 'P18' in item.claims:
+                    for p18claim in item.claims['P18']: #p18 image
+                        filename = p18claim.getTarget()
+                        print(filename.title())
+                        filepage = pywikibot.Page(sitecommons, filename.title())
+                        if filepage.isRedirectPage():
+                            filepage = filepage.getRedirectTarget()
+                        print(filepage.full_url())
+                        mid = "M" + str(filepage.pageid)
+                        print(mid)
+                        
+                        #exclude images probably not portraits
+                        personnames = []
+                        for labellang in item.labels:
+                            #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
+                            if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
+                                personnames.append(item.labels[labellang])
+                        personnames = list(set(personnames))
+                        isportrait = False
+                        for personname in personnames:
+                            symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@ ]*?"
+                            #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
+                            personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
+                            personnamex = personnamex.replace(" ", symbols)
+                            portraitregexp = r"(?im)^File:%s(%s|%s)%s\.jpe?g$" % (symbols, personname, personnamex, symbols)
+                            regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|sept?|oct|nov|dec)"
+                            regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
+                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|in|on|at|en|the|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
+                            #print(portraitregexp)
+                            if re.search(portraitregexp, filenameclean):
+                                isportrait = True
+                                break
+                        if not isportrait:
+                            print("Puede que no sea retrato, saltamos")
                             continue
-                        else:
-                            claimstoadd = []
-                            comments = []
-                            depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "preferred" }""" % (q[1:], q)
-                            claimstoadd.append(depictsclaim)
-                            comments.append("depicts")
-                            
-                            if claimstoadd and comments and len(claimstoadd) == len(comments):
-                                addClaims(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
+                        
+                        claims = getClaims(site=sitecommons, mid=mid)
+                        if not claims:
+                            print("No tiene claims, no inicializado, saltamos")
+                            continue
+                        
+                        if "claims" in claims:
+                            if "P180" in claims["claims"]: #p180 depicts
+                                print("Ya tiene claim depicts, saltamos")
+                                continue
+                            else:
+                                claimstoadd = []
+                                comments = []
+                                depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "preferred" }""" % (q[1:], q)
+                                claimstoadd.append(depictsclaim)
+                                comments.append("depicts")
+                                
+                                if claimstoadd and comments and len(claimstoadd) == len(comments):
+                                    addClaims(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
 
 if __name__ == '__main__':
     main()
