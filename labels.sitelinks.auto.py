@@ -82,6 +82,10 @@ def main():
                     continue
                 
                 itemlabels = item.labels
+                if "mul" in itemlabels.keys() and labelcandidate == itemlabels["mul"]:
+                    print("Igual que mul:, saltamos")
+                    continue
+                
                 if not lang in itemlabels.keys():
                     itemlabels[lang] = labelcandidate
                     data = { 'labels': itemlabels }
