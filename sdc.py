@@ -297,45 +297,50 @@ def main():
     #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
-    #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
-    randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(4))
-    randomstart = randomstart[0].upper() + randomstart[1:]
-    gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
-    
-    for page in gen:
-        print('==', page.title(), '==')
-        if page.namespace() != 6:
-            print("No es File:, saltamos")
-            continue
-        page = pywikibot.Page(site, page.title())
-        print(page.full_url())
-        mid = "M" + str(page.pageid)
-        print(mid)
-        if getMIMEtype(site=site, pagetitle=page.title()) != "image/jpeg":
-            print("No es JPG, saltamos")
-            continue
-        
-        claims = getClaims(site=site, mid=mid)
-        if not claims:
-            print("No tiene claims, no inicializado, saltamos")
-            continue
-        #print(claims["claims"]["P2151"])
-        claimstoadd = []
-        comments = []
-        
-        for prop in props:
-            if prop in claims["claims"]:
-                print("Ya tiene", prop)
+    for loop in range(100):
+        time.sleep(5)
+        #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
+        randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
+        randomstart = randomstart[0].upper() + randomstart[1:]
+        gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
+        c = 0
+        for page in gen:
+            c += 1
+            if c >= 1000:
+                break #break cada 1000 files para saltar a otra zona de commons aleatoriamente
+            print('==', page.title(), '==')
+            if page.namespace() != 6:
+                print("No es File:, saltamos")
                 continue
-            else:
-                claim, comment = genClaim(site=site, page=page, prop=prop)
-                if claim and comment:
-                    print("Anadiendo", prop, comment, claim)
-                    claimstoadd.append(claim)
-                    comments.append(comment)
-        
-        if claimstoadd and comments and len(claimstoadd) == len(comments):
-            addClaims(site=site, mid=mid, claims=claimstoadd, comments=comments)
+            page = pywikibot.Page(site, page.title())
+            print(page.full_url())
+            mid = "M" + str(page.pageid)
+            print(mid)
+            if getMIMEtype(site=site, pagetitle=page.title()) != "image/jpeg":
+                print("No es JPG, saltamos")
+                continue
+            
+            claims = getClaims(site=site, mid=mid)
+            if not claims:
+                print("No tiene claims, no inicializado, saltamos")
+                continue
+            #print(claims["claims"]["P2151"])
+            claimstoadd = []
+            comments = []
+            
+            for prop in props:
+                if prop in claims["claims"]:
+                    print("Ya tiene", prop)
+                    continue
+                else:
+                    claim, comment = genClaim(site=site, page=page, prop=prop)
+                    if claim and comment:
+                        print("Anadiendo", prop, comment, claim)
+                        claimstoadd.append(claim)
+                        comments.append(comment)
+            
+            if claimstoadd and comments and len(claimstoadd) == len(comments):
+                addClaims(site=site, mid=mid, claims=claimstoadd, comments=comments)
 
 if __name__ == '__main__':
     main()
