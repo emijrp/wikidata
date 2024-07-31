@@ -118,19 +118,19 @@ def main():
                         personnames = []
                         for labellang in item.labels:
                             #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
-                            if len(item.labels[labellang]) >= 10 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
+                            if len(item.labels[labellang]) >= 8 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
                                 personnames.append(item.labels[labellang])
                         personnames = list(set(personnames))
                         isportrait = False
                         for personname in personnames:
-                            symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@ ]*?"
+                            symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@\= ]*?"
                             #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
                             personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
                             personnamex = personnamex.replace(" ", symbols)
-                            portraitregexp = r"(?im)^File:%s(%s|%s)%s\.jpe?g$" % (symbols, personname, personnamex, symbols)
-                            regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|sept?|oct|nov|dec)"
+                            portraitregexp = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
+                            regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec)"
                             regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
-                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|in|on|at|en|the|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
+                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|before|after|cut|sir|dr|in|on|at|en|the|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
                             #print(portraitregexp)
                             if re.search(portraitregexp, filenameclean):
                                 isportrait = True
