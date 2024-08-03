@@ -24,24 +24,10 @@ import pywikibot
 from pywikibot import pagegenerators
 import json
 import urllib.request
+from wikidatafun import *
 
 imageinfocache = {}
 imagehtmlcache = {}
-
-def getClaims(site, mid):
-    payload = {
-      'action' : 'wbgetclaims',
-      'format' : 'json',
-      'entity' : mid,
-    }
-    request = site.simple_request(**payload)
-    try:
-        r = request.submit()
-        #return json.loads(r)
-        return r
-    except:
-        print("ERROR wbgetclaims")
-    return {}
 
 def getHTML(pagelink):
     global imagehtmlcache
@@ -273,7 +259,7 @@ def genClaim(site, page, prop):
         return "", ""
 
 def main():
-    site = pywikibot.Site('commons', 'commons')
+    sitecommons = pywikibot.Site('commons', 'commons')
     props = [
         #cuidado con los modelos de camara q a veces son redirecciones a modelos genericos
         #ver https://commons.wikimedia.org/wiki/File:Tower_Hill_stn_entrance_Tower.JPG
@@ -291,10 +277,10 @@ def main():
         "P6790", #f number
         "P2151", #focal length
     ]
-    #category = pywikibot.Category(site, 'Images by User:Emijrp')
-    #category = pywikibot.Category(site, 'Images by User:Emijrp taken in %d' % (random.randint(2005, 2024)))
-    #category = pywikibot.Category(site, 'Images by User:Emijrp by date')
-    #category = pywikibot.Category(site, 'Images of Madrid by User:Emijrp taken in 2023')
+    #category = pywikibot.Category(sitecommons, 'Images by User:Emijrp')
+    #category = pywikibot.Category(sitecommons, 'Images by User:Emijrp taken in %d' % (random.randint(2005, 2024)))
+    #category = pywikibot.Category(sitecommons, 'Images by User:Emijrp by date')
+    #category = pywikibot.Category(sitecommons, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
     for loop in range(100):
@@ -302,7 +288,7 @@ def main():
         #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
         randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
         randomstart = randomstart[0].upper() + randomstart[1:]
-        gen = pagegenerators.AllpagesPageGenerator(site=site, start=randomstart, namespace=6, includeredirects=False)
+        gen = pagegenerators.AllpagesPageGenerator(site=sitecommons, start=randomstart, namespace=6, includeredirects=False)
         c = 0
         for page in gen:
             c += 1
@@ -312,18 +298,21 @@ def main():
             if page.namespace() != 6:
                 print("No es File:, saltamos")
                 continue
-            page = pywikibot.Page(site, page.title())
+            page = pywikibot.Page(sitecommons, page.title())
             print(page.full_url())
             mid = "M" + str(page.pageid)
             print(mid)
-            if getMIMEtype(site=site, pagetitle=page.title()) != "image/jpeg":
+            if getMIMEtype(site=sitecommons, pagetitle=page.title()) != "image/jpeg":
                 print("No es JPG, saltamos")
                 continue
             
-            claims = getClaims(site=site, mid=mid)
+            claims = getClaims(site=sitecommons, mid=mid)
             if not claims:
-                print("No tiene claims, no inicializado, saltamos")
+                print("Error al recuperar claims, saltamos")
                 continue
+            elif claims and "claims" in claims and claims["claims"] == { }:
+                print("No tiene claims, no inicializado, inicializamos")
+            
             #print(claims["claims"]["P2151"])
             claimstoadd = []
             comments = []
@@ -333,14 +322,14 @@ def main():
                     print("Ya tiene", prop)
                     continue
                 else:
-                    claim, comment = genClaim(site=site, page=page, prop=prop)
+                    claim, comment = genClaim(site=sitecommons, page=page, prop=prop)
                     if claim and comment:
                         print("Anadiendo", prop, comment, claim)
                         claimstoadd.append(claim)
                         comments.append(comment)
             
             if claimstoadd and comments and len(claimstoadd) == len(comments):
-                addClaims(site=site, mid=mid, claims=claimstoadd, comments=comments)
+                addClaims(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments)
 
 if __name__ == '__main__':
     main()

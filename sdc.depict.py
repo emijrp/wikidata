@@ -24,21 +24,6 @@ import urllib.parse
 import pywikibot
 from wikidatafun import *
 
-def getClaims(site, mid):
-    payload = {
-      'action' : 'wbgetclaims',
-      'format' : 'json',
-      'entity' : mid,
-    }
-    request = site.simple_request(**payload)
-    try:
-        r = request.submit()
-        #return json.loads(r)
-        return r
-    except:
-        print("ERROR wbgetclaims")
-    return {}
-
 def addClaims(site, mid, claims, comments, q):
     #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
     csrf_token = site.tokens['csrf']
@@ -130,7 +115,7 @@ def main():
                             portraitregexp = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
                             regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec)"
                             regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
-                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|before|after|cut|sir|dr|in|on|at|en|the|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
+                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|portrait|before|after|cut|sir|prince|dr|in|on|at|en|circa|c|rev|pic|picture|photo|photography|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
                             #print(portraitregexp)
                             if re.search(portraitregexp, filenameclean):
                                 isportrait = True
@@ -141,8 +126,10 @@ def main():
                         
                         claims = getClaims(site=sitecommons, mid=mid)
                         if not claims:
-                            print("No tiene claims, no inicializado, saltamos")
+                            print("Error al recuperar claims, saltamos")
                             continue
+                        elif claims and "claims" in claims and claims["claims"] == { }:
+                            print("No tiene claims, no inicializado, inicializamos")
                         
                         if "claims" in claims:
                             if "P180" in claims["claims"]: #p180 depicts

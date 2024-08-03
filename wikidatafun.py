@@ -26,12 +26,29 @@ import unicodedata
 import urllib
 import urllib.request
 import urllib.parse
+import pywikibot
 
 def cronstop():
     return
     if datetime.datetime.now().isoweekday() in [1, 2, 3, 4, 5]: #1 Monday
         if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
+
+def getClaims(site, mid):
+    payload = {
+      'action' : 'wbgetclaims',
+      'format' : 'json',
+      'entity' : mid,
+    }
+    request = site.simple_request(**payload)
+    try:
+        r = request.submit()
+        #return json.loads(r)
+        return r
+    except pywikibot.exceptions.APIError as e:
+        if e.code == 'no-such-entity':
+            return { "claims": { } }
+    return 
 
 def removeAccents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)

@@ -26,21 +26,6 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
-def getClaims(site, mid):
-    payload = {
-      'action' : 'wbgetclaims',
-      'format' : 'json',
-      'entity' : mid,
-    }
-    request = site.simple_request(**payload)
-    try:
-        r = request.submit()
-        #return json.loads(r)
-        return r
-    except:
-        print("ERROR wbgetclaims")
-    return {}
-
 def addClaims(site, mid, claims, overwritecomment="", comments=[], q=""):
     if not overwritecomment and not q:
         return 
@@ -116,8 +101,10 @@ def main():
             
             claims = getClaims(site=sitecommons, mid=mid)
             if not claims:
-                print("No tiene claims, no inicializado, saltamos")
+                print("Error al recuperar claims, saltamos")
                 continue
+            elif claims and "claims" in claims and claims["claims"] == { }:
+                print("No tiene claims, no inicializado, inicializamos")
             
             if "claims" in claims:
                 if "P180" in claims["claims"]: #p180 depicts
