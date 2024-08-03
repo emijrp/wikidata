@@ -115,7 +115,7 @@ def main():
                             portraitregexp = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
                             regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec)"
                             regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
-                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|portrait|before|after|cut|sir|prince|dr|in|on|at|en|circa|c|rev|pic|picture|photo|photography|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
+                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|portrait|before|after|cut|sir|prince|dr|in|on|at|en|circa|c|rev|img|image|pic|picture|photo|photography|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
                             #print(portraitregexp)
                             if re.search(portraitregexp, filenameclean):
                                 isportrait = True
