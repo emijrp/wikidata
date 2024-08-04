@@ -35,12 +35,23 @@ def cronstop():
             sys.exit()
 
 def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], q=""):
-    if not overwritecomment and not q:
+    if not overwritecomment and not comments and not q:
         return 
     #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
     csrf_token = site.tokens['csrf']
     data = '{"claims":[%s]}' % (",".join(claims))
     comments.sort()
+    summary = "BOT - Adding [[Commons:Structured data|structured data]]"
+    if overwritecomment:
+        summary = overwritecomment
+    elif comments and q:
+        summary = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]: %s" % (q, q, ", ".join(comments))
+    elif comments and not q:
+        summary = "BOT - Adding [[Commons:Structured data|structured data]] based on file information: %s" % (", ".join(comments))
+    elif not comments and q:
+        summary = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]" % (q, q)
+    else:
+        summary = "BOT - Adding [[Commons:Structured data|structured data]]"
     payload = {
       'action' : 'wbeditentity',
       'format' : 'json',
@@ -48,7 +59,7 @@ def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], 
       'data' : data,
       'token' : csrf_token,
       'bot' : True, 
-      'summary': overwritecomment and overwritecomment or "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]: %s" % (q, q, ", ".join(comments)),
+      'summary': summary,
       'tags': 'BotSDC',
     }
     request = site.simple_request(**payload)
