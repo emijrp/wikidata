@@ -295,7 +295,6 @@ def main():
             #print(claims["claims"]["P2151"])
             claimstoadd = []
             comments = []
-            
             for prop in props:
                 if prop in claims["claims"]:
                     print("Ya tiene", prop)
@@ -306,9 +305,15 @@ def main():
                         print("Anadiendo", prop, comment, claim)
                         claimstoadd.append(claim)
                         comments.append(comment)
+                    else:
+                        print("No se encontro EXIF para", prop)
+                        continue
             
             if claimstoadd and comments and len(claimstoadd) == len(comments):
                 addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments)
+            else:
+                print("No se encontraron EXIF o faltan datos")
+                continue
 
 if __name__ == '__main__':
     main()

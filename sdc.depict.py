@@ -123,6 +123,9 @@ def main():
                                 
                                 if claimstoadd and comments and len(claimstoadd) == len(comments):
                                     addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
+                                else:
+                                    print("No se encontraron claims para anadir")
+                                    continue
 
 if __name__ == '__main__':
     main()
