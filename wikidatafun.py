@@ -34,7 +34,30 @@ def cronstop():
         if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
 
-def getClaims(site, mid):
+def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], q=""):
+    if not overwritecomment and not q:
+        return 
+    #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
+    csrf_token = site.tokens['csrf']
+    data = '{"claims":[%s]}' % (",".join(claims))
+    comments.sort()
+    payload = {
+      'action' : 'wbeditentity',
+      'format' : 'json',
+      'id' : mid,
+      'data' : data,
+      'token' : csrf_token,
+      'bot' : True, 
+      'summary': overwritecomment and overwritecomment or "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]: %s" % (q, q, ", ".join(comments)),
+      'tags': 'BotSDC',
+    }
+    request = site.simple_request(**payload)
+    try:
+      r = request.submit()
+    except:
+      print("ERROR while saving")
+
+def getClaimsFromCommonsFile(site, mid):
     payload = {
       'action' : 'wbgetclaims',
       'format' : 'json',

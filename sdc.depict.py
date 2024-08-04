@@ -24,27 +24,6 @@ import urllib.parse
 import pywikibot
 from wikidatafun import *
 
-def addClaims(site, mid, claims, comments, q):
-    #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
-    csrf_token = site.tokens['csrf']
-    data = '{"claims":[%s]}' % (",".join(claims))
-    comments.sort()
-    payload = {
-      'action' : 'wbeditentity',
-      'format' : 'json',
-      'id' : mid,
-      'data' : data,
-      'token' : csrf_token,
-      'bot' : True, 
-      'summary': "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]: %s" % (q, q, ", ".join(comments)),
-      'tags': 'BotSDC',
-    }
-    request = site.simple_request(**payload)
-    try:
-      r = request.submit()
-    except:
-      print("ERROR while saving")
-
 def main():
     sitewd = pywikibot.Site('wikidata', 'wikidata')
     sitecommons = pywikibot.Site('commons', 'commons')
@@ -124,7 +103,7 @@ def main():
                             print("Puede que no sea retrato, saltamos")
                             continue
                         
-                        claims = getClaims(site=sitecommons, mid=mid)
+                        claims = getClaimsFromCommonsFile(site=sitecommons, mid=mid)
                         if not claims:
                             print("Error al recuperar claims, saltamos")
                             continue
@@ -143,7 +122,7 @@ def main():
                                 comments.append("depicts")
                                 
                                 if claimstoadd and comments and len(claimstoadd) == len(comments):
-                                    addClaims(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
+                                    addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
 
 if __name__ == '__main__':
     main()

@@ -54,27 +54,6 @@ def getHTML(pagelink):
         sys.exit()
     return imagehtmlcache[pagelink]
 
-def addClaims(site, mid, claims, comments):
-    #https://www.wikidata.org/w/api.php?action=help&modules=wbcreateclaim
-    csrf_token = site.tokens['csrf']
-    data = '{"claims":[%s]}' % (",".join(claims))
-    comments.sort()
-    payload = {
-      'action' : 'wbeditentity',
-      'format' : 'json',
-      'id' : mid,
-      'data' : data,
-      'token' : csrf_token,
-      'bot' : True, 
-      'summary': "BOT - Adding [[Commons:Structured data|structured data]] based on file information: %s" % (", ".join(comments)),
-      'tags': 'BotSDC',
-    }
-    request = site.simple_request(**payload)
-    try:
-      r = request.submit()
-    except:
-      print("ERROR while saving")
-
 def getImageInfo(site, pagetitle):
     global imageinfocache
     if not pagetitle in imageinfocache:
@@ -306,7 +285,7 @@ def main():
                 print("No es JPG, saltamos")
                 continue
             
-            claims = getClaims(site=sitecommons, mid=mid)
+            claims = getClaimsFromCommonsFile(site=sitecommons, mid=mid)
             if not claims:
                 print("Error al recuperar claims, saltamos")
                 continue
@@ -329,7 +308,7 @@ def main():
                         comments.append(comment)
             
             if claimstoadd and comments and len(claimstoadd) == len(comments):
-                addClaims(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments)
+                addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments)
 
 if __name__ == '__main__':
     main()
