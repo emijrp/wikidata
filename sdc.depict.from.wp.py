@@ -126,6 +126,9 @@ def main():
                     if claimstoadd and comments and len(claimstoadd) == len(comments):
                         overwritecomment = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikipedia pages [[:en:%s|%s]]/[[:en:%s|%s]] and Wikidata item [[:d:%s|%s]]: %s" % (page.title(), page.title(), thumblinkwp.title(), thumblinkwp.title(), q, q, ", ".join(comments)),
                         addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, overwritecomment=overwritecomment, q=q)
+                    else:
+                        print("No se encontraron claims para anadir")
+                        continue
 
 if __name__ == '__main__':
     main()
