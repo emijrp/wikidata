@@ -22,7 +22,62 @@ import time
 import urllib.parse
 
 import pywikibot
+from pywikibot import pagegenerators
 from wikidatafun import *
+
+def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
+    if not site or not mid or not q or not rank or not overwritecomment:
+        return
+    
+    claims = getClaimsFromCommonsFile(site=site, mid=mid)
+    if not claims:
+        print("Error al recuperar claims, saltamos")
+        return
+    elif claims and "claims" in claims and claims["claims"] == { }:
+        print("No tiene claims, no inicializado, inicializamos")
+    
+    if "claims" in claims:
+        if "P180" in claims["claims"]: #p180 depicts
+            print("Ya tiene claim depicts, saltamos")
+            return
+        else:
+            claimstoadd = []
+            depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "%s" }""" % (q[1:], q, rank)
+            claimstoadd.append(depictsclaim)
+            
+            if claimstoadd and overwritecomment:
+                addClaimsToCommonsFile(site=site, mid=mid, claims=claimstoadd, overwritecomment=overwritecomment)
+            else:
+                print("No se encontraron claims para anadir")
+                return
+
+def isPortrait(itemlabels="", filename=""):
+    if not itemlabels or not filename:
+        return False
+    
+    isportrait = False
+    personnames = []
+    for labellang in itemlabels:
+        #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
+        if len(itemlabels[labellang]) >= 8 and ' ' in itemlabels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", itemlabels[labellang]):
+            personnames.append(itemlabels[labellang])
+    personnames = list(set(personnames))
+    
+    for personname in personnames:
+        symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@\= ]*?"
+        #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
+        personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
+        personnamex = personnamex.replace(" ", symbols)
+        portraitregexp = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
+        regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec)"
+        regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
+        filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|portrait|before|after|cut|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pic|picture|photo|photograph|foto|fotograf[íi]a|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
+        #print(portraitregexp)
+        if re.search(portraitregexp, filenameclean):
+            isportrait = True
+            return isportrait
+    
+    return isportrait
 
 def main():
     sitewd = pywikibot.Site('wikidata', 'wikidata')
@@ -78,55 +133,35 @@ def main():
                         mid = "M" + str(filepage.pageid)
                         print(mid)
                         
-                        #exclude images probably not portraits
-                        personnames = []
-                        for labellang in item.labels:
-                            #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
-                            if len(item.labels[labellang]) >= 8 and ' ' in item.labels[labellang] and not re.search(r"(?im)[^a-záéíóúàèìòùäëïöüçñ\,\.\- ]", item.labels[labellang]):
-                                personnames.append(item.labels[labellang])
-                        personnames = list(set(personnames))
-                        isportrait = False
-                        for personname in personnames:
-                            symbols = "[0-9\-\.\,\!\¡\"\$\&\(\)\*\?\¿\~\@\= ]*?"
-                            #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
-                            personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
-                            personnamex = personnamex.replace(" ", symbols)
-                            portraitregexp = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
-                            regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec)"
-                            regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
-                            filenameclean = re.sub(r"(?im)\b(cropp?e?d?|rotated?|portrait|before|after|cut|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pic|picture|photo|photograph|foto|fotograf[íi]a|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename.title())
-                            #print(portraitregexp)
-                            if re.search(portraitregexp, filenameclean):
-                                isportrait = True
-                                break
-                        if not isportrait:
+                        #add depict to the Commons image used in the item's P18
+                        if isPortrait(itemlabels=item.labels, filename=filename.title()):
+                            summary = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]]: depicts" % (q, q)
+                            addP180Claim(site=sitecommons, mid=mid, q=q, rank="preferred", overwritecomment=summary) #prominent
+                        else:
                             print("Puede que no sea retrato, saltamos")
-                            continue
-                        
-                        claims = getClaimsFromCommonsFile(site=sitecommons, mid=mid)
-                        if not claims:
-                            print("Error al recuperar claims, saltamos")
-                            continue
-                        elif claims and "claims" in claims and claims["claims"] == { }:
-                            print("No tiene claims, no inicializado, inicializamos")
-                        
-                        if "claims" in claims:
-                            if "P180" in claims["claims"]: #p180 depicts
-                                print("Ya tiene claim depicts, saltamos")
-                                continue
-                            else:
-                                claimstoadd = []
-                                comments = []
-                                depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "preferred" }""" % (q[1:], q)
-                                claimstoadd.append(depictsclaim)
-                                comments.append("depicts")
-                                
-                                if claimstoadd and comments and len(claimstoadd) == len(comments):
-                                    addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments, q=q)
-                                else:
-                                    print("No se encontraron claims para anadir")
-                                    continue
-
+                
+                #explore commonscat for this person by year, if exists
+                if 'P373' in item.claims: #commonscat
+                    commonscat = item.claims['P373'][0].getTarget()
+                    commonscatbyyear = pywikibot.Category(sitecommons, "%s by year" % (commonscat))
+                    if not commonscatbyyear.exists():
+                        print("No existe", commonscatbyyear.title())
+                        continue
+                    print("->", commonscatbyyear.title())
+                    for subcat in commonscatbyyear.subcategories():
+                        print(subcat.title())
+                        for subcatfilename in subcat.articles(recurse=0, namespaces=[6]):
+                            #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
+                            #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
+                            if isPortrait(itemlabels=item.labels, filename=subcatfilename.title()):
+                                print("-->", subcatfilename.title())
+                                subcatfilemid = "M" + str(subcatfilename.pageid)
+                                print(subcatfilemid)
+                                summary = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]] and Commons category [[%s]]: depicts" % (q, q, subcat.title())
+                                addP180Claim(site=sitecommons, mid=subcatfilemid, q=q, rank="normal", overwritecomment=summary) #normal
+                else:
+                    print("No tiene commonscat")
+                            
 if __name__ == '__main__':
     main()
 
