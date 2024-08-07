@@ -68,7 +68,9 @@ def isPortrait(itemlabels="", filename=""):
         #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
         personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
         personnamex = personnamex.replace(" ", symbols)
-        portraitregexp = r"(?im)^File:%s(%s|%s|.{5,} (?:and|y|&) %s|%s (?:and|y|&) .{5,}|.{5,} (?:and|y|&) %s|%s (?:and|y|&) .{5,})%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, personname, personnamex, personname, personnamex, symbols)
+        andregexp = "(.{5,} (?:and|y|et|und|&) %s|%s (?:and|y|et|und|&) .{5,}|.{5,} (?:and|y|et|und|&) %s|%s (?:and|y|et|und|&) .{5,})" % (personname, personname, personnamex, personnamex)
+        withregexp = "(.{5,} (?:with|con|avec|mit) %s|%s (?:with|con|avec|mit) .{5,}|.{5,} (?:with|con|avec|mit) %s|%s (?:with|con|avec|mit) .{5,})" % (personname, personname, personnamex, personnamex)
+        portraitregexp = r"(?im)^File:%s(%s|%s|%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, andregexp, withregexp, symbols)
         regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene|feb|mar|abr|may|jun|jul|ago|sept?|oct|nov|dic)"
         regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
         filenameclean = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|the|[a-z]+\d+|\d+[a-z]+|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
