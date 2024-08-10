@@ -1193,6 +1193,10 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
     repo = site.data_repository()
     countries = [ # de momento solo hispanohablantes, los libros de nativos en otros idiomas cuidado
         "Q29", #españa
+        
+        "Q414", #argentina
+        "Q298", #chile
+        "Q739", #colombia
         "Q96", #mexico
     ]
     queries = [
