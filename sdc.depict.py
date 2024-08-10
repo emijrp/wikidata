@@ -25,32 +25,6 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
-def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
-    if not site or not mid or not q or not rank or not overwritecomment:
-        return
-    
-    claims = getClaimsFromCommonsFile(site=site, mid=mid)
-    if not claims:
-        print("Error al recuperar claims, saltamos")
-        return
-    elif claims and "claims" in claims and claims["claims"] == { }:
-        print("No tiene claims, no inicializado, inicializamos")
-    
-    if "claims" in claims:
-        if "P180" in claims["claims"]: #p180 depicts
-            print("Ya tiene claim depicts, saltamos")
-            return
-        else:
-            claimstoadd = []
-            depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "%s" }""" % (q[1:], q, rank)
-            claimstoadd.append(depictsclaim)
-            
-            if claimstoadd and overwritecomment:
-                addClaimsToCommonsFile(site=site, mid=mid, claims=claimstoadd, overwritecomment=overwritecomment)
-            else:
-                print("No se encontraron claims para anadir")
-                return
-
 def isPortrait(itemlabels="", filename=""):
     if not itemlabels or not filename:
         return False
@@ -68,14 +42,15 @@ def isPortrait(itemlabels="", filename=""):
         #primero convierto los puntos, comas, rayas, en espacios, pq hay puntos etc en symbols
         personnamex = personname.replace(".", " ").replace(",", " ").replace("-", " ")
         personnamex = personnamex.replace(" ", symbols)
-        andregexp = "(.{5,} (?:and|y|et|und|&) %s|%s (?:and|y|et|und|&) .{5,}|.{5,} (?:and|y|et|und|&) %s|%s (?:and|y|et|und|&) .{5,})" % (personname, personname, personnamex, personnamex)
+        andregexp = "(.{5,} (?:and|y|et|und) %s|%s (?:and|y|et|und) .{5,}|.{5,} (?:and|y|et|und) %s|%s (?:and|y|et|und) .{5,})" % (personname, personname, personnamex, personnamex)
+        commaregexp = "(.{5,} ?(?:,|-|&) ?%s|%s ?(?:,|-|&) ?.{5,}|.{5,} ?(?:,|-|&) ?%s|%s  ?(?:,|-|&) ?.{5,})" % (personname, personname, personnamex, personnamex)
         withregexp = "(.{5,} (?:with|con|avec|mit) %s|%s (?:with|con|avec|mit) .{5,}|.{5,} (?:with|con|avec|mit) %s|%s (?:with|con|avec|mit) .{5,})" % (personname, personname, personnamex, personnamex)
         byregexp = "(%s (?:by|por) .{5,}|%s (?:by|por) .{5,})" % (personname, personnamex)
         verbregexp = "(%s [a-z]{2,}ing .*|%s [a-z]{2,}ing .*|%s [a-z]{2,}ed .*|%s [a-z]{2,}ed .*|%s [a-z]{2,}s .*|%s [a-z]{2,}s .*)" % (personname, personnamex, personname, personnamex, personname, personnamex)
-        portraitregexp = r"(?im)^File:%s(%s|%s|%s|%s|%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, andregexp, withregexp, byregexp, verbregexp, symbols)
+        portraitregexp = r"(?im)^File:%s(%s|%s|%s|%s|%s|%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, andregexp, commaregexp, withregexp, byregexp, verbregexp, symbols)
         regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene|feb|mar|abr|may|jun|jul|ago|sept?|oct|nov|dic)"
         regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
-        filenameclean = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|the|[a-z]|[a-z]+\d+[a-z0-9]*|\d+[a-z]+[a-z0-9]*|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
+        filenameclean = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|b ?&? ?w|colou?r|the|[a-z]|[a-z]+\d+[a-z0-9]*|\d+[a-z]+[a-z0-9]*|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
         #print(portraitregexp)
         if re.search(portraitregexp, filename) or re.search(portraitregexp, filenameclean):
             isportrait = True
@@ -136,6 +111,9 @@ def main():
                         print(filepage.full_url())
                         mid = "M" + str(filepage.pageid)
                         print(mid)
+                        if re.search(r"(?im)(artwork|painting)", filepage.text):
+                            print("Obra de arte, saltamos")
+                            continue
                         
                         #add depict to the Commons image used in the item's P18
                         if isPortrait(itemlabels=item.labels, filename=filename.title()):
@@ -154,7 +132,10 @@ def main():
                     print("->", commonscatbyyear.title())
                     for subcat in commonscatbyyear.subcategories():
                         print(subcat.title())
-                        for subcatfilename in subcat.articles(recurse=0, namespaces=[6]):
+                        for subcatfilename in subcat.articles(recurse=1, namespaces=[6]): #recursivo 1 subnivel
+                            if re.search(r"(?im)(artwork|painting)", subcatfilename.text):
+                                print("Obra de arte, saltamos")
+                                continue
                             #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
                             #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
                             if isPortrait(itemlabels=item.labels, filename=subcatfilename.title()):
@@ -173,5 +154,3 @@ if __name__ == '__main__':
 
 #tb hacer este https://commons.wikimedia.org/wiki/Commons:Bots/Requests/Emijrpbot_12
 #para las descs q sean simplemente un ^[[link]]\.?$, o sean ^The [[link]], o ^[[link]] viewed https://en.wikipedia.org/w/index.php?title=Murray_River&oldid=1231417560#Murray_mouth
-
-#despues otro para las imagenes en categorias de commons con el nombre PERSONA in YEAR, cuidado con este q no tiene pq ser prominent, puede haber mas de una persona en la foto

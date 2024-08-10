@@ -68,6 +68,36 @@ def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], 
     except:
       print("ERROR while saving")
 
+def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
+    if not site or not mid or not q or not rank or not overwritecomment:
+        return
+    
+    claims = getClaimsFromCommonsFile(site=site, mid=mid)
+    if not claims:
+        print("Error al recuperar claims, saltamos")
+        return
+    elif claims and "claims" in claims and claims["claims"] == { }:
+        print("No tiene claims, no inicializado, inicializamos")
+    
+    if "claims" in claims:
+        if "P180" in claims["claims"]: #p180 depicts
+            for p180 in claims["claims"]["P180"]:
+                if p180["mainsnak"]["datavalue"]["value"]["id"] == q:
+                    print("--> Ya tiene claim depicts, saltamos", q)
+                    return
+        print("--> No se encontro claim, anadimos", q)
+        if "P180" in claims["claims"]:
+            print("###########Tiene otros P180")
+        claimstoadd = []
+        depictsclaim = """{ "mainsnak": { "snaktype": "value", "property": "P180", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "%s" }""" % (q[1:], q, rank)
+        claimstoadd.append(depictsclaim)
+        
+        if claimstoadd and overwritecomment:
+            addClaimsToCommonsFile(site=site, mid=mid, claims=claimstoadd, overwritecomment=overwritecomment)
+        else:
+            print("No se encontraron claims para anadir")
+            return
+
 def getClaimsFromCommonsFile(site, mid):
     payload = {
       'action' : 'wbgetclaims',
