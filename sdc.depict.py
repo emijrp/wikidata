@@ -111,7 +111,7 @@ def main():
                         print(filepage.full_url())
                         mid = "M" + str(filepage.pageid)
                         print(mid)
-                        if re.search(r"(?im)(artwork|painting|statue)", filepage.text):
+                        if re.search(r"(?im)(artwork|painting|statue|coin|numism)", filepage.text):
                             print("Obra de arte, saltamos")
                             continue
                         
@@ -133,7 +133,7 @@ def main():
                     for subcat in commonscatbyyear.subcategories():
                         print(subcat.title())
                         for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo las PERSON_IN_YEAR, algunas subcats de ellas son interesantes pero otras provocan falsos positivos
-                            if re.search(r"(?im)(artwork|painting|statue)", subcatfilename.text):
+                            if re.search(r"(?im)(artwork|painting|statue|coin|numism)", subcatfilename.text):
                                 print("Obra de arte, saltamos")
                                 continue
                             #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
