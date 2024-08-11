@@ -130,9 +130,11 @@ def main():
                         print("No existe", commonscatbyyear.title())
                         continue
                     print("->", commonscatbyyear.title())
-                    for subcat in commonscatbyyear.subcategories():
+                    for subcat in commonscatbyyear.subcategories(recurse=1): #recursivo 1 subnivel, para PERSON IN YEAR y IN MONTH YEAR
+                        if not re.search(r"(?im)^Category:%s in (January|February|March|April|May|June|July|August|September|October|November|December)? ?\d\d\d\d$" % (commonscat), subcat.title()):
+                            continue
                         print(subcat.title())
-                        for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo las PERSON_IN_YEAR, algunas subcats de ellas son interesantes pero otras provocan falsos positivos
+                        for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo ficheros
                             if re.search(r"(?im)(artwork|painting|statue|coin|numism)", subcatfilename.text):
                                 print("Obra de arte, saltamos")
                                 continue
