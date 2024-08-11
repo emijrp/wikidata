@@ -132,7 +132,7 @@ def main():
                     print("->", commonscatbyyear.title())
                     for subcat in commonscatbyyear.subcategories():
                         print(subcat.title())
-                        for subcatfilename in subcat.articles(recurse=1, namespaces=[6]): #recursivo 1 subnivel
+                        for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo las PERSON_IN_YEAR, algunas subcats de ellas son interesantes pero otras provocan falsos positivos
                             if re.search(r"(?im)(artwork|painting|statue)", subcatfilename.text):
                                 print("Obra de arte, saltamos")
                                 continue
