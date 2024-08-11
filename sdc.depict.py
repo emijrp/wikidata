@@ -98,6 +98,7 @@ def main():
                 continue
             
             if item.claims:
+                #explore the P18 images if set in the item
                 if not 'P18' in item.claims:
                     print("P18 not found")
                     continue
@@ -122,12 +123,15 @@ def main():
                         else:
                             print("Puede que no sea retrato, saltamos")
                 
-                #explore commonscat for this person by year, if exists
+                #explore P373 commonscat for this person by year, if exists
                 if 'P373' in item.claims: #commonscat
                     commonscat = item.claims['P373'][0].getTarget()
                     commonscatbyyear = pywikibot.Category(sitecommons, "%s by year" % (commonscat))
                     if not commonscatbyyear.exists():
                         print("No existe", commonscatbyyear.title())
+                        continue
+                    #commonscatbyyear must be subcat of exactly commonscat name, otherwise skip
+                    if not re.search(r"(?im)\[\[\s*Category\s*:\s*%s\s*[\|\]]" % (commonscat), commonscatbyyear.text):
                         continue
                     print("->", commonscatbyyear.title())
                     for subcat in commonscatbyyear.subcategories(recurse=1): #recursivo 1 subnivel, para PERSON IN YEAR y IN MONTH YEAR
