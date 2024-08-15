@@ -30,6 +30,10 @@ def isPortrait(itemlabels="", filename=""):
         return False
     
     isportrait = False
+    
+    if re.search(r"(?im)(Hollywood Boulevard|Walk of fame)", filename):
+        return False
+    
     personnames = []
     for labellang in itemlabels:
         #cierta logintud, al menos un espacio (dos palabras) y solo los caracteres indicados
