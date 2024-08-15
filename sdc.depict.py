@@ -63,6 +63,9 @@ def main():
     sitecommons = pywikibot.Site('commons', 'commons')
     repowd = sitewd.data_repository()
     
+    exclude = [
+        "Q164119", #https://commons.wikimedia.org/w/index.php?title=User_talk%3AEmijrp&diff=909629489&oldid=905391266
+    ]
     for loop in range(10):
         time.sleep(5)
         querywd = """
@@ -89,6 +92,9 @@ def main():
             if not q:
                 break
             print('\n== %s ==' % (q))
+            
+            if q in exclude: #skip reported errors
+                continue
             
             item = pywikibot.ItemPage(repowd, q)
             try: #to detect Redirect because .isRedirectPage fails
