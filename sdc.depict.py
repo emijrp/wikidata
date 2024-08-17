@@ -25,7 +25,7 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
-def isPortrait(itemlabels="", filename=""):
+def isPortrait(itemlabels="", filename="", hardmode=False):
     if not itemlabels or not filename:
         return False
     
@@ -52,13 +52,18 @@ def isPortrait(itemlabels="", filename=""):
         byregexp = "(%s (?:by|por) .{5,}|%s (?:by|por) .{5,})" % (personname, personnamex)
         verbregexp = "(%s [a-z]{2,}ing .*|%s [a-z]{2,}ing .*|%s [a-z]{2,}ed .*|%s [a-z]{2,}ed .*|%s [a-z]{2,}s .*|%s [a-z]{2,}s .*)" % (personname, personnamex, personname, personnamex, personname, personnamex)
         portraitregexp = r"(?im)^File:%s(%s|%s|%s|%s|%s|%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, andregexp, commaregexp, withregexp, byregexp, verbregexp, symbols)
+        portraitregexphardmode = r"(?im)^File:%s(%s|%s)%s\.(?:jpe?g|gif|png|tiff?)$" % (symbols, personname, personnamex, symbols)
         regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene|feb|mar|abr|may|jun|jul|ago|sept?|oct|nov|dic)"
         regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
         filenameclean = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|b ?&? ?w|colou?r|the|[a-z]|[a-z]+\d+[a-z0-9]*|\d+[a-z]+[a-z0-9]*|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
         #print(portraitregexp)
-        if re.search(portraitregexp, filename) or re.search(portraitregexp, filenameclean):
-            isportrait = True
-            return isportrait
+        if hardmode:
+            if re.search(portraitregexphardmode, filename):
+                isportrait = True
+        else:
+            if re.search(portraitregexp, filename) or re.search(portraitregexp, filenameclean):
+                isportrait = True
+        return isportrait
     
     return isportrait
 
@@ -136,7 +141,32 @@ def main():
                         else:
                             print("Puede que no sea retrato, saltamos")
                 
-                #explore P373 commonscat for this person by year, if exists
+                #explore P373 commonscat for this person, if exists
+                if 'P373' in item.claims: #commonscat
+                    commonscat = item.claims['P373'][0].getTarget()
+                    commonscat = pywikibot.Category(sitecommons, commonscat)
+                    if not commonscat.exists():
+                        print("No existe", commonscat.title())
+                        continue
+                    print("->", commonscat.title())
+                    for catfilename in commonscat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo ficheros
+                        if isArtwork(text=catfilename.text):
+                            print("Obra de arte, saltamos")
+                            continue
+                        if myBotWasReverted(page=catfilename):
+                            print("Bot reverted, skiping")
+                            continue
+                        #es necesario filtrar las imagenes con isPortrait(hardmode=True) pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
+                        #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
+                        #hardmode=True pq al estar en la categoria base no han sido filtradas como las PERSON IN YEAR de abajo
+                        if isPortrait(itemlabels=item.labels, filename=catfilename.title(), hardmode=True):
+                            print("-->", catfilename.title())
+                            catfilemid = "M" + str(catfilename.pageid)
+                            print(catfilemid)
+                            summary = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikidata item [[:d:%s|%s]] and Commons category [[%s]]: depicts" % (q, q, commonscat.title())
+                            addP180Claim(site=sitecommons, mid=catfilemid, q=q, rank="normal", overwritecomment=summary) #normal
+                
+                #explore P373 commonscat for this person BY YEAR, if exists
                 if 'P373' in item.claims: #commonscat
                     commonscat = item.claims['P373'][0].getTarget()
                     commonscatbyyear = pywikibot.Category(sitecommons, "%s by year" % (commonscat))
@@ -160,6 +190,7 @@ def main():
                                 continue
                             #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
                             #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
+                            #hardmode=False pq al estar en PERSON IN YEAR presumimos un primer filtro humano ya
                             if isPortrait(itemlabels=item.labels, filename=subcatfilename.title()):
                                 print("-->", subcatfilename.title())
                                 subcatfilemid = "M" + str(subcatfilename.pageid)
