@@ -63,8 +63,6 @@ def isPortrait(itemlabels="", filename="", hardmode=False):
         else:
             if re.search(portraitregexp, filename) or re.search(portraitregexp, filenameclean):
                 isportrait = True
-        return isportrait
-    
     return isportrait
 
 def main():
