@@ -125,7 +125,7 @@ def main():
                         print(filepage.full_url())
                         mid = "M" + str(filepage.pageid)
                         print(mid)
-                        if re.search(r"(?im)(artwork|painting|statue|coin|numism)", filepage.text):
+                        if isArtwork(text=filepage.text):
                             print("Obra de arte, saltamos")
                             continue
                         
@@ -152,7 +152,7 @@ def main():
                             continue
                         print(subcat.title())
                         for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo ficheros
-                            if re.search(r"(?im)(artwork|painting|statue|coin|numism)", subcatfilename.text):
+                            if isArtwork(text=subcatfilename.text):
                                 print("Obra de arte, saltamos")
                                 continue
                             if myBotWasReverted(page=subcatfilename):

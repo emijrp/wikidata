@@ -34,6 +34,13 @@ def cronstop():
         if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
 
+def isArtwork(text=""):
+    if not text:
+        return False
+    if re.search(r"(?im)(artwork|painting|statue|coin|numism|Google Art Project|PD[- ]Art)", text):
+        return True
+    return False
+
 def myBotWasReverted(page='', botnick="Emijrpbot"):
     if not page or not botnick:
         return False
