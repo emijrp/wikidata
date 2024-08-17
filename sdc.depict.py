@@ -119,6 +119,9 @@ def main():
                         filepage = pywikibot.Page(sitecommons, filename.title())
                         if filepage.isRedirectPage():
                             filepage = filepage.getRedirectTarget()
+                        if myBotWasReverted(page=filepage):
+                            print("Bot reverted, skiping")
+                            continue
                         print(filepage.full_url())
                         mid = "M" + str(filepage.pageid)
                         print(mid)
@@ -151,6 +154,9 @@ def main():
                         for subcatfilename in subcat.articles(recurse=0, namespaces=[6]): #recursivo 0 subnivel, solo ficheros
                             if re.search(r"(?im)(artwork|painting|statue|coin|numism)", subcatfilename.text):
                                 print("Obra de arte, saltamos")
+                                continue
+                            if myBotWasReverted(page=subcatfilename):
+                                print("Bot reverted, skiping")
                                 continue
                             #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
                             #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco

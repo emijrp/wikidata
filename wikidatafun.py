@@ -34,6 +34,16 @@ def cronstop():
         if datetime.datetime.now().hour > 4 and datetime.datetime.now().hour < 18:
             sys.exit()
 
+def myBotWasReverted(page='', botnick="Emijrpbot"):
+    if not page or not botnick:
+        return False
+    hist = page.revisions(reverse=False, total=50)
+    for rev in hist:
+        #print(rev)
+        if re.search(r"(?im)(revert|rv).*%s" % (botnick), rev["comment"]):
+            return True
+    return False
+
 def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], q=""):
     if not overwritecomment and not comments and not q:
         return 
