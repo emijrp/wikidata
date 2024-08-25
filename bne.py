@@ -1197,7 +1197,12 @@ def getAuthorsByDate(month=0, day=0, daysfromtoday=0, year=0):
         "Q414", #argentina
         "Q298", #chile
         "Q739", #colombia
+        "Q241", #cuba
+        "Q736", #ecuador
         "Q96", #mexico
+        "Q419", #peru
+        "Q77", #uruguay
+        "Q717", #venezuela
     ]
     queries = [
         """
