@@ -56,9 +56,10 @@ def isPortrait(itemlabels="", filename="", hardmode=False):
         regexpmonths = "(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|apr|jun|jul|aug|sept?|oct|nov|dec|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene|feb|mar|abr|may|jun|jul|ago|sept?|oct|nov|dic)"
         regexpdays = "(([012]?\d|3[01])(st|nd|rd|th))"
         filenameclean = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|b ?&? ?w|colou?r|the|[a-z]|[a-z]+\d+[a-z0-9]*|\d+[a-z]+[a-z0-9]*|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
+        filenamecleanhardmode = re.sub(r"(?im)\b(cropp?e?d?|recortad[oa]|rotated?|rotad[oa]|portrait|retrato|before|antes|after|despu[eé]s|cut|sr|sir|prince|dr|in|on|at|en|circa|c|rev|img|imagen?|pics?|pictures?|photos?|photographs?|fotos?|fotograf[íi]as?|head[ -]shots?|b ?&? ?w|colou?r|the|%s|%s)\b" % (regexpdays, regexpmonths), "", filename)
         #print(portraitregexp)
         if hardmode:
-            if re.search(portraitregexphardmode, filename):
+            if re.search(portraitregexphardmode, filename) or re.search(portraitregexphardmode, filenamecleanhardmode):
                 isportrait = True
         else:
             if re.search(portraitregexp, filename) or re.search(portraitregexp, filenameclean):
