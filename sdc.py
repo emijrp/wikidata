@@ -262,17 +262,25 @@ def main():
     #category = pywikibot.Category(sitecommons, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
-    for loop in range(100):
+    for loop in range(1000):
         time.sleep(5)
         #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
-        randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
-        randomstart = randomstart[0].upper() + randomstart[1:]
-        gen = pagegenerators.AllpagesPageGenerator(site=sitecommons, start=randomstart, namespace=6, includeredirects=False)
+        #randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
+        #randomstart = randomstart[0].upper() + randomstart[1:]
+        #gen = pagegenerators.AllpagesPageGenerator(site=sitecommons, start=randomstart, namespace=6, includeredirects=False)
+        randommonth = "%d-%02d" % (random.randint(2000, 2024+1), random.randint(1, 12+1))
+        randomstring = ''.join(random.choice(string.ascii_letters) for xx in range(1)) #one letter for now
+        query = "-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s %s" % (randommonth, randomstring)
+        gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
+        skipped = 0
         for page in gen:
+            print("Result", c, "from query", query)
             c += 1
-            if c >= 1000:
-                break #break cada 1000 files para saltar a otra zona de commons aleatoriamente
+            if c >= 5000:
+                break #break cada 5000 files para saltar a otra zona de commons aleatoriamente
+            if skipped >= 10: #too many useless results
+                break
             print('==', page.title(), '==')
             if page.namespace() != 6:
                 print("No es File:, saltamos")
@@ -311,7 +319,9 @@ def main():
             
             if claimstoadd and comments and len(claimstoadd) == len(comments):
                 addClaimsToCommonsFile(site=sitecommons, mid=mid, claims=claimstoadd, comments=comments)
+                skipped = 0 #reset
             else:
+                skipped += 1
                 print("No se encontraron EXIF o faltan datos")
                 continue
 
