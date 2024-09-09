@@ -273,6 +273,15 @@ def qIsDisambig(item=""):
     return False
 
 def main():
+    
+    
+    
+    
+    sys.exit() #slowing down for a while because wikidata database issues
+    
+    
+    
+    
     wdsite = pywikibot.Site('wikidata', 'wikidata')
     repo = wdsite.data_repository()
     total = 200

@@ -1670,6 +1670,13 @@ def bneCore(qlist=[]):
                         linkWorkAndEdition(repo=repo, workq=workq, editionq=editionq)
 
 def main():
+    
+    
+    
+    sys.exit() #slowing down for a while because wikidata database issues
+    
+    
+    
     #days = [1, 90, 180, 270]
     days = [1] # revisando pq algunos los crea sin propiedades < 1000 bytes https://www.wikidata.org/wiki/Special:NewPages?namespace=0&tagfilter=&username=Emijrpbot&size-mode=max&size=1000&wpFormIdentifier=newpagesform
     for day in days:

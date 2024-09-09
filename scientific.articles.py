@@ -234,6 +234,7 @@ def main():
                     print(summary)
                     try:
                         item.editEntity(data, summary=summary)
+                        time.sleep(600) #slowing down for a while because wikidata database issues
                     except:
                         print('Error while saving')
                         continue
