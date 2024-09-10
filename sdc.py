@@ -268,9 +268,10 @@ def main():
         #randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
         #randomstart = randomstart[0].upper() + randomstart[1:]
         #gen = pagegenerators.AllpagesPageGenerator(site=sitecommons, start=randomstart, namespace=6, includeredirects=False)
-        randommonth = "%d-%02d" % (random.randint(2000, 2024+1), random.randint(1, 12+1))
+        randomdate = "%d-%02d-%02d" % (random.randint(2000, 2024+1), random.randint(1, 12+1), random.randint(1, 30))
         randomstring = ''.join(random.choice(string.ascii_letters) for xx in range(1)) #one letter for now
-        query = "-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s %s" % (randommonth, randomstring)
+        #query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s" %s' % (randomdate, randomstring)
+        query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomdate)
         gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
         skipped = 0
@@ -279,7 +280,7 @@ def main():
             c += 1
             if c >= 5000:
                 break #break cada 5000 files para saltar a otra zona de commons aleatoriamente
-            if skipped >= 30: #too many useless results
+            if skipped >= 10: #too many useless results
                 break
             print('==', page.title(), '==')
             if page.namespace() != 6:
