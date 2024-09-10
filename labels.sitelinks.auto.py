@@ -26,6 +26,15 @@ import pywikibot
 from wikidatafun import *
 
 def main():
+    
+    
+    
+    
+    sys.exit() #slowing down for a while because wikidata database issues
+    
+    
+    
+    
     site = pywikibot.Site('wikidata', 'wikidata')
     repo = site.data_repository()
     langs = ["de", "en", "es", "fr", "pt", "it"]
