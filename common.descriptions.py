@@ -2449,7 +2449,7 @@ translations = {
         'eu': 'Wikimediako argipen orri',
         'fa': 'یک صفحهٔ ابهام\u200cزدایی در ویکی\u200cپدیا',
         'fi': 'Wikimedia-täsmennyssivu',
-        'fr': 'page d\'homonymie de Wikimedia',
+        'fr': 'page d\'homonymie de Wikimédia',
         'fy': 'Wikimedia-betsjuttingsside',
         'gl': 'páxina de homónimos de Wikimedia',
         'gsw': 'Wikimedia-Begriffsklärigssite',
