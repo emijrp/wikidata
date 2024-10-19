@@ -269,9 +269,9 @@ def main():
         #randomstart = randomstart[0].upper() + randomstart[1:]
         #gen = pagegenerators.AllpagesPageGenerator(site=sitecommons, start=randomstart, namespace=6, includeredirects=False)
         randomdate = "%d-%02d-%02d" % (random.randint(2000, 2024+1), random.randint(1, 12+1), random.randint(1, 30))
-        randomstring = ''.join(random.choice(string.ascii_letters) for xx in range(1)) #one letter for now
-        #query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s" %s' % (randomdate, randomstring)
-        query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomdate)
+        randomstring = ''.join(random.choice(string.ascii_letters) for xx in range(2)) #one letter for now
+        query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s" %s' % (randomdate, randomstring)
+        #query = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomdate)
         gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
         skipped = 0
