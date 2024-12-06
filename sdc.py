@@ -282,7 +282,11 @@ def main():
         query3 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s' % (randomstring3)
         query4 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s' % (randomstring4)
         query5 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s' % (randomstring5)
-        query = random.choice([query1, query2, query3, query4, query5])
+        query6 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(100, 999))
+        query7 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(1000, 9999))
+        query8 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(10000, 99999))
+        #query = random.choice([query1, query2, query3, query4, query5])
+        query = random.choice([query6, query7, query8])
         gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
         skipped = 0
