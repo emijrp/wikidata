@@ -244,7 +244,7 @@ def main():
         #ver https://commons.wikimedia.org/wiki/File:Tower_Hill_stn_entrance_Tower.JPG
         #FinePix A900 -> Fujifilm FinePix A series
         
-        #"P1163", #media type
+        "P1163", #media type
         
         #"P2048", #height
         #"P2049", #width
@@ -285,8 +285,7 @@ def main():
         query6 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(100, 999))
         query7 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(1000, 9999))
         query8 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(10000, 99999))
-        #query = random.choice([query1, query2, query3, query4, query5])
-        query = random.choice([query6, query7, query8])
+        query = random.choice([query1, query2, query3, query4, query5, query6, query7, query8])
         gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
         skipped = 0
