@@ -244,7 +244,7 @@ def main():
         #ver https://commons.wikimedia.org/wiki/File:Tower_Hill_stn_entrance_Tower.JPG
         #FinePix A900 -> Fujifilm FinePix A series
         
-        "P1163", #media type
+        #"P1163", #media type
         
         #"P2048", #height
         #"P2049", #width
@@ -262,8 +262,8 @@ def main():
     #category = pywikibot.Category(sitecommons, 'Images of Madrid by User:Emijrp taken in 2023')
     #gen = pagegenerators.CategorizedPageGenerator(category, namespaces=[6])
     
-    for loop in range(1000):
-        time.sleep(5)
+    for loop in range(10000):
+        time.sleep(1)
         #randomstart = ''.join(random.choice(string.ascii_uppercase + string.digits) for xx in range(6))
         #randomstart = ''.join(random.choice("!¡()" + string.ascii_letters + string.digits) for xx in range(6))
         #randomstart = randomstart[0].upper() + randomstart[1:]
@@ -285,7 +285,8 @@ def main():
         query6 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(100, 999))
         query7 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(1000, 9999))
         query8 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(10000, 99999))
-        query = random.choice([query1, query2, query3, query4, query5, query6, query7, query8])
+        query9 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(10000, 99999))
+        query = random.choice([query1, query2, query3, query4, query5, query6, query7, query8, query9])
         gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
         c = 0
         skipped = 0
@@ -294,7 +295,7 @@ def main():
             c += 1
             if c >= 5000:
                 break #break cada 5000 files para saltar a otra zona de commons aleatoriamente
-            if skipped >= 10: #too many useless results
+            if skipped >= 20: #too many useless results
                 break
             print('==', page.title(), '==')
             if page.namespace() != 6:
