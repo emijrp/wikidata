@@ -31,7 +31,7 @@ def isPortrait(itemlabels="", filename="", hardmode=False):
     
     isportrait = False
     
-    if re.search(r"(?im)(Hollywood Boulevard|Walk of fame)", filename):
+    if re.search(r"(?im)(Hollywood Boulevard|Walk of fame|review needed|OptimusPrimeBot|Marine Corps)", filename):
         return False
     
     personnames = []
