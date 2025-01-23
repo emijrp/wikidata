@@ -25,13 +25,13 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
-def isPortrait(itemlabels="", filename="", hardmode=False):
+def isPortrait(itemlabels="", filename="", text="", hardmode=False):
     if not itemlabels or not filename:
         return False
     
     isportrait = False
     
-    if re.search(r"(?im)(Hollywood Boulevard|Walk of fame|review needed|OptimusPrimeBot|Marine Corps)", filename):
+    if re.search(r"(?im)(Hollywood Boulevard|Walk of fame|review needed|OptimusPrimeBot|Marine Corps)", filename+" "+text):
         return False
     
     personnames = []
@@ -131,7 +131,7 @@ def main():
                             continue
                         
                         #add depict to the Commons image used in the item's P18
-                        if isPortrait(itemlabels=item.labels, filename=filename.title()):
+                        if isPortrait(itemlabels=item.labels, filename=filename.title(), text=filepage.text):
                             if myBotWasReverted(page=filepage):
                                 print("Bot reverted, skiping")
                                 continue
@@ -155,7 +155,7 @@ def main():
                         #es necesario filtrar las imagenes con isPortrait(hardmode=True) pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
                         #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
                         #hardmode=True pq al estar en la categoria base no han sido filtradas como las PERSON IN YEAR de abajo
-                        if isPortrait(itemlabels=item.labels, filename=catfilename.title(), hardmode=True):
+                        if isPortrait(itemlabels=item.labels, filename=catfilename.title(), text=catfilename.text, hardmode=True):
                             if myBotWasReverted(page=catfilename):
                                 print("Bot reverted, skiping")
                                 continue
@@ -187,7 +187,7 @@ def main():
                             #es necesario filtrar las imagenes con isPortrait() pq hay documentos en jpg, pdfs, etc, q no son fotos de personas
                             #no se puede añadir el depict a todos los ficheros de la subcategoria a lo loco
                             #hardmode=False pq al estar en PERSON IN YEAR presumimos un primer filtro humano ya
-                            if isPortrait(itemlabels=item.labels, filename=subcatfilename.title()):
+                            if isPortrait(itemlabels=item.labels, filename=subcatfilename.title(), text=subcatfilename.text):
                                 if myBotWasReverted(page=subcatfilename):
                                     print("Bot reverted, skiping")
                                     continue
