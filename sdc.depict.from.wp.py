@@ -52,7 +52,7 @@ def main():
 			if page.isRedirectPage():
 				continue
 			c += 1
-			if c >= 5000:
+			if c >= 25000:
 				c = 0
 				print("###Skiping to other Wikipedia region")
 				break #this is to randomize more
