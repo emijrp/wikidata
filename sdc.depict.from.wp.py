@@ -83,20 +83,38 @@ def main():
 			"""
 			
 			#mode2 linked thumb descriptions
+			fileregexpdefault = "(?:File|Image)"
 			fileregexps = {
-				"default" : "(?:File|Image)", 
-				"en" : "(?:File|Image)", 
-				"es" : "(?:File|Image|Fichero|Imagen)", 
+				"default": fileregexpdefault, 
+				"de": "(?:File|Image|Datei)", 
+				"en": fileregexpdefault, 
+				"es": "(?:File|Image|Fichero|Imagen)", 
+				"fr": "(?:File|Image|Fichier)", 
+				"it": fileregexpdefault, 
+				"pt": "(?:File|Image|Imagem)", 
+				"sv": "(?:File|Image|Fil)", 
 			}
+			thumbregexpdefault = "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*"
 			thumbregexps = {
-				"default" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
-				"en" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
-				"es" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
+				"default": thumbregexpdefault, 
+				"de": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|mini|links)\s*)*", 
+				"en": thumbregexpdefault, 
+				"es": thumbregexpdefault, 
+				"fr": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|vignette|redresse)\s*)*", 
+				"it": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|miniatura)\s*)*", 
+				"pt": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|miniatura|miniaturadaimagem|esquerda|direita)\s*)*", 
+				"sv": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|miniatyr)\s*)*", 
 			}
+			captionregexpdefault = "(?:[a-z\,\.\(\) ]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z\,\.\(\) ]{,8}\s*\.?)"
 			captionregexps = {
-				"default" : "(?:[a-z\,\.\(\) ]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z\,\.\(\) ]{,8}\s*\.?)", 
-				"en" : "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d+\)))?\s*\.?)", 
-				"es" : "(?:[a-z]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z]{,8}\s*\.?)", 
+				"default": captionregexpdefault, 
+				"de": captionregexpdefault, 
+				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d+\)))?\s*\.?)", 
+				"es": captionregexpdefault, 
+				"fr": captionregexpdefault, 
+				"it": captionregexpdefault, 
+				"pt": captionregexpdefault, 
+				"sv": captionregexpdefault, 
 			}
 			if targetlang in fileregexps.keys() and targetlang in thumbregexps.keys() and targetlang in captionregexps.keys():
 				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps[targetlang], thumbregexps[targetlang], captionregexps[targetlang]), wtext)
