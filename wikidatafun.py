@@ -47,7 +47,7 @@ def myBotWasReverted(page='', botnick="Emijrpbot"):
     hist = page.revisions(reverse=False, total=50)
     for rev in hist:
         #print(rev)
-        if re.search(r"(?im)(revert|rv).*%s" % (botnick), rev["comment"]):
+        if re.search(r"(?im)(revert|rv|undo|undid).*%s" % (botnick), rev["comment"]):
             return True
     return False
 
