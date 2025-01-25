@@ -27,7 +27,7 @@ from pywikibot import pagegenerators
 from wikidatafun import *
 
 def main():
-	targetlangs = ["en", "es", "fr"]
+	targetlangs = ["en", "es", "fr", "de", "pt", "it", "sv"]
 	targetlang = random.choice(targetlangs)
 	sitewp = pywikibot.Site(targetlang, 'wikipedia')
 	sitecommons = pywikibot.Site('commons', 'commons')
