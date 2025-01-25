@@ -28,7 +28,7 @@ from wikidatafun import *
 
 def main():
 	targetlangs = ["en", "es", "fr"]
-	targetlang = "en"
+	targetlang = random.choice(targetlangs)
 	sitewp = pywikibot.Site(targetlang, 'wikipedia')
 	sitecommons = pywikibot.Site('commons', 'commons')
 	sitewd = pywikibot.Site('wikidata', 'wikidata')
@@ -84,21 +84,24 @@ def main():
 			
 			#mode2 linked thumb descriptions
 			fileregexps = {
+				"default" : "(?:File|Image)", 
 				"en" : "(?:File|Image)", 
 				"es" : "(?:File|Image|Fichero|Imagen)", 
 			}
 			thumbregexps = {
+				"default" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
 				"en" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
 				"es" : "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px)\s*)*", 
 			}
 			captionregexps = {
+				"default" : "(?:[a-z\,\.\(\) ]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z\,\.\(\) ]{,8}\s*\.?)", 
 				"en" : "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d+\)))?\s*\.?)", 
 				"es" : "(?:[a-z]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z]{,8}\s*\.?)", 
 			}
 			if targetlang in fileregexps.keys() and targetlang in thumbregexps.keys() and targetlang in captionregexps.keys():
 				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps[targetlang], thumbregexps[targetlang], captionregexps[targetlang]), wtext)
 			else: #other langs, generic
-				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps["en"], thumbregexps["en"], captionregexps["en"]), wtext)
+				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps["default"], thumbregexps["default"], captionregexps["default"]), wtext)
 			
 			for mm in m:
 				filename = mm[0].strip()
