@@ -96,6 +96,13 @@ def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
 	elif claims and "claims" in claims and claims["claims"] == { }:
 		print("No tiene claims, no inicializado, inicializamos")
 	
+	excludedqs = [
+		"Q1886349", #logo
+	]
+	if q in excludedqs:
+		print("Excluded q", q)
+		return
+	
 	if "claims" in claims:
 		if "P180" in claims["claims"]: #p180 depicts
 			for p180 in claims["claims"]["P180"]:
