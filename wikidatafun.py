@@ -102,6 +102,11 @@ def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
 				if p180["mainsnak"]["datavalue"]["value"]["id"] == q:
 					print("--> Ya tiene claim depicts, saltamos", q)
 					return
+		#https://commons.wikimedia.org/w/index.php?title=File%3ANaturkundemuseum_Berlin_-_Archaeopteryx_-_Eichst%C3%A4tt.jpg&diff=987725284&oldid=987724207
+		#https://commons.wikimedia.org/w/api.php?action=wbgetclaims&entity=M2457215
+		if re.search(r"(?im)%s" % (q), str(claims)):
+			print("--> Ya usa este Q en algun sitio, saltamos", q)
+			return
 		print("--> No se encontro claim, anadimos", q)
 		if "P180" in claims["claims"]:
 			print("###########Tiene otros P180")
