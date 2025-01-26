@@ -164,7 +164,7 @@ def main():
 				print(mid)
 				
 				overwritecomment = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikipedia pages [[:%s:%s|%s]]/[[:%s:%s|%s]] and Wikidata item [[:d:%s|%s]]: depicts" % (targetlang, page.title(), page.title(), targetlang, thumblinkwp.title(), thumblinkwp.title(), q, q)
-				addP180Claim(site=sitecommons, mid=mid, q=q, rank="normal", overwritecomment=overwritecomment) #normal
+				addP180Claim(site=sitecommons, mid=mid, q=q, rank="normal", overwritecomment=overwritecomment, skipifP180exists=True) #rank=normal, skipifP180exists=True to avoid redundancy https://commons.wikimedia.org/w/index.php?title=File%3A2007_Audi_Q7_3.0_TDI_quattro_01.jpg&diff=988221095&oldid=988219347
 
 if __name__ == '__main__':
 	main()

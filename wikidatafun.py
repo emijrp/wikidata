@@ -85,7 +85,7 @@ def addClaimsToCommonsFile(site, mid, claims, overwritecomment="", comments=[], 
 	except:
 	  print("ERROR while saving")
 
-def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
+def addP180Claim(site="", mid="", q="", rank="", overwritecomment="", skipifP180exists=False):
 	if not site or not mid or not q or not rank or not overwritecomment:
 		return
 	
@@ -105,6 +105,9 @@ def addP180Claim(site="", mid="", q="", rank="", overwritecomment=""):
 	
 	if "claims" in claims:
 		if "P180" in claims["claims"]: #p180 depicts
+			if skipifP180exists: #https://commons.wikimedia.org/w/index.php?title=File%3A2007_Audi_Q7_3.0_TDI_quattro_01.jpg&diff=988221095&oldid=988219347
+				print("--> Skiping because P180 has a value, to avoid redundancy")
+				return
 			for p180 in claims["claims"]["P180"]:
 				if p180["mainsnak"]["datavalue"]["value"]["id"] == q:
 					print("--> Ya tiene claim depicts, saltamos", q)
