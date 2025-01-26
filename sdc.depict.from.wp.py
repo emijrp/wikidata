@@ -105,11 +105,11 @@ def main():
 				"pt": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|miniatura|miniaturadaimagem|esquerda|direita)\s*)*", 
 				"sv": "(?:\|\s*(?:thumb|thumbnail|frame|center|right|left|upright\s*=?\s*\d*\.?\d*|upleft\s*=?\s*\d*\.?\d*|\d+px|\d+x\d+px|miniatyr)\s*)*", 
 			}
-			captionregexpdefault = "(?:[a-z\,\.\(\) ]{,8}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z\,\.\(\) ]{,8}\s*\.?)"
+			captionregexpdefault = "(?:[a-z\,\.\(\) ]{,4}\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*[a-z\,\.\(\) ]{,4}\s*\.?)" #no mas de 4 chars o puede ser frases cortas que lleve a error
 			captionregexps = {
 				"default": captionregexpdefault, 
 				"de": captionregexpdefault, 
-				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d+\)))?\s*\.?)", 
+				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d{4}\)))?\s*\.?)", 
 				"es": captionregexpdefault, 
 				"fr": captionregexpdefault, 
 				"it": captionregexpdefault, 
