@@ -109,7 +109,7 @@ def main():
 			captionregexps = {
 				"default": captionregexpdefault, 
 				"de": captionregexpdefault, 
-				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(\d{4}\)))?\s*\.?)", 
+				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(?\d{4}\)?))?\s*\.?)", 
 				"es": captionregexpdefault, 
 				"fr": captionregexpdefault, 
 				"it": captionregexpdefault, 
