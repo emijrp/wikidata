@@ -117,9 +117,10 @@ def main():
 				"sv": captionregexpdefault, 
 			}
 			if targetlang in fileregexps.keys() and targetlang in thumbregexps.keys() and targetlang in captionregexps.keys():
-				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps[targetlang], thumbregexps[targetlang], captionregexps[targetlang]), wtext)
+				#el \[?\[? es para que capture también los File: de los <gallery> que no llevan [[ ni ]]
+				m = re.findall(r"(?im)^\[?\[?\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*(?:\]\]|\n)" % (fileregexps[targetlang], thumbregexps[targetlang], captionregexps[targetlang]), wtext)
 			else: #other langs, generic
-				m = re.findall(r"(?im)\[\[\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*\]\]" % (fileregexps["default"], thumbregexps["default"], captionregexps["default"]), wtext)
+				m = re.findall(r"(?im)^\[?\[?\s*%s\s*:\s*([^\|\[\]]+?)%s\s*\|\s*%s\s*(?:\]\]|\n)" % (fileregexps["default"], thumbregexps["default"], captionregexps["default"]), wtext)
 			
 			for mm in m:
 				filename = mm[0].strip()
