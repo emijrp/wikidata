@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import hashlib
+import os
 import random
 import re
 import string
@@ -26,7 +28,49 @@ import pywikibot
 from pywikibot import pagegenerators
 from wikidatafun import *
 
+filenamedone = []
+
+def loadfilenamedone():
+	global filenamedone
+	if not os.path.exists("sdc.depict.from.wp.done"):
+		with open("sdc.depict.from.wp.done", "w") as f:
+			f.write("")
+	
+	with open("sdc.depict.from.wp.done", "r") as f:
+		filenamedone = list(set(f.read().strip().splitlines()))
+		print("Loaded done files", len(filenamedone))
+
+def savefilenamedone():
+	global filenamedone
+	filenamedone2 = []
+	with open("sdc.depict.from.wp.done", "r") as f:
+		filenamedone2 = list(set(f.read().strip().splitlines()))
+	filenamedone = list(set(filenamedone+filenamedone2))
+	with open("sdc.depict.from.wp.done", "w") as f:
+		raw = '\n'.join(list(set(filenamedone)))
+		f.write(raw)
+		print("Saved done files", len(filenamedone))
+
+def generatefilenamedonehash(filename=""):
+	#filenames are saved as truncated md5sums, first chars
+	filename = filename.replace("_", " ")
+	filename = filename[0].upper() + filename[1:]
+	filenamehash = hashlib.md5(filename.encode('utf-8')).hexdigest()
+	filenamehash = filenamehash[:10]
+	return filenamehash
+
+def addfilenamedone(filename="", randomsave=True):
+	global filenamedone
+	filenamedone.append(generatefilenamedonehash(filename=filename))
+	if randomsave:
+		if random.randint(0,100) == 0:
+			savefilenamedone()
+	else:
+		savefilenamedone()
+
 def main():
+	global filenamedone
+	loadfilenamedone()
 	targetlangs = ["es", "fr", "de", "pt", "it", "sv", "nl", "pl", "ca", "id", "no", "li", "hu", "da"]
 	targetlangs += ["en"] * len(targetlangs)
 	targetlang = random.choice(targetlangs)
@@ -130,21 +174,28 @@ def main():
 				if not filename.lower().endswith(".jpg") and not filename.lower().endswith(".jpeg"):
 					continue
 				print(filename, thumblink)
+				if filename in filenamedone:
+					print("Este fichero ya se ha analizado antes, saltando")
+					continue
 				filepagewp = pywikibot.Page(sitewp, "File:"+filename)
 				if filepagewp.exists():
 					print("Existe pagina para este fichero en wp, saltamos")
+					addfilenamedone(filename=filename)
 					continue
 				filepagecommons = pywikibot.Page(sitecommons, "File:"+filename)
 				if not filepagecommons.exists():
 					print("No existe pagina para este fichero en commons, saltamos")
+					addfilenamedone(filename=filename)
 					continue
 				if filepagecommons.isRedirectPage():
 					filepagecommons = filepagecommons.getRedirectTarget()
 				if isArtwork(text=filepagecommons.text):
 					print("Obra de arte, saltamos")
+					addfilenamedone(filename=filename)
 					continue
 				if myBotWasReverted(page=filepagecommons):
 					print("Bot reverted, skiping")
+					addfilenamedone(filename=filename)
 					continue
 				thumblinkwp = pywikibot.Page(sitewp, thumblink)
 				if not thumblinkwp.exists():
@@ -168,6 +219,7 @@ def main():
 				
 				overwritecomment = "BOT - Adding [[Commons:Structured data|structured data]] based on Wikipedia pages [[:%s:%s|%s]]/[[:%s:%s|%s]] and Wikidata item [[:d:%s|%s]]: depicts" % (targetlang, page.title(), page.title(), targetlang, thumblinkwp.title(), thumblinkwp.title(), q, q)
 				addP180Claim(site=sitecommons, mid=mid, q=q, rank="normal", overwritecomment=overwritecomment, skipifP180exists=True) #rank=normal, skipifP180exists=True to avoid redundancy https://commons.wikimedia.org/w/index.php?title=File%3A2007_Audi_Q7_3.0_TDI_quattro_01.jpg&diff=988221095&oldid=988219347
+				addfilenamedone(filename=filename)
 
 if __name__ == '__main__':
 	main()
