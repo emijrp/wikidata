@@ -110,7 +110,8 @@ def main():
 			captionregexps = {
 				"default": captionregexpdefault, 
 				"de": captionregexpdefault, 
-				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(?\d{4}\)?))?\s*\.?)", 
+				#la caption es solo un [[link]], o un [[link]] con palabras muy concretas antes o después (The, Aerial view...), o un [[link]] seguido de coma y un número de caracteres (mínimo 10, máximo 50) sin ningún enlace más
+				"en": "(?:(?:(?:The|Oldtown of|Aerial view|Exterior view|Another view|Details?|Detailed view)\s*(?:of)?\s*)?\s*\'*\[\[([^\|\[\]\#]+?)(?:\|[\|\[\]\#]*?)?\]\]\'*\s*(?:(?:in|on|at|before|after) (?:\[?\[?(?:\d+|night|sunset|sunrise|spring|summer|autumn|winter)\]?\]?|skyline|\(?\d{4}\)?)|, [a-z\,\.\(\) ]{10,50})?\s*\.?)", 
 				"es": captionregexpdefault, 
 				"fr": captionregexpdefault, 
 				"it": captionregexpdefault, 
