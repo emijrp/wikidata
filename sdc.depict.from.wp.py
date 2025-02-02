@@ -67,7 +67,7 @@ def addfilenamedone(filename="", randomsave=True):
 	global filenamedone
 	filenamedone.append(generatefilenamedonehash(filename=filename))
 	if randomsave:
-		if random.randint(0,50) == 0:
+		if random.randint(0,250) == 0:
 			savefilenamedone()
 	else:
 		savefilenamedone()
@@ -101,7 +101,7 @@ def main():
 			if page.isRedirectPage():
 				continue
 			c += 1
-			if c >= 2500:
+			if c >= 5000:
 				c = 0
 				print("###Skiping to other Wikipedia region")
 				break #this is to randomize more

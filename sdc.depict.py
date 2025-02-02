@@ -65,7 +65,7 @@ def addfilenamedone(filename="", randomsave=True):
 	global filenamedone
 	filenamedone.append(generatefilenamedonehash(filename=filename))
 	if randomsave:
-		if random.randint(0,50) == 0:
+		if random.randint(0,250) == 0:
 			savefilenamedone()
 	else:
 		savefilenamedone()
