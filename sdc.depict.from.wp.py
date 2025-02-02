@@ -29,30 +29,34 @@ from pywikibot import pagegenerators
 from wikidatafun import *
 
 filenamedone = []
+filenamedonelog = "sdc.depict.from.wp.done"
 
 def loadfilenamedone():
 	global filenamedone
-	if not os.path.exists("sdc.depict.from.wp.done"):
-		with open("sdc.depict.from.wp.done", "w") as f:
+	global filenamedonelog
+	if not os.path.exists(filenamedonelog):
+		with open(filenamedonelog, "w") as f:
 			f.write("")
 	
-	with open("sdc.depict.from.wp.done", "r") as f:
+	with open(filenamedonelog, "r") as f:
 		filenamedone = list(set(f.read().strip().splitlines()))
 		print("Loaded done files", len(filenamedone))
 
 def savefilenamedone():
 	global filenamedone
+	global filenamedonelog
 	filenamedone2 = []
-	with open("sdc.depict.from.wp.done", "r") as f:
+	with open(filenamedonelog, "r") as f:
 		filenamedone2 = list(set(f.read().strip().splitlines()))
 	filenamedone = list(set(filenamedone+filenamedone2))
-	with open("sdc.depict.from.wp.done", "w") as f:
+	with open(filenamedonelog, "w") as f:
 		raw = '\n'.join(list(set(filenamedone)))
 		f.write(raw)
 		print("Saved done files", len(filenamedone))
 
 def generatefilenamedonehash(filename=""):
 	#filenames are saved as truncated md5sums, first chars
+	filename = filename.replace("File:", "")
 	filename = filename.replace("_", " ")
 	filename = filename[0].upper() + filename[1:]
 	filenamehash = hashlib.md5(filename.encode('utf-8')).hexdigest()
@@ -63,7 +67,7 @@ def addfilenamedone(filename="", randomsave=True):
 	global filenamedone
 	filenamedone.append(generatefilenamedonehash(filename=filename))
 	if randomsave:
-		if random.randint(0,100) == 0:
+		if random.randint(0,50) == 0:
 			savefilenamedone()
 	else:
 		savefilenamedone()
@@ -174,7 +178,7 @@ def main():
 				if not filename.lower().endswith(".jpg") and not filename.lower().endswith(".jpeg"):
 					continue
 				print(filename, thumblink)
-				if filename in filenamedone:
+				if generatefilenamedonehash(filename=filename) in filenamedone:
 					print("Este fichero ya se ha analizado antes, saltando")
 					continue
 				filepagewp = pywikibot.Page(sitewp, "File:"+filename)
