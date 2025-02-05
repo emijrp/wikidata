@@ -325,7 +325,7 @@ def main():
 		randomstring4 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(4)) #several letters and numbers
 		randomstring5 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(5)) #several letters and numbers
 		#queryprefix = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg '
-		queryprefix = '%shaswbstatement:%s -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg ' % (random.randomchoice(["-", ""]), random.randomchoice(["P1163", "P12120", "P4082", "P7482"]))
+		queryprefix = '%shaswbstatement:%s -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg ' % (random.choice(["-", ""]), random.choice(["P1163", "P12120", "P4082", "P7482"]))
 		query1 = '%s "%s"' % (queryprefix, randomdate1)
 		query2 = '%s "%s"' % (queryprefix, randomdate2)
 		query3 = '%s "%s"' % (queryprefix, randomtime1)
