@@ -324,24 +324,27 @@ def main():
 		randomstring3 = ''.join(random.choice(string.ascii_letters) for xx in range(3)) #three letters
 		randomstring4 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(4)) #several letters and numbers
 		randomstring5 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(5)) #several letters and numbers
-		query1 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomdate1)
-		query2 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomdate2)
-		query3 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomtime1)
-		query4 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomtime2)
-		query10 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomstring1)
-		query11 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomstring2)
-		query12 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg "%s"' % (randomstring3)
-		query13 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s' % (randomstring4)
-		query14 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %s' % (randomstring5)
-		query20 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(100, 999))
-		query21 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(1000, 9999))
-		query22 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(10000, 99999))
-		query23 = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg %d' % (random.randint(100000, 999999))
+		#queryprefix = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg '
+		queryprefix = '%shaswbstatement:%s -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg ' % (random.randomchoice(["-", ""]), random.randomchoice(["P1163", "P12120", "P4082", "P7482"]))
+		query1 = '%s "%s"' % (queryprefix, randomdate1)
+		query2 = '%s "%s"' % (queryprefix, randomdate2)
+		query3 = '%s "%s"' % (queryprefix, randomtime1)
+		query4 = '%s "%s"' % (queryprefix, randomtime2)
+		query10 = '%s "%s"' % (queryprefix, randomstring1)
+		query11 = '%s "%s"' % (queryprefix, randomstring2)
+		query12 = '%s "%s"' % (queryprefix, randomstring3)
+		query13 = '%s %s' % (queryprefix, randomstring4)
+		query14 = '%s %s' % (queryprefix, randomstring5)
+		query20 = '%s %d' % (queryprefix, random.randint(100, 999))
+		query21 = '%s %d' % (queryprefix, random.randint(1000, 9999))
+		query22 = '%s %d' % (queryprefix, random.randint(10000, 99999))
+		query23 = '%s %d' % (queryprefix, random.randint(100000, 999999))
 		query = random.choice([query1, query2, query3, query4, query10, query11, query12, query13, query14, query20, query21, query22, query23])
 		gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=5000)
 		c = 0
 		skipped = 0
 		for page in gen:
+			time.sleep(0.1)
 			print("Result", c, "from query", query)
 			c += 1
 			if c >= 5000:
