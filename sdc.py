@@ -349,7 +349,7 @@ def main():
 			c += 1
 			if c >= 5000:
 				break #break cada 5000 files para saltar a otra zona de commons aleatoriamente
-			if skipped >= 20: #too many useless results
+			if skipped >= 200: #too many useless results
 				break
 			print('==', page.title(), '==')
 			if page.namespace() != 6:
