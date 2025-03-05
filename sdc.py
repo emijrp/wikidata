@@ -291,7 +291,7 @@ def main():
 		#ver https://commons.wikimedia.org/wiki/File:Tower_Hill_stn_entrance_Tower.JPG
 		#FinePix A900 -> Fujifilm FinePix A series
 		
-		#"P1163", #media type
+		"P1163", #media type
 		
 		#"P2048", #height
 		#"P2049", #width
