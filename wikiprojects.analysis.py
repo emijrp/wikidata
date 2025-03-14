@@ -379,7 +379,10 @@ This page is an '''analysis''' of the [[:{catname}|content tracked]] by '''[[Wik
 		
 		c += 1
 		#retrieve page info
-		pageinfo = getPageInfo(site=sitewp, page=page, wikiproject=wikiproject)
+		try:
+			pageinfo = getPageInfo(site=sitewp, page=page, wikiproject=wikiproject)
+		except:
+			continue
 		pagesbycreationdatetime.append([pageinfo["creationdate"], page.title()])
 		pagesbysize.append([pageinfo["size"], page.title()])
 		pagesbyviews30days.append([pageinfo["views30days"], page.title()])
@@ -452,7 +455,7 @@ This page is an '''analysis''' of the [[:{catname}|content tracked]] by '''[[Wik
 		chartclass[pageinfo["class"]] = chartclass.get(pageinfo["class"], 0) + 1
 		chartimportance[pageinfo["importance"]] = chartimportance.get(pageinfo["importance"], 0) + 1
 		
-		if c >= 50000:
+		if c >= 5000:
 			break
 		
 	footer = """\n|}\n{{sticky table end}}"""
