@@ -269,15 +269,13 @@ def getQuality(text=""):
 		quality = "good article"
 	return quality
 
-def main():
+def wikiprojectanalysis(wikiproject=""):
 	sitewp = pywikibot.Site("en", "wikipedia")
 	sitecommons = pywikibot.Site("commons", "commons")
 	sitewd = pywikibot.Site("wikidata", "wikidata")
 	repowd = sitewd.data_repository()
 	
 	t1 = time.time()
-	wikiproject = "Artificial Intelligence"
-	wikiproject = "Numbers"
 	catname = "Category:WikiProject %s articles" % (wikiproject)
 	wikiprojectpage = pywikibot.Page(sitewp, "Wikipedia:WikiProject " + wikiproject)
 	m = re.findall(r"(?im)image\s*=\s*([^\n]+?\.(?:jpe?g|pne?g|svg))", wikiprojectpage.text)
@@ -577,6 +575,14 @@ Only '''pages''' in the main namespace are shown.
 	pageanalysis = pywikibot.Page(sitewp, "User:Emijrpbot/WikiProject %s" % (wikiproject))
 	pageanalysis.text = analysis
 	pageanalysis.save("BOT - Updating analysis of [[Wikipedia:WikiProject %s]]" % (wikiproject))
+
+def main():
+	wikiprojects = [
+		"Artificial Intelligence", 
+		"Numbers", 
+	]
+	for wikiproject in wikiprojects:
+		wikiprojectanalysis(wikiproject=wikiproject)
 
 if __name__ == '__main__':
 	main()
