@@ -589,7 +589,10 @@ def main():
 		"Zimbabwe", 
 	]
 	for wikiproject in wikiprojects:
-		wikiprojectanalysis(wikiproject=wikiproject)
+		try:
+			wikiprojectanalysis(wikiproject=wikiproject)
+		except:
+			pass
 
 if __name__ == '__main__':
 	main()
