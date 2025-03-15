@@ -582,7 +582,11 @@ Only '''pages''' in the main namespace are shown.
 def main():
 	wikiprojects = [
 		"Artificial Intelligence", 
+		"Bibliographies", 
+		"Greenland", 
 		"Numbers", 
+		"Wildfire", 
+		"Zimbabwe", 
 	]
 	for wikiproject in wikiprojects:
 		wikiprojectanalysis(wikiproject=wikiproject)
