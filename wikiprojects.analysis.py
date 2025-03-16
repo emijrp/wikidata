@@ -277,6 +277,10 @@ def wikiprojectanalysis(wikiproject=""):
 	
 	t1 = time.time()
 	catname = "Category:WikiProject %s articles" % (wikiproject)
+	category = pywikibot.Category(sitewp, catname)
+	if not category.exists():
+		catname = "Category:WikiProject %s" % (wikiproject)
+		category = pywikibot.Category(sitewp, catname)
 	wikiprojectpage = pywikibot.Page(sitewp, "Wikipedia:WikiProject " + wikiproject)
 	m = re.findall(r"(?im)image\s*=\s*([^\n]+?\.(?:jpe?g|pne?g|svg))", wikiprojectpage.text)
 	wikiprojectlogo = m and m[0].strip() or "WikiProject Council with transparent background.svg"
@@ -310,7 +314,6 @@ def wikiprojectanalysis(wikiproject=""):
 	intro = f"""{notice}
 [[File:{wikiprojectlogo}|right|200px]]
 This page is an '''analysis''' of the [[:{catname}|content tracked]] by '''[[Wikipedia:WikiProject {wikiproject}|WikiProject {wikiproject}]]'''."""
-	category = pywikibot.Category(sitewp, catname)
 	c = 0
 	header = """{{static row numbers}}{{sticky header}}{{mw-datatable}}{{table alignment}}
 {| class="wikitable sortable plainlinks static-row-numbers sticky-header mw-datatable defaultcenter col1left" style="font-size: 80%;"
