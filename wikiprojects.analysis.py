@@ -419,10 +419,13 @@ This page is an '''analysis''' of the [[:{catname}|content tracked]] by '''[[Wik
 		pagelinks = "[[%s]]" % (page.title())
 		pagetitle_ = re.sub(" ", "_", page.title())
 		row = f"""|{pagelinks}"""
-		row += f"""\n|[//en.wikipedia.org/w/index.php?oldid={pageinfo["firstedit"]} {pageinfo["creationdate"]}]"""
+		#row += f"""\n|[//en.wikipedia.org/w/index.php?oldid={pageinfo["firstedit"]} {pageinfo["creationdate"]}]"""
+		row += f"""\n|{pageinfo["creationdate"]}"""
 		row += f"""\n|{pageinfo["size"] < 1000 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["size"])}"""
-		row += f"""\n|{pageinfo["views30days"] < 30 and 'style="background-color:#dcdcdc"|' or ''}[//pageviews.wmcloud.org/?pages={pagetitle_}&project=en.wikipedia.org {"{:,}".format(pageinfo["views30days"])}]"""
-		row += f"""\n|[//en.wikipedia.org/w/index.php?title={pagetitle_}&action=history {"{:,}".format(pageinfo["edits"])}]"""
+		#row += f"""\n|{pageinfo["views30days"] < 30 and 'style="background-color:#dcdcdc"|' or ''}[//pageviews.wmcloud.org/?pages={pagetitle_}&project=en.wikipedia.org {"{:,}".format(pageinfo["views30days"])}]"""
+		row += f"""\n|{pageinfo["views30days"] < 30 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["views30days"])}"""
+		#row += f"""\n|[//en.wikipedia.org/w/index.php?title={pagetitle_}&action=history {"{:,}".format(pageinfo["edits"])}]"""
+		row += f"""\n|{"{:,}".format(pageinfo["edits"])}"""
 		row += f"""\n|{pageinfo["edits30days"] == 0 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["edits30days"])}"""
 		row += f"""\n|{"{:,}".format(pageinfo["dayssincelatestedit"])}"""
 		row += f"""\n|{pageinfo["watchers"] == " " and 'style="background-color:#dcdcdc"|' or ''}{pageinfo["watchers"] and "{:,}".format(pageinfo["watchers"]) or " "}"""
