@@ -586,15 +586,28 @@ Only '''pages''' in the main namespace are shown.
 	pageanalysis.save("BOT - Updating analysis of [[Wikipedia:WikiProject %s]]" % (wikiproject))
 
 def main():
-	wikiprojects = [
-		"Artificial Intelligence", 
-		"Bibliographies", 
-		"Greenland", 
-		"Numbers", 
-		"Wildfire", 
-		"Zimbabwe", 
-	]
-	for wikiproject in wikiprojects:
+	weekday = datetime.datetime.today().weekday()
+	wikiprojects = {
+		0: [ #Sunday
+			"Greenland", 
+		],
+		1: [
+			"Wildfire", 
+		],
+		2: [
+			"Zimbabwe",
+		],
+		3: [],
+		4: [],
+		5: [],
+		6: [],
+		"*": [
+			"Artificial Intelligence", 
+			"Bibliographies", 
+			"Numbers", 
+		],
+	}
+	for wikiproject in list(set(wikiprojects[weekday] + wikiprojects["*"])):
 		try:
 			wikiprojectanalysis(wikiproject=wikiproject)
 		except:
