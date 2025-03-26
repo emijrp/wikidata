@@ -167,6 +167,27 @@ def getFocalLength(site, pagelink):
 		focallength = re.sub(r',', r'', focallength)
 	return focallength
 
+def getCapturedWith(site, pagelink):
+	capturedwith = False
+	pagehtml = getHTML(pagelink=pagelink)
+	m = re.findall(r'(?im)<tr class="exif-model"><th>[^<>]*?</th><td>(.*?)</td></tr>', pagehtml)
+	if m:
+		try:
+			n = re.findall(r"(?im)title=\"en:([^<>]+?)\">([^<>]+?)</a>", m[0])
+			if n:
+				camera1, camera2 = n[0]
+				camera1 = camera1.replace("_", " ").strip()
+				camera2 = camera2.replace("_", " ").strip()
+				if camera1.lower() == camera2.lower() and len(camera1) >= 8:
+					enwiki = pywikibot.Site("en", "wikipedia")
+					enwpcamera = pywikibot.Page(enwiki, camera1)
+					if enwpcamera.exists() and not enwpcamera.isRedirectPage() and enwpcamera.title().lower() == camera2.lower():
+						capturedwith = pywikibot.ItemPage.fromPage(enwpcamera)
+						capturedwith = capturedwith.getID()
+		except:
+			pass
+	return capturedwith
+
 def genP1163(site, page): #media type
 	claim = False
 	comment = False
@@ -257,6 +278,16 @@ def genP2151(site, page): #focal length
 		comment = "focal length"
 	return claim, comment
 
+def genP4082(site, page): #captured with
+	claim = False
+	comment = False
+	prop = "P4082"
+	capturedwith = getCapturedWith(site, page.full_url())
+	if capturedwith:
+		claim = """{ "mainsnak": { "snaktype": "value", "property": "%s", "datavalue": {"value": {"entity-type": "item", "numeric-id": "%s", "id": "%s"}, "type":"wikibase-entityid"} }, "type": "statement", "rank": "normal" }""" % (prop, capturedwith[1:], capturedwith)
+		comment = "captured with"
+	return claim, comment
+
 def genClaim(site, page, prop):
 	if prop == "P1163": #media type
 		return genP1163(site, page)
@@ -278,6 +309,9 @@ def genClaim(site, page, prop):
 		return genP6790(site, page)
 	elif prop == "P2151": #focal length
 		return genP2151(site, page)
+	
+	elif prop == "P4082": #captured with
+		return genP4082(site, page)
 	
 	else:
 		return "", ""
@@ -302,6 +336,8 @@ def main():
 		"P6757", #exposure time
 		"P6790", #f number
 		"P2151", #focal length
+		
+		"P4082", #captured with
 	]
 	#category = pywikibot.Category(sitecommons, 'Images by User:Emijrp')
 	#category = pywikibot.Category(sitecommons, 'Images by User:Emijrp taken in %d' % (random.randint(2005, 2024)))
@@ -325,7 +361,7 @@ def main():
 		randomstring4 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(4)) #several letters and numbers
 		randomstring5 = ' '.join(random.choice(string.ascii_letters + ''.join([str(x) for x in range(10)])) for xx in range(5)) #several letters and numbers
 		#queryprefix = '-haswbstatement:P1163 -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg '
-		queryprefix = '%shaswbstatement:%s -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg ' % (random.choice(["-", ""]), random.choice(["P1163", "P12120", "P4082", "P7482"]))
+		queryprefix = '%shaswbstatement:%s -scan -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -stl jpg ' % (random.choice(["-", ""]), random.choice(["P1163", "P12120", "P4082", "P7482", "P4082"]))
 		query1 = '%s "%s"' % (queryprefix, randomdate1)
 		query2 = '%s "%s"' % (queryprefix, randomdate2)
 		query3 = '%s "%s"' % (queryprefix, randomtime1)
