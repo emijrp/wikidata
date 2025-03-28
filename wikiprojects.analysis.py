@@ -449,8 +449,10 @@ This page is an '''analysis''' of the [[:{catname}|content tracked]] by '''[[Wik
 		row += f"""\n|{pageinfo["wikidatalabel"] == 0 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["wikidatalabel"])}"""
 		row += f"""\n|{pageinfo["wikidataaliases"] == 0 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["wikidataaliases"])}"""
 		row += f"""\n|{pageinfo["wikidataclaims"] == 0 and 'style="background-color:#dcdcdc"|' or ''}{"{:,}".format(pageinfo["wikidataclaims"])}"""
-		row += f"""\n{{{{Class|{pageinfo["class"]}}}}}"""
-		row += f"""\n{{{{Importance|{pageinfo["importance"]}}}}}"""
+		#row += f"""\n{{{{Class|{pageinfo["class"]}}}}}""" #too many templates cause error
+		row += f"""\n|{pageinfo["class"]}"""
+		#row += f"""\n{{{{Importance|{pageinfo["importance"]}}}}}""" #too many templates cause error
+		row += f"""\n|{pageinfo["importance"]}"""
 		#print(row)
 		rows.append(row)
 		print(re.sub(r"\n", "", row))
@@ -589,27 +591,30 @@ def main():
 	weekday = datetime.datetime.today().weekday()
 	wikiprojects = {
 		0: [ #Sunday
-			"Greenland", 
-		],
-		1: [
-			"Wildfire", 
-		],
-		2: [
-			"Zimbabwe",
-		],
-		3: [],
-		4: [],
-		5: [],
-		6: [],
-		"*": [
 			"Artificial Intelligence", 
+		], 
+		1: [
 			"Bibliographies", 
+		], 
+		2: [
+			"Greenland", 
+		], 
+		3: [
 			"Numbers", 
-		],
+		], 
+		4: [
+			"Wildfire", 
+		], 
+		5: [
+			"Zimbabwe", 
+		], 
+		6: [], 
+		"*": [], 
 	}
 	for wikiproject in list(set(wikiprojects[weekday] + wikiprojects["*"])):
 		try:
-			wikiprojectanalysis(wikiproject=wikiproject)
+			#wikiprojectanalysis(wikiproject=wikiproject)
+			pass
 		except:
 			pass
 
