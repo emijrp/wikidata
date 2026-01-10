@@ -387,9 +387,9 @@ def main():
 			time.sleep(0.1)
 			print("Result", c, "from query", query)
 			c += 1
-			if c >= 5000:
-				break #break cada 5000 files para saltar a otra zona de commons aleatoriamente
-			if skipped >= 200: #too many useless results
+			if c >= 10000:
+				break #break cada 10000 files para saltar a otra zona de commons aleatoriamente
+			if skipped >= 100: #too many useless results
 				break
 			print('==', page.title(), '==')
 			if page.namespace() != 6:
