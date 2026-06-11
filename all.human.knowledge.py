@@ -119,7 +119,13 @@ def main():
         wdstatsurl = 'https://www.wikidata.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
         jsonwd = json.loads(getURL(url=wdstatsurl))
         wdarticles = jsonwd['query']['statistics']['articles']
-        wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, {{LinkedLabel|Q328}} has {{formatnum:%s}} articles<ref>{{cite web | url=https://en.wikipedia.org/wiki/Special:Statistics | title=Special:Statistics | publisher=English Wikipedia | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref> and {{LinkedLabel|Q2013}} includes {{formatnum:%s}} items.<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics | title=Special:Statistics | publisher=Wikidata | date=%s | accessdate=%s | quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles)
+        commonsstatsurl = 'https://commons.wikimedia.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
+        jsoncommons = json.loads(getURL(url=commonsstatsurl))
+        commonsfiles = jsoncommons['query']['statistics']['images']
+        speciesstatsurl = 'https://species.wikimedia.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'
+        jsonspecies = json.loads(getURL(url=speciesstatsurl))
+        speciesarticles = jsonspecies['query']['statistics']['articles']
+        wpenwdstats = "<!-- wpenwdstats -->As of {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}, {{LinkedLabel|Q328}} hosts {{formatnum:%s}} articles,<ref>{{cite web|url=https://en.wikipedia.org/wiki/Special:Statistics|title=Special:Statistics|publisher=English Wikipedia|date=%s|accessdate=%s|quote=Content pages: {{formatnum:%s}}}}</ref> {{LinkedLabel|Q2013}} contains {{formatnum:%s}} items,<ref>{{cite web|url=https://www.wikidata.org/wiki/Special:Statistics|title=Special:Statistics|publisher=Wikidata|date=%s|accessdate=%s|quote=Content pages: {{formatnum:%s}}}}</ref> {{LinkedLabel|Q565}} holds {{formatnum:%s}} files,<ref>{{cite web|url=https://commons.wikimedia.org/wiki/Special:MediaStatistics|title=Special:MediaStatistics|publisher=Wikimedia Commons|date=%s|accessdate=%s|quote={{formatnum:%s}} files}}</ref> and {{LinkedLabel|Q13679}} documents {{formatnum:%s}} forms of life.<ref>{{cite web|url=https://species.wikimedia.org/wiki/Special:Statistics|title=Special:Statistics|publisher=Wikispecies|date=%s|accessdate=%s|quote=Content pages: {{formatnum:%s}}}}</ref><!-- /wpenwdstats -->" % (wpenarticles, today, today, wpenarticles, wdarticles, today, today, wdarticles, commonsfiles, today, today, commonsfiles, speciesarticles, today, today, speciesarticles)
         ahknewtext = re.sub(r'<!-- wpenwdstats -->.*?<!-- /wpenwdstats -->', wpenwdstats, ahknewtext)
         #biography
         
