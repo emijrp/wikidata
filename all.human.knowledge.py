@@ -231,7 +231,8 @@ def main():
 | [[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
-|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+| {{User:Emijrp/AHKsummaryimages|1=%s}}
+|-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
                     summarytotalenwiki += summarydic[sectiontitle]['enwiki']
                     summarytotalcommons += summarydic[sectiontitle]['commons']
                     summarytotalwikidata += summarydic[sectiontitle]['wikidata']
@@ -246,7 +247,8 @@ def main():
                 summaryrow = """| [[#%s|%s]]
 {{User:Emijrp/AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
 | %s
-|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors)
+| {{User:Emijrp/AHKsummaryimages|1=%s}}
+|-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
                 summarytotalenwiki += summarydic[sectiontitle]['enwiki']
                 summarytotalcommons += summarydic[sectiontitle]['commons']
                 summarytotalwikidata += summarydic[sectiontitle]['wikidata']
@@ -265,6 +267,7 @@ def main():
         
         #ahk inline
         ahknewtext = re.sub(r'<!-- ahk -->.*?<!-- /ahk -->', '<!-- ahk -->{{formatnum:%s}}<!-- /ahk -->' % (summarytotalestimate), ahknewtext)
+        ahknewtext = re.sub(r'<!-- ahkplain -->.*?<!-- /ahkplain -->', '<!-- ahkplain -->%s<!-- /ahkplain -->' % (summarytotalestimate), ahknewtext)
         
         if ahknewtext and ahktext != ahknewtext:
             pywikibot.showDiff(ahktext, ahknewtext)
