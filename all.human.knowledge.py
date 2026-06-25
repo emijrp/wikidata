@@ -173,6 +173,7 @@ def main():
                 for i in m:
                     row, p, q, enwiki, commons, wikidata, estimate = i
                     newrow = row
+                    newrow = newrow.replace("{{User:Emijrp/AHKrow|", "{{../AHKrow|")
                     newenwiki = getQueryCount(p=p, q=q, site="en.wikipedia.org")
                     newrow = newenwiki != '' and newrow.replace('enwiki=%s' % (enwiki), 'enwiki=%s' % (newenwiki)) or newrow
                     newcommons = getQueryCount(p=p, q=q, site="commons.wikimedia.org")
