@@ -378,7 +378,7 @@ def main():
 		query = random.choice([query1, query2, query3, query4, query10, query11, query12, query13, query14, query20, query21, query22, query23])
 		
 		#trying to boost speed, added jan 10 2026
-		query = '-haswbstatement:P1163 %d %d -scan -dpla -page -library -bibliotheque -volume -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -djvu -djv -mp4 -flac -mp3 -xcf -stl jpg ' % (random.randint(10, 99), random.randint(10, 99))
+		query = '-haswbstatement:P1163 %d %d -scan -dpla -page -library -bibliotheque -volume -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -djvu -djv -mp4 -flac -mp3 -xcf -stl jpg ' % (random.randint(1, 10), random.randint(1, 10))
 		
 		gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=1000)
 		c = 0
