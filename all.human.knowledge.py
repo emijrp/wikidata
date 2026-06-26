@@ -145,8 +145,8 @@ def main():
         sectionlevel = 0
         sectionparent = ''
         anchor_r = r'(?i)(\{\{(?:anchor|anc)\|([^\{\}]*?)\}\})'
-        row_r = r'({{(?:User:Emijrp|\.\.)/AHKrow\|(P\d+)=([^\|\}]*?)\|enwiki=(\d*)\|commons=(\d*)\|wikidata=(\d*)\|estimate=(\d*))'
-        rowtotal_r = r'({{(?:User:Emijrp|\.\.)/AHKrowtotal\|enwiki=(\d*)\|commons=(\d*)\|wikidata=(\d*)\|estimate=(\d*))'
+        row_r = r'({{(?:User:Emijrp|\.\.)/AHKrow\|(P\d+)=([^\|\}]*?)\|enwiki=(\d*)\|(?:commons|c)=(\d*)\|(?:wikidata|d)=(\d*)\|(?:estimate|e)=(\d*))'
+        rowtotal_r = r'({{(?:User:Emijrp|\.\.)/AHKrowtotal\|enwiki=(\d*)\|(?:commons|c)=(\d*)\|(?:wikidata|d)=(\d*)\|(?:estimate|e)=(\d*))'
         for line in lines:
             newline = line
             
@@ -177,9 +177,11 @@ def main():
                     newenwiki = getQueryCount(p=p, q=q, site="en.wikipedia.org")
                     newrow = newenwiki != '' and newrow.replace('enwiki=%s' % (enwiki), 'enwiki=%s' % (newenwiki)) or newrow
                     newcommons = getQueryCount(p=p, q=q, site="commons.wikimedia.org")
-                    newrow = newcommons != '' and newrow.replace('commons=%s' % (commons), 'commons=%s' % (newcommons)) or newrow
+                    newrow = newcommons != '' and newrow.replace('commons=%s' % (commons), 'c=%s' % (newcommons)) or newrow
+                    newrow = newcommons != '' and newrow.replace('c=%s' % (commons), 'c=%s' % (newcommons)) or newrow
                     newwikidata = getQueryCount(p=p, q=q)
-                    newrow = newwikidata != '' and newrow.replace('wikidata=%s' % (wikidata), 'wikidata=%s' % (newwikidata)) or newrow
+                    newrow = newwikidata != '' and newrow.replace('wikidata=%s' % (wikidata), 'd=%s' % (newwikidata)) or newrow
+                    newrow = newwikidata != '' and newrow.replace('d=%s' % (wikidata), 'd=%s' % (newwikidata)) or newrow
                     newline = newline.replace(row, newrow)
                     if not 'exclude=yes' in newline: #don't use newrow as row_r doesn't parse this param
                         newtotalenwiki += newenwiki and int(newenwiki) or (enwiki and int(enwiki) or 0)
@@ -192,10 +194,14 @@ def main():
             for i in m:
                 totalrow, totalenwiki, totalcommons, totalwikidata, totalestimate = i
                 newtotalrow = totalrow
+                newtotalrow = newtotalrow.replace("{{User:Emijrp/AHKrowtotal|", "{{../AHKrowtotal|")
                 newtotalrow = newtotalrow.replace('enwiki=%s' % (totalenwiki), 'enwiki=%s' % (newtotalenwiki))
-                newtotalrow = newtotalrow.replace('commons=%s' % (totalcommons), 'commons=%s' % (newtotalcommons))
-                newtotalrow = newtotalrow.replace('wikidata=%s' % (totalwikidata), 'wikidata=%s' % (newtotalwikidata))
-                newtotalrow = newtotalrow.replace('estimate=%s' % (totalestimate), 'estimate=%s' % (newtotalestimate))
+                newtotalrow = newtotalrow.replace('commons=%s' % (totalcommons), 'c=%s' % (newtotalcommons))
+                newtotalrow = newtotalrow.replace('c=%s' % (totalcommons), 'c=%s' % (newtotalcommons))
+                newtotalrow = newtotalrow.replace('wikidata=%s' % (totalwikidata), 'd=%s' % (newtotalwikidata))
+                newtotalrow = newtotalrow.replace('d=%s' % (totalwikidata), 'd=%s' % (newtotalwikidata))
+                newtotalrow = newtotalrow.replace('estimate=%s' % (totalestimate), 'e=%s' % (newtotalestimate))
+                newtotalrow = newtotalrow.replace('e=%s' % (totalestimate), 'e=%s' % (newtotalestimate))
                 newline = newline.replace(totalrow, newtotalrow)
                 if sectionlevel > minsectionlevel:
                     sections.append([sectiontitle, sectionlevel])
@@ -230,7 +236,7 @@ def main():
                         anchors = '[[#%s|See table]]' % (sectiontitle)
                     summaryrow = """| [[#%s|%s]]
 | [[#%s|%s]]
-{{../AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
+{{../AHKsummaryrow|enwiki=%s|c=%s|d=%s|e=%s}}
 | %s
 | {{../AHKsummaryimages|1=%s}}
 |-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
@@ -246,7 +252,7 @@ def main():
                 if not anchors:
                     anchors = '[[#%s|See table]]' % (sectiontitle)
                 summaryrow = """| [[#%s|%s]]
-{{../AHKsummaryrow|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}
+{{../AHKsummaryrow|enwiki=%s|c=%s|d=%s|e=%s}}
 | %s
 | {{../AHKsummaryimages|1=%s}}
 |-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
@@ -258,7 +264,7 @@ def main():
                 continue
             if summaryrow:
                 summaryrows.append(summaryrow)
-        summarytotal = "{{../AHKsummarytotal|enwiki=%s|commons=%s|wikidata=%s|estimate=%s}}" % (summarytotalenwiki, summarytotalcommons, summarytotalwikidata, summarytotalestimate)
+        summarytotal = "{{../AHKsummarytotal|enwiki=%s|c=%s|d=%s|e=%s}}" % (summarytotalenwiki, summarytotalcommons, summarytotalwikidata, summarytotalestimate)
         summary = """<!-- summary -->{{../AHKsummaryheader}}
 |-
 %s
