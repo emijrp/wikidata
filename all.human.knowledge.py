@@ -234,27 +234,27 @@ def main():
                     anchors = '{{·}} '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
                     if not anchors:
                         anchors = '[[#%s|See table]]' % (sectiontitle)
-                    summaryrow = """| [[#%s|%s]]
-| [[#%s|%s]]
+                    summaryrow = """|[[#%s|%s]]
+|[[#%s|%s]]
 {{../AHKsummaryrow|enwiki=%s|c=%s|d=%s|e=%s}}
-| %s
-| {{../AHKsummaryimages|1=%s}}
+|%s
+|{{../AHKsummaryimages|1=%s}}
 |-""" % (sectiontitle, sectiontitle, sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'],summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
                     summarytotalenwiki += summarydic[sectiontitle]['enwiki']
                     summarytotalcommons += summarydic[sectiontitle]['commons']
                     summarytotalwikidata += summarydic[sectiontitle]['wikidata']
                     summarytotalestimate += summarydic[sectiontitle]['estimate']
                 elif rowspan > 1:
-                    summaryrow = """| rowspan=%s | [[#%s|%s]]
+                    summaryrow = """|rowspan=%s|[[#%s|%s]]
 |-""" % (rowspan+1, sectiontitle, sectiontitle)
             elif sectionlevel > minsectionlevel:
                 anchors = '{{·}} '.join(['[[#%s|%s]]' % (anchor, anchor) for anchor in summarydic[sectiontitle]['anchors']])
                 if not anchors:
                     anchors = '[[#%s|See table]]' % (sectiontitle)
-                summaryrow = """| [[#%s|%s]]
+                summaryrow = """|[[#%s|%s]]
 {{../AHKsummaryrow|enwiki=%s|c=%s|d=%s|e=%s}}
-| %s
-| {{../AHKsummaryimages|1=%s}}
+|%s
+|{{../AHKsummaryimages|1=%s}}
 |-""" % (sectiontitle, sectiontitle, summarydic[sectiontitle]['enwiki'], summarydic[sectiontitle]['commons'], summarydic[sectiontitle]['wikidata'], summarydic[sectiontitle]['estimate'], anchors, sectiontitle)
                 summarytotalenwiki += summarydic[sectiontitle]['enwiki']
                 summarytotalcommons += summarydic[sectiontitle]['commons']
