@@ -65,6 +65,7 @@ def getQueryCount(p='', q='', site=''):
                           ?item wdt:%s/wdt:P279* wd:%s.
                         }
                         """ % (p, q)
+            print(query)
             url = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%s' % (urllib.parse.quote(query))
             url = '%s&format=json' % (url)
             sparql = getURL(url=url, retry=False, timeout=120)
@@ -173,7 +174,7 @@ def main():
                 for i in m:
                     row, p, q, enwiki, commons, wikidata, estimate = i
                     newrow = row
-                    newrow = newrow.replace("{{User:Emijrp/AHKrow|", "{{../AHKrow|")
+                    newrow = newrow.replace("{{User:Emijrp/AHKrow|", "{{../AHKr|")
                     newrow = newrow.replace("{{../AHKrow|", "{{../AHKr|")
                     newenwiki = getQueryCount(p=p, q=q, site="en.wikipedia.org")
                     newrow = newenwiki != '' and newrow.replace('enwiki=%s' % (enwiki), 'w=%s' % (newenwiki)) or newrow
@@ -196,7 +197,7 @@ def main():
             for i in m:
                 totalrow, totalenwiki, totalcommons, totalwikidata, totalestimate = i
                 newtotalrow = totalrow
-                newtotalrow = newtotalrow.replace("{{User:Emijrp/AHKrowtotal|", "{{../AHKrowtotal|")
+                newtotalrow = newtotalrow.replace("{{User:Emijrp/AHKrowtotal|", "{{../AHKrt|")
                 newtotalrow = newtotalrow.replace("{{../AHKrowtotal|", "{{../AHKrt|")
                 newtotalrow = newtotalrow.replace('enwiki=%s' % (totalenwiki), 'w=%s' % (newtotalenwiki))
                 newtotalrow = newtotalrow.replace('w=%s' % (totalenwiki), 'w=%s' % (newtotalenwiki))
