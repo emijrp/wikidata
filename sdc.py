@@ -384,8 +384,8 @@ def main():
 		#trying to boost speed again, added aug 8 2026
 		#query = '-haswbstatement:P1163 %d %d -scan -dpla -page -library -bibliotheque -volume -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -djvu -djv -mp4 -flac -mp3 -xcf -stl jpg ' % (random.randint(1, 100), random.randint(1, 100))
 		
-		#trying to boost speed again, added sept 3 2026
-		#query = '-haswbstatement:P1163 %s %s -scan -dpla -page -library -bibliotheque -volume -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -djvu -djv -mp4 -flac -mp3 -xcf -stl jpg ' % (random.randint(0, 10), ''.join(random.choice(string.ascii_letters) for xx in range(1)))
+		#trying to boost speed again, added oct 24 2026
+		query = '-haswbstatement:P1163 %s %s -scan -dpla -page -library -bibliotheque -volume -book -pdf -svg -png -ogg -wav -tiff -tif -gif -webp -webm -djvu -djv -mp4 -flac -mp3 -xcf -stl jpg ' % (random.randint(0, 10), ''.join(random.choice(string.ascii_letters) for xx in range(1)))
 		
 		gen = pagegenerators.SearchPageGenerator(site=sitecommons, query=query, namespaces=[6], total=1000)
 		c = 0
@@ -394,9 +394,9 @@ def main():
 			time.sleep(0.1)
 			print("Result", c, "from query", query)
 			c += 1
-			if c >= 2000:
+			if c >= 5000:
 				break #break cada 2000 files para saltar a otra zona de commons aleatoriamente
-			if skipped >= 50: #too many useless results
+			if skipped >= 100: #too many useless results
 				break
 			print('==', page.title(), '==')
 			if page.namespace() != 6:
